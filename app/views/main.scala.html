@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String, moreCss: Html = Html(""), moreScripts: Html = Html(""))(content: Html)
 
 <!DOCTYPE html>
 
@@ -14,6 +14,7 @@
         <title>@title</title>
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
         <link href="@routes.Assets.at("stylesheets/application.css")" rel="stylesheet">
+        @moreCss
         <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.js")"></script>
         <script type="text/javascript" src="@routes.Assets.at("javascripts/affix.js")"></script>
         <script type="text/javascript" src="@routes.Assets.at("javascripts/alert.js")"></script>
@@ -27,10 +28,9 @@
         <script type="text/javascript" src="@routes.Assets.at("javascripts/modal.js")"></script>
         <script type="text/javascript" src="@routes.Assets.at("javascripts/tooltip.js")"></script>
         <script type="text/javascript" src="@routes.Assets.at("javascripts/popover.js")"></script>
-        <link href="@routes.Assets.at("stylesheets/signin.css")" rel="stylesheet">
-        <link href="@routes.Assets.at("stylesheets/staff.css")" rel="stylesheet">
     </head>
     <body>
         @content
+        @moreScripts
     </body>
 </html>

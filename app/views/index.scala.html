@@ -1,6 +1,10 @@
 @()
 
-@main("Iniciar Sesión") {
+@moreCss = {
+  <link href="@routes.Assets.at("stylesheets/signin.css")" rel="stylesheet">
+}
+
+@main("Iniciar Sesión", moreCss) {
 
 	<h1 align="center">Bienvenido!</h1>
 

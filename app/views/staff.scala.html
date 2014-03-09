@@ -1,6 +1,10 @@
 @(userName: String)
 
-@main("Iniciar Sesión") {
+@moreCss = {
+  <link href="@routes.Assets.at("stylesheets/staff.css")" rel="stylesheet">
+}
+
+@main("Iniciar Sesión", moreCss) {
 
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
