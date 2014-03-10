@@ -23,4 +23,8 @@ public class Application extends Controller {
         return ok(study.render(id, "Juanito"));
     }
 
+    public static Result editStudy(Long id) {
+        return ok(editStudy.render(id, "Juanito"));
+    }
+
 }
