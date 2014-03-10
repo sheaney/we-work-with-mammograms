@@ -1,3 +1,5 @@
+@import 'bootstrap';
+
 body {
   .staff-patient-search {
     padding-bottom: 25px;
@@ -11,11 +13,11 @@ body {
       padding-bottom: 99999px;
 
       &.staff-patient-type-own {
-        background-color: #dff0d8;
+        background-color: $state-success-bg;
       }
 
       &.staff-patient-type-shared {
-        background-color: #d9edf7;
+        background-color: $state-info-bg;
       }
 
     }
