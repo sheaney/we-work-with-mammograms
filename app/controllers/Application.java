@@ -15,4 +15,12 @@ public class Application extends Controller {
         return ok(staff.render("Juanito"));
     }
 
+    public static Result newStudy() {
+        return ok(newStudy.render("Juanito"));
+    }
+
+    public static Result study(Long id) {
+        return ok(study.render(id, "Juanito"));
+    }
+
 }

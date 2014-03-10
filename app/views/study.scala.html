@@ -1,0 +1,41 @@
+@(id: Long, userName: String)
+
+@moreCss = {
+  <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
+}
+
+@main("Estudio", moreCss) {
+  <!-- Render top navbar -->
+  @staffnavbar(userName)
+
+  <div class="container">
+    <div class="col-md-8 col-md-offset-2">
+      <h2>2 de febrero de 2014</h2>
+      <br>
+      <p>
+        Toma 1 |
+        <a href="#">Abrir</a> | 
+        <a href="#">Descargar</a>
+      </p>
+      <p>
+        Toma 2 |
+        <a href="#">Abrir</a> | 
+        <a href="#">Descargar</a>
+      </p>
+      <p>
+        Toma 3 |
+        <a href="#">Abrir</a> | 
+        <a href="#">Descargar</a>
+      </p>
+      <p>
+        Toma 4 |
+        <a href="#">Abrir</a> | 
+        <a href="#">Descargar</a>
+      </p>
+      <br>
+      <button type="button" class="btn btn-default">Editar</button>
+      <button type="button" class="btn btn-danger">Borrar</button>
+    </div>
+  </div>
+
+}
