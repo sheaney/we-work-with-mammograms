@@ -15,6 +15,10 @@ public class Application extends Controller {
         return ok(staff.render("Juanito"));
     }
 
+    public static Result patient(){
+        return ok(patient.render("Juanito"));
+    }
+
     public static Result newPatient() {
         return ok(newPatient.render("Juanito"));
     }

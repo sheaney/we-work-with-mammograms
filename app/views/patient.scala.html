@@ -1,0 +1,86 @@
+@(userName: String)
+
+@moreCss = {
+  <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
+}
+
+
+@main("Iniciar Sesión", moreCss) {
+    <!-- Render top navbar -->
+    @staffnavbar(userName)
+
+    <div class="container">
+
+        <div class="starter-template">
+        <h1 style="padding-bottom:20px">@userName</h1>
+    
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#resultados">Resultados</a></li>
+        <li><a data-toggle="tab" href="#infoPersonal">Información Personal</a></li>
+    </ul>
+
+<div class="tab-content">
+         <div id="resultados" class="tab-pane fade in active">
+            <h3>Resultados</h3>
+            <p>Vestibulum nec erat eu nulla rhoncus fringilla ut non neque. Vivamus nibh urna, ornare id gravida ut, mollis a magna. Aliquam porttitor condimentum nisi, eu viverra ipsum porta ut. Nam hendrerit bibendum turpis, sed molestie mi fermentum id. Aenean volutpat velit sem. Sed consequat ante in rutrum convallis. Nunc facilisis leo at faucibus adipiscing.</p>
+        </div>
+
+<div id="infoPersonal" class="tab-pane fade">
+        <h3>Información Personal</h3><br>
+
+        <div class="col-md-12">
+        <div class="col-md-3 col-sm-10">
+        <label for="patientName" class="col-md-12 control-label">Nombre del paciente:</label>
+        </div>
+        <div class="col-md-6 col-sm-10">
+            @userName
+        </div>
+        </div>
+
+        <div class="col-md-12">
+        <div class="col-md-3 col-sm-10">
+        <label for="patientName" class="col-md-12 control-label">Dirección:</label>
+        </div>
+         <div class="col-md-6 col-sm-10">
+            @userName
+         </div>
+         </div>
+        
+        <div class="col-md-12">
+        <div class="col-md-3 col-sm-10">
+        <label for="patientName" class="col-md-12 control-label">Correo Electrónico:</label>
+        </div>
+         <div class="col-md-6 col-sm-10">
+            @userName
+         </div>
+         </div>
+
+        <div class="col-md-12">
+         <div class="col-md-3 col-sm-10">
+        <label for="patientName" class="col-md-12 control-label">Teléfono:</label>
+        </div>
+         <div class="col-md-6 col-sm-10">
+            @userName
+         </div>
+         </div>
+
+        <div class="col-md-12">        
+        <div class="col-md-3 col-sm-10">
+        <label for="patientName" class="col-md-12 control-label">Fecha de Nacimiento:</label>
+        </div>
+         <div class="col-md-6 col-sm-10">
+            @userName
+         </div>
+         </div>
+        
+
+         <h3>Información Médica</h3><br>
+
+
+</div>
+
+    </div>
+
+  </div><!-- /.container -->
+}
+

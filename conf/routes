@@ -8,6 +8,9 @@ GET     /                           controllers.Application.index()
 # Staff home
 GET     /staff                      controllers.Application.staff()
 
+# Patient home
+GET     /patient                    controllers.Application.patient()
+
 # New patient
 GET     /patient/new                controllers.Application.newPatient()
 
