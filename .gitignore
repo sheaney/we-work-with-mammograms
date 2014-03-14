@@ -5,3 +5,7 @@ target
 tmp
 .settings/
 .sass-cache/
+.classpath
+.project
+.target/
+.metadata/
