@@ -26,5 +26,37 @@ public class Permission extends Model {
 	@ManyToOne
 	@JoinColumn(name="patient_id", nullable=false)
 	Patient patientBoundedByPermissions;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Byte getValue() {
+		return value;
+	}
+
+	public void setValue(Byte value) {
+		this.value = value;
+	}
+
+	public Staff getOwnsPermission() {
+		return ownsPermission;
+	}
+
+	public void setOwnsPermission(Staff ownsPermission) {
+		this.ownsPermission = ownsPermission;
+	}
+
+	public Patient getPatientBoundedByPermissions() {
+		return patientBoundedByPermissions;
+	}
+
+	public void setPatientBoundedByPermissions(Patient patientBoundedByPermissions) {
+		this.patientBoundedByPermissions = patientBoundedByPermissions;
+	}
 	
 }

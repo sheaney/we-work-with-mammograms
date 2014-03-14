@@ -12,5 +12,13 @@ public class PersonalInfo extends Model {
 	
 	@Id
 	Long id;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 	
 }

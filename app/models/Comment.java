@@ -14,6 +14,8 @@ import play.db.ebean.Model;
 @Entity
 public class Comment extends Model {
 
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	Long id;
 	
@@ -30,5 +32,45 @@ public class Comment extends Model {
 	@ManyToOne
 	@JoinColumn(name="study_id", nullable=false)
 	Study commented;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Staff getCommenter() {
+		return commenter;
+	}
+
+	public void setCommenter(Staff commenter) {
+		this.commenter = commenter;
+	}
+
+	public Study getCommented() {
+		return commented;
+	}
+
+	public void setCommented(Study commented) {
+		this.commented = commented;
+	}
 	
 }
