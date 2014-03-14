@@ -5,7 +5,7 @@
 }
 
 
-@main("Paciente", moreCss) {
+@main("Editar Paciente", moreCss) {
     <!-- Render top navbar -->
     @staffnavbar(userName)
 
@@ -13,135 +13,159 @@
 
         <div class="starter-template">
 
-<div class="row"> 
-        <div class="col-md-6">
         <h1 style="padding-bottom:20px">@userName</h1>
-        </div>
         
-        <div class="col-md-6 col-xs-12">
-        <div class="pull-right">
-        <button type="button" class="btn btn-primary">Compartir paciente</button>
-        <button type="button" class="btn btn-warning">Editar paciente</button>
-        </div>
-        </div>
-</div>
-
 <legend>Información General del Paciente</legend>
 
 <div class="col-md-6 col-xs-12"> 
      <h3>Información Personal</h3><br>
 
+        <div class="form-group">
         <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
         <label for="patientName" class="col-md-12 control-label">Nombre del paciente:</label>
         </div>
         <div class="col-md-6 col-xs-6">
-            @userName
+        <input type="text" class="form-control" id="patientName">
+        </div>
         </div>
         </div>
 
+        <div class="form-group">
         <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
         <label for="patientName" class="col-md-12 control-label">Dirección:</label>
         </div>
          <div class="col-md-6 col-xs-6">
-         @userName
+        <textarea class="form-control" rows="3" id="patientAddress"></textarea>
          </div>
          </div>
-        
+         </div>  
+         
+        <div class="form-group">
         <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
         <label for="patientName" class="col-md-12 control-label">Correo Electrónico:</label>
         </div>
          <div class="col-md-6 col-xs-6">
-            @userName
+        <input type="text" class="form-control" id="patientEmail">
          </div>
+        </div>
          </div>
 
+        <div class="form-group">
         <div class="col-md-12 col-xs-12">
          <div class="col-md-6 col-xs-6">
         <label for="patientName" class="col-md-12 control-label">Teléfono:</label>
         </div>
          <div class="col-md-6 col-xs-6">
-            @userName
+        <input type="text" class="form-control" id="patientNumber">
          </div>
          </div>
+        </div>
 
+        <div class="form-group">
         <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
         <label for="patientName" class="col-md-12 control-label">Fecha de Nacimiento:</label>
         </div>
          <div class="col-md-6 col-xs-6">
-            @userName
+            <div class="col-md-4 col-xs-4">
+              <input type="text" class="form-control" id="inputText" placeHolder="DD">
+            </div>
+            <div class="col-md-4 col-xs-4">
+              <input type="text" class="form-control" id="inputText" placeHolder="MM">
+            </div>
+            <div class="col-md-4 col-xs-4">
+              <input type="text" class="form-control" id="inputText" placeHolder="AA">
+            </div>
          </div>
-         </div>
+     </div>
+     </div>
 </div>
 
 <div class="col-md-6 col-xs-12"> 
 <h3>Información médica</h3><br>
 
+        <div class="form-group">
         <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
         <label for="patientName" class="col-md-12 control-label">Edad de inicio de actividad sexual:</label>
         </div>
-         <div class="col-md-6 col-xs-6">
-            @userName
+         <div class="col-md-2 col-xs-2">
+              <input type="text" class="form-control" id="inputText">
+         </div>
          </div>
          </div>
 
+        <div class="form-group">
         <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
         <label for="patientName" class="col-md-12 control-label">Número de embarazos:</label>
         </div>
-         <div class="col-md-6 col-xs-6">
-            @userName
+         <div class="col-md-2 col-xs-2">
+        <input type="text" class="form-control" id="inputText">
          </div>
          </div>
+        </div>
 
+        <div class="form-group">
         <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
         <label for="patientName" class="col-md-12 control-label">Número de césareas:</label>
         </div>
-         <div class="col-md-6 col-xs-6">
-            @userName
+         <div class="col-md-2 col-xs-2">
+        <input type="text" class="form-control" id="inputText">
+         </div>
          </div>
          </div>
 
+        <div class="form-group">
         <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
         <label for="patientName" class="col-md-12 control-label">Número de partos naturales:</label>
         </div>
-         <div class="col-md-6 col-xs-6">
-            @userName
+         <div class="col-md-2 col-xs-2">
+        <input type="text" class="form-control" id="inputText">
          </div>
          </div>
+        </div>
 
+
+        <div class="form-group">
         <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
         <label for="patientName" class="col-md-12 control-label">Número de abortos:</label>
         </div>
-         <div class="col-md-6 col-xs-6">
-            @userName
+         <div class="col-md-2 col-xs-2">
+        <input type="text" class="form-control" id="inputText">
          </div>
          </div>
+        </div>
 
+
+        <div class="form-group">
         <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
         <label for="patientName" class="col-md-12 control-label">Edad de inicio de menopausia:</label>
         </div>
-         <div class="col-md-6 col-xs-6">
-            @userName
+         <div class="col-md-2 col-xs-2">
+        <input type="text" class="form-control" id="inputText">
+         </div>
          </div>
          </div>
 
+
+        <div class="form-group">
         <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
         <label for="patientName" class="col-md-12 control-label">Edad de inicio de periodo menstrual</label>
         </div>
-         <div class="col-md-6 col-xs-6">
-            @userName
+         <div class="col-md-2 col-xs-2">
+        <input type="text" class="form-control" id="inputText">
          </div>
          </div>
+        </div>
 </div>
 
 
@@ -174,12 +198,11 @@
 
 </div>
 
-
-    </div>
-
-<center><button type="button" class="btn btn-success">Enviar al sistema de diagnóstico</button>
+<center><button type="button" class="btn btn-primary">Guardar paciente</button>
 </center><br>
 
+    </div>
+    
   </div><!-- /.container -->
 
 

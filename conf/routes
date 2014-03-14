@@ -12,7 +12,7 @@ GET     /staff                      controllers.Application.staff()
 GET     /patient                    controllers.Application.patient()
 
 # New patient
-GET     /patient/new                controllers.Application.newPatient()
+GET     /staff/new                controllers.Application.newPatient()
 
 # Create study
 GET     /study/new                  controllers.Application.newStudy()
@@ -25,6 +25,9 @@ GET     /study/:id                  controllers.Application.study(id: Long)
 
 # Edit study
 GET     /study/:id/edit             controllers.Application.editStudy(id: Long)
+
+# Edit patient
+GET     /staff/:id/edit             controllers.Application.editPatient(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
