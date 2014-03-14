@@ -17,6 +17,9 @@ GET     /patient/new                controllers.Application.newPatient()
 # Create study
 GET     /study/new                  controllers.Application.newStudy()
 
+# Show patient
+GET     /staff/:id                  controllers.Application.showPatient(id: Long)
+
 # Show study
 GET     /study/:id                  controllers.Application.study(id: Long)
 
