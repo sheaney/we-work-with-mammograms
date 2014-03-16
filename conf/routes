@@ -3,22 +3,22 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
+GET     /                           @controllers.Application.index()
 
 # Staff home
-GET     /staff                      controllers.Application.staff()
+GET     /staff                      @controllers.Application.staff()
 
 # New patient
-GET     /patient/new                controllers.Application.newPatient()
+GET     /patient/new                @controllers.Application.newPatient()
 
 # Create study
-GET     /study/new                  controllers.Application.newStudy()
+GET     /study/new                  @controllers.Application.newStudy()
 
 # Show study
-GET     /study/:id                  controllers.Application.study(id: Long)
+GET     /study/:id                  @controllers.Application.study(id: Long)
 
 # Edit study
-GET     /study/:id/edit             controllers.Application.editStudy(id: Long)
+GET     /study/:id/edit             @controllers.Application.editStudy(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
