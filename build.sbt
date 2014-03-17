@@ -21,3 +21,10 @@ libraryDependencies ++= Seq(
 )
 
 playJavaSettings ++ SassPlugin.sassSettings
+
+initialCommands in console += """
+  import views.html._
+  import models._
+  import controllers.Application._
+  import play.mvc.Controller.session
+"""

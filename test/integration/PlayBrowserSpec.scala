@@ -10,10 +10,10 @@ import play.api.test.Helpers
 import org.scalatest.selenium.WebBrowser
 import play.api.test.FakeApplication
 import play.core.j.JavaGlobalSettingsAdapter
-
 import helpers.TestSetup.testGlobalSettings
+import org.scalatest.GivenWhenThen
  
-trait PlayBrowserSpec extends FunSpec with BeforeAndAfterAll with Matchers with WebBrowser {
+trait PlayBrowserSpec extends FunSpec with GivenWhenThen with BeforeAndAfterAll with Matchers with WebBrowser {
   
   implicit val webDriver: WebDriver = new HtmlUnitDriver
  
