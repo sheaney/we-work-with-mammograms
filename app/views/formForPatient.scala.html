@@ -1,0 +1,192 @@
+@(userName: Option[String] = None)
+
+<form class="form-horizontal" role="form">
+
+  <div class="form-group">
+    <div class="col-md-10">
+      <label for="patientName" class="col-md-2 control-label">Nombre del paciente:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="patientName" value="@(userName.getOrElse(""))">
+      </div>
+    </div>
+  </div>	
+
+  <div class="form-group">
+    <div class="col-md-10">
+      <label for="patientLastName" class="col-md-2 control-label">Apellido paterno:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="patientLastName">
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-10">
+      <label for="patientSurname" class="col-md-2 control-label">Apellido Materno:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="patientSurname">
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-10">
+      <label for="patientAddress" class="col-md-2 control-label">Dirección:</label>
+      <div class="col-sm-10">
+        <textarea class="form-control" rows="3" id="patientAddress"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-10">
+      <label for="patientEmail" class="col-md-2 control-label">Correo Electrónico:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="patientEmail">
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-10">
+      <label for="patientNumber" class="col-md-2 control-label">Teléfono:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="patientNumber">
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputText" class="col-md-2 control-label">Fecha de Nacimiento:</label>
+    <div class="col-md-1">
+      <input type="text" class="form-control" id="inputText" placeHolder="DD">
+    </div>
+    <div class="col-md-1">
+      <input type="text" class="form-control" id="inputText" placeHolder="MM">
+    </div>
+    <div class="col-md-1">
+      <input type="text" class="form-control" id="inputText" placeHolder="AA">
+    </div>
+  </div>
+
+  <br>
+
+  <legend class="text-left" style:"padding-top:40px">Información Médica</legend>
+
+  <div class="form-group">
+    <label for="inputText" class="col-md-2 control-label">Edad de inicio de actividad sexual:</label>
+    <div class="col-sm-1">
+      <input type="text" class="form-control" id="inputText">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputText" class="col-md-2 control-label">Número de embarazos:</label>
+    <div class="col-md-2">
+      <select class="form-control">
+        <option>0</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5 o más</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputText" class="col-md-2 control-label">Número de cesáreas:</label>
+    <div class="col-md-2">
+      <select class="form-control">
+        <option>0</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5 o más</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputText" class="col-md-2 control-label">Número de partos naturales:</label>
+    <div class="col-md-2">
+      <select class="form-control">
+        <option>0</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5 o más</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputText" class="col-md-2 control-label">Número de abortos:</label>
+    <div class="col-md-2">
+      <select class="form-control">
+        <option>0</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5 o más</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputText" class="col-md-2 control-label">Edad de inicio de menopausia:</label>
+    <div class="col-md-1">
+      <input type="text" class="form-control" id="inputText">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputText" class="col-md-2 control-label">¿Tiene predisposición familiar?:</label>
+    <div class="col-md-2 text-left">
+      <label class="radio-inline">
+        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>Sí</label>
+      <label class="radio-inline">
+        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" >No</label>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputText" class="col-md-2 control-label">¿Utilizó terapia hormonal de reemplazo?:</label>
+    <div class="col-md-2 text-left">
+      <label class="radio-inline">
+        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>Sí</label>
+      <label class="radio-inline">
+        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" >No</label>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputText" class="col-md-2 control-label">¿Tuvo enfermedades mamarias previas?:</label>
+    <div class="col-md-2 text-left">
+      <label class="radio-inline">
+        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>Sí</label>
+      <label class="radio-inline">
+        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" >No</label>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputText" class="col-md-2 control-label">Edad de inicio del periodo menstrual:</label>
+    <div class="col-md-1">
+      <input type="text" class="form-control" id="inputText">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputText" class="col-md-2 control-label">¿Amamantó hijos?:</label>
+    <div class="col-md-2 text-left">
+      <label class="radio-inline">
+        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>Sí</label>
+      <label class="radio-inline">
+        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" >No</label>
+    </div>
+  </div>
+</form>
