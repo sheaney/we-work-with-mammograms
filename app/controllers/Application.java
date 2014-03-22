@@ -37,11 +37,13 @@ public class Application extends Controller {
 
     public static Result showPatient(Long id) {
         return ok(showPatient.render(id, "Juanito"));
-    } 
+    }
 
     public static Result editPatient(Long id) {
         return ok(editPatient.render(id, "Juanito"));
     }
 
-
+    public static Result sharePatient(Long id) {
+      return ok(sharePatient.render(id, "Juanito"));
+    }
 }

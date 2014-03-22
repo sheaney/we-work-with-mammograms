@@ -1,0 +1,68 @@
+@(id: Long, userName: String)
+
+@moreCss = {
+  <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
+}
+
+
+@main("Paciente", moreCss) {
+  <!-- Render top navbar -->
+  @staffnavbar(userName)
+
+  <div class="container staff-patient-search">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="col-xs-12">
+          <div class="input-block-level">
+            <input type="text" class="form-control input-md" placeholder="Personal..." value="Ju">
+          </div>
+        </div>
+      </div>
+    </div> <!-- /row -->
+  </div> <!-- /container -->
+
+  <div class="container">
+    <table class="table table-hover staff-patients">
+      <thead>
+        <th>Nombre</th>
+      </thead>
+      <tbody>
+        <tr class="info clickable-row" data-url="#">
+          <td>Dr. Juan Francisco Martínez Garza</td>
+        </tr>
+        <tr class="clickable-row" data-url="#">
+          <td>Juan Cordova Santa</td>
+        </tr>
+        <tr class="clickable-row" data-url="#">
+          <td>Dr. Juan De La Garza Lujan</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Dr. Juan Francisco Martínez Garza</h3>
+
+    <form role="form">
+      <div class="form-group">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Información Personal
+          </label>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Información Médica
+          </label>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Estudios
+          </label>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-md">Compartir</button>
+      <a href="@routes.Application.staff" class="btn btn-default btn-md">Regresar</button>
+    </form>
+
+  </div><!-- /container -->
+
+}

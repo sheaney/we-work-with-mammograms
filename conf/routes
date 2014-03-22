@@ -17,6 +17,9 @@ GET     /patient/new                controllers.Application.newPatient()
 # Show patient
 GET     /patient/:id                controllers.Application.showPatient(id: Long)
 
+# Share patient
+GET     /patient/:id/share          controllers.Application.sharePatient(id: Long)
+
 # Edit patient
 GET     /patient/:id/edit           controllers.Application.editPatient(id: Long)
 
