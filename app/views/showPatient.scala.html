@@ -6,149 +6,147 @@
 
 
 @main("Paciente", moreCss) {
-    <!-- Render top navbar -->
-    @staffnavbar(userName)
+  <!-- Render top navbar -->
+  @staffnavbar(userName)
 
-    <div class="container">
+  <div class="container">
 
-        <div class="starter-template">
-
-<div class="row"> 
-        <div class="col-md-6">
+    <div class="row"> 
+      <div class="col-md-6">
         <h1 style="padding-bottom:20px">@userName</h1>
-        </div>
-        
-        <div class="col-md-6 col-xs-12">
+      </div>
+
+      <div class="col-md-6 col-xs-12">
         <div class="pull-right">
-        <button type="button" class="btn btn-primary">Compartir paciente</button>
-        <button type="button" class="btn btn-warning">Editar paciente</button>
+          <a href="@routes.Application.sharePatient(id)" class="btn btn-primary">Compartir paciente</a>
+          <a href="@routes.Application.editPatient(id)" class="btn btn-warning">Editar paciente</a>
         </div>
-        </div>
-</div>
+      </div>
+    </div>
 
-<legend>Información General del Paciente</legend>
+    <legend>Información General del Paciente</legend>
 
-<div class="col-md-6 col-xs-12"> 
-     <h3>Información Personal</h3><br>
+    <div class="col-md-6 col-xs-12"> 
+      <h3>Información Personal</h3><br>
 
-        <div class="col-md-12 col-xs-12">
+      <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Nombre del paciente:</label>
+          <label for="patientName" class="col-md-12 control-label">Nombre del paciente:</label>
         </div>
         <div class="col-md-6 col-xs-6">
-            @userName
+          @userName
         </div>
-        </div>
+      </div>
 
-        <div class="col-md-12 col-xs-12">
+      <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Dirección:</label>
+          <label for="patientName" class="col-md-12 control-label">Dirección:</label>
         </div>
-         <div class="col-md-6 col-xs-6">
-         @userName
-         </div>
-         </div>
-        
-        <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Correo Electrónico:</label>
+          @userName
         </div>
-         <div class="col-md-6 col-xs-6">
-            @userName
-         </div>
-         </div>
+      </div>
 
-        <div class="col-md-12 col-xs-12">
-         <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Teléfono:</label>
-        </div>
-         <div class="col-md-6 col-xs-6">
-            @userName
-         </div>
-         </div>
-
-        <div class="col-md-12 col-xs-12">
+      <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Fecha de Nacimiento:</label>
+          <label for="patientName" class="col-md-12 control-label">Correo Electrónico:</label>
         </div>
-         <div class="col-md-6 col-xs-6">
-            @userName
-         </div>
-         </div>
-</div>
-
-<div class="col-md-6 col-xs-12"> 
-<h3>Información médica</h3><br>
-
-        <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Edad de inicio de actividad sexual:</label>
+          @userName
         </div>
-         <div class="col-md-6 col-xs-6">
-            @userName
-         </div>
-         </div>
+      </div>
 
-        <div class="col-md-12 col-xs-12">
+      <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Número de embarazos:</label>
+          <label for="patientName" class="col-md-12 control-label">Teléfono:</label>
         </div>
-         <div class="col-md-6 col-xs-6">
-            @userName
-         </div>
-         </div>
-
-        <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Número de césareas:</label>
+          @userName
         </div>
-         <div class="col-md-6 col-xs-6">
-            @userName
-         </div>
-         </div>
+      </div>
 
-        <div class="col-md-12 col-xs-12">
+      <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Número de partos naturales:</label>
+          <label for="patientName" class="col-md-12 control-label">Fecha de Nacimiento:</label>
         </div>
-         <div class="col-md-6 col-xs-6">
-            @userName
-         </div>
-         </div>
-
-        <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Número de abortos:</label>
+          @userName
         </div>
-         <div class="col-md-6 col-xs-6">
-            @userName
-         </div>
-         </div>
+      </div>
+    </div><!-- end of .col-md-6 -->
 
-        <div class="col-md-12 col-xs-12">
+    <div class="col-md-6 col-xs-12"> 
+      <h3>Información médica</h3><br>
+
+      <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Edad de inicio de menopausia:</label>
+          <label for="patientName" class="col-md-12 control-label">Edad de inicio de actividad sexual:</label>
         </div>
-         <div class="col-md-6 col-xs-6">
-            @userName
-         </div>
-         </div>
-
-        <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Edad de inicio de periodo menstrual</label>
+          @userName
         </div>
-         <div class="col-md-6 col-xs-6">
-            @userName
-         </div>
-         </div>
-</div>
+      </div>
+
+      <div class="col-md-12 col-xs-12">
+        <div class="col-md-6 col-xs-6">
+          <label for="patientName" class="col-md-12 control-label">Número de embarazos:</label>
+        </div>
+        <div class="col-md-6 col-xs-6">
+          @userName
+        </div>
+      </div>
+
+      <div class="col-md-12 col-xs-12">
+        <div class="col-md-6 col-xs-6">
+          <label for="patientName" class="col-md-12 control-label">Número de césareas:</label>
+        </div>
+        <div class="col-md-6 col-xs-6">
+          @userName
+        </div>
+      </div>
+
+      <div class="col-md-12 col-xs-12">
+        <div class="col-md-6 col-xs-6">
+          <label for="patientName" class="col-md-12 control-label">Número de partos naturales:</label>
+        </div>
+        <div class="col-md-6 col-xs-6">
+          @userName
+        </div>
+      </div>
+
+      <div class="col-md-12 col-xs-12">
+        <div class="col-md-6 col-xs-6">
+          <label for="patientName" class="col-md-12 control-label">Número de abortos:</label>
+        </div>
+        <div class="col-md-6 col-xs-6">
+          @userName
+        </div>
+      </div>
+
+      <div class="col-md-12 col-xs-12">
+        <div class="col-md-6 col-xs-6">
+          <label for="patientName" class="col-md-12 control-label">Edad de inicio de menopausia:</label>
+        </div>
+        <div class="col-md-6 col-xs-6">
+          @userName
+        </div>
+      </div>
+
+      <div class="col-md-12 col-xs-12">
+        <div class="col-md-6 col-xs-6">
+          <label for="patientName" class="col-md-12 control-label">Edad de inicio de periodo menstrual</label>
+        </div>
+        <div class="col-md-6 col-xs-6">
+          @userName
+        </div>
+      </div>
+    </div><!-- end of .col-md-6 -->
 
 
-<legend>Estudios del Paciente</legend>
+    <legend>Estudios del Paciente</legend>
 
 
-<div class="col-md-12 col-xs-12"> 
+    <div class="col-md-12 col-xs-12"> 
       <h2>2 de febrero de 2014</h2>
       <br>
       <p>
@@ -171,17 +169,12 @@
         <a href="#">Abrir</a> | 
         <a href="#">Descargar</a>
       </p>
+    </div><!-- end of .col-md-6 -->
 
-</div>
-
-
-    </div>
-
-<center><button type="button" class="btn btn-success">Enviar al sistema de diagnóstico</button>
-</center><br>
+    <center>
+      <button type="button" class="btn btn-success">Enviar al sistema de diagnóstico</button>
+    </center>
 
   </div><!-- /.container -->
-
-
 }
 
