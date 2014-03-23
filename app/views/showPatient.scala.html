@@ -19,6 +19,7 @@
       <div class="col-md-6 col-xs-12">
         <div class="pull-right">
           <a href="@routes.Application.sharePatient(id)" class="btn btn-primary">Compartir paciente</a>
+          <a href="@routes.Application.staff" class="btn btn-default">Regresar</a>
           <a href="@routes.Application.editPatient(id)" class="btn btn-warning">Editar paciente</a>
         </div>
       </div>
@@ -148,27 +149,29 @@
 
     <div class="col-md-12 col-xs-12"> 
       <h2>2 de febrero de 2014</h2>
-      <br>
-      <p>
-        Toma 1 |
-        <a href="#">Abrir</a> | 
-        <a href="#">Descargar</a>
-      </p>
-      <p>
-        Toma 2 |
-        <a href="#">Abrir</a> | 
-        <a href="#">Descargar</a>
-      </p>
-      <p>
-        Toma 3 |
-        <a href="#">Abrir</a> | 
-        <a href="#">Descargar</a>
-      </p>
-      <p>
-        Toma 4 |
-        <a href="#">Abrir</a> | 
-        <a href="#">Descargar</a>
-      </p>
+      <a href="@routes.Application.study(id, 20)">Ver detalle de estudio</a>
+      <div class="patient-study-summary" style="margin-top: 10px">
+        <p>
+          Toma 1 |
+          <a href="#">Abrir</a> | 
+          <a href="#">Descargar</a>
+        </p>
+        <p>
+          Toma 2 |
+          <a href="#">Abrir</a> | 
+          <a href="#">Descargar</a>
+        </p>
+        <p>
+          Toma 3 |
+          <a href="#">Abrir</a> | 
+          <a href="#">Descargar</a>
+        </p>
+        <p>
+          Toma 4 |
+          <a href="#">Abrir</a> | 
+          <a href="#">Descargar</a>
+        </p>
+      </div>
     </div><!-- end of .col-md-6 -->
 
     <center>
