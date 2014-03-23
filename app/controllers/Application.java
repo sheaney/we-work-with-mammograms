@@ -23,11 +23,11 @@ public class Application extends Controller {
         return ok(newPatient.render("Juanito"));
     }
 
-    public static Result newStudy() {
+    public static Result newStudy(Long patientId) {
         return ok(newStudy.render("Juanito"));
     }
 
-    public static Result study(Long id) {
+    public static Result study(Long patientId, Long id) {
         return ok(study.render(id, "Juanito"));
     }
 
