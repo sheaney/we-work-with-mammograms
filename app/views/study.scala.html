@@ -33,13 +33,22 @@
         <a href="#">Descargar</a>
       </p>
 
+      <!--<a href="#">+ Agregar otra toma</a>-->
+      <label for="filesToUpload">Agregar otra mamografía</label>
+      <input type="file" id="filesToUpload" multiple="">
+      <p class="help-block">Imágenes deben pesar menos de 80 MB</p>
+
       <h2>Comentarios</h2>
 
-      <pre>Toma2 y Toma3 no salen muy bien y requieren una segunda opinión. - Dr. Juanito</pre>
+      <textarea class="form-control" placeholder="Comentarios sobre el estudio..." rows="5"></textarea>
+      <br>
+      <button type="button" class="btn btn-primary">Agregar comentario</button>
 
+      <div class="col-md-12" style="margin: 10px 0 10px 0;">Toma2 y Toma3 no salen muy bien y requieren una segunda opinión. - <b>Dr. Juanito</b> <button class="btn btn-default btn-sm">Remover</button></div>
       <br>
 
-      <button type="button" class="btn btn-default">Editar</button>
+      <button type="button" class="btn btn-success">Guardar</button>
+      <a class="btn btn-default" href="@routes.Application.showPatient(id)">Regresar</a>
       <button type="button" class="btn btn-danger">Borrar</button>
     </div>
   </div>
