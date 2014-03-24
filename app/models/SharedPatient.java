@@ -29,4 +29,36 @@ public class SharedPatient extends Model {
 	@JoinColumn(name="patient_id", nullable=false)
 	Staff shared;
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Staff getSharer() {
+		return sharer;
+	}
+
+	public void setSharer(Staff sharer) {
+		this.sharer = sharer;
+	}
+
+	public Staff getShared() {
+		return shared;
+	}
+
+	public void setShared(Staff shared) {
+		this.shared = shared;
+	}
+
 }
