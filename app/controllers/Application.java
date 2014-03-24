@@ -23,6 +23,11 @@ public class Application extends Controller {
         return ok(newPatient.render("Juanito"));
     }
 
+    public static Result newStaff() {
+        return ok(newStaff.render("Juanito"));
+    }
+
+
     public static Result newStudy() {
         return ok(newStudy.render("Juanito"));
     }
@@ -43,5 +48,8 @@ public class Application extends Controller {
         return ok(editPatient.render(id, "Juanito"));
     }
 
+    public static Result contact(){
+        return ok(contact.render("Juanito"));
+    }
 
 }
