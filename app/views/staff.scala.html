@@ -5,7 +5,7 @@
   <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
 }
 
-@main("Bienvenido", moreCss) {
+@angular("Bienvenido", moreCss)(angularCtrl = "PatientListCtrl") {
     <!-- Render top navbar -->
     @staffnavbar(userName)
 
@@ -18,7 +18,7 @@
           </div>
           <div class="col-xs-12 col-md-9">
             <div class="input-block-level">
-              <input type="text" class="form-control input-md" placeholder="Paciente...">
+              <input ng-model="query" type="text" class="form-control input-md" placeholder="Paciente...">
             </div>
           </div>
         </div>
@@ -49,37 +49,9 @@
             <th>Número de estudios</th>
           </thead>
           <tbody>
-            <tr class="success clickable-row" data-url="#">
-              <td><a href="@routes.Application.showPatient(10)">Juan Francisco Martínez Garza</a></td>
-              <td>3</td>
-            </tr>
-            <tr class="info clickable-row" data-url="#">
-              <td><a href="@routes.Application.showPatient(11)">Katia Cordova Santa</a></td>
-              <td>No tiene estudios</td>
-            </tr>
-            <tr class="success clickable-row" data-url="#">
-              <td><a href="@routes.Application.showPatient(12)">Aura De La Garza Lujan</a></td>
-              <td>1</td>
-            </tr>
-            <tr class="success clickable-row" data-url="#">
-              <td><a href="@routes.Application.showPatient(13)">Alejandra Pulido De La Llave</a></td>
-              <td>1</td>
-            </tr>
-            <tr class="info clickable-row">
-              <td><a href="@routes.Application.showPatient(14)">Enrique Sanchez Godoy</a></td>
-              <td>2</td>
-            </tr>
-            <tr class="info clickable-row">
-              <td><a href="@routes.Application.showPatient(15)">Carlos Garza Quintero</a></td>
-              <td>No tiene estudios</td>
-            </tr>
-            <tr class="info clickable-row">
-              <td><a href="@routes.Application.showPatient(16)">Kristina Montejano De La Garza</a></td>
-              <td>3</td>
-            </tr>
-            <tr class="success clickable-row" data-url="#">
-              <td><a href="@routes.Application.showPatient(17)">Erubiel Zambrano Moctezuma</a></td>
-              <td>2</td>
+            <tr ng-repeat="patient in patients | filter:query | orderBy:orderName" class="clickable-row {{cssClass(patient.own)}}" data-url="">
+              <td><a href="@routes.Application.showPatient(10)">{{patient.name}}</a></td>
+              <td>{{numberOfStudiesText(patient.studies)}}</td>
             </tr>
           </tbody>
         </table>

@@ -5,7 +5,7 @@
 }
 
 
-@main("Paciente", moreCss) {
+@angular("Paciente", moreCss)(angularCtrl="StaffListCtrl") {
   <!-- Render top navbar -->
   @staffnavbar(userName)
 
@@ -14,7 +14,7 @@
       <div class="col-md-8 col-md-offset-2">
         <div class="col-xs-12">
           <div class="input-block-level">
-            <input type="text" class="form-control input-md" placeholder="Personal..." value="Ju">
+            <input ng-model="query" type="text" class="form-control input-md" placeholder="Personal...">
           </div>
         </div>
       </div>
@@ -27,14 +27,8 @@
         <th>Nombre</th>
       </thead>
       <tbody>
-        <tr class="info clickable-row" data-url="#">
-          <td>Dr. Juan Francisco Martínez Garza</td>
-        </tr>
-        <tr class="clickable-row" data-url="#">
-          <td>Juan Cordova Santa</td>
-        </tr>
-        <tr class="clickable-row" data-url="#">
-          <td>Dr. Juan De La Garza Lujan</td>
+        <tr ng-repeat="member in staff | filter: query | orderBy:orderName" data-url="#">
+          <td>{{member.name}}</td>
         </tr>
       </tbody>
     </table>
