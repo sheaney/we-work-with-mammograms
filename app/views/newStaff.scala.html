@@ -1,0 +1,122 @@
+@(userName: String)
+
+@moreCss = {
+  <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
+}
+
+
+@main("Nuevo Staff", moreCss) {
+    <!-- Render top navbar -->
+    @staffnavbar(userName)
+
+    <div class="container">
+      <div class="col-md-10 col-md-offset-2">
+
+        <h1 style="padding-bottom:20px">Nuevo Staff</h1>
+    
+        <legend class="text-left">Información Personal</legend>
+
+        <form class="form-horizontal" role="form">
+
+          <div class="form-group">
+            <div class="col-md-3">
+              <label for="staffName" class="control-label">Nombre:</label>
+              </div>
+              <div class="col-md-7">
+                <input type="text" class="form-control" id="staffName">
+              </div>    
+          </div>	
+
+          <div class="form-group">
+            <div class="col-md-3">
+              <label for="staffLastName" class="control-label">Apellido paterno:</label></div>
+              <div class="col-md-7">
+                <input type="text" class="form-control" id="staffLastName">
+              </div>
+            </div>
+
+          <div class="form-group">
+            <div class="col-md-3">
+              <label for="staffSurname" class="control-label">Apellido Materno:</label></div>
+              <div class="col-md-7">
+                <input type="text" class="form-control" id="staffSurname">
+              </div>
+            </div>
+
+          <div class="form-group">
+            <div class="col-md-3">
+              <label for="staffAddress" class="control-label">Dirección:</label></div>
+              <div class="col-md-7">
+                <textarea class="form-control" rows="3" id="staffAddress"></textarea>
+              </div>
+            </div>
+
+          <div class="form-group">
+            <div class="col-md-3">
+              <label for="staffEmail" class="control-label">Correo Electrónico:</label></div>
+              <div class="col-md-7">
+                <input type="text" class="form-control" id="staffEmail">
+              </div>
+            </div>
+
+          <div class="form-group">
+            <div class="col-md-3">
+              <label for="staffNumber" class="control-label">Teléfono:</label></div>
+              <div class="col-md-7">
+                <input type="text" class="form-control" id="staffNumber">
+              </div>
+            </div>
+
+          <div class="form-group">
+            <div class="col-md-3">
+            <label for="staffBD" class="control-label">Fecha de Nacimiento:</label></div>
+            <div class="col-md-1">
+              <input type="text" class="form-control" id="inputText" placeHolder="DD">
+            </div>
+            <div class="col-md-1">
+              <input type="text" class="form-control" id="inputText" placeHolder="MM">
+            </div>
+            <div class="col-md-1">
+              <input type="text" class="form-control" id="inputText" placeHolder="AA">
+            </div>
+          </div>
+
+             <div class="form-group">
+            <div class="col-md-3">
+            <label for="staffrole" class="control-label">Rol:</label></div>
+            <div class="col-md-2">
+              <select class="form-control">
+                <option>Doctor</option>
+                <option>Radiólogo</option>
+                <option>Enfermero</option>
+              </select>
+            </div>
+          </div> 
+
+
+        <div class="form-group">
+            <div class="col-md-3">
+              <label for="staffRFC" class="control-label">RFC:</label></div>
+              <div class="col-md-5">
+                <input type="text" class="form-control" id="staffRFC">
+              </div>
+            </div>
+
+        <div class="form-group">
+            <div class="col-md-3">
+              <label for="staffcedula" class="control-label">Cédula:</label></div>
+              <div class="col-md-5">
+                <input type="text" class="form-control" id="staffRFC">
+              </div>
+            </div>
+
+          <br>
+</form>
+    </div>
+</div>
+<div class="col-md-offset-6"><button type="button" class="btn btn-primary">Crear staff</button></div><br>
+
+
+  </div><!-- /.container -->
+}
+

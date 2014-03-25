@@ -1,0 +1,51 @@
+@(userName: String)
+
+@moreCss = {
+  <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
+}
+
+
+@main("Contacto", moreCss) {
+    <!-- Render top navbar -->
+    @staffnavbar(userName)
+
+    <div class="container">
+
+<h1>Contacto</h1>
+<p> Deja cualquier duda y/o comentario </p>
+
+
+        <div class="row col-md-9 col-md-offset-3">
+
+        <div class="form-group">
+            <div class="col-md-3">
+              <label for="name" class="control-label">Nombre:</label>
+            </div>
+              <div class="col-md-6">
+                <input type="text" class="form-control" id="name">
+           </div>
+       </div>
+<br>    
+
+         <div class="form-group">
+            <div class="col-md-3">
+              <label for="email" class="control-label">Email:</label>
+            </div>
+              <div class="col-md-6">
+                <input type="text" class="form-control" id="email">
+            </div>
+         </div>
+<br>
+        <div class="form-group">
+            <div class="col-md-3">
+              <label for="message" class="control-label">Mensaje:</label>
+            </div>
+              <div class="col-md-6">
+                <textarea class="form-control" rows="6" id="message"></textarea>
+              </div>
+        </div>	
+
+    </div>
+  </div><!-- /.container -->
+}
+

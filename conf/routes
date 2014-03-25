@@ -11,8 +11,14 @@ GET     /staff                            controllers.Application.staff()
 # Patient home
 GET     /patient                          controllers.Application.patient()
 
+# New staff
+GET     /staff/new                        controllers.Application.newStaff()
+
 # New patient
 GET     /staff/patient/new                controllers.Application.newPatient()
+
+# Contact
+GET     /contact                          controllers.Application.contact()
 
 # Show patient
 GET     /staff/patient/:id                controllers.Application.showPatient(id: Long)
