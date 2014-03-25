@@ -6,3 +6,7 @@ tmp
 .settings/
 .sass-cache/
 *swp
+.classpath
+.project
+.target/
+.metadata/
