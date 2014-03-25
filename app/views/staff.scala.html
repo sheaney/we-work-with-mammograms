@@ -49,8 +49,8 @@
             <th>Número de estudios</th>
           </thead>
           <tbody>
-            <tr ng-repeat="patient in patients | filter:query | orderBy:orderName" class="clickable-row {{cssClass(patient.own)}}" data-url="">
-              <td><a href="@routes.Application.showPatient(10)">{{patient.name}}</a></td>
+            <tr ng-repeat="patient in patients | filter:query | orderBy:orderName" class="clickable-row {{cssClass(patient.own)}}" ng-click="navigateToPatient('@{routes.Application.showPatient(-1)}', patient.id)">
+              <td>{{patient.name}}</td>
               <td>{{numberOfStudiesText(patient.studies)}}</td>
             </tr>
           </tbody>

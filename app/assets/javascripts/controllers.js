@@ -15,6 +15,14 @@ staffApp.controller('StaffListCtrl', function($scope) {
 });
 
 staffApp.controller('PatientListCtrl', function($scope) {
+  $scope.navigateToPatient = function(url, id) {
+    window.location.href = url.replace('-1', id)
+  };
+
+  $scope.setPatientId = function(id) {
+    $scope.patientId = id;
+  };
+
   $scope.cssClass = function(ownPatient) {
     return ownPatient ? 'info' : 'success';
   };
@@ -24,40 +32,50 @@ staffApp.controller('PatientListCtrl', function($scope) {
   }
 
   $scope.patients = [
-    { 'name': 'Juan Francisco Martínez Garza',
+    {
+      'id': 0,
+      'name': 'Juan Francisco Martínez Garza',
       'own': false,
       'studies': 3
     },
-    { 'name': 'Katia Cordova Santa',
+    {
+      'id': 1,
+      'name': 'Katia Cordova Santa',
       'own': true,
       'studies': 0
     },
     {
+      'id': 2,
       'name': 'Aura De La Garza Lujan',
       'own': true,
       'studies': 1
     },
     {
+      'id': 3,
       'name': 'Alejandra Pulido De La Llave',
       'own': false,
       'studies': 1
     },
     {
+      'id': 4,
       'name': 'Enrique Sanchez Godoy',
       'own': false,
       'studies': 2
     },
     {
+      'id': 5,
       'name': 'Carlos Garza Quintero',
       'own': true,
       'studies': 0
     },
     {
+      'id': 6,
       'name': 'Kristina Montejano De La Garza',
       'own': false,
       'studies': 3
     },
     {
+      'id': 7,
       'name': 'Erubiel Zambrano Moctezuma',
       'own': true,
       'studies': 2
