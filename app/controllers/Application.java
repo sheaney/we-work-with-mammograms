@@ -1,33 +1,45 @@
 package controllers;
 
-import play.*;
-import play.mvc.*;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
+import play.mvc.Controller;
+import play.mvc.Result;
 import views.html.*;
 
+@Singleton
 public class Application extends Controller {
+	
+	@Inject
+	public Application() {}
 
-    public static Result index() {
+	@Inject
+    public Result index() {
         return ok(index.render());
     }
 
-    public static Result staff() {
+	@Inject
+    public Result staff() {
         return ok(staff.render("Juanito"));
     }
 
-    public static Result newPatient() {
+	@Inject
+    public Result newPatient() {
         return ok(newPatient.render("Juanito"));
     }
 
-    public static Result newStudy() {
+	@Inject
+    public Result newStudy() {
         return ok(newStudy.render("Juanito"));
     }
 
-    public static Result study(Long id) {
+	@Inject
+    public Result study(Long id) {
         return ok(study.render(id, "Juanito"));
     }
 
-    public static Result editStudy(Long id) {
+	@Inject
+    public Result editStudy(Long id) {
         return ok(editStudy.render(id, "Juanito"));
     }
 
