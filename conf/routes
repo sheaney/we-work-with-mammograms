@@ -12,7 +12,7 @@ GET     /staff                            controllers.Application.staff()
 GET     /patient                          controllers.Application.patient()
 
 # New staff
-GET     /staff/new                        controllers.Application.newStaff()
+GET     /admin/staff/new                  controllers.Application.newStaff()
 
 # New patient
 GET     /staff/patient/new                controllers.Application.newPatient()
