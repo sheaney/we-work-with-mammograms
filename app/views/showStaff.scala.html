@@ -1,0 +1,120 @@
+@(id: Long, userName: String)
+
+@moreCss = {
+  <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
+}
+
+
+@main("Staff", moreCss) {
+    <!-- Render top navbar -->
+    @staffnavbar(userName)
+
+    <div class="container">
+
+        <div class="row">
+    <div class="col-md-6 pull-right">
+        <div class="pull-right">
+            <div class="col-xs-12">
+            <p>
+              <a href="" class="btn btn-warning btn-md btn-block">Editar staff</a>
+            </p>
+            </div>
+           <div class="col-xs-12">
+            <p>
+              <a href="" class="btn btn-danger btn-md btn-block">Borrar staff</a>
+            </p>
+          </div>
+            <div class="col-xs-12">
+            <p>
+              <a href="" class="btn btn-default btn-md btn-block">Regresar</a>
+            </p>
+          </div>
+      </div>
+
+
+    </div> 
+
+    <div class="col-md-6 col-xs-12">
+
+
+     <h3>Información Personal</h3><br>
+
+        <div class="col-md-12 col-xs-12">
+        <div class="col-md-6 col-xs-6">
+        <label for="patientName" class="col-md-12 control-label">Nombre:</label>
+        </div>
+        <div class="col-md-6 col-sm-10">
+            @userName
+        </div>
+        </div>
+
+       <div class="col-md-12 col-xs-12">
+        <div class="col-md-6 col-xs-6">
+        <label for="patientName" class="col-md-12 control-label">Dirección:</label>
+        </div>
+         <div class="col-md-6 col-sm-10">
+         @userName
+         </div>
+         </div>
+        
+        <div class="col-md-12 col-xs-12">
+        <div class="col-md-6 col-xs-6">
+        <label for="patientName" class="col-md-12 control-label">Correo Electrónico:</label>
+        </div>
+         <div class="col-md-6 col-sm-10">
+            @userName
+         </div>
+         </div>
+
+        <div class="col-md-12 col-xs-12">
+        <div class="col-md-6 col-xs-6">
+        <label for="patientName" class="col-md-12 control-label">Teléfono:</label>
+        </div>
+         <div class="col-md-6 col-sm-10">
+            @userName
+         </div>
+         </div>
+
+        <div class="col-md-12 col-xs-12">
+        <div class="col-md-6 col-xs-6">
+        <label for="patientName" class="col-md-12 control-label">Fecha de Nacimiento:</label>
+        </div>
+         <div class="col-md-6 col-sm-10">
+            @userName
+         </div>
+         </div>
+
+         <div class="col-md-12 col-xs-12">
+        <div class="col-md-6 col-xs-6">
+        <label for="patientName" class="col-md-12 control-label">Rol:</label>
+        </div>
+         <div class="col-md-6 col-sm-10">
+            @userName
+         </div>
+         </div>
+
+          <div class="col-md-12 col-xs-12">
+        <div class="col-md-6 col-xs-6">
+        <label for="patientName" class="col-md-12 control-label">RFC:</label>
+        </div>
+         <div class="col-md-6 col-sm-10">
+            @userName
+         </div>
+         </div>
+
+          <div class="col-md-12 col-xs-12">
+        <div class="col-md-6 col-xs-6">
+        <label for="patientName" class="col-md-12 control-label">Cédula:</label>
+        </div>
+         <div class="col-md-6 col-sm-10">
+            @userName
+         </div>
+         </div>
+
+
+     </div>
+</div>
+
+  </div><!-- /.container -->
+}
+

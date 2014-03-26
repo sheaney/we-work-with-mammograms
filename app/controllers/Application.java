@@ -6,6 +6,7 @@ import models.Staff;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+<<<<<<< HEAD
 import views.html.contact;
 import views.html.editPatient;
 import views.html.login;
@@ -94,6 +95,10 @@ public class Application extends Controller {
 	public static Result contact() {
 		return ok(contact.render("Juanito"));
 	}
+
+    public static Result showStaff(Long id) {
+        return ok(showStaff.render(id, "Juanito"));
+    }
 
     public static Result settings(){
         return ok(settings.render("Juanito"));
