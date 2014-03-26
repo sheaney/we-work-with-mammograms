@@ -3,17 +3,7 @@ package controllers;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.contact;
-import views.html.editPatient;
-import views.html.index;
-import views.html.newPatient;
-import views.html.newStudy;
-import views.html.patient;
-import views.html.sharePatient;
-import views.html.showPatient;
-import views.html.staff;
-import views.html.study;
-import views.html.login;
+import views.html.*;
 
 public class Application extends Controller {
 
@@ -62,6 +52,10 @@ public class Application extends Controller {
       return ok(sharePatient.render(id, "Juanito"));
     }
 
+    public static Result showStaff(Long id) {
+        return ok(showStaff.render(id, "Juanito"));
+    }
+ 
     public static Result contact(){
         return ok(contact.render("Juanito"));
     }
