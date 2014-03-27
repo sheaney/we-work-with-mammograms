@@ -1,0 +1,25 @@
+@import 'bootstrap';
+
+/*$selected-member-color: #99CCFF;*/
+$selected-member-color: #6699CC;
+
+body {
+  .staff-member-search {
+    padding-bottom: 25px;
+  }
+
+  .staff-members {
+
+    .clickable-row {
+      cursor: pointer;
+    }
+
+    .selected-member {
+      background-color: $selected-member-color;
+
+      &:hover {
+        background-color: $selected-member-color;
+      }
+    }
+  }
+}
