@@ -4,6 +4,8 @@ import net.litola.SassPlugin
 
 name := "we-work-with-mammograms"
 
+testOptions in Test := Nil
+
 version := "1.0-SNAPSHOT"
 
 libraryDependencies ++= Seq(
