@@ -5,10 +5,25 @@
 var staffApp = angular.module('staffApp', []);
 
 staffApp.controller('StaffListCtrl', function($scope) {
+  $scope.selectedMember = null;
+
+  $scope.displayMember = function(member) {
+    $scope.selectedMember = member;
+  };
+
   $scope.staff = [
-    { 'name': 'Dr. Juan Francisco Martínez Garza' },
-    { 'name': 'Juan Cordova Santa' },
-    { 'name': 'Dr. Juan De La Garza Lujan' }
+    {
+      'id': 0,
+      'name': 'Dr. Juan Francisco Martínez Garza'
+    },
+    {
+      'id': 1,
+      'name': 'Juan Cordova Santa'
+    },
+    {
+      'id': 2,
+      'name': 'Dr. Juan De La Garza Lujan'
+    }
   ];
 
   $scope.orderName = 'name';
