@@ -12,7 +12,10 @@ GET     /staff                            controllers.Application.staff()
 GET     /patient                          controllers.Application.patient()
 
 # New staff
-GET     /admin/staff/new                  controllers.Application.newStaff()
+GET     /admin/staff/new                  controllers.Admin.newStaff()
+
+# Create staff
+POST 	/admin/staff/create				  controllers.Admin.createStaff()
 
 # New patient
 GET     /staff/patient/new                controllers.Application.newPatient()

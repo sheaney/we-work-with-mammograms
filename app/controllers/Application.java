@@ -22,10 +22,6 @@ public class Application extends Controller {
         return ok(newPatient.render("Juanito"));
     }
 
-    public static Result newStaff() {
-        return ok(newStaff.render("Juanito"));
-    }
-
     public static Result newStudy(Long patientId) {
         return ok(newStudy.render("Juanito"));
     }

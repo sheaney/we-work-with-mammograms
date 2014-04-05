@@ -23,7 +23,7 @@ public class Staff extends Model {
 	@Required
 	String email;
 	
-	@Required
+//	@Required
 	String password;
 	
 	@Required
@@ -39,6 +39,12 @@ public class Staff extends Model {
 	String secondLastName;
 	
 	@Required
+	String address;
+	
+	@Required 
+	String telephone;
+	
+//	@Required
 	Date birthdate;
 	
 	@Required
@@ -61,6 +67,10 @@ public class Staff extends Model {
 	
 	@OneToMany(mappedBy="sharer")
 	List<SharedPatient> sharedPatients = new ArrayList<SharedPatient>();
+	
+	public static void create(Staff staff) {
+		staff.save();
+	}
 
 	public Long getId() {
 		return id;
@@ -180,6 +190,26 @@ public class Staff extends Model {
 
 	public void setSharedPatients(List<SharedPatient> sharedPatients) {
 		this.sharedPatients = sharedPatients;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+	public void setOwnPatients(List<Patient> ownPatients) {
+		this.ownPatients = ownPatients;
 	}
 
 }

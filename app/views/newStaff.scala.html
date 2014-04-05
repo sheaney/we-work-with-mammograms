@@ -1,4 +1,6 @@
-@(userName: String)
+@(userName: String, staffForm: Form[Staff])
+
+@import helper._
 
 @moreCss = {
   <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
@@ -14,56 +16,56 @@
 
         <h1 style="padding-bottom:20px">Nuevo Staff</h1>
     
-        <legend class="text-left">Informaci贸n Personal</legend>
+        <legend class="text-left">Informaci梟 Personal</legend>
 
-        <form class="form-horizontal" role="form">
+        <form class="form-horizontal" role="form" method="POST" action="@routes.Admin.createStaff">
 
           <div class="form-group">
             <div class="col-md-3">
-              <label for="staffName" class="control-label">Nombre:</label>
+              <label for="name" class="control-label">Nombre:</label>
               </div>
               <div class="col-md-7">
-                <input type="text" class="form-control" id="staffName">
+                @inputText(staffForm("name"), 'class -> "form-control")
               </div>    
           </div>	
 
           <div class="form-group">
             <div class="col-md-3">
-              <label for="staffLastName" class="control-label">Apellido paterno:</label></div>
+              <label for="firstLastName" class="control-label">Apellido paterno:</label></div>
               <div class="col-md-7">
-                <input type="text" class="form-control" id="staffLastName">
+                @inputText(staffForm("firstLastName"),  'class -> "form-control")
               </div>
             </div>
 
           <div class="form-group">
             <div class="col-md-3">
-              <label for="staffSurname" class="control-label">Apellido Materno:</label></div>
+              <label for="secondLastName" class="control-label">Apellido Materno:</label></div>
               <div class="col-md-7">
-                <input type="text" class="form-control" id="staffSurname">
+              @inputText(staffForm("secondLastName"),  'class -> "form-control")
               </div>
             </div>
 
           <div class="form-group">
             <div class="col-md-3">
-              <label for="staffAddress" class="control-label">Direcci贸n:</label></div>
+              <label for="address" class="control-label">Direcci梟:</label></div>
               <div class="col-md-7">
-                <textarea class="form-control" rows="3" id="staffAddress"></textarea>
+              	@textarea(staffForm("address"),  'class -> "form-control")
               </div>
             </div>
 
           <div class="form-group">
             <div class="col-md-3">
-              <label for="staffEmail" class="control-label">Correo Electr贸nico:</label></div>
+              <label for="email" class="control-label">Correo Electr梟ico:</label></div>
               <div class="col-md-7">
-                <input type="text" class="form-control" id="staffEmail">
+                @inputText(staffForm("email"),  'class -> "form-control")
               </div>
             </div>
 
           <div class="form-group">
             <div class="col-md-3">
-              <label for="staffNumber" class="control-label">Tel茅fono:</label></div>
+              <label for="telephone" class="control-label">Tel巉ono:</label></div>
               <div class="col-md-7">
-                <input type="text" class="form-control" id="staffNumber">
+              	@inputText(staffForm("telephone"),  'class -> "form-control")
               </div>
             </div>
 
@@ -83,38 +85,35 @@
 
              <div class="form-group">
             <div class="col-md-3">
-            <label for="staffrole" class="control-label">Rol:</label></div>
+            <label for="role" class="control-label">Rol:</label></div>
             <div class="col-md-2">
-              <select class="form-control">
-                <option>Doctor</option>
-                <option>Radi贸logo</option>
-                <option>Enfermero</option>
-              </select>
+              @select(staffForm("role"),  Seq("Doctor" -> "Doctor", "Radiologo" -> "Radiologo", "Enfermero" -> "Enfermero"), 'class -> "form-control")
             </div>
           </div> 
 
 
         <div class="form-group">
             <div class="col-md-3">
-              <label for="staffRFC" class="control-label">RFC:</label></div>
+              <label for="RFC" class="control-label">RFC:</label></div>
               <div class="col-md-5">
-                <input type="text" class="form-control" id="staffRFC">
+                @inputText(staffForm("RFC"),  'class -> "form-control")
               </div>
             </div>
 
         <div class="form-group">
             <div class="col-md-3">
-              <label for="staffcedula" class="control-label">C茅dula:</label></div>
+              <label for="cedula" class="control-label">C巇ula:</label></div>
               <div class="col-md-5">
-                <input type="text" class="form-control" id="staffRFC">
+              	@inputText(staffForm("cedula"),  'class -> "form-control")
               </div>
             </div>
 
           <br>
+          <div class="col-md-offset-6"><button type="submit" class="btn btn-primary">Crear staff</button></div><br>
 </form>
     </div>
 </div>
-<div class="col-md-offset-6"><button type="button" class="btn btn-primary">Crear staff</button></div><br>
+
 
 
   </div><!-- /.container -->
