@@ -3,6 +3,13 @@
 
 # --- !Ups
 
+create table admin (
+  id                        bigint not null,
+  email                     varchar(255),
+  password                  varchar(255),
+  constraint pk_admin primary key (id))
+;
+
 create table annotation (
   id                        bigint not null,
   content                   varchar(255),
@@ -89,6 +96,8 @@ create table staff (
   name                      varchar(255),
   first_last_name           varchar(255),
   second_last_name          varchar(255),
+  address                   varchar(255),
+  telephone                 varchar(255),
   birthdate                 date,
   cedula                    varchar(255),
   rfc                       varchar(255),
@@ -101,6 +110,8 @@ create table study (
   patient_id                bigint,
   constraint pk_study primary key (id))
 ;
+
+create sequence admin_seq;
 
 create sequence annotation_seq;
 
@@ -153,6 +164,8 @@ create index ix_study_owner_13 on study (patient_id);
 
 # --- !Downs
 
+drop table if exists admin cascade;
+
 drop table if exists annotation cascade;
 
 drop table if exists comment cascade;
@@ -172,6 +185,8 @@ drop table if exists shared_patient cascade;
 drop table if exists staff cascade;
 
 drop table if exists study cascade;
+
+drop sequence if exists admin_seq;
 
 drop sequence if exists annotation_seq;
 
