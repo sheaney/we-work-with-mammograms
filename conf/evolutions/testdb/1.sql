@@ -31,6 +31,17 @@ create table mammogram (
 
 create table medical_info (
   id                        bigint not null,
+  sexual_activity_start_age integer,
+  pregnancies               integer,
+  c_sections                integer,
+  natural_deliveries        integer,
+  abortions                 integer,
+  menopause_start_age       integer,
+  family_predisposition     boolean,
+  hormonal_replacement_therapy boolean,
+  previous_mammary_diseases boolean,
+  menstrual_period_start_age integer,
+  breastfed_children        boolean,
   constraint pk_medical_info primary key (id))
 ;
 
@@ -52,6 +63,13 @@ create table permission (
 
 create table personal_info (
   id                        bigint not null,
+  name                      varchar(255),
+  first_last_name           varchar(255),
+  second_last_name          varchar(255),
+  address                   varchar(255),
+  email                     varchar(255),
+  telephone                 varchar(255),
+  birthdate                 date,
   constraint pk_personal_info primary key (id))
 ;
 
@@ -65,6 +83,15 @@ create table shared_patient (
 
 create table staff (
   id                        bigint not null,
+  email                     varchar(255),
+  password                  varchar(255),
+  role                      varchar(255),
+  name                      varchar(255),
+  first_last_name           varchar(255),
+  second_last_name          varchar(255),
+  birthdate                 date,
+  cedula                    varchar(255),
+  rfc                       varchar(255),
   constraint pk_staff primary key (id))
 ;
 

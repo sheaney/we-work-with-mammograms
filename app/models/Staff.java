@@ -1,14 +1,15 @@
 package models;
 
 import java.sql.Date;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import play.data.validation.Constraints.Required;
-
 import play.db.ebean.Model;
 
 @Entity
@@ -46,20 +47,20 @@ public class Staff extends Model {
 	@Required
 	String RFC;
 	
-	@OneToMany(mappedBy="owner")
-	Set<Patient> ownPatients;
+	@OneToMany(mappedBy="owner", cascade = CascadeType.ALL)
+	List<Patient> ownPatients;
 	
 	@OneToMany(mappedBy="commenter")
-	Set<Comment> comments;
+	List<Comment> comments = new ArrayList<Comment>();
 	
 	@OneToMany(mappedBy="ownsPermission")
-	Set<Permission> permissions;
+	List<Permission> permissions = new ArrayList<Permission>();
 	
 	@OneToMany(mappedBy="annotator")
-	Set<Annotation> annotations;
+	List<Annotation> annotations = new ArrayList<Annotation>();
 	
 	@OneToMany(mappedBy="sharer")
-	Set<SharedPatient> sharedPatients;
+	List<SharedPatient> sharedPatients = new ArrayList<SharedPatient>();
 
 	public Long getId() {
 		return id;
@@ -141,43 +142,43 @@ public class Staff extends Model {
 		RFC = rFC;
 	}
 
-	public Set<Patient> getOwnPatients() {
+	public List<Patient> getOwnPatients() {
 		return ownPatients;
 	}
 
-	public void setOwnPatients(Set<Patient> ownPatients) {
-		this.ownPatients = ownPatients;
+	public void appendOwnPatient(Patient newPatient) {
+		this.ownPatients.add(newPatient);
 	}
 
-	public Set<Comment> getComments() {
+	public List<Comment> getComments() {
 		return comments;
 	}
 
-	public void setComments(Set<Comment> comments) {
+	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
 
-	public Set<Permission> getPermissions() {
+	public List<Permission> getPermissions() {
 		return permissions;
 	}
 
-	public void setPermissions(Set<Permission> permissions) {
+	public void setPermissions(List<Permission> permissions) {
 		this.permissions = permissions;
 	}
 
-	public Set<Annotation> getAnnotations() {
+	public List<Annotation> getAnnotations() {
 		return annotations;
 	}
 
-	public void setAnnotations(Set<Annotation> annotations) {
+	public void setAnnotations(List<Annotation> annotations) {
 		this.annotations = annotations;
 	}
 
-	public Set<SharedPatient> getSharedPatients() {
+	public List<SharedPatient> getSharedPatients() {
 		return sharedPatients;
 	}
 
-	public void setSharedPatients(Set<SharedPatient> sharedPatients) {
+	public void setSharedPatients(List<SharedPatient> sharedPatients) {
 		this.sharedPatients = sharedPatients;
 	}
 

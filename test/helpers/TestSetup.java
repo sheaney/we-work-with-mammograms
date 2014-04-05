@@ -4,9 +4,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import models.Patient;
+import models.PersonalInfo;
+import models.Staff;
 import play.Configuration;
 import play.GlobalSettings;
 import play.api.mvc.RequestHeader;
@@ -56,5 +60,27 @@ public class TestSetup {
 		dbSettings.put("ebean.testdb", "models.*, helpers.*");
 		return dbSettings;
 	}
-
+	
+	public static Staff sampleStaff(){
+		Staff s =  new Staff();
+		s.setName("Juan Estefano");
+		s.setFirstLastName("Rodríguez");
+		s.setSecondLastName("Heaney");
+		s.setBirthdate(new Date(System.currentTimeMillis()));
+		s.setCedula("AQWERTYGSDGN");
+		return s;
+	}
+	
+	public static Patient samplePatient(){
+		Patient p = new Patient();
+		p.setPersonalInfo(samplePersonalInfo());
+		return p;
+	}
+	
+	private static PersonalInfo samplePersonalInfo(){
+		PersonalInfo inf = new PersonalInfo();
+		inf.setName("Claudia");
+		inf.setFirstLastName("Hernández");
+		return inf;
+	}
 }

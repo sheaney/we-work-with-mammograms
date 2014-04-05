@@ -1,7 +1,7 @@
 package models;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -30,18 +30,18 @@ public class Patient extends Model {
 	@OneToOne(cascade = CascadeType.ALL)
 	MedicalInfo medicalInfo;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="staff_id", nullable=false)
 	Staff owner;
 	
 	@OneToMany(mappedBy = "owner")
-	Set<Study> studies = new HashSet<Study>();
+	List<Study> studies = new ArrayList<Study>();
 	
 	@OneToMany(mappedBy = "patientBoundedByPermissions")
-	Set<Permission> permissions = new HashSet<Permission>();
+	List<Permission> permissions = new ArrayList<Permission>();
 	
 	@OneToMany(mappedBy = "shared")
-	Set<SharedPatient> sharedInstances = new HashSet<SharedPatient>();
+	List<SharedPatient> sharedInstances = new ArrayList<SharedPatient>();
 
 	public Long getId() {
 		return id;
@@ -75,27 +75,27 @@ public class Patient extends Model {
 		this.owner = owner;
 	}
 
-	public Set<Study> getStudies() {
+	public List<Study> getStudies() {
 		return studies;
 	}
 
-	public void setStudies(Set<Study> studies) {
+	public void setStudies(List<Study> studies) {
 		this.studies = studies;
 	}
 
-	public Set<Permission> getPermissions() {
+	public List<Permission> getPermissions() {
 		return permissions;
 	}
 
-	public void setPermissions(Set<Permission> permissions) {
+	public void setPermissions(List<Permission> permissions) {
 		this.permissions = permissions;
 	}
 
-	public Set<SharedPatient> getSharedInstances() {
+	public List<SharedPatient> getSharedInstances() {
 		return sharedInstances;
 	}
 
-	public void setSharedInstances(Set<SharedPatient> sharedInstances) {
+	public void setSharedInstances(List<SharedPatient> sharedInstances) {
 		this.sharedInstances = sharedInstances;
 	}
 	

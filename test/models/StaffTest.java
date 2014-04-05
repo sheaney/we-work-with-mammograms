@@ -28,5 +28,4 @@ public class StaffTest {
     private int rowCount() {
         return Ebean.find(Staff.class).findRowCount();
     }
-
 }
