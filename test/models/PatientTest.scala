@@ -12,9 +12,8 @@ class PatientTest extends ModelsHelper {
         p.save()
         rowCount[Patient] should equal(1)
         
-        retrieveDbRecord[Patient] { dbPatient =>
+        retrieveDbRecord[Patient]() { dbPatient =>
           dbPatient.getPersonalInfo.getName should equal(p.getPersonalInfo.getName)
-          dbPatient.delete()
         }
 
       }

@@ -12,7 +12,7 @@ class StaffTest extends ModelsHelper {
     ignore("test should fail") {
       it("fails retrieving first staff record that does not exist in DB") {
         running(app) {
-          retrieveDbRecord[Staff] { dbStaff =>
+          retrieveDbRecord[Staff]() { dbStaff =>
             dbStaff.delete()
           }
         }
@@ -27,7 +27,7 @@ class StaffTest extends ModelsHelper {
         rowCount[Staff] should equal(1)
         rowCount[Patient] should equal(1)
 
-        retrieveDbRecord[Staff] { dbStaff =>
+        retrieveDbRecord[Staff]() { dbStaff =>
           dbStaff.getName should equal(staff.getName)
           dbStaff.getFirstLastName should equal(staff.getFirstLastName)
           dbStaff.getOwnPatients.size should equal(1)
@@ -36,8 +36,6 @@ class StaffTest extends ModelsHelper {
           val patient = staff.getOwnPatients.get(0)
 
           comparePatients(dbPatient, patient)
-
-          dbStaff.delete()
         }
       }
     }
@@ -49,7 +47,7 @@ class StaffTest extends ModelsHelper {
         rowCount[Staff] should equal(1)
         rowCount[Patient] should equal(0)
 
-        retrieveDbRecord[Staff] { dbStaff =>
+        retrieveDbRecord[Staff](deleteAfter = false) { dbStaff =>
           dbStaff.appendOwnPatient(samplePatient)
           dbStaff.update()
         }
@@ -57,7 +55,7 @@ class StaffTest extends ModelsHelper {
         rowCount[Staff] should equal(1)
         rowCount[Patient] should equal(1)
 
-        retrieveDbRecord[Staff] { dbStaff =>
+        retrieveDbRecord[Staff]() { dbStaff =>
           val dbPatient = dbStaff.getOwnPatients.get(0)
           val patient = dbStaff.getOwnPatients.get(0)
 
