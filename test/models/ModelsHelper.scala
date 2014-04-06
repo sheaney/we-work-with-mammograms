@@ -4,9 +4,8 @@ import com.avaje.ebean.Ebean
 import play.core.j.JavaGlobalSettingsAdapter
 import play.api.test.FakeApplication
 import helpers.TestSetup.testGlobalSettings
-import org.scalatest.FunSpec
-import org.scalatest.BeforeAndAfterEach
-import org.scalatest.Matchers
+import org.scalatest.{ FunSpec, BeforeAndAfterEach, Matchers }
+import scala.reflect.ClassTag
 
 trait ModelsHelper extends FunSpec with BeforeAndAfterEach with Matchers {
   var app: FakeApplication = _
@@ -16,20 +15,13 @@ trait ModelsHelper extends FunSpec with BeforeAndAfterEach with Matchers {
     app = FakeApplication(withGlobal = Some(globalSettings))
   }
 
-  def rowCount: Int = Ebean.find(classOf[Patient]).findRowCount()
+  def rowCount[T: ClassTag]: Int = Ebean.find(implicitly[ClassTag[T]].runtimeClass).findRowCount()
 
-  def staffRowCount: Int = Ebean.find(classOf[Staff]).findRowCount()
-
-  def getDBPatient: Patient = {
-    val result = Ebean.find(classOf[Patient])
+  def getDbRecord[T: ClassTag]: Option[T] = {
+    val clazz = implicitly[ClassTag[T]].runtimeClass
+    val result = Ebean.find(clazz)
     val iterator = result.findIterate
-    if (iterator.hasNext) iterator.next else null
-  }
-
-  def getDBStaff: Staff = {
-    val result = Ebean.find(classOf[Staff])
-    val iterator = result.findIterate
-    if (iterator.hasNext) iterator.next else null
+    if (iterator.hasNext) Some(iterator.next.asInstanceOf[T]) else None
   }
 
   def comparePatients(patientOne: Patient, patientTwo: Patient) {
@@ -43,7 +35,16 @@ trait ModelsHelper extends FunSpec with BeforeAndAfterEach with Matchers {
     patientTwoPersonalInfo.getName should equal(patientOnePersonalInfo.getName)
     patientTwoPersonalInfo.getFirstLastName should equal(patientOnePersonalInfo.getFirstLastName)
     patientTwoPersonalInfo.getSecondLastName should equal(patientOnePersonalInfo.getSecondLastName)
-
+  }
+  
+  def retrieveDbRecord[T: ClassTag](assertions: T => Unit): Unit = {
+    val optionalDbRecord = getDbRecord[T]
+    val clazz = implicitly[ClassTag[T]]
+    
+    if (optionalDbRecord.isEmpty)
+      fail(s"Could not retrieve specified record for class ${clazz.runtimeClass.getName}")
+    else
+      optionalDbRecord.foreach(assertions)
   }
 
 }

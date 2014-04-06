@@ -10,9 +10,13 @@ class PatientTest extends ModelsHelper {
       running(app) {
         val p = helpers.TestSetup.samplePatient
         p.save()
-        val dbPatient = getDBPatient
-        dbPatient.getPersonalInfo.getName should equal (p.getPersonalInfo.getName)
-        rowCount should equal(1)
+        rowCount[Patient] should equal(1)
+        
+        retrieveDbRecord[Patient] { dbPatient =>
+          dbPatient.getPersonalInfo.getName should equal(p.getPersonalInfo.getName)
+          dbPatient.delete()
+        }
+
       }
     }
   }

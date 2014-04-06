@@ -22,14 +22,6 @@ public class Admin extends Controller {
 	public static Result createStaff() {
 		Form<Staff> filledForm = staffForm.bindFromRequest();
 		if (filledForm.hasErrors()) {
-			Map<String, List<ValidationError>> errores = filledForm.errors();
-			for (Entry<String, List<ValidationError>> entry : errores.entrySet()) {
-				List<ValidationError> es = entry.getValue();
-				System.out.println(entry.getKey());
-				for (ValidationError e : es) {
-					System.out.println(e.message());
-				}
-			}
 			return badRequest(newStaff.render("Juanito", filledForm));
 		} else {
 			Staff.create(filledForm.get());
