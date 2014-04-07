@@ -5,8 +5,11 @@ import play.api.test.Helpers.running
 import play.core.j.JavaGlobalSettingsAdapter
 import helpers.TestSetup.samplePatient
 import helpers.TestSetup.sampleStaff
+import org.scalatest.Assertions._
+import play.db.ebean.Model.Finder
 
 class StaffTest extends ModelsHelper {
+  
   describe("Saving a staff member to database") {
 
     ignore("test should fail") {
@@ -61,9 +64,18 @@ class StaffTest extends ModelsHelper {
 
           comparePatients(dbPatient, patient)
         }
-
       }
     }
-
+    
+    it("should validate a Staff's Login information"){
+      running(app) {
+    	  val staff = sampleStaff
+    	  staff.save()
+    	  val find = new Finder[String,Admin](classOf[String], classOf[Admin]);
+    	  find.where().eq("email", "")
+            .eq("password", "").findUnique()
+//    	  assert(Staff.authenticate(staff.getEmail, staff.getPassword) != null)
+      }
+    }
   }
 }

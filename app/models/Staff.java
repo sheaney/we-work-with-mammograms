@@ -1,7 +1,7 @@
 package models;
 
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -71,6 +71,10 @@ public class Staff extends Model {
 	
 	@OneToMany(mappedBy="sharer")
 	List<SharedPatient> sharedPatients = new ArrayList<SharedPatient>();
+	
+    public static Finder<String,Staff> find = new Finder<String,Staff>(
+            String.class, Staff.class
+    );
 	
 	public static void create(Staff staff) {
 		staff.save();
@@ -215,5 +219,9 @@ public class Staff extends Model {
 	public void setOwnPatients(List<Patient> ownPatients) {
 		this.ownPatients = ownPatients;
 	}
-
+	
+    public static Staff authenticate(String email, String password) {
+        return find.where().eq("email", email)
+            .eq("password", password).findUnique();
+    }
 }

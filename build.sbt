@@ -6,6 +6,8 @@ name := "we-work-with-mammograms"
 
 testOptions in Test := Nil
 
+compile in Test <<= PostCompile(Test)
+
 version := "1.0-SNAPSHOT"
 
 libraryDependencies ++= Seq(

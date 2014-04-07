@@ -58,6 +58,7 @@ public class TestSetup {
 		dbSettings.put("db.testdb.user", "sh");
 		dbSettings.put("db.testdb.url", "jdbc:h2:mem:wwwmtest;MODE=PostgreSQL");
 		dbSettings.put("ebean.testdb", "models.*, helpers.*");
+		dbSettings.put("ebean.datasource.default", "models.*, helpers.*");
 		return dbSettings;
 	}
 	
@@ -66,8 +67,10 @@ public class TestSetup {
 		s.setName("Juan Estefano");
 		s.setFirstLastName("Rodríguez");
 		s.setSecondLastName("Heaney");
+		s.setEmail("j.e.r.h@gmail.com");
 		s.setBirthdate(new Date(System.currentTimeMillis()));
 		s.setCedula("AQWERTYGSDGN");
+		s.setPassword("secret");
 		return s;
 	}
 	

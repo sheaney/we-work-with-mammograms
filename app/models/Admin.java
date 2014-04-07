@@ -20,6 +20,10 @@ public class Admin extends Model{
 	@Required
 	String password;
 
+    public static Finder<String,Admin> find = new Finder<String,Admin>(
+            String.class, Admin.class
+    );
+    
 	public Long getId() {
 		return id;
 	}
@@ -44,4 +48,8 @@ public class Admin extends Model{
 		this.password = password;
 	}
 	
+    public static Admin authenticate(String email, String password) {
+        return find.where().eq("email", email)
+            .eq("password", password).findUnique();
+    }
 }
