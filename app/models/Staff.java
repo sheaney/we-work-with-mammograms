@@ -1,6 +1,6 @@
 package models;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import play.data.format.Formats;
+import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
@@ -21,6 +23,7 @@ public class Staff extends Model {
 	Long id;
 	
 	@Required
+	@Email
 	String email;
 	
 //	@Required
@@ -41,10 +44,11 @@ public class Staff extends Model {
 	@Required
 	String address;
 	
-	@Required 
+	@Required
 	String telephone;
 	
-//	@Required
+	@Required
+	@Formats.DateTime(pattern="dd/MM/yyyy")
 	Date birthdate;
 	
 	@Required

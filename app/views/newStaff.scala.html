@@ -1,11 +1,12 @@
 @(userName: String, staffForm: Form[Staff])
 
 @import helper._
+@import views.html.bootstrap._
+@import play.api.i18n._
 
 @moreCss = {
   <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
 }
-
 
 @main("Nuevo Staff", moreCss) {
     <!-- Render top navbar -->
@@ -14,107 +15,78 @@
     <div class="container">
       <div class="col-md-10 col-md-offset-2">
 
-        <h1 style="padding-bottom:20px">Nuevo Staff</h1>
+        <h1 style="padding-bottom:20px">Crear Personal</h1>
     
-        <legend class="text-left">Información Personal</legend>
+        <legend class="text-left">Informaci√≥n Personal</legend>
 
-        <form class="form-horizontal" role="form" method="POST" action="@routes.Admin.createStaff">
+        @form(action = routes.Admin.createStaff, 'role -> "form", 'class -> "form-horizontal") {
+          @inputText.render(
+          	field = staffForm("name"),
+          	args = Array('class -> "form-control", '_label -> Messages("name")),
+          	handler = FieldConstructor(inputB.f),
+          	lang = Lang.defaultLang)
+          	
+          @inputText.render(
+          	field = staffForm("firstLastName"),
+          	args = Array('class -> "form-control", '_label -> Messages("firstLastName")),
+          	handler = FieldConstructor(inputB.f),
+          	lang = Lang.defaultLang)
+          	
+          @inputText.render(
+          	field = staffForm("secondLastName"),
+          	args = Array('class -> "form-control", '_label -> Messages("secondLastName")),
+          	handler = FieldConstructor(inputB.f),
+          	lang = Lang.defaultLang)
+          	
+          @inputText.render(
+          	field = staffForm("address"),
+          	args = Array('class -> "form-control", '_label -> Messages("address")),
+          	handler = FieldConstructor(inputB.f),
+          	lang = Lang.defaultLang)
+          	
+          @inputText.render(
+          	field = staffForm("email"),
+          	args = Array('class -> "form-control", '_label -> Messages("email")),
+          	handler = FieldConstructor(inputB.f),
+          	lang = Lang.defaultLang)
+          	
+          @inputText.render(
+          	field = staffForm("telephone"),
+          	args = Array('class -> "form-control", '_label -> Messages("telephone")),
+          	handler = FieldConstructor(inputB.f),
+          	lang = Lang.defaultLang)
+          	
+          @inputText.render(
+          	staffForm("birthdate"),
+          	args = Array('class -> "form-control", 'placeholder -> Messages("formats.date"), '_label -> Messages("birthdate"), '_inputDivClass -> "col-md-2"),
+          	handler = FieldConstructor(inputB.f),
+          	lang = Lang.defaultLang)
+          
+          @select.render(
+          	field = staffForm("role"),
+          	options = Seq("Doctor" -> "Doctor", "Radiologo" -> "Radi√≥logo", "Enfermero" -> "Enfermero"),
+          	args = Array('class -> "form-control", '_label -> Messages("role"), '_inputDivClass -> "col-md-2"),
+          	handler = FieldConstructor(inputB.f),
+          	lang = Lang.defaultLang)
+          
+          @inputText.render(
+          	field = staffForm("RFC"),
+          	args = Array('class -> "form-control", '_label -> Messages("RFC")),
+          	handler = FieldConstructor(inputB.f),
+          	lang = Lang.defaultLang)
+          	
+          @inputText.render(
+          	field = staffForm("cedula"),
+          	args = Array('class -> "form-control", '_label -> Messages("cedula")),
+          	handler = FieldConstructor(inputB.f),
+          	lang = Lang.defaultLang)
+          
+          <p>
+		  	<div class=""><button type="submit" class="btn btn-primary">Crear staff</button></div>
+		  </p>
+        }
 
-          <div class="form-group">
-            <div class="col-md-3">
-              <label for="name" class="control-label">Nombre:</label>
-              </div>
-              <div class="col-md-7">
-                @inputText(staffForm("name"), 'class -> "form-control")
-              </div>    
-          </div>	
-
-          <div class="form-group">
-            <div class="col-md-3">
-              <label for="firstLastName" class="control-label">Apellido paterno:</label></div>
-              <div class="col-md-7">
-                @inputText(staffForm("firstLastName"),  'class -> "form-control")
-              </div>
-            </div>
-
-          <div class="form-group">
-            <div class="col-md-3">
-              <label for="secondLastName" class="control-label">Apellido Materno:</label></div>
-              <div class="col-md-7">
-              @inputText(staffForm("secondLastName"),  'class -> "form-control")
-              </div>
-            </div>
-
-          <div class="form-group">
-            <div class="col-md-3">
-              <label for="address" class="control-label">Dirección:</label></div>
-              <div class="col-md-7">
-              	@textarea(staffForm("address"),  'class -> "form-control")
-              </div>
-            </div>
-
-          <div class="form-group">
-            <div class="col-md-3">
-              <label for="email" class="control-label">Correo Electrónico:</label></div>
-              <div class="col-md-7">
-                @inputText(staffForm("email"),  'class -> "form-control")
-              </div>
-            </div>
-
-          <div class="form-group">
-            <div class="col-md-3">
-              <label for="telephone" class="control-label">Teléfono:</label></div>
-              <div class="col-md-7">
-              	@inputText(staffForm("telephone"),  'class -> "form-control")
-              </div>
-            </div>
-
-          <div class="form-group">
-            <div class="col-md-3">
-            <label for="staffBD" class="control-label">Fecha de Nacimiento:</label></div>
-            <div class="col-md-1">
-              <input type="text" class="form-control" id="inputText" placeHolder="DD">
-            </div>
-            <div class="col-md-1">
-              <input type="text" class="form-control" id="inputText" placeHolder="MM">
-            </div>
-            <div class="col-md-1">
-              <input type="text" class="form-control" id="inputText" placeHolder="AA">
-            </div>
-          </div>
-
-             <div class="form-group">
-            <div class="col-md-3">
-            <label for="role" class="control-label">Rol:</label></div>
-            <div class="col-md-2">
-              @select(staffForm("role"),  Seq("Doctor" -> "Doctor", "Radiologo" -> "Radiologo", "Enfermero" -> "Enfermero"), 'class -> "form-control")
-            </div>
-          </div> 
-
-
-        <div class="form-group">
-            <div class="col-md-3">
-              <label for="RFC" class="control-label">RFC:</label></div>
-              <div class="col-md-5">
-                @inputText(staffForm("RFC"),  'class -> "form-control")
-              </div>
-            </div>
-
-        <div class="form-group">
-            <div class="col-md-3">
-              <label for="cedula" class="control-label">Cédula:</label></div>
-              <div class="col-md-5">
-              	@inputText(staffForm("cedula"),  'class -> "form-control")
-              </div>
-            </div>
-
-          <br>
-          <div class="col-md-offset-6"><button type="submit" class="btn btn-primary">Crear staff</button></div><br>
-</form>
-    </div>
-</div>
-
-
+      </div>
 
   </div><!-- /.container -->
 }

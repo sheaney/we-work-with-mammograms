@@ -1,0 +1,15 @@
+@(elements: helper.FieldElements)
+
+<div class="form-group @if(elements.hasErrors) {error}">
+	<div class="@elements.args.toMap.get('_inputLabelClass).getOrElse("col-md-3")">
+		<label class="control-label" for="@elements.id">@elements.label</label>
+	</div>
+    <div class="@elements.args.toMap.get('_inputDivClass).getOrElse("col-md-7")">
+        @elements.input
+        @if(elements.errors.nonEmpty) {
+        	<p class="error-msg">@elements.errors.mkString(", ")</p>
+        } else {
+        	<p class="info-msg">@elements.infos.filter(_.nonEmpty).mkString(", ")</p>
+        }
+    </div>
+</div>

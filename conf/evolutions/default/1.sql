@@ -98,7 +98,7 @@ create table staff (
   second_last_name          varchar(255),
   address                   varchar(255),
   telephone                 varchar(255),
-  birthdate                 date,
+  birthdate                 timestamp,
   cedula                    varchar(255),
   rfc                       varchar(255),
   constraint pk_staff primary key (id))

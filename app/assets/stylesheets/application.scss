@@ -1,1 +1,11 @@
 @import "bootstrap";
+
+.error {
+	input {
+		border-color: red;
+	}
+	
+	.error-msg {
+		color: red;
+	}
+}
