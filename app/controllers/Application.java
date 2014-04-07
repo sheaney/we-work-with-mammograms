@@ -1,14 +1,34 @@
 package controllers;
 
-import play.mvc.*;
-
-import views.html.*;
+import play.data.Form;
+import play.mvc.Controller;
+import play.mvc.Result;
+import views.html.contact;
+import views.html.editPatient;
+import views.html.index;
+import views.html.newPatient;
+import views.html.newStudy;
+import views.html.patient;
+import views.html.sharePatient;
+import views.html.showPatient;
+import views.html.staff;
+import views.html.study;
+import views.html.login;
 
 public class Application extends Controller {
 
     public static Result index() {
         return ok(index.render());
     }
+    
+    public static Result login() {
+        return ok(login.render());
+    }
+    
+    /*public static Result authenticate() {
+        Form<Login> loginForm = Form.form(Login.class).bindFromRequest();
+        return ok();
+    }*/
 
     public static Result staff() {
         return ok(staff.render("Juanito"));
@@ -50,4 +70,10 @@ public class Application extends Controller {
         return ok(settings.render("Juanito"));
     }
 
+    public static class Login {
+
+        public String email;
+        public String password;
+
+    }
 }
