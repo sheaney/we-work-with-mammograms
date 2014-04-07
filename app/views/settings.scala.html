@@ -1,0 +1,55 @@
+@(userName: String)
+
+@moreCss = {
+  <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
+}
+
+
+@main("Contacto", moreCss) {
+    <!-- Render top navbar -->
+    @staffnavbar(userName)
+
+    <div class="container">
+
+<h1>Ajustes</h1>
+
+
+        <div class="row col-md-9 col-md-offset-3">
+
+        <div class="form-group">
+            <div class="col-md-3">
+              <label for="name" class="control-label">Nombre:</label>
+            </div>
+              <div class="col-md-6">
+                <input type="text" class="form-control" id="name">
+           </div>
+       </div>
+<br>    
+
+         <div class="form-group">
+            <div class="col-md-3">
+              <label for="email" class="control-label">Contraseña Actual:</label>
+            </div>
+              <div class="col-md-4">
+                <input type="password" class="form-control" id="email">
+            </div>
+         </div>
+<br>
+         <div class="form-group">
+            <div class="col-md-3">
+              <label for="email" class="control-label">Nueva Contraseña:</label>
+            </div>
+              <div class="col-md-4">
+                <input type="password" class="form-control" id="email">
+            </div>
+         </div>
+
+
+    </div>
+
+<div class="col-md-offset-6"><button type="button" class="btn btn-primary">Cambiar Contraseña</button></div><br>
+
+  </div><!-- /.container -->
+}
+
+
