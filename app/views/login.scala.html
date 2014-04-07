@@ -1,0 +1,25 @@
+@()
+
+@moreCss = {
+  <link href="@routes.Assets.at("stylesheets/signin.css")" rel="stylesheet">
+}
+
+@main("Iniciar Sesión", moreCss) {
+
+	<h1 align="center">¡Bienvenido!</h1>
+
+    <div class="container">
+
+      <form class="form-signin" role="form" method="GET" action="@routes.Application.staff">
+        <input name="email" class="form-control" placeholder="Correo electrónico" required="" autofocus="" type="email">
+        <input name="paassword" class="form-control" placeholder="Contraseña" required="" type="password">
+        <label class="checkbox">
+          <input value="remember-me" type="checkbox"> Recordarme
+        </label>
+        <button id="login" class="btn btn-lg btn-primary btn-block" type="submit">Iniciar sesión</button><br>
+        <a href="" style="float:right">¿Olvidaste tu contraseña?</a>
+      </form>
+
+    </div> <!-- /container -->
+
+}
