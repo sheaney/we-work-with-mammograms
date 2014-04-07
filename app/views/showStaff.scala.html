@@ -4,8 +4,9 @@
   <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
 }
 
+@angular("Bienvenido", moreCss)(angularApp = "form_app", angularCtrl = "FormCtrl") {
 
-@main("Staff", moreCss) {
+
     <!-- Render top navbar -->
     @staffnavbar(userName)
 
@@ -44,7 +45,7 @@
         <label for="patientName" class="col-md-12 control-label">Nombre:</label>
         </div>
         <div class="col-md-6 col-sm-10">
-            @userName
+        <a href="#" editable-text="staff.staffName" buttons="no">{{ staff.staffName || 'empty' }}</a>
         </div>
         </div>
 
@@ -53,7 +54,7 @@
         <label for="patientName" class="col-md-12 control-label">Dirección:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-         @userName
+        <a href="#" editable-textarea="staff.staffAdress">{{ staff.staffAdress || 'empty' }}</a>
          </div>
          </div>
         
@@ -62,7 +63,7 @@
         <label for="patientName" class="col-md-12 control-label">Correo Electrónico:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @userName
+        <a href="#" editable-email="staff.email" buttons="no">{{ staff.email || 'empty' }}</a>
          </div>
          </div>
 
@@ -71,7 +72,7 @@
         <label for="patientName" class="col-md-12 control-label">Teléfono:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @userName
+        <a href="#" editable-tel="staff.phone" buttons="no">{{ staff.phone || 'empty' }}</a>
          </div>
          </div>
 
@@ -80,7 +81,7 @@
         <label for="patientName" class="col-md-12 control-label">Fecha de Nacimiento:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @userName
+        <a href="#" editable-date="staff.bd" buttons="no">{{ staff.bd || 'empty' }}</a>
          </div>
          </div>
 
@@ -89,7 +90,9 @@
         <label for="patientName" class="col-md-12 control-label">Rol:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @userName
+     <a href="#" editable-select="staff.role" buttons="no" e-ng-options="r.value as r.text for r in roles">
+    {{ staff.role }} </a>
+
          </div>
          </div>
 
@@ -98,7 +101,7 @@
         <label for="patientName" class="col-md-12 control-label">RFC:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @userName
+        <a href="#" editable-text="staff.rfc" buttons="no">{{ staff.rfc || 'empty' }}</a>
          </div>
          </div>
 
@@ -107,7 +110,7 @@
         <label for="patientName" class="col-md-12 control-label">Cédula:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @userName
+        <a href="#" editable-text="staff.cedula" buttons="no">{{ staff.cedula || 'empty' }}</a>
          </div>
          </div>
 
@@ -116,5 +119,5 @@
 </div>
 
   </div><!-- /.container -->
-}
 
+}
