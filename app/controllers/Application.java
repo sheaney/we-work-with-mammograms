@@ -95,6 +95,10 @@ public class Application extends Controller {
 		return ok(contact.render("Juanito"));
 	}
 
+    public static Result settings(){
+        return ok(settings.render("Juanito"));
+    }
+    
 	public static class Login {
 
 		public String email;

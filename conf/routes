@@ -38,6 +38,9 @@ GET     /staff/patient/:id/share          controllers.Application.sharePatient(i
 # Edit patient
 GET     /staff/patient/:id/edit           controllers.Application.editPatient(id: Long)
 
+# Edit settings
+GET     /settings                         controllers.Application.settings()
+
 # New study
 GET     /staff/:patientId/study/new       controllers.Application.newStudy(patientId: Long)
 
