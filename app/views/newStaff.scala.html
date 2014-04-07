@@ -1,8 +1,6 @@
 @(userName: String, staffForm: Form[Staff])
 
-@import helper._
-@import views.html.bootstrap._
-@import play.api.i18n._
+@import views.html.forms._
 
 @moreCss = {
   <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
@@ -19,73 +17,7 @@
     
         <legend class="text-left">Información Personal</legend>
 
-        @form(action = routes.Admin.createStaff, 'role -> "form", 'class -> "form-horizontal") {
-          @inputText.render(
-          	field = staffForm("name"),
-          	args = Array('class -> "form-control", '_label -> Messages("name")),
-          	handler = FieldConstructor(inputB.f),
-          	lang = Lang.defaultLang)
-          	
-          @inputText.render(
-          	field = staffForm("firstLastName"),
-          	args = Array('class -> "form-control", '_label -> Messages("firstLastName")),
-          	handler = FieldConstructor(inputB.f),
-          	lang = Lang.defaultLang)
-          	
-          @inputText.render(
-          	field = staffForm("secondLastName"),
-          	args = Array('class -> "form-control", '_label -> Messages("secondLastName")),
-          	handler = FieldConstructor(inputB.f),
-          	lang = Lang.defaultLang)
-          	
-          @inputText.render(
-          	field = staffForm("address"),
-          	args = Array('class -> "form-control", '_label -> Messages("address")),
-          	handler = FieldConstructor(inputB.f),
-          	lang = Lang.defaultLang)
-          	
-          @inputText.render(
-          	field = staffForm("email"),
-          	args = Array('class -> "form-control", '_label -> Messages("email")),
-          	handler = FieldConstructor(inputB.f),
-          	lang = Lang.defaultLang)
-          	
-          @inputText.render(
-          	field = staffForm("telephone"),
-          	args = Array('class -> "form-control", '_label -> Messages("telephone")),
-          	handler = FieldConstructor(inputB.f),
-          	lang = Lang.defaultLang)
-          	
-          @inputText.render(
-          	staffForm("birthdate"),
-          	args = Array('class -> "form-control", 'placeholder -> Messages("formats.date"), '_label -> Messages("birthdate"), '_inputDivClass -> "col-md-2"),
-          	handler = FieldConstructor(inputB.f),
-          	lang = Lang.defaultLang)
-          
-          @select.render(
-          	field = staffForm("role"),
-          	options = Seq("Doctor" -> "Doctor", "Radiologo" -> "Radiólogo", "Enfermero" -> "Enfermero"),
-          	args = Array('class -> "form-control", '_label -> Messages("role"), '_inputDivClass -> "col-md-2"),
-          	handler = FieldConstructor(inputB.f),
-          	lang = Lang.defaultLang)
-          
-          @inputText.render(
-          	field = staffForm("RFC"),
-          	args = Array('class -> "form-control", '_label -> Messages("RFC")),
-          	handler = FieldConstructor(inputB.f),
-          	lang = Lang.defaultLang)
-          	
-          @inputText.render(
-          	field = staffForm("cedula"),
-          	args = Array('class -> "form-control", '_label -> Messages("cedula")),
-          	handler = FieldConstructor(inputB.f),
-          	lang = Lang.defaultLang)
-          
-          <p>
-		  	<div class=""><button type="submit" class="btn btn-primary">Crear staff</button></div>
-		  </p>
-        }
-
+		@formForStaff(staffForm)
       </div>
 
   </div><!-- /.container -->
