@@ -122,7 +122,20 @@ form_app.controller('FormCtrl', function($scope) {
     menopause: '50',
     period: '14'
 
+  }; 
+
+   $scope.staff = {
+    staffName: 'Juan Pérez',
+    staffAdress: 'Eugenio Garza Sada #123',
+    email: 'juan@hotmail.com',
+    phone: '123-3431',
+    bd: '28/07/1982',
+    role: 'Doctor',
+    rfc: 'AF43L0P343',
+    cedula: '1233456'
   };  
+
+ 
 
  $scope.options = [
     {value: 0, text: '0'},    
@@ -137,4 +150,18 @@ form_app.controller('FormCtrl', function($scope) {
     var selected = $filter('filter')($scope.options, {value: $scope.patient.pregnancy});
     return ($scope.patient.pregnancy && selected.length) ? selected[0].text : null;
   };
+
+
+ $scope.roles = [
+    {value: "Doctor", text: 'Doctor'},    
+    {value: "Radiólogo", text: 'Radiólogo'},
+    {value: "Enfermero", text: 'Enfermero'}
+  ]; 
+
+    $scope.showRoles = function() {
+    var selected = $filter('filter')($scope.roles, {value: $scope.staff.role});
+    return ($scope.staff.role && selected.length) ? selected[0].text : null;
+  };
+
+
 });
