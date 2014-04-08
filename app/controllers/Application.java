@@ -1,14 +1,13 @@
 package controllers;
 
+import models.Admin;
 import models.Patient;
 import models.Staff;
-import models.Admin;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.contact;
 import views.html.editPatient;
-import views.html.index;
 import views.html.login;
 import views.html.newPatient;
 import views.html.newStudy;
@@ -21,28 +20,47 @@ import views.html.study;
 public class Application extends Controller {
 
 	public static Result index() {
-		return ok(index.render());
+		String type = session("type");
+		if(type != null){
+			if(type.equals("ADMIN")){
+				return TODO;
+			}else if (type.equals("STAFF")){
+				return redirect(routes.Application.staff());
+			}else if (type.equals("PATIENT")){
+				return redirect(routes.Application.patient());
+			}
+		}
+		return redirect(routes.Application.login());
 	}
 
 	public static Result login() {
 		return ok(login.render(Form.form(Login.class)));
 	}
 
+	public static Result logout(){
+		session().clear();
+		return redirect(routes.Application.login());
+	}	
+	
 	public static Result authenticate() {
 		Form<Login> loginForm = Form.form(Login.class).bindFromRequest();
 	    if (loginForm.hasErrors()) {
+	    	System.out.println("BAD FORM");
 	        return badRequest(login.render(loginForm));
 	    } else {
 	        session().clear();
 	        session("email", loginForm.get().email);
+	        
+	        session("type", loginForm.get().type);
+	        System.out.println("TIPO EN SESION: "+session("type"));
 	        return redirect(
-	            routes.Application.staff()
+	            routes.Application.index()
 	        );
 	    }
 	}
 
 	public static Result staff() {
-		return ok(staff.render("Juanito"));
+		return ok(staff.render(session("email")));
 	}
 
 	public static Result patient() {
@@ -81,14 +99,25 @@ public class Application extends Controller {
 
 		public String email;
 		public String password;
+		public String type = "";
+		public String rol[]=  {"STAFF", "ADMIN", "PATIENT"};
 
 		public String validate() {
-			if (Staff.authenticate(email, password) == null 
-					|| Patient.authenticate(email,password) == null
-					|| Admin.authenticate(email,password) == null) {
+			Staff staff = Staff.authenticate(email, password);
+			Admin admin = Admin.authenticate(email,password);
+			//Patient patient = Patient.authenticate(email,password);
+			if (admin != null){
+				type = rol[1];
+				return null;
+			}else if(staff != null){
+				type = rol[0];
+				return null;
+			}/*else if(patient != null){
+				type = rol[2];
+				return null;
+			}*/else{
 				return "Invalid user or password";
 			}
-			return null;
 		}
 	}
 }

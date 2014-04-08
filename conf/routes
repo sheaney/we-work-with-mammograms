@@ -6,6 +6,7 @@
 GET     /                                 controllers.Application.index()
 
 GET     /login                  		  controllers.Application.login()
+
 POST 	/login							  controllers.Application.authenticate() 
 # Staff home
 GET     /staff                            controllers.Application.staff()
@@ -24,6 +25,9 @@ GET     /staff/patient/new                controllers.Application.newPatient()
 
 # Contact
 GET     /contact                          controllers.Application.contact()
+
+#Logout
+GET /logout								  controllers.Application.logout()
 
 # Show patient
 GET     /staff/patient/:id                controllers.Application.showPatient(id: Long)

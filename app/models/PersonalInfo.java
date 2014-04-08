@@ -7,6 +7,7 @@ import javax.persistence.Id;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+import play.db.ebean.Model.Finder;
 
 @Entity
 public class PersonalInfo extends Model {
@@ -36,6 +37,13 @@ public class PersonalInfo extends Model {
 	
 	@Required 
 	Date birthdate;
+	
+	@Required
+	String password;
+	
+    public static Finder<String,Patient> find = new Finder<String,Patient>(
+            String.class, Patient.class
+    );
 	
 	public Long getId() {
 		return id;

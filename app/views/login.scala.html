@@ -6,14 +6,14 @@
 }
 
 @main("Iniciar Sesión", moreCss) {
-	@helper.form(routes.Application.authenticate){
-		<h1 align="center">¡Bienvenido!</h1>
-		@if(form.hasGlobalErrors) {
-    		<p class="error">
-        		@form.globalError.message
-    		</p>
-		}
-		<div class="container">	
+	<div class="container">	
+		@helper.form(routes.Application.authenticate, 'class -> "form-signin", 'role -> "form"){
+			<h1 align="center">¡Bienvenido!</h1>
+			@if(form.hasGlobalErrors) {
+	    		<p class="error">
+	        		@form.globalError.message
+	    		</p>
+			}
 			<input name="email" class="form-control" placeholder="Correo electrónico" required="" autofocus="" type="email">
 			<input name="password" class="form-control" placeholder="Contraseña" required="" type="password">
 			<label class="checkbox">
@@ -21,6 +21,6 @@
 			</label>
 			<button id="login" class="btn btn-lg btn-primary btn-block" type="submit">Iniciar sesión</button><br>
 			<a href="" style="float:right">¿Olvidaste tu contraseña?</a>
-		</div> <!-- /container -->
-	}
+		}
+	</div> <!-- /container -->
 }
