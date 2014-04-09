@@ -69,12 +69,10 @@ class StaffTest extends ModelsHelper {
     
     it("should validate a Staff's Login information"){
       running(app) {
+        import play.api.Play.current
     	  val staff = sampleStaff
     	  staff.save()
-    	  val find = new Finder[String,Admin](classOf[String], classOf[Admin]);
-    	  find.where().eq("email", "")
-            .eq("password", "").findUnique()
-//    	  assert(Staff.authenticate(staff.getEmail, staff.getPassword) != null)
+        assert(Staff.authenticate(staff.getEmail, staff.getPassword) != null)
       }
     }
   }

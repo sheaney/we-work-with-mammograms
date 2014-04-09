@@ -13,6 +13,7 @@ import play.data.format.Formats;
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+import play.Play;
 
 @Entity
 public class Staff extends Model {
@@ -72,9 +73,7 @@ public class Staff extends Model {
 	@OneToMany(mappedBy="sharer")
 	List<SharedPatient> sharedPatients = new ArrayList<SharedPatient>();
 	
-    public static Finder<String,Staff> find = new Finder<String,Staff>(
-            String.class, Staff.class
-    );
+  public static Finder<String,Staff> find = new Finder<String,Staff>(Play.application().configuration().getString("datasource"), String.class, Staff.class);
 	
 	public static void create(Staff staff) {
 		staff.save();

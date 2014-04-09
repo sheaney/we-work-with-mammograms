@@ -58,7 +58,7 @@ public class TestSetup {
 		dbSettings.put("db.testdb.user", "sh");
 		dbSettings.put("db.testdb.url", "jdbc:h2:mem:wwwmtest;MODE=PostgreSQL");
 		dbSettings.put("ebean.testdb", "models.*, helpers.*");
-		dbSettings.put("ebean.datasource.default", "models.*, helpers.*");
+		dbSettings.put("datasource", "testdb");
 		return dbSettings;
 	}
 	
