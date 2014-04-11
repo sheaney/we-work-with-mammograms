@@ -1,4 +1,4 @@
-@(staffForm: Form[Staff])
+@(staffForm: play.data.Form[Staff])
 
 @import helper._
 @import views.html.bootstrap._
@@ -43,7 +43,7 @@
       	
       @inputText.render(
       	staffForm("birthdate"),
-      	args = Array('class -> "form-control", 'placeholder -> Messages("formats.date"), '_label -> Messages("birthdate"), '_inputDivClass -> "col-md-2"),
+      	args = Array('class -> "form-control", 'placeholder -> Messages("formats.date"), '_label -> Messages("birthdate"), '_inputDivClass -> "col-md-3"),
       	handler = FieldConstructor(inputB.f),
       	lang = Lang.defaultLang)
       

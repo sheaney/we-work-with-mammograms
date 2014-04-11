@@ -1,8 +1,12 @@
 package controllers;
 
+<<<<<<< HEAD
 import models.Admin;
 import models.PersonalInfo;
 import models.Staff;
+=======
+import models.Patient;
+>>>>>>> Staff creates patient
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -19,6 +23,8 @@ import views.html.staff;
 import views.html.study;
 
 public class Application extends Controller {
+	
+	final static Form<Patient> patientForm = Form.form(Patient.class);
 
 	public static Result index() {
 		String type = session("type");
@@ -68,10 +74,6 @@ public class Application extends Controller {
 		return ok(patient.render(session("email")));
 	}
 
-	public static Result newPatient() {
-		return ok(newPatient.render("Juanito"));
-	}
-
 	public static Result newStudy(Long patientId) {
 		return ok(newStudy.render("Juanito"));
 	}
@@ -95,6 +97,20 @@ public class Application extends Controller {
 	public static Result contact() {
 		return ok(contact.render("Juanito"));
 	}
+
+    public static Result newPatient() {
+        return ok(newPatient.render("Juanito", patientForm));
+    }
+    
+    public static Result createPatient() {
+		Form<Patient> filledForm = patientForm.bindFromRequest();
+		if (filledForm.hasErrors()) {
+			return badRequest(newPatient.render("Juanito", filledForm));
+		} else {
+			Patient.create(filledForm.get());
+			return redirect(routes.Application.index());
+		}
+    }
 
     public static Result showStaff(Long id) {
         return ok(showStaff.render(id, "Juanito"));

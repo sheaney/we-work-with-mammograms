@@ -1,4 +1,4 @@
-@(userName: String)
+@(userName: String, patientForm: play.data.Form[Patient])
 
 @import views.html.forms._
 
@@ -18,7 +18,7 @@
 
         <legend class="text-left">Información Personal</legend>
 
-        @formForPatient(Option(userName))
+        @formForPatient(patientForm)
 
       </div><!-- end of /.col-md-8 .col-md-offset-2 -->
     </div><!-- end of /.row -->

@@ -76,7 +76,7 @@ create table personal_info (
   address                   varchar(255),
   email                     varchar(255),
   telephone                 varchar(255),
-  birthdate                 date,
+  birthdate                 timestamp,
   password                  varchar(255),
   constraint pk_personal_info primary key (id))
 ;

@@ -2,6 +2,7 @@ package models;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,8 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.Valid;
 
-import play.data.validation.Constraints.Required;
+import play.Play;
 import play.db.ebean.Model;
 
 @Entity
@@ -21,11 +23,11 @@ public class Patient extends Model {
 	@Id
 	Long id;
 	
-	@Required
+	@Valid
 	@OneToOne(cascade = CascadeType.ALL)
 	PersonalInfo personalInfo;
 	
-	@Required
+	@Valid
 	@OneToOne(cascade = CascadeType.ALL)
 	MedicalInfo medicalInfo;
 	
@@ -42,10 +44,12 @@ public class Patient extends Model {
 	@OneToMany(mappedBy = "shared")
 	List<SharedPatient> sharedInstances = new ArrayList<SharedPatient>();
     
-    public static Finder<String,Patient> find = new Finder<String,Patient>(
-            String.class, Patient.class
-    );
+	public static Finder<String,Patient> find = new Finder<String,Patient>(Play.application().configuration().getString("datasource"), String.class, Patient.class);
 	
+	public static void create(Patient patient) {
+		patient.save();
+	}
+
 	public Long getId() {
 		return id;
 	}
