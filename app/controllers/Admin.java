@@ -1,6 +1,6 @@
 package controllers;
 
-//import models.Admin;
+import lib.PasswordGenerator;
 import models.Staff;
 import play.data.Form;
 import play.mvc.Controller;
@@ -20,11 +20,12 @@ public class Admin extends Controller {
 		if (filledForm.hasErrors()) {
 			return badRequest(newStaff.render("Juanito", filledForm));
 		} else {
-			Staff.create(filledForm.get());
+			PasswordGenerator pg = new PasswordGenerator();
+			Staff staff = filledForm.get();
+			staff.setPassword(pg.next());
+			Staff.create(staff);
 			return redirect(routes.Application.index());
 		}
-
-//		return TODO;
 	}
 }
 
