@@ -30,7 +30,7 @@ POST	/staff/patient/create			  controllers.Application.createPatient()
 GET     /contact                          controllers.Application.contact()
 
 #Logout
-GET /logout								  controllers.Application.logout()
+GET 	/logout							  controllers.Application.logout()
 
 # Show patient
 GET     /staff/patient/:id                controllers.Application.showPatient(id: Long)
@@ -43,7 +43,6 @@ GET     /staff/patient/:id/edit           controllers.Application.editPatient(id
 
 # Show staff
 GET     /admin/staff/:id                controllers.Application.showStaff(id: Long)
-
 
 # Edit settings
 GET     /settings                         controllers.Application.settings()

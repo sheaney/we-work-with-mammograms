@@ -1,26 +1,13 @@
 package controllers;
 
-<<<<<<< HEAD
 import models.Admin;
 import models.PersonalInfo;
 import models.Staff;
-=======
 import models.Patient;
->>>>>>> Staff creates patient
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-<<<<<<< HEAD
-import views.html.contact;
-import views.html.editPatient;
-import views.html.login;
-import views.html.newPatient;
-import views.html.newStudy;
-import views.html.patient;
-import views.html.sharePatient;
-import views.html.showPatient;
-import views.html.staff;
-import views.html.study;
+import views.html.*;
 
 public class Application extends Controller {
 	
