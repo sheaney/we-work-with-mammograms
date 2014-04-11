@@ -10,8 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.Valid;
 
-import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 @Entity
@@ -22,11 +22,11 @@ public class Patient extends Model {
 	@Id
 	Long id;
 	
-	@Required
+	@Valid
 	@OneToOne(cascade = CascadeType.ALL)
 	PersonalInfo personalInfo;
 	
-	@Required
+	@Valid
 	@OneToOne(cascade = CascadeType.ALL)
 	MedicalInfo medicalInfo;
 	
@@ -42,6 +42,10 @@ public class Patient extends Model {
 	
 	@OneToMany(mappedBy = "shared")
 	List<SharedPatient> sharedInstances = new ArrayList<SharedPatient>();
+	
+	public static void create(Patient patient) {
+		patient.save();
+	}
 
 	public Long getId() {
 		return id;

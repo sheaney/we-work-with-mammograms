@@ -20,7 +20,19 @@ telephone = Teléfono
 RFC = RFC
 cedula = Cédula
 role = Rol
+medical-info = Información Médica
+sexual-activity-start-age = Edad de inicio de actividad sexual
+pregnancies = Número de embarazos
+c-sections = Número de cesáreas
+natural-deliveries = Número de partos naturales
+abortions = Número de abortos
+menopause-start-age = Edad de inicio de menopausia
+family-predisposition = ¿Tiene predisposición familiar?
+hormonal-replacement-therapy = ¿Utilizó terapia hormonal de reemplazo?
+previous-mammary-diseases = ¿Tuvo enfermedades mamarias previas?
+menstrual-period-start-age = Edad de inicio del periodo menstrual
+breastfed-children = ¿Amamantó hijos?
 
 # Formats
-formats.date = dd/MM/yyyy
+formats.date = dd/MM/aaaa
 

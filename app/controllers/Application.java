@@ -1,11 +1,14 @@
 package controllers;
 
+import models.Patient;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.*;
 
 public class Application extends Controller {
+	
+	final static Form<Patient> patientForm = Form.form(Patient.class);
 
     public static Result index() {
         return ok(index.render());
@@ -29,7 +32,17 @@ public class Application extends Controller {
     }
 
     public static Result newPatient() {
-        return ok(newPatient.render("Juanito"));
+        return ok(newPatient.render("Juanito", patientForm));
+    }
+    
+    public static Result createPatient() {
+		Form<Patient> filledForm = patientForm.bindFromRequest();
+		if (filledForm.hasErrors()) {
+			return badRequest(newPatient.render("Juanito", filledForm));
+		} else {
+			Patient.create(filledForm.get());
+			return redirect(routes.Application.index());
+		}
     }
 
     public static Result newStudy(Long patientId) {

@@ -22,6 +22,9 @@ POST 	/admin/staff/create				  controllers.Admin.createStaff()
 # New patient
 GET     /staff/patient/new                controllers.Application.newPatient()
 
+# Create patient
+POST	/staff/patient/create			  controllers.Application.createPatient()
+
 # Contact
 GET     /contact                          controllers.Application.contact()
 

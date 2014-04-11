@@ -1,10 +1,11 @@
 package models;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import play.data.format.Formats;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
@@ -34,7 +35,8 @@ public class PersonalInfo extends Model {
 	@Required 
 	String telephone;
 	
-	@Required 
+	@Required
+	@Formats.DateTime(pattern="dd/MM/yyyy")
 	Date birthdate;
 	
 	public Long getId() {
