@@ -1,13 +1,13 @@
 # Constraint Info messages
 constraint.required = Requerido
 constraint.email =
-constraint.date =
+constraint.date = 
 format.date = 
 
 # Error messages
 error.required = Este campo es requerido
 error.email = Ingrese un correo válido
-error.date = Fecha es inválida
+error.invalid.java.util.Date = Fecha es inválida
 
 # Standard fields
 name = Nombre
