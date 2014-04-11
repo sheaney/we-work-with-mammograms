@@ -21,7 +21,8 @@ libraryDependencies ++= Seq(
   "org.scalatest" % "scalatest_2.10" % "2.1.0" % "test",
   "postgresql" % "postgresql" % "9.1-901.jdbc4",
   "org.webjars" %% "webjars-play" % "2.2.0",
-  "org.webjars" % "bootstrap" % "2.3.1"
+  "org.webjars" % "bootstrap" % "2.3.1",
+  "be.objectify" %% "deadbolt-java" % "2.2-RC4"
 )
 
 playJavaSettings ++ SassPlugin.sassSettings
@@ -32,3 +33,5 @@ initialCommands in console += """
   import controllers.Application._
   import play.mvc.Controller.session
 """
+
+resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns)
