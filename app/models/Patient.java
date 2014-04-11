@@ -2,7 +2,6 @@ package models;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -42,11 +41,11 @@ public class Patient extends Model {
 	
 	@OneToMany(mappedBy = "shared")
 	List<SharedPatient> sharedInstances = new ArrayList<SharedPatient>();
-
+    
     public static Finder<String,Patient> find = new Finder<String,Patient>(
             String.class, Patient.class
     );
-    
+	
 	public Long getId() {
 		return id;
 	}
@@ -103,8 +102,4 @@ public class Patient extends Model {
 		this.sharedInstances = sharedInstances;
 	}
 	
-    public static Patient authenticate(String email, String password) {
-        return find.where().eq("email", email)
-            .eq("password", password).findUnique();
-    }
 }

@@ -1,7 +1,7 @@
 package controllers;
 
 import models.Admin;
-import models.Patient;
+import models.PersonalInfo;
 import models.Staff;
 import play.data.Form;
 import play.mvc.Controller;
@@ -45,14 +45,14 @@ public class Application extends Controller {
 	public static Result authenticate() {
 		Form<Login> loginForm = Form.form(Login.class).bindFromRequest();
 	    if (loginForm.hasErrors()) {
-	    	System.out.println("BAD FORM");
+	    	
 	        return badRequest(login.render(loginForm));
 	    } else {
 	        session().clear();
 	        session("email", loginForm.get().email);
 	        
 	        session("type", loginForm.get().type);
-	        System.out.println("TIPO EN SESION: "+session("type"));
+	        //System.out.println("TIPO EN SESION: "+session("type"));
 	        return redirect(
 	            routes.Application.index()
 	        );
@@ -64,7 +64,7 @@ public class Application extends Controller {
 	}
 
 	public static Result patient() {
-		return ok(patient.render("Juanito"));
+		return ok(patient.render(session("email")));
 	}
 
 	public static Result newPatient() {
@@ -105,17 +105,17 @@ public class Application extends Controller {
 		public String validate() {
 			Staff staff = Staff.authenticate(email, password);
 			Admin admin = Admin.authenticate(email,password);
-			//Patient patient = Patient.authenticate(email,password);
+			PersonalInfo patientPersonalInfo = PersonalInfo.authenticate(email,password);
 			if (admin != null){
 				type = rol[1];
 				return null;
 			}else if(staff != null){
 				type = rol[0];
 				return null;
-			}/*else if(patient != null){
+			}else if(patientPersonalInfo != null){
 				type = rol[2];
 				return null;
-			}*/else{
+			}else{
 				return "Invalid user or password";
 			}
 		}

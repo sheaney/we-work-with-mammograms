@@ -22,6 +22,7 @@ trait PlayBrowserSpec extends FunSpec with GivenWhenThen with BeforeAndAfterAll 
   var server: TestServer = _
  
   override def beforeAll() {
+    
     val globalSettings = new JavaGlobalSettingsAdapter(testGlobalSettings)
     app = FakeApplication(withGlobal = Some(globalSettings))
     server = TestServer(port = Helpers.testServerPort)

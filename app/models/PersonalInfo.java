@@ -7,7 +7,6 @@ import javax.persistence.Id;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
 
 @Entity
 public class PersonalInfo extends Model {
@@ -41,8 +40,8 @@ public class PersonalInfo extends Model {
 	@Required
 	String password;
 	
-    public static Finder<String,Patient> find = new Finder<String,Patient>(
-            String.class, Patient.class
+    public static Finder<String,PersonalInfo> find = new Finder<String,PersonalInfo>(
+            String.class, PersonalInfo.class
     );
 	
 	public Long getId() {
@@ -109,4 +108,8 @@ public class PersonalInfo extends Model {
 		this.birthdate = birthdate;
 	}
 	
+    public static PersonalInfo authenticate(String email, String password) {
+        return find.where().eq("email", email)
+            .eq("password", password).findUnique();
+    }
 }
