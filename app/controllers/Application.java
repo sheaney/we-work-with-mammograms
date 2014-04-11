@@ -52,7 +52,7 @@ public class Application extends Controller {
 	        );
 	    }
 	}
-
+	
 	public static Result staff() {
 		return ok(staff.render(session("email")));
 	}
