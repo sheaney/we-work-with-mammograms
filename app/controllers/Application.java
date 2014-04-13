@@ -40,13 +40,12 @@ public class Application extends Controller {
 	public static Result authenticate() {
 		Form<Login> loginForm = Form.form(Login.class).bindFromRequest();
 	    if (loginForm.hasErrors()) {
-	    	
 	        return badRequest(login.render(loginForm));
 	    } else {
 	        session().clear();
-	        session("email", loginForm.get().email);
+	        session("email", loginForm.get().getEmail());
 	        
-	        session("type", loginForm.get().type);
+	        session("type", loginForm.get().getType());
 	        //System.out.println("TIPO EN SESION: "+session("type"));
 	        return redirect(
 	            routes.Application.index()
@@ -141,21 +140,45 @@ public class Application extends Controller {
 
 		public String email;
 		public String password;
-		public String type = "";
-		public String rol[]=  {"STAFF", "ADMIN", "PATIENT"};
+		private String type = "";
+		public String roles[]=  {"STAFF", "ADMIN", "PATIENT"};
+		
+		public String getEmail() {
+			return email;
+		}
+
+		public void setEmail(String email) {
+			this.email = email;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+
+		public String getType() {
+			return type;
+		}
+
+		public void setType(String type) {
+			this.type = type;
+		}
 
 		public String validate() {
 			Staff staff = Staff.authenticate(email, password);
 			Admin admin = Admin.authenticate(email,password);
 			PersonalInfo patientPersonalInfo = PersonalInfo.authenticate(email,password);
 			if (admin != null){
-				type = rol[1];
+				type = roles[1];
 				return null;
 			}else if(staff != null){
-				type = rol[0];
+				type = roles[0];
 				return null;
 			}else if(patientPersonalInfo != null){
-				type = rol[2];
+				type = roles[2];
 				return null;
 			}else{
 				return "Invalid user or password";
