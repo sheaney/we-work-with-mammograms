@@ -9,11 +9,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import play.Play;
 import play.data.format.Formats;
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
-import play.Play;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Staff extends Model {
@@ -27,7 +29,7 @@ public class Staff extends Model {
 	@Email
 	String email;
 	
-//	@Required
+	@JsonIgnore
 	String password;
 	
 	@Required
@@ -77,6 +79,10 @@ public class Staff extends Model {
 	
 	public static void create(Staff staff) {
 		staff.save();
+	}
+	
+	public static List<Staff> all() {
+		return find.all();
 	}
 
 	public Long getId() {

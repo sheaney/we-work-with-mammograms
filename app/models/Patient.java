@@ -49,6 +49,10 @@ public class Patient extends Model {
 	public static void create(Patient patient) {
 		patient.save();
 	}
+	
+	public static List<Patient> all() {
+		return find.all();
+	}
 
 	public Long getId() {
 		return id;

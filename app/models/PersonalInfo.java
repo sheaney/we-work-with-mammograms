@@ -9,6 +9,8 @@ import play.data.format.Formats;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class PersonalInfo extends Model {
 
@@ -39,7 +41,7 @@ public class PersonalInfo extends Model {
 	@Formats.DateTime(pattern="dd/MM/yyyy")
 	Date birthdate;
 	
-	@Required
+	@JsonIgnore
 	String password;
 	
     public static Finder<String,PersonalInfo> find = new Finder<String,PersonalInfo>(
