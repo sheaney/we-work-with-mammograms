@@ -32,6 +32,8 @@ initialCommands in console += """
   import models._
   import controllers.Application._
   import play.mvc.Controller.session
+  import play.libs.Json
+  new play.core.StaticApplication(new java.io.File("."))
 """
 
 resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns)
