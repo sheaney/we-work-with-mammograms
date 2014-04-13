@@ -56,6 +56,9 @@ GET     /staff/study/:patientId/:id       controllers.Application.study(patientI
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                     controllers.Assets.at(path="/public", file)
 
+# JS Routes
+GET     /routes                           controllers.Application.jsRoutes()
+
 # API
 GET     /api/staff						  controllers.API.staff()
 

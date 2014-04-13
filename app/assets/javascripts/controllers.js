@@ -11,27 +11,37 @@ staffApp.controller('StaffListCtrl', function($scope) {
     $scope.selectedMember = member;
   };
 
+  $scope.fullName = function(member) {
+    return member.name + " " + member.firstLastName + " " + member.secondLastName;
+  };
+
   $scope.staff = [
     {
       'id': 0,
-      'name': 'Dr. Juan Francisco Martínez Garza'
+      'name': 'Dr. Juan Francisco',
+      'firstLastName': 'Martínez ',
+      'secondLastName': 'Garza'
     },
     {
       'id': 1,
-      'name': 'Juan Cordova Santa'
+      'name': 'Juan',
+      'firstLastName': 'Cordova ',
+      'secondLastName': 'Santa'
     },
     {
       'id': 2,
-      'name': 'Dr. Juan De La Garza Lujan'
+      'name': 'Dr. Juan',
+      'firstLastName': 'De La Garza',
+      'secondLastName': 'Lujan'
     }
   ];
 
   $scope.orderName = 'name';
 });
 
-staffApp.controller('PatientListCtrl', function($scope) {
-  $scope.navigateToPatient = function(url, id) {
-    window.location.href = url.replace('-1', id)
+staffApp.controller('PatientListCtrl', ['$scope', '$http', function($scope, $http, $location) {
+  $scope.show= function(patient) {
+    window.location = jsRoutes.controllers.Application.showPatient(patient.id).url;
   };
 
   $scope.setPatientId = function(id) {
@@ -42,63 +52,84 @@ staffApp.controller('PatientListCtrl', function($scope) {
     return ownPatient ? 'info' : 'success';
   };
 
-  $scope.numberOfStudiesText = function(nbrOfStudies) {
-    return nbrOfStudies > 0 ? nbrOfStudies : 'No tiene estudios';
-  }
+  $scope.numberOfStudiesText = function(patient) {
+    var numberOfStudies = patient.studies.length;
+    return numberOfStudies > 0 ? numberOfStudies : 'No tiene estudios';
+  };
+
+  $scope.fullName = function(patient) {
+    return patient.name + " " + patient.firstLastName + " " + patient.secondLastName;
+  };
 
   $scope.patients = [
     {
       'id': 0,
-      'name': 'Juan Francisco Martínez Garza',
+      'name': 'Juan Francisco',
+      'firstLastName': 'Martínez ',
+      'secondLastName': 'Garza',
       'own': false,
-      'studies': 3
+      'studies': [1,2,3]
     },
     {
       'id': 1,
-      'name': 'Katia Cordova Santa',
+      'name': 'Katia',
+      'firstLastName': 'Cordova ',
+      'secondLastName': 'Santa',
       'own': true,
-      'studies': 0
+      'studies': []
     },
     {
       'id': 2,
-      'name': 'Aura De La Garza Lujan',
+      'name': 'Aura',
+      'firstLastName': 'De La Garza ',
+      'secondLastName': 'Lujan',
       'own': true,
-      'studies': 1
+      'studies': [1]
     },
     {
       'id': 3,
-      'name': 'Alejandra Pulido De La Llave',
+      'name': 'Alejandra',
+      'firstLastName': 'Pulido ',
+      'secondLastName': 'De La Llave',
       'own': false,
-      'studies': 1
+      'studies': [1]
     },
     {
       'id': 4,
-      'name': 'Enrique Sanchez Godoy',
+      'name': 'Enrique',
+      'firstLastName': 'Sanchez ',
+      'secondLastName': 'Godoy',
       'own': false,
-      'studies': 2
+      'studies': [1,2]
     },
     {
       'id': 5,
-      'name': 'Carlos Garza Quintero',
+      'name': 'Carlos',
+      'firstLastName': 'Garza ',
+      'secondLastName': 'Quintero',
       'own': true,
-      'studies': 0
+      'studies': []
     },
     {
       'id': 6,
-      'name': 'Kristina Montejano De La Garza',
+      'name': 'Kristina',
+      'firstLastName': 'Montejano ',
+      'secondLastName': 'De La Garza',
       'own': false,
-      'studies': 3
+      'studies': [1,2,3]
     },
     {
       'id': 7,
-      'name': 'Erubiel Zambrano Moctezuma',
+      'name': 'Erubiel',
+      'firstLastName': 'Zambrano ',
+      'secondLastName': 'Moctezuma',
       'own': true,
-      'studies': 2
+      'studies': [1,2]
     }
   ];
 
   $scope.orderName = 'name';
-});
+}]);
 
 var form_app = angular.module("form_app", ["xeditable"]);
 

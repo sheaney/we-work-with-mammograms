@@ -7,6 +7,7 @@ import models.Patient;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.Routes;
 import views.html.*;
 
 public class Application extends Controller {
@@ -105,6 +106,35 @@ public class Application extends Controller {
 
     public static Result settings(){
         return ok(settings.render("Juanito"));
+    }
+
+    public static Result jsRoutes() {
+      response().setContentType("text/javascript");
+      return ok(
+          Routes.javascriptRouter("jsRoutes",
+            // Admin actions
+            controllers.routes.javascript.Admin.newStaff(),
+            controllers.routes.javascript.Admin.createStaff(),
+
+            // Staff actions
+            controllers.routes.javascript.Application.index(),
+            controllers.routes.javascript.Application.staff(),
+            controllers.routes.javascript.Application.patient(),
+            controllers.routes.javascript.Application.newPatient(),
+            controllers.routes.javascript.Application.createPatient(),
+            controllers.routes.javascript.Application.contact(),
+            controllers.routes.javascript.Application.showPatient(),
+            controllers.routes.javascript.Application.sharePatient(),
+            controllers.routes.javascript.Application.showStaff(),
+            controllers.routes.javascript.Application.settings(),
+            controllers.routes.javascript.Application.newStudy(),
+            controllers.routes.javascript.Application.study(),
+
+            // Api
+            controllers.routes.javascript.API.staff(),
+            controllers.routes.javascript.API.patient()
+          )
+      );
     }
     
 	public static class Login {

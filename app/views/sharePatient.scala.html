@@ -33,13 +33,13 @@
           <tr ng-repeat="member in staff | filter: query | orderBy:orderName" class="clickable-row" data-url="#">
             <td ng-click="displayMember(member)"
                 ng-class="{ 'selected-member': selectedMember.id == member.id }">
-              {{member.name}}</td>
+              {{fullName(member)}}</td>
           </tr>
         </tbody>
       </table>
 
       <div ng-show="selectedMember != null">
-        <h3>{{selectedMember.name}}</h3>
+        <h3>{{fullName(selectedMember)}}</h3>
 
         <form role="form" method="GET" action="@routes.Application.showPatient(id)">
           <div class="form-group">
