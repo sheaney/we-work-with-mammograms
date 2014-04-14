@@ -54,11 +54,11 @@ public class TestSetup {
 
 	public static Map<String, Object> testDbSettings() {
 		Map<String, Object> dbSettings = new HashMap<String, Object>();
-		dbSettings.put("db.testdb.driver", "org.h2.Driver");
-		dbSettings.put("db.testdb.user", "sh");
-		dbSettings.put("db.testdb.url", "jdbc:h2:mem:wwwmtest;MODE=PostgreSQL");
-		dbSettings.put("ebean.testdb", "models.*, helpers.*");
-		dbSettings.put("datasource", "testdb");
+		dbSettings.put("db.default.driver", "org.h2.Driver");
+		dbSettings.put("db.default.user", "sh");
+		dbSettings.put("db.default.url", "jdbc:h2:mem:wwwmtest;MODE=PostgreSQL");
+		dbSettings.put("ebean.default", "models.*, helpers.*");
+		dbSettings.put("datasource", "default");
 		return dbSettings;
 	}
 	
