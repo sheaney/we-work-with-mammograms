@@ -5,7 +5,7 @@
 }
 
 
-@angular("Bienvenido", moreCss)(angularApp = "form_app", angularCtrl = "FormCtrl") {
+@views.html.layouts.angular("Bienvenido", moreCss)(angularApp = "form_app", angularCtrl = "FormCtrl") {
 
 
   <!-- Render top navbar -->
@@ -22,17 +22,17 @@
         <div class="pull-right">
           <div class="col-xs-12">
             <p>
-              <a href="@routes.Application.sharePatient(id)" class="btn btn-primary btn-md btn-block">Compartir paciente</a>
+              <a href="@routes.Staffs.sharePatient(id)" class="btn btn-primary btn-md btn-block">Compartir paciente</a>
             </p>
           </div>
           <div class="col-xs-12">
             <p>
-              <a href="@routes.Application.staff" class="btn btn-default btn-md btn-block">Regresar</a>
+              <a href="@routes.Staffs.staff" class="btn btn-default btn-md btn-block">Regresar</a>
             </p>
           </div>
           <div class="col-xs-12">
             <p>
-              <a href="@routes.Application.editPatient(id)" class="btn btn-warning btn-md btn-block">Editar paciente</a>
+              <a href="@routes.Staffs.editPatient(id)" class="btn btn-warning btn-md btn-block">Editar paciente</a>
             </p>
           </div>
         </div>
@@ -166,7 +166,7 @@
 
     <div class="col-md-12 col-xs-12"> 
       <h2>2 de febrero de 2014</h2>
-      <a href="@routes.Application.study(id, 20)">Ver detalle de estudio</a>
+      <a href="@routes.Staffs.study(id, 20)">Ver detalle de estudio</a>
       <div class="patient-study-summary" style="margin-top: 10px">
         <p>
           Toma 1 |

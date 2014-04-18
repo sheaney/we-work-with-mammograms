@@ -5,7 +5,7 @@
   <link href="@routes.Assets.at("stylesheets/signin.css")" rel="stylesheet">
 }
 
-@main("Iniciar Sesión", moreCss) {
+@views.html.layouts.main("Iniciar Sesión", moreCss) {
 	<div class="container">	
 		@helper.form(routes.Application.authenticate, 'class -> "form-signin", 'role -> "form"){
 			<h1 align="center">¡Bienvenido!</h1>

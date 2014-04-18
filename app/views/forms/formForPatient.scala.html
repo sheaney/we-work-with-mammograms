@@ -4,7 +4,7 @@
 @import views.html.bootstrap._
 @import play.api.i18n._
 
-@form(action = routes.Application.createPatient, 'role -> "form", 'class -> "form-horizontal") {
+@form(action = routes.Staffs.createPatient, 'role -> "form", 'class -> "form-horizontal") {
 	@inputText.render(
       	field = patientForm("personalInfo.name"),
       	args = Array('class -> "form-control", '_label -> Messages("name")),
@@ -138,7 +138,7 @@
       <div class="col-md-10">
         <div class="col-sm-10">
           <button type="submit" class="btn btn-primary">Crear paciente</button>
-          <a href="@routes.Application.staff" class="btn btn-default">Regresar</a>
+          <a href="@routes.Staffs.staff" class="btn btn-default">Regresar</a>
         </div>
       </div>
     </div>   	

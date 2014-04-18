@@ -1,0 +1,28 @@
+@(title: String, moreCss: Html = Html(""), moreScripts: Html = Html(""))(angularApp: String, angularCtrl: String)(content: Html)
+
+<!DOCTYPE html>
+
+<html ng-app="@angularApp">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="shortcut icon" href="images/favicon.ico">
+        <title>@title</title>
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <link href="@routes.Assets.at("stylesheets/application.css")" rel="stylesheet">
+        <link href="@routes.Assets.at("stylesheets/xeditable.css")" rel="stylesheet">    
+        @moreCss
+        @JsCommonImports()
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/angular.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/controllers.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/xeditable.js")"></script>
+    </head>
+    <body ng-controller="@angularCtrl">
+        @content
+        @moreScripts
+    </body>
+</html>

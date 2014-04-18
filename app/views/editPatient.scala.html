@@ -5,7 +5,7 @@
 }
 
 
-@main("Editar Paciente", moreCss) {
+@views.html.layouts.main("Editar Paciente", moreCss) {
     <!-- Render top navbar -->
     @staffnavbar(userName)
 
@@ -199,7 +199,7 @@
 </div>
 
 <center>
-  <a href="@routes.Application.staff" class="btn btn-primary">Guardar paciente</a>
+  <a href="@routes.Staffs.staff" class="btn btn-primary">Guardar paciente</a>
   <button type="button" class="btn btn-danger">Borrar paciente</button>
 </center>
 <br>

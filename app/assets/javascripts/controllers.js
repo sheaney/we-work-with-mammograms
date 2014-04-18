@@ -41,7 +41,7 @@ staffApp.controller('StaffListCtrl', function($scope) {
 
 staffApp.controller('PatientListCtrl', ['$scope', '$http', function($scope, $http, $location) {
   $scope.show= function(patient) {
-    window.location = jsRoutes.controllers.Application.showPatient(patient.id).url;
+    window.location = jsRoutes.controllers.Staffs.showPatient(patient.id).url;
   };
 
   $scope.setPatientId = function(id) {

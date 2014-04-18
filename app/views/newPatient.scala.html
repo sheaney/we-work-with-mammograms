@@ -6,7 +6,7 @@
   <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
 }
 
-@main("Nuevo Paciente", moreCss) {
+@views.html.layouts.main("Nuevo Paciente", moreCss) {
   <!-- Render top navbar -->
   @staffnavbar(userName)
 

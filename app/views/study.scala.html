@@ -4,7 +4,7 @@
   <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
 }
 
-@main("Estudio", moreCss) {
+@views.html.layouts.main("Estudio", moreCss) {
   <!-- Render top navbar -->
   @staffnavbar(userName)
 
@@ -47,9 +47,9 @@
       <div class="col-md-12" style="margin: 10px 0 10px 0;">Toma2 y Toma3 no salen muy bien y requieren una segunda opinión. - <b>Dr. Juanito</b> <button class="btn btn-default btn-sm">Remover</button></div>
       <br>
 
-      <a class="btn btn-success" href="@routes.Application.showPatient(id)">Guardar</a>
-      <a class="btn btn-default" href="@routes.Application.showPatient(id)">Regresar</a>
-      <a class="btn btn-danger" href="@routes.Application.showPatient(id)">Borrar</a>
+      <a class="btn btn-success" href="@routes.Staffs.showPatient(id)">Guardar</a>
+      <a class="btn btn-default" href="@routes.Staffs.showPatient(id)">Regresar</a>
+      <a class="btn btn-danger" href="@routes.Staffs.showPatient(id)">Borrar</a>
     </div>
   </div>
 

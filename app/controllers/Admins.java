@@ -7,7 +7,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.newStaff;
 
-public class Admin extends Controller {
+public class Admins extends Controller {
 
 	final static Form<Staff> staffForm = Form.form(Staff.class);
 

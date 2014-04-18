@@ -6,7 +6,7 @@
 }
 
 
-@angular("Paciente", moreCss)(angularApp = "staffApp", angularCtrl="StaffListCtrl") {
+@views.html.layouts.angular("Paciente", moreCss)(angularApp = "staffApp", angularCtrl="StaffListCtrl") {
   <!-- Render top navbar -->
   @staffnavbar(userName)
 
@@ -41,7 +41,7 @@
       <div ng-show="selectedMember != null">
         <h3>{{fullName(selectedMember)}}</h3>
 
-        <form role="form" method="GET" action="@routes.Application.showPatient(id)">
+        <form role="form" method="GET" action="@routes.Staffs.showPatient(id)">
           <div class="form-group">
             <div class="checkbox">
               <label>
@@ -60,7 +60,7 @@
             </div>
           </div>
           <button type="submit" class="btn btn-primary btn-md">Compartir</button>
-          <a href="@routes.Application.staff" class="btn btn-default btn-md">Regresar</a>
+          <a href="@routes.Staffs.staff" class="btn btn-default btn-md">Regresar</a>
         </form>
       </div>
     </div>

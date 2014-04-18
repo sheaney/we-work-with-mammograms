@@ -4,7 +4,7 @@
 @import views.html.bootstrap._
 @import play.api.i18n._
 
-@form(action = routes.Admin.createStaff, 'role -> "form", 'class -> "form-horizontal") {
+@form(action = routes.Admins.createStaff, 'role -> "form", 'class -> "form-horizontal") {
       @inputText.render(
       	field = staffForm("name"),
       	args = Array('class -> "form-control", '_label -> Messages("name")),

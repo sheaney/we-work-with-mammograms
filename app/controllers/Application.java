@@ -3,7 +3,6 @@ package controllers;
 import models.Admin;
 import models.PersonalInfo;
 import models.Staff;
-import models.Patient;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -12,17 +11,15 @@ import views.html.*;
 
 public class Application extends Controller {
 	
-	final static Form<Patient> patientForm = Form.form(Patient.class);
-
 	public static Result index() {
 		String type = session("type");
 		if(type != null){
 			if(type.equals("ADMIN")){
 				return TODO;
 			}else if (type.equals("STAFF")){
-				return redirect(routes.Application.staff());
+				return redirect(routes.Staffs.staff());
 			}else if (type.equals("PATIENT")){
-				return redirect(routes.Application.patient());
+				return redirect(routes.Patients.patient());
 			}
 		}
 		return redirect(routes.Application.login());
@@ -53,55 +50,9 @@ public class Application extends Controller {
 	    }
 	}
 	
-	public static Result staff() {
-		return ok(staff.render(session("email")));
-	}
-
-	public static Result patient() {
-		return ok(patient.render(session("email")));
-	}
-
-	public static Result newStudy(Long patientId) {
-		return ok(newStudy.render("Juanito"));
-	}
-
-	public static Result study(Long patientId, Long id) {
-		return ok(study.render(id, "Juanito"));
-	}
-
-	public static Result showPatient(Long id) {
-		return ok(showPatient.render(id, "Juanito"));
-	}
-
-	public static Result editPatient(Long id) {
-		return ok(editPatient.render(id, "Juanito"));
-	}
-
-	public static Result sharePatient(Long id) {
-		return ok(sharePatient.render(id, "Juanito"));
-	}
-
 	public static Result contact() {
 		return ok(contact.render("Juanito"));
 	}
-
-    public static Result newPatient() {
-        return ok(newPatient.render("Juanito", patientForm));
-    }
-    
-    public static Result createPatient() {
-		Form<Patient> filledForm = patientForm.bindFromRequest();
-		if (filledForm.hasErrors()) {
-			return badRequest(newPatient.render("Juanito", filledForm));
-		} else {
-			Patient.create(filledForm.get());
-			return redirect(routes.Application.index());
-		}
-    }
-
-    public static Result showStaff(Long id) {
-        return ok(showStaff.render(id, "Juanito"));
-    }
 
     public static Result settings(){
         return ok(settings.render("Juanito"));
@@ -111,25 +62,29 @@ public class Application extends Controller {
       response().setContentType("text/javascript");
       return ok(
           Routes.javascriptRouter("jsRoutes",
+            // Application actions
+            controllers.routes.javascript.Application.index(),
+            controllers.routes.javascript.Application.contact(),
+            controllers.routes.javascript.Application.settings(),
+            
             // Admin actions
-            controllers.routes.javascript.Admin.newStaff(),
-            controllers.routes.javascript.Admin.createStaff(),
+            controllers.routes.javascript.Admins.newStaff(),
+            controllers.routes.javascript.Admins.createStaff(),
 
             // Staff actions
-            controllers.routes.javascript.Application.index(),
-            controllers.routes.javascript.Application.staff(),
-            controllers.routes.javascript.Application.patient(),
-            controllers.routes.javascript.Application.newPatient(),
-            controllers.routes.javascript.Application.createPatient(),
-            controllers.routes.javascript.Application.contact(),
-            controllers.routes.javascript.Application.showPatient(),
-            controllers.routes.javascript.Application.sharePatient(),
-            controllers.routes.javascript.Application.showStaff(),
-            controllers.routes.javascript.Application.settings(),
-            controllers.routes.javascript.Application.newStudy(),
-            controllers.routes.javascript.Application.study(),
+            controllers.routes.javascript.Staffs.staff(),
+            controllers.routes.javascript.Staffs.newPatient(),
+            controllers.routes.javascript.Staffs.createPatient(),
+            controllers.routes.javascript.Staffs.showPatient(),
+            controllers.routes.javascript.Staffs.sharePatient(),
+            controllers.routes.javascript.Staffs.showStaff(),
+            controllers.routes.javascript.Staffs.newStudy(),
+            controllers.routes.javascript.Staffs.study(),
+            
+            // Patient actions
+            controllers.routes.javascript.Patients.patient(),
 
-            // Api
+            // API actions
             controllers.routes.javascript.API.staff(),
             controllers.routes.javascript.API.patient()
           )

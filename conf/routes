@@ -2,64 +2,79 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+## Application Controller
+
 # Home page
-GET     /                                 controllers.Application.index()
+GET     /                                 	controllers.Application.index()
 
-GET     /login                  		  controllers.Application.login()
-
-POST 	/login							  controllers.Application.authenticate() 
-# Staff home
-GET     /staff                            controllers.Application.staff()
-
-# Patient home
-GET     /patient                          controllers.Application.patient()
-
-# New staff
-GET     /admin/staff/new                  controllers.Admin.newStaff()
-
-# Create staff
-POST 	/admin/staff/create				  controllers.Admin.createStaff()
-
-# New patient
-GET     /staff/patient/new                controllers.Application.newPatient()
-
-# Create patient
-POST	/staff/patient/create			  controllers.Application.createPatient()
+GET     /login                  		  	controllers.Application.login()
+POST 	/login							  	controllers.Application.authenticate()
+GET 	/logout							  	controllers.Application.logout()
 
 # Contact
-GET     /contact                          controllers.Application.contact()
-
-#Logout
-GET 	/logout							  controllers.Application.logout()
-
-# Show patient
-GET     /staff/patient/:id                controllers.Application.showPatient(id: Long)
-
-# Share patient
-GET     /staff/patient/:id/share          controllers.Application.sharePatient(id: Long)
-
-# Edit patient
-GET     /staff/patient/:id/edit           controllers.Application.editPatient(id: Long)
-
-# Show staff
-GET     /admin/staff/:id                controllers.Application.showStaff(id: Long)
+GET     /contact                          	controllers.Application.contact()
 
 # Edit settings
-GET     /settings                         controllers.Application.settings()
-
-# New study
-GET     /staff/:patientId/study/new       controllers.Application.newStudy(patientId: Long)
-
-# Show study
-GET     /staff/study/:patientId/:id       controllers.Application.study(patientId: Long, id: Long)
-
-# Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file                     controllers.Assets.at(path="/public", file)
+GET     /settings                         	controllers.Application.settings()
 
 # JS Routes
-GET     /routes                           controllers.Application.jsRoutes()
+GET     /routes                           	controllers.Application.jsRoutes()
+
+
+## Staffs Controller
+
+# Staff home
+GET     /staff                            	controllers.Staffs.staff()
+
+# Share patient
+GET     /staff/patient/:id/share          	controllers.Staffs.sharePatient(id: Long)
+
+# Edit patient
+GET     /staff/patient/:id/edit           	controllers.Staffs.editPatient(id: Long)
+
+# Show staff
+GET     /admin/staff/:id                	controllers.Staffs.showStaff(id: Long)
+
+# Show patient
+GET     /staff/patient/:id                	controllers.Staffs.showPatient(id: Long)
+
+# New patient
+GET     /staff/patient/new                	controllers.Staffs.newPatient()
+
+# Create patient
+POST	/staff/patient/create			  	controllers.Staffs.createPatient()
+
+# New study
+GET     /staff/:patientId/study/new       	controllers.Staffs.newStudy(patientId: Long)
+
+# Show study
+GET     /staff/study/:patientId/:id       	controllers.Staffs.study(patientId: Long, id: Long)
+
+
+## Patients Controller
+
+# Patient home
+GET     /patient                          	controllers.Patients.patient()
+
+
+## Admins Controller
+
+# New staff
+GET     /admin/staff/new                  	controllers.Admins.newStaff()
+
+# Create staff
+POST 	/admin/staff/create				  	controllers.Admins.createStaff()
+
+
+## JSON API Controller
 
 # API
-GET     /api/staff						  controllers.API.staff()
+GET     /api/staff						  	controllers.API.staff()
 
-GET 	/api/patient					  controllers.API.patient()
+GET 	/api/patient					  	controllers.API.patient()
+
+
+## Assets
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file                     	controllers.Assets.at(path="/public", file)
