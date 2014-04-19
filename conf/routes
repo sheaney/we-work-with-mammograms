@@ -26,6 +26,12 @@ GET     /routes                           	controllers.Application.jsRoutes()
 # Staff home
 GET     /staff                            	controllers.Staffs.staff()
 
+# New patient
+GET     /staff/patient/new                	controllers.Staffs.newPatient()
+
+# Create patient
+POST	/staff/patient/create			  	controllers.Staffs.createPatient()
+
 # Share patient
 GET     /staff/patient/:id/share          	controllers.Staffs.sharePatient(id: Long)
 
@@ -34,12 +40,6 @@ GET     /staff/patient/:id/edit           	controllers.Staffs.editPatient(id: Lo
 
 # Show patient
 GET     /staff/patient/:id                	controllers.Staffs.showPatient(id: Long)
-
-# New patient
-GET     /staff/patient/new                	controllers.Staffs.newPatient()
-
-# Create patient
-POST	/staff/patient/create			  	controllers.Staffs.createPatient()
 
 # New study
 GET     /staff/:patientId/study/new       	controllers.Staffs.newStudy(patientId: Long)

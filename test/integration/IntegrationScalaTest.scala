@@ -5,6 +5,7 @@ import play.libs.WS
 import play.test.Helpers._
 import models.{ Staff, Admin, Patient }
 import java.text.SimpleDateFormat
+import play.api.i18n.{Messages, Lang}
 
 class IntegrationScalaTest extends PlayBrowserSpec with UserLogin {
 
@@ -87,7 +88,7 @@ class IntegrationScalaTest extends PlayBrowserSpec with UserLogin {
       val staff = sampleStaff
       val format = new SimpleDateFormat("dd/MM/yyyy");
 
-      And("admin fills in fields for creating a new staff member")
+      And("fills in fields for creating a new staff member")
       textField("name").value = staff.getName()
       textField("firstLastName").value = staff.getFirstLastName()
       textField("secondLastName").value = staff.getSecondLastName()
@@ -117,7 +118,7 @@ class IntegrationScalaTest extends PlayBrowserSpec with UserLogin {
 
       val staff = sampleStaff
 
-      And("admin fills in fields for creating a new staff user")
+      And("fills in fields for creating a new staff user")
       textField("name").value = staff.getName()
       textField("firstLastName").value = staff.getFirstLastName()
       textField("secondLastName").value = staff.getSecondLastName()
@@ -133,9 +134,91 @@ class IntegrationScalaTest extends PlayBrowserSpec with UserLogin {
       submit()
       
       Then("admin should see a message indicating wrong date format")
-      pageSource should include("Fecha es inválida")
+      pageSource should include(Messages("error.invalid.java.util.Date")(Lang("es")))
 
       logout(admin)
+    }
+  }
+  
+  describe("Staff creates a patient") {
+    val newPatientUrl = host + "/staff/patient/new"
+    
+    it("Successfully creates a patient") {
+      val staff = login[Staff]
+      
+      When("staff goes to new patient form page")
+      go to (newPatientUrl)
+      pageSource should include("Nuevo Paciente")
+      
+      val patient = samplePatient
+      val format = new SimpleDateFormat("dd/MM/yyyy");
+      
+      And("fills in fields for creating a patient")
+      textField("personalInfo.name").value = patient.getPersonalInfo.getName
+      textField("personalInfo.firstLastName").value = patient.getPersonalInfo.getFirstLastName
+      textField("personalInfo.secondLastName").value = patient.getPersonalInfo.getSecondLastName
+      textField("personalInfo.address").value = patient.getPersonalInfo.getAddress
+      textField("personalInfo.email").value = patient.getPersonalInfo.getEmail
+      textField("personalInfo.telephone").value = patient.getPersonalInfo.getTelephone
+      textField("personalInfo.birthdate").value = format.format(patient.getPersonalInfo.getBirthdate)
+      textField("medicalInfo.sexualActivityStartAge").value = patient.getMedicalInfo.getSexualActivityStartAge.toString
+      singleSel("medicalInfo.pregnancies").value = patient.getMedicalInfo.getPregnancies.toString
+      singleSel("medicalInfo.cSections").value = patient.getMedicalInfo.getcSections.toString
+      singleSel("medicalInfo.naturalDeliveries").value = patient.getMedicalInfo.getNaturalDeliveries.toString
+      singleSel("medicalInfo.abortions").value = patient.getMedicalInfo.getAbortions.toString
+      textField("medicalInfo.menopauseStartAge").value = patient.getMedicalInfo.getMenopauseStartAge.toString
+      radioButtonGroup("medicalInfo.familyPredisposition").value = if (patient.getMedicalInfo.isFamilyPredisposition) "Yes" else "No" 
+      radioButtonGroup("medicalInfo.hormonalReplacementTherapy").value = if (patient.getMedicalInfo.isHormonalReplacementTherapy) "Yes" else "No"
+      radioButtonGroup("medicalInfo.previousMammaryDiseases").value = if (patient.getMedicalInfo.isPreviousMammaryDiseases) "Yes" else "No"
+      textField("medicalInfo.menstrualPeriodStartAge").value = patient.getMedicalInfo.getMenstrualPeriodStartAge.toString
+      radioButtonGroup("medicalInfo.breastfedChildren").value = if (patient.getMedicalInfo.isBreastfedChildren) "Yes" else "No"
+        
+      And("submits form")
+      submit()
+      
+      Then("staff should see a message indicating patient was created")
+      pageSource should include("Un nuevo paciente se ha creado")
+
+      logout(staff)
+    }
+    
+    it("Fails to create a patient") {
+      val staff = login[Staff]
+      
+      When("staff goes to new patient form page")
+      go to (newPatientUrl)
+      pageSource should include("Nuevo Paciente")
+      
+      val patient = samplePatient
+      val format = new SimpleDateFormat("dd/MM/yyyy");
+      
+      And("fills in fields for creating a patient")
+      // Do not fill personalInfo.name field
+      textField("personalInfo.firstLastName").value = patient.getPersonalInfo.getFirstLastName
+      textField("personalInfo.secondLastName").value = patient.getPersonalInfo.getSecondLastName
+      textField("personalInfo.address").value = patient.getPersonalInfo.getAddress
+      textField("personalInfo.email").value = patient.getPersonalInfo.getEmail
+      textField("personalInfo.telephone").value = patient.getPersonalInfo.getTelephone
+      textField("personalInfo.birthdate").value = format.format(patient.getPersonalInfo.getBirthdate)
+      textField("medicalInfo.sexualActivityStartAge").value = patient.getMedicalInfo.getSexualActivityStartAge.toString
+      singleSel("medicalInfo.pregnancies").value = patient.getMedicalInfo.getPregnancies.toString
+      singleSel("medicalInfo.cSections").value = patient.getMedicalInfo.getcSections.toString
+      singleSel("medicalInfo.naturalDeliveries").value = patient.getMedicalInfo.getNaturalDeliveries.toString
+      singleSel("medicalInfo.abortions").value = patient.getMedicalInfo.getAbortions.toString
+      textField("medicalInfo.menopauseStartAge").value = patient.getMedicalInfo.getMenopauseStartAge.toString
+      radioButtonGroup("medicalInfo.familyPredisposition").value = if (patient.getMedicalInfo.isFamilyPredisposition) "Yes" else "No" 
+      radioButtonGroup("medicalInfo.hormonalReplacementTherapy").value = if (patient.getMedicalInfo.isHormonalReplacementTherapy) "Yes" else "No"
+      radioButtonGroup("medicalInfo.previousMammaryDiseases").value = if (patient.getMedicalInfo.isPreviousMammaryDiseases) "Yes" else "No"
+      textField("medicalInfo.menstrualPeriodStartAge").value = patient.getMedicalInfo.getMenstrualPeriodStartAge.toString
+      radioButtonGroup("medicalInfo.breastfedChildren").value = if (patient.getMedicalInfo.isBreastfedChildren) "Yes" else "No"
+        
+      And("submits form")
+      submit()
+      
+      Then("staff should see a message indicating patient was created")
+      pageSource should include(Messages("error.required")(Lang("es")))
+
+      logout(staff)
     }
   }
 

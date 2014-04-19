@@ -8,7 +8,11 @@
     <!-- Render top navbar -->
     @staffnavbar(userName)
     
-    @flash.get("success")
+    @if(flash.contains("success")) {
+      <p class="success">
+          @flash.get("success")
+      </p>
+    }
 
 	<a href="@routes.Admins.newStaff()">Crear nuevo Personal</a>
     

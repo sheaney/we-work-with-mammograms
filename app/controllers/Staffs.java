@@ -1,5 +1,6 @@
 package controllers;
 
+import lib.PasswordGenerator;
 import models.Patient;
 import play.data.Form;
 import play.mvc.Controller;
@@ -50,8 +51,12 @@ public class Staffs extends Controller {
 		if (filledForm.hasErrors()) {
 			return badRequest(newPatient.render("Juanito", filledForm));
 		} else {
-			Patient.create(filledForm.get());
-			return redirect(routes.Application.index());
+			PasswordGenerator pg = new PasswordGenerator();
+			Patient patient = filledForm.get();
+			patient.getPersonalInfo().setPassword(pg.next());
+			Patient.create(patient);
+			flash("success", "Un nuevo paciente se ha creado");
+			return redirect(routes.Staffs.staff());
 		}
     }
     
