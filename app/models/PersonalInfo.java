@@ -44,7 +44,15 @@ public class PersonalInfo extends Model {
 	@JsonIgnore
 	String password;
 	
-    public static Finder<String,PersonalInfo> find = new Finder<String,PersonalInfo>(
+    public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public static Finder<String,PersonalInfo> find = new Finder<String,PersonalInfo>(
             String.class, PersonalInfo.class
     );
 	
