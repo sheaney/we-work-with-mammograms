@@ -61,7 +61,7 @@ public class Patient extends Model {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
 	public PersonalInfo getPersonalInfo() {
 		return personalInfo;
 	}

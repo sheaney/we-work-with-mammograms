@@ -1,15 +1,17 @@
 package integration
 
-import models.{ Admin, Staff, Patient, PersonalInfo }
+import models.{ Admin, Staff, Patient, PersonalInfo, MedicalInfo }
 import com.avaje.ebean.Ebean
 import scala.reflect.ClassTag
 import play.db.ebean.Model
+import factories.Factories
 
-trait UserLogin { self: PlayBrowserSpec =>
+trait UserLogin extends Factories { self: PlayBrowserSpec =>
 
-  def login[T <: Model: ClassTag](email: String, pwd: String): T = {
+  def login[T <: Model: ClassTag]: T = {
     val clazz = implicitly[ClassTag[T]].runtimeClass
-    val user = createUser[T](email, pwd)
+    val user = createUser[T]
+    val (email, pwd) = getEmailAndPassword(user)
 
     Given(s"${clazz.getName} is logged in")
     go to (host + "/")
@@ -35,37 +37,43 @@ trait UserLogin { self: PlayBrowserSpec =>
     user
   }
 
-  def logout[T <: Model](user: T): Unit = {
-    And(s"${user.toString} successfully logs out")
+  def logout[T <: Model: ClassTag](user: T): Unit = {
+    Then(s"${implicitly[ClassTag[T]].runtimeClass.getName} successfully logs out")
 
     click on id("logout")
     pageSource should include("¡Bienvenido!")
 
     user.delete
   }
-
-  def createUser[T <: Model: ClassTag](email: String, pwd: String): T = {
+  
+  def createUser[T <: Model: ClassTag]: T = {
     val clazz = implicitly[ClassTag[T]].runtimeClass
-    val user = clazz.newInstance().asInstanceOf[T]
-
+    
+    val user =
+      clazz match {
+        case x if x == classOf[Patient] =>
+          samplePatient
+        case x if x == classOf[Staff] =>
+          sampleStaff
+        case x if x == classOf[Admin] =>
+          sampleAdmin
+      }
+    
+    user.save
+    user.asInstanceOf[T]
+  }
+  
+  private def getEmailAndPassword[T <: Model: ClassTag](user: T): (String, String) = {
     user match {
       case staff: Staff =>
-        staff.setEmail(email)
-        staff.setPassword(pwd)
+        (staff.getEmail, staff.getPassword)
       case admin: Admin =>
-        admin.setEmail(email)
-        admin.setPassword(pwd)
+        (admin.getEmail, admin.getPassword)
       case patient: Patient =>
-        val personalInfo = new PersonalInfo
-        personalInfo.setEmail(email)
-        personalInfo.setPassword(pwd)
-        patient.setPersonalInfo(personalInfo)
+        (patient.getPersonalInfo.getEmail, patient.getPersonalInfo.getPassword)
       case _ =>
-        fail(s"Could not create user for ${clazz.getName}")
+        fail(s"Could not obtain user and password for ${implicitly[ClassTag[T]].runtimeClass}")
     }
-
-    user.save()
-    user
   }
 
 }

@@ -1,0 +1,15 @@
+@(userName: String)
+
+@moreCss = {
+  <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
+}
+
+@views.html.layouts.main("Bienvenido", moreCss) {
+    <!-- Render top navbar -->
+    @staffnavbar(userName)
+    
+    @flash.get("success")
+
+	<a href="@routes.Admins.newStaff()">Crear nuevo Personal</a>
+    
+}

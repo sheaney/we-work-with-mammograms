@@ -15,7 +15,7 @@ public class Application extends Controller {
 		String type = session("type");
 		if(type != null){
 			if(type.equals("ADMIN")){
-				return TODO;
+				return redirect(routes.Admins.admin());
 			}else if (type.equals("STAFF")){
 				return redirect(routes.Staffs.staff());
 			}else if (type.equals("PATIENT")){
@@ -43,7 +43,7 @@ public class Application extends Controller {
 	        session("email", loginForm.get().getEmail());
 	        
 	        session("type", loginForm.get().getType());
-	        //System.out.println("TIPO EN SESION: "+session("type"));
+	        
 	        return redirect(
 	            routes.Application.index()
 	        );
@@ -68,6 +68,7 @@ public class Application extends Controller {
             controllers.routes.javascript.Application.settings(),
             
             // Admin actions
+            controllers.routes.javascript.Admins.admin(),
             controllers.routes.javascript.Admins.newStaff(),
             controllers.routes.javascript.Admins.createStaff(),
 
