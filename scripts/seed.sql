@@ -1,7 +1,3 @@
-# Create seed data
-
-# --- !Ups
-
 insert into admin(id, email, password) values (1,'admin@wwwm.com','123');
 insert into staff(id, email, password, role, name, first_last_name, second_last_name, birthdate, cedula, RFC)
   values (1,'jestefano@wwwm.com','wwwm','doctor','Juan Estefano','Rodríguez','González','1985-07-29','AQWERTYGSDGN','83473847asfdjklj');
@@ -17,11 +13,3 @@ insert into medical_info(id, sexual_activity_start_age, pregnancies, c_sections,
   values (2,18,3,1,2,0,45,true,false,true,16,true);
 insert into patient(id, personal_info_id, medical_info_id, staff_id) values (1,1,1,1);
 insert into patient(id, personal_info_id, medical_info_id, staff_id) values (2,2,2,1);
-
-# --- !Downs
-delete from admin *;
-delete from patient *;
-delete from personal_info *;
-delete from medical_info *;
-delete from patient *;
-delete from staff *;
