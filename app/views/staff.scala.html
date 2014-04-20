@@ -7,7 +7,7 @@
 
 @views.html.layouts.angular("Bienvenido", moreCss)(angularApp = "staffApp", angularCtrl = "PatientListCtrl") {
     <!-- Render top navbar -->
-    @staffnavbar(userName)
+    @navbar(userName)
     
     @if(flash.contains("success")) {
       <p class="success">
