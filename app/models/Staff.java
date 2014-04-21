@@ -84,6 +84,10 @@ public class Staff extends Model {
 	public static List<Staff> all() {
 		return find.all();
 	}
+	
+	public static Staff findById(Long id) {
+		return find.byId(String.valueOf(id));
+	}
 
 	public Long getId() {
 		return id;

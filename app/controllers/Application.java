@@ -87,7 +87,7 @@ public class Application extends Controller {
 
             // API actions
             controllers.routes.javascript.API.staff(),
-            controllers.routes.javascript.API.patient()
+            controllers.routes.javascript.API.getStaff()
           )
       );
     }
