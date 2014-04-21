@@ -66,14 +66,14 @@ public class Staff extends Model {
 	@OneToMany(mappedBy="commenter")
 	List<Comment> comments = new ArrayList<Comment>();
 	
-	@OneToMany(mappedBy="ownsPermission")
-	List<Permission> permissions = new ArrayList<Permission>();
-	
 	@OneToMany(mappedBy="annotator")
 	List<Annotation> annotations = new ArrayList<Annotation>();
 	
 	@OneToMany(mappedBy="sharer")
 	List<SharedPatient> sharedPatients = new ArrayList<SharedPatient>();
+	
+	@OneToMany(mappedBy="borrower")
+	List<SharedPatient> borrowedPatients = new ArrayList<SharedPatient>();
 	
 	public static Finder<String,Staff> find = new Finder<String,Staff>(Play.application().configuration().getString("datasource"), String.class, Staff.class);
 	
@@ -181,14 +181,6 @@ public class Staff extends Model {
 		this.comments = comments;
 	}
 
-	public List<Permission> getPermissions() {
-		return permissions;
-	}
-
-	public void setPermissions(List<Permission> permissions) {
-		this.permissions = permissions;
-	}
-
 	public List<Annotation> getAnnotations() {
 		return annotations;
 	}
@@ -225,7 +217,15 @@ public class Staff extends Model {
 		this.ownPatients = ownPatients;
 	}
 	
-    public static Staff authenticate(String email, String password) {
+    public List<SharedPatient> getBorrowedPatients() {
+		return borrowedPatients;
+	}
+
+	public void setBorrowedPatients(List<SharedPatient> borrowedPatients) {
+		this.borrowedPatients = borrowedPatients;
+	}
+
+	public static Staff authenticate(String email, String password) {
         return find.where().eq("email", email)
             .eq("password", password).findUnique();
     }

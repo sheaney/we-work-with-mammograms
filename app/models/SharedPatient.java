@@ -21,13 +21,23 @@ public class SharedPatient extends Model {
 	@Required
 	Date createdAt = new Date(System.currentTimeMillis());
 	
+	@Required
 	@ManyToOne
-	@JoinColumn(name="staff_id", nullable=false)
+	@JoinColumn(name="sharer_id", nullable=false)
 	Staff sharer;
 	
+	@Required
+	@ManyToOne
+	@JoinColumn(name="borrower_id", nullable=false)
+	Staff borrower;
+	
+	@Required
 	@ManyToOne
 	@JoinColumn(name="patient_id", nullable=false)
-	Staff shared;
+	Patient shared;
+	
+	@Required
+	Byte permission;
 
 	public Long getId() {
 		return id;
@@ -53,12 +63,28 @@ public class SharedPatient extends Model {
 		this.sharer = sharer;
 	}
 
-	public Staff getShared() {
+	public Patient getShared() {
 		return shared;
 	}
 
-	public void setShared(Staff shared) {
+	public void setShared(Patient shared) {
 		this.shared = shared;
+	}
+
+	public Staff getBorrower() {
+		return borrower;
+	}
+
+	public void setBorrower(Staff borrower) {
+		this.borrower = borrower;
+	}
+
+	public Byte getPermission() {
+		return permission;
+	}
+
+	public void setPermission(Byte permission) {
+		this.permission = permission;
 	}
 
 }

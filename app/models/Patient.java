@@ -38,9 +38,6 @@ public class Patient extends Model {
 	@OneToMany(mappedBy = "owner")
 	List<Study> studies = new ArrayList<Study>();
 	
-	@OneToMany(mappedBy = "patientBoundedByPermissions")
-	List<Permission> permissions = new ArrayList<Permission>();
-	
 	@OneToMany(mappedBy = "shared")
 	List<SharedPatient> sharedInstances = new ArrayList<SharedPatient>();
     
@@ -92,14 +89,6 @@ public class Patient extends Model {
 
 	public void setStudies(List<Study> studies) {
 		this.studies = studies;
-	}
-
-	public List<Permission> getPermissions() {
-		return permissions;
-	}
-
-	public void setPermissions(List<Permission> permissions) {
-		this.permissions = permissions;
 	}
 
 	public List<SharedPatient> getSharedInstances() {
