@@ -1,6 +1,6 @@
 insert into admin(id, email, password) values (1,'admin@wwwm.com','123');
-insert into staff(id, email, password, role, name, first_last_name, second_last_name, birthdate, cedula, RFC)
-  values (1,'jestefano@wwwm.com','wwwm','doctor','Juan Estefano','Rodríguez','González','1985-07-29','AQWERTYGSDGN','83473847asfdjklj');
+insert into staff(id, email, password, role, name, first_last_name, second_last_name, address, telephone, birthdate, cedula, RFC)
+  values (1,'jestefano@wwwm.com','wwwm','doctor','Juan Estefano','Rodríguez','González','Paseo de los Leones 445, Col. Cumbres, Mty. N.L.', '811653735', '1985-07-29','AQWERTYGSDGN','83473847asfdjklj');
 insert into personal_info(id, name, first_last_name, second_last_name, address, email, password, birthdate)
   values(1,'María','Dávalos','González','Bosque Mágico 123, Col. Robledo, Mty, N.L.','mdavalos@xyz.com','wwwm','1978-02-21');
 insert into personal_info(id, name, first_last_name, second_last_name, address, email, password, birthdate)
