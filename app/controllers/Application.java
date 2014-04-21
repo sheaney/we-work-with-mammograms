@@ -137,7 +137,7 @@ public class Application extends Controller {
 				type = roles[2];
 				return null;
 			}else{
-				return "Invalid user or password";
+				return "errors.invalid.login";
 			}
 		}
 	}

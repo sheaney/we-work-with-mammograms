@@ -1,5 +1,6 @@
 @(form: play.data.Form[Application.Login])
 
+@import play.api.i18n._
 
 @moreCss = {
   <link href="@routes.Assets.at("stylesheets/signin.css")" rel="stylesheet">
@@ -11,7 +12,7 @@
 			<h1 align="center">¡Bienvenido!</h1>
 			@if(form.hasGlobalErrors) {
 	    		<p class="error">
-	        		@form.globalError.message
+	        		@Messages(form.globalError.message)
 	    		</p>
 			}
 			<input name="email" class="form-control" placeholder="Correo electrónico" required="" autofocus="" type="email">
