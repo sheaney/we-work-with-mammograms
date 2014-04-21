@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
@@ -27,6 +29,7 @@ public class Mammogram extends Model {
 	@Required
 	String url;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="study_id", nullable=false)
 	Study study;

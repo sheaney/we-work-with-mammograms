@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
@@ -21,11 +23,13 @@ public class SharedPatient extends Model {
 	@Required
 	Date createdAt = new Date(System.currentTimeMillis());
 	
+	@JsonIgnore
 	@Required
 	@ManyToOne
 	@JoinColumn(name="sharer_id", nullable=false)
 	Staff sharer;
 	
+	@JsonIgnore
 	@Required
 	@ManyToOne
 	@JoinColumn(name="borrower_id", nullable=false)

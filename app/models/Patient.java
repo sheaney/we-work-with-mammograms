@@ -12,6 +12,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import play.Play;
 import play.db.ebean.Model;
 
@@ -31,6 +33,7 @@ public class Patient extends Model {
 	@OneToOne(cascade = CascadeType.ALL)
 	MedicalInfo medicalInfo;
 	
+	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="staff_id", nullable=false)
 	Staff owner;
@@ -38,6 +41,7 @@ public class Patient extends Model {
 	@OneToMany(mappedBy = "owner")
 	List<Study> studies = new ArrayList<Study>();
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "shared")
 	List<SharedPatient> sharedInstances = new ArrayList<SharedPatient>();
     

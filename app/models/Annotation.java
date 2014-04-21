@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import play.data.validation.Constraints.MaxLength;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -25,10 +27,12 @@ public class Annotation extends Model {
 	@Required
 	Date createdAt = new Date(System.currentTimeMillis());
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="mammogram_id", nullable=false)
 	Mammogram annotated;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="staff_id", nullable=false)
 	Staff annotator;

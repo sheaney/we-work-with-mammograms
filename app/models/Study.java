@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import play.db.ebean.Model;
 
 @Entity
@@ -25,6 +27,7 @@ public class Study extends Model {
 	@OneToMany(mappedBy = "commented")
 	Set<Comment> comments = new HashSet<Comment>();
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="patient_id", nullable=false)
 	Patient owner;
