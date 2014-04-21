@@ -124,4 +124,8 @@ public class PersonalInfo extends Model {
         return find.where().eq("email", email)
             .eq("password", password).findUnique();
     }
+    
+    public Patient getPatient(){
+    	return Patient.find.where().eq("personal_info_id", id).findUnique();
+    }
 }

@@ -16,9 +16,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import play.Play;
 import play.db.ebean.Model;
+import be.objectify.deadbolt.core.models.Role;
+import be.objectify.deadbolt.core.models.Subject;
 
 @Entity
-public class Patient extends Model {
+public class Patient extends Model implements Subject{
 
 	private static final long serialVersionUID = 1L;
 
@@ -101,6 +103,24 @@ public class Patient extends Model {
 
 	public void setSharedInstances(List<SharedPatient> sharedInstances) {
 		this.sharedInstances = sharedInstances;
+	}
+
+	@Override
+	public String getIdentifier() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<? extends Role> getRoles() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<? extends be.objectify.deadbolt.core.models.Permission> getPermissions() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import play.Play;
+import be.objectify.deadbolt.core.models.Role;
+import be.objectify.deadbolt.core.models.Subject;
 import play.data.format.Formats;
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
@@ -18,7 +20,7 @@ import play.db.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Staff extends Model {
+public class Staff extends Model implements Subject{
 
 	private static final long serialVersionUID = 1L;
 
@@ -233,4 +235,22 @@ public class Staff extends Model {
         return find.where().eq("email", email)
             .eq("password", password).findUnique();
     }
+
+	@Override
+	public String getIdentifier() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<? extends Role> getRoles() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<? extends be.objectify.deadbolt.core.models.Permission> getPermissions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

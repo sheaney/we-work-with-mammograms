@@ -23,9 +23,9 @@ public class StandardDeadboltHandler implements DeadboltHandler{
 
 	@Override
 	public Subject getSubject(Context arg0) {
-		return null;
+		return null;//arg0.session();
 	}
-
+	
 	@Override
 	public Promise<SimpleResult> onAuthFailure(Context arg0, String arg1) {
 		// TODO Auto-generated method stub
