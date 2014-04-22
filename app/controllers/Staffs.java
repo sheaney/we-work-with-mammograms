@@ -2,6 +2,7 @@ package controllers;
 
 import lib.PasswordGenerator;
 import models.Patient;
+import models.Staff;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -19,7 +20,7 @@ public class Staffs extends Controller {
 	final static Form<Patient> patientForm = Form.form(Patient.class);
 
 	public static Result staff() {
-		return ok(staff.render(session("email")));
+		return ok(staff.render(Staff.findById(Long.parseLong(session("id")))));
 	}
 	
 	public static Result newStudy(Long patientId) {

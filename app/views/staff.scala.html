@@ -1,4 +1,4 @@
-@(userName: String)
+@(staff: Staff)
 
 @moreCss = {
   <link href="@routes.Assets.at("stylesheets/staff.css")" rel="stylesheet">
@@ -7,7 +7,7 @@
 
 @views.html.layouts.angular("Bienvenido", moreCss)(angularApp = "staffApp", angularCtrl = "PatientCtrl") {
     <!-- Render top navbar -->
-    @navbar(userName)
+    @navbar(staff.getFullName())
     
     @if(flash.contains("success")) {
       <p class="success">

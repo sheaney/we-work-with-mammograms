@@ -29,6 +29,10 @@ public class Admin extends Model implements Subject{
             String.class, Admin.class
     );
     
+	public static Admin findById(Long id) {
+		return find.byId(String.valueOf(id));
+	}
+    
 	public Long getId() {
 		return id;
 	}

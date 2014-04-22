@@ -87,6 +87,10 @@ public class Staff extends Model implements Subject{
 		return find.all();
 	}
 	
+	public String getFullName(){
+		return this.name + " " + this.firstLastName + " " + this.secondLastName;
+	}
+	
 	public static Staff findById(Long id) {
 		return find.byId(String.valueOf(id));
 	}

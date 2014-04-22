@@ -8,13 +8,11 @@ import java.text.SimpleDateFormat
 import play.api.i18n.{Messages, Lang}
 
 class IntegrationScalaTest extends PlayBrowserSpec with UserLogin {
-
+  //ignore(""){
   describe("Staff logs in,") {
 
     it("After successful login, staff home page is displayed") {
       Given("there exists a staff in the DB")
-      val email = "test@test.com"
-      val pwd = "test"
       val staff = createUser[Staff]
 
       When("visiting the index page")
@@ -57,13 +55,15 @@ class IntegrationScalaTest extends PlayBrowserSpec with UserLogin {
       pageSource should include(Messages("errors.invalid.login")(Lang("es")))
     }
   }
-
+  //}
+  
   describe("Staff, Patient and Admin users can log in") {
     it("staff can log in") {
       val staff = login[Staff]
       logout(staff)
     }
 
+    //ignore("patient, admin login"){
     it("patient can log in") {
       val patient = login[Patient]
       logout(patient)
@@ -73,8 +73,9 @@ class IntegrationScalaTest extends PlayBrowserSpec with UserLogin {
       val admin = login[Admin]
       logout(admin)
     }
+    //}
   }
-
+//  ignore("dhgfgfh"){
   describe("Admin creates a staff member") {
     val newStaffUrl = host + "/admin/staff/new"
     
@@ -221,5 +222,5 @@ class IntegrationScalaTest extends PlayBrowserSpec with UserLogin {
       logout(staff)
     }
   }
-
+//}
 }

@@ -39,10 +39,6 @@ public class Application extends Controller {
 	    if (loginForm.hasErrors()) {
 	        return badRequest(login.render(loginForm));
 	    } else {
-	        session().clear();
-	        session("email", loginForm.get().getEmail());
-	        
-	        session("type", loginForm.get().getType());
 	        
 	        return redirect(
 	            routes.Application.index()
@@ -96,7 +92,7 @@ public class Application extends Controller {
 
 		public String email;
 		public String password;
-		private String type = "";
+		//private String type = "";
 		public String roles[]=  {"STAFF", "ADMIN", "PATIENT"};
 		
 		public String getEmail() {
@@ -115,26 +111,32 @@ public class Application extends Controller {
 			this.password = password;
 		}
 
-		public String getType() {
+		/*public String getType() {
 			return type;
 		}
 
 		public void setType(String type) {
 			this.type = type;
-		}
+		}*/
 
 		public String validate() {
 			Staff staff = Staff.authenticate(email, password);
 			Admin admin = Admin.authenticate(email,password);
 			PersonalInfo patientPersonalInfo = PersonalInfo.authenticate(email,password);
-			if (admin != null){
-				type = roles[1];
+			if(staff != null){
+				session().clear();
+				session("id", staff.getId().toString());
+		        session("type", roles[0]);
 				return null;
-			}else if(staff != null){
-				type = roles[0];
+			}else if (admin != null){
+				session().clear();
+				session("id", admin.getId().toString());
+		        session("type", roles[1]);
 				return null;
 			}else if(patientPersonalInfo != null){
-				type = roles[2];
+				session().clear();
+				session("id", patientPersonalInfo.getPatient().getId().toString());
+		        session("type", roles[2]);
 				return null;
 			}else{
 				return "errors.invalid.login";

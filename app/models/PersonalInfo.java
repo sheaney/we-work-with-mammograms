@@ -72,6 +72,10 @@ public class PersonalInfo extends Model {
 		this.name = name;
 	}
 
+	public String getFullName(){
+		return this.name + " " + this.firstLastName + " " + this.secondLastName;
+	}
+	
 	public String getFirstLastName() {
 		return firstLastName;
 	}

@@ -23,7 +23,7 @@ public class StandardDeadboltHandler implements DeadboltHandler{
 
 	@Override
 	public Subject getSubject(Context arg0) {
-		return null;//arg0.session();
+		return null;
 	}
 	
 	@Override

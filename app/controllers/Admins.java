@@ -1,19 +1,21 @@
 package controllers;
 
 import lib.PasswordGenerator;
+import models.Admin;
 import models.Staff;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.newStaff;
 import views.html.admin;
+import views.html.newStaff;
+
 
 public class Admins extends Controller {
 
 	final static Form<Staff> staffForm = Form.form(Staff.class);
 	
 	public static Result admin() {
-		return ok(admin.render(session("email")));
+		return ok(admin.render(Admin.findById(Long.parseLong(session("id")))));
 	}
 
 	public static Result newStaff() {

@@ -65,6 +65,10 @@ public class Patient extends Model implements Subject{
 		this.id = id;
 	}
 	
+	public static Patient findById(Long id) {
+		return find.byId(String.valueOf(id));
+	}
+	
 	public PersonalInfo getPersonalInfo() {
 		return personalInfo;
 	}
