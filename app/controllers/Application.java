@@ -3,11 +3,13 @@ package controllers;
 import models.Admin;
 import models.PersonalInfo;
 import models.Staff;
+import play.Routes;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import play.Routes;
-import views.html.*;
+import views.html.contact;
+import views.html.login;
+import views.html.settings;
 
 public class Application extends Controller {
 	

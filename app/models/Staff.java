@@ -10,12 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import play.Play;
-import be.objectify.deadbolt.core.models.Role;
-import be.objectify.deadbolt.core.models.Subject;
 import play.data.format.Formats;
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+import security.Roles;
+import be.objectify.deadbolt.core.models.Permission;
+import be.objectify.deadbolt.core.models.Subject;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -76,6 +77,8 @@ public class Staff extends Model implements Subject{
 	
 	@OneToMany(mappedBy="borrower")
 	List<SharedPatient> borrowedPatients = new ArrayList<SharedPatient>();
+	
+	List<Roles> roles = new ArrayList<Roles>();
 	
 	public static Finder<String,Staff> find = new Finder<String,Staff>(Play.application().configuration().getString("datasource"), String.class, Staff.class);
 	
@@ -246,14 +249,15 @@ public class Staff extends Model implements Subject{
 		return null;
 	}
 
-	@Override
-	public List<? extends Role> getRoles() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Roles> getRoles() {
+		if(roles.isEmpty()){
+			roles.add(Roles.STAFF);
+		}
+		return roles;
 	}
 
 	@Override
-	public List<? extends be.objectify.deadbolt.core.models.Permission> getPermissions() {
+	public List<? extends Permission> getPermissions() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -12,12 +12,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import play.Play;
 import play.db.ebean.Model;
-import be.objectify.deadbolt.core.models.Role;
+import security.Roles;
 import be.objectify.deadbolt.core.models.Subject;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Patient extends Model implements Subject{
@@ -47,6 +47,8 @@ public class Patient extends Model implements Subject{
 	@OneToMany(mappedBy = "sharedInstance")
 	List<SharedPatient> sharedInstances = new ArrayList<SharedPatient>();
     
+	List<Roles> roles = new ArrayList<Roles>();
+	
 	public static Finder<String,Patient> find = new Finder<String,Patient>(Play.application().configuration().getString("datasource"), String.class, Patient.class);
 	
 	public static void create(Patient patient) {
@@ -115,10 +117,11 @@ public class Patient extends Model implements Subject{
 		return null;
 	}
 
-	@Override
-	public List<? extends Role> getRoles() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Roles> getRoles() {
+		if(roles.isEmpty()){
+			roles.add(Roles.PATIENT);
+		}
+		return roles;
 	}
 
 	@Override
