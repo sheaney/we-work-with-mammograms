@@ -62,7 +62,7 @@ create table patient (
 
 create table permission (
   id                        bigint not null,
-  value                     tinyint,
+  value                     smallint,
   staff_id                  bigint,
   patient_id                bigint,
   constraint pk_permission primary key (id))
@@ -87,7 +87,7 @@ create table shared_patient (
   sharer_id                 bigint,
   borrower_id               bigint,
   patient_id                bigint,
-  permission                tinyint,
+  permission                smallint,
   constraint pk_shared_patient primary key (id))
 ;
 
@@ -136,64 +136,60 @@ create sequence staff_seq;
 
 create sequence study_seq;
 
-alter table annotation add constraint fk_annotation_annotated_1 foreign key (mammogram_id) references mammogram (id) on delete restrict on update restrict;
+alter table annotation add constraint fk_annotation_annotated_1 foreign key (mammogram_id) references mammogram (id);
 create index ix_annotation_annotated_1 on annotation (mammogram_id);
-alter table annotation add constraint fk_annotation_annotator_2 foreign key (staff_id) references staff (id) on delete restrict on update restrict;
+alter table annotation add constraint fk_annotation_annotator_2 foreign key (staff_id) references staff (id);
 create index ix_annotation_annotator_2 on annotation (staff_id);
-alter table comment add constraint fk_comment_commenter_3 foreign key (staff_id) references staff (id) on delete restrict on update restrict;
+alter table comment add constraint fk_comment_commenter_3 foreign key (staff_id) references staff (id);
 create index ix_comment_commenter_3 on comment (staff_id);
-alter table comment add constraint fk_comment_commented_4 foreign key (study_id) references study (id) on delete restrict on update restrict;
+alter table comment add constraint fk_comment_commented_4 foreign key (study_id) references study (id);
 create index ix_comment_commented_4 on comment (study_id);
-alter table mammogram add constraint fk_mammogram_study_5 foreign key (study_id) references study (id) on delete restrict on update restrict;
+alter table mammogram add constraint fk_mammogram_study_5 foreign key (study_id) references study (id);
 create index ix_mammogram_study_5 on mammogram (study_id);
-alter table patient add constraint fk_patient_personalInfo_6 foreign key (personal_info_id) references personal_info (id) on delete restrict on update restrict;
+alter table patient add constraint fk_patient_personalInfo_6 foreign key (personal_info_id) references personal_info (id);
 create index ix_patient_personalInfo_6 on patient (personal_info_id);
-alter table patient add constraint fk_patient_medicalInfo_7 foreign key (medical_info_id) references medical_info (id) on delete restrict on update restrict;
+alter table patient add constraint fk_patient_medicalInfo_7 foreign key (medical_info_id) references medical_info (id);
 create index ix_patient_medicalInfo_7 on patient (medical_info_id);
-alter table patient add constraint fk_patient_owner_8 foreign key (staff_id) references staff (id) on delete restrict on update restrict;
+alter table patient add constraint fk_patient_owner_8 foreign key (staff_id) references staff (id);
 create index ix_patient_owner_8 on patient (staff_id);
-alter table permission add constraint fk_permission_ownsPermission_9 foreign key (staff_id) references staff (id) on delete restrict on update restrict;
+alter table permission add constraint fk_permission_ownsPermission_9 foreign key (staff_id) references staff (id);
 create index ix_permission_ownsPermission_9 on permission (staff_id);
-alter table permission add constraint fk_permission_patientBoundedB_10 foreign key (patient_id) references patient (id) on delete restrict on update restrict;
+alter table permission add constraint fk_permission_patientBoundedB_10 foreign key (patient_id) references patient (id);
 create index ix_permission_patientBoundedB_10 on permission (patient_id);
-alter table shared_patient add constraint fk_shared_patient_sharer_11 foreign key (sharer_id) references staff (id) on delete restrict on update restrict;
+alter table shared_patient add constraint fk_shared_patient_sharer_11 foreign key (sharer_id) references staff (id);
 create index ix_shared_patient_sharer_11 on shared_patient (sharer_id);
-alter table shared_patient add constraint fk_shared_patient_borrower_12 foreign key (borrower_id) references staff (id) on delete restrict on update restrict;
+alter table shared_patient add constraint fk_shared_patient_borrower_12 foreign key (borrower_id) references staff (id);
 create index ix_shared_patient_borrower_12 on shared_patient (borrower_id);
-alter table shared_patient add constraint fk_shared_patient_shared_13 foreign key (patient_id) references patient (id) on delete restrict on update restrict;
+alter table shared_patient add constraint fk_shared_patient_shared_13 foreign key (patient_id) references patient (id);
 create index ix_shared_patient_shared_13 on shared_patient (patient_id);
-alter table study add constraint fk_study_owner_14 foreign key (patient_id) references patient (id) on delete restrict on update restrict;
+alter table study add constraint fk_study_owner_14 foreign key (patient_id) references patient (id);
 create index ix_study_owner_14 on study (patient_id);
 
 
 
 # --- !Downs
 
-SET REFERENTIAL_INTEGRITY FALSE;
+drop table if exists admin cascade;
 
-drop table if exists admin;
+drop table if exists annotation cascade;
 
-drop table if exists annotation;
+drop table if exists comment cascade;
 
-drop table if exists comment;
+drop table if exists mammogram cascade;
 
-drop table if exists mammogram;
+drop table if exists medical_info cascade;
 
-drop table if exists medical_info;
+drop table if exists patient cascade;
 
-drop table if exists patient;
+drop table if exists permission cascade;
 
-drop table if exists permission;
+drop table if exists personal_info cascade;
 
-drop table if exists personal_info;
+drop table if exists shared_patient cascade;
 
-drop table if exists shared_patient;
+drop table if exists staff cascade;
 
-drop table if exists staff;
-
-drop table if exists study;
-
-SET REFERENTIAL_INTEGRITY TRUE;
+drop table if exists study cascade;
 
 drop sequence if exists admin_seq;
 
