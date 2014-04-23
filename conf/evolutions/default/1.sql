@@ -60,14 +60,6 @@ create table patient (
   constraint pk_patient primary key (id))
 ;
 
-create table permission (
-  id                        bigint not null,
-  value                     tinyint,
-  staff_id                  bigint,
-  patient_id                bigint,
-  constraint pk_permission primary key (id))
-;
-
 create table personal_info (
   id                        bigint not null,
   name                      varchar(255),
@@ -87,7 +79,7 @@ create table shared_patient (
   sharer_id                 bigint,
   borrower_id               bigint,
   patient_id                bigint,
-  permission                tinyint,
+  permission                integer,
   constraint pk_shared_patient primary key (id))
 ;
 
@@ -126,8 +118,6 @@ create sequence medical_info_seq;
 
 create sequence patient_seq;
 
-create sequence permission_seq;
-
 create sequence personal_info_seq;
 
 create sequence shared_patient_seq;
@@ -152,18 +142,14 @@ alter table patient add constraint fk_patient_medicalInfo_7 foreign key (medical
 create index ix_patient_medicalInfo_7 on patient (medical_info_id);
 alter table patient add constraint fk_patient_owner_8 foreign key (staff_id) references staff (id) on delete restrict on update restrict;
 create index ix_patient_owner_8 on patient (staff_id);
-alter table permission add constraint fk_permission_ownsPermission_9 foreign key (staff_id) references staff (id) on delete restrict on update restrict;
-create index ix_permission_ownsPermission_9 on permission (staff_id);
-alter table permission add constraint fk_permission_patientBoundedB_10 foreign key (patient_id) references patient (id) on delete restrict on update restrict;
-create index ix_permission_patientBoundedB_10 on permission (patient_id);
-alter table shared_patient add constraint fk_shared_patient_sharer_11 foreign key (sharer_id) references staff (id) on delete restrict on update restrict;
-create index ix_shared_patient_sharer_11 on shared_patient (sharer_id);
-alter table shared_patient add constraint fk_shared_patient_borrower_12 foreign key (borrower_id) references staff (id) on delete restrict on update restrict;
-create index ix_shared_patient_borrower_12 on shared_patient (borrower_id);
-alter table shared_patient add constraint fk_shared_patient_shared_13 foreign key (patient_id) references patient (id) on delete restrict on update restrict;
-create index ix_shared_patient_shared_13 on shared_patient (patient_id);
-alter table study add constraint fk_study_owner_14 foreign key (patient_id) references patient (id) on delete restrict on update restrict;
-create index ix_study_owner_14 on study (patient_id);
+alter table shared_patient add constraint fk_shared_patient_sharer_9 foreign key (sharer_id) references staff (id) on delete restrict on update restrict;
+create index ix_shared_patient_sharer_9 on shared_patient (sharer_id);
+alter table shared_patient add constraint fk_shared_patient_borrower_10 foreign key (borrower_id) references staff (id) on delete restrict on update restrict;
+create index ix_shared_patient_borrower_10 on shared_patient (borrower_id);
+alter table shared_patient add constraint fk_shared_patient_shared_11 foreign key (patient_id) references patient (id) on delete restrict on update restrict;
+create index ix_shared_patient_shared_11 on shared_patient (patient_id);
+alter table study add constraint fk_study_owner_12 foreign key (patient_id) references patient (id) on delete restrict on update restrict;
+create index ix_study_owner_12 on study (patient_id);
 
 
 
@@ -182,8 +168,6 @@ drop table if exists mammogram;
 drop table if exists medical_info;
 
 drop table if exists patient;
-
-drop table if exists permission;
 
 drop table if exists personal_info;
 
@@ -206,8 +190,6 @@ drop sequence if exists mammogram_seq;
 drop sequence if exists medical_info_seq;
 
 drop sequence if exists patient_seq;
-
-drop sequence if exists permission_seq;
 
 drop sequence if exists personal_info_seq;
 

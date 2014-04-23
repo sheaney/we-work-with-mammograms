@@ -41,7 +41,7 @@ public class SharedPatient extends Model {
 	Patient shared;
 	
 	@Required
-	Byte permission;
+	int accessPrivileges;
 
 	public Long getId() {
 		return id;
@@ -83,12 +83,12 @@ public class SharedPatient extends Model {
 		this.borrower = borrower;
 	}
 
-	public Byte getPermission() {
-		return permission;
+	public int getAccessPrivileges() {
+		return accessPrivileges;
 	}
 
-	public void setPermission(Byte permission) {
-		this.permission = permission;
+	public void setAccessPrivileges(int permission) {
+		this.accessPrivileges = permission;
 	}
 
 }

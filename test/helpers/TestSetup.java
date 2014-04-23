@@ -57,7 +57,7 @@ public class TestSetup {
 		dbSettings.put("db.default.driver", "org.h2.Driver");
 		dbSettings.put("db.default.user", "sh");
 		dbSettings.put("db.default.url", "jdbc:h2:mem:wwwmtest;MODE=PostgreSQL");
-		dbSettings.put("ebean.default", "models.*, helpers.*");
+		dbSettings.put("ebean.default", "models.*, helpers.*, lib.permissions.*");
 		dbSettings.put("datasource", "default");
 		return dbSettings;
 	}
