@@ -7,6 +7,7 @@ import play.Routes;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import security.Roles;
 import views.html.contact;
 import views.html.login;
 import views.html.settings;
@@ -14,7 +15,7 @@ import views.html.settings;
 public class Application extends Controller {
 	
 	public static Result index() {
-		String type = session("type");
+		String type = session().get("type");
 		if(type != null){
 			if(type.equals("ADMIN")){
 				return redirect(routes.Admins.admin());
@@ -41,12 +42,10 @@ public class Application extends Controller {
 	    if (loginForm.hasErrors()) {
 	        return badRequest(login.render(loginForm));
 	    } else {
-	        
-	        return redirect(
-	            routes.Application.index()
-	        );
+	        return redirect(routes.Application.index());
 	    }
 	}
+	
 	
 	public static Result contact() {
 		return ok(contact.render("Juanito"));
@@ -94,8 +93,6 @@ public class Application extends Controller {
 
 		public String email;
 		public String password;
-		//private String type = "";
-		public String roles[]=  {"STAFF", "ADMIN", "PATIENT"};
 		
 		public String getEmail() {
 			return email;
@@ -113,14 +110,6 @@ public class Application extends Controller {
 			this.password = password;
 		}
 
-		/*public String getType() {
-			return type;
-		}
-
-		public void setType(String type) {
-			this.type = type;
-		}*/
-
 		public String validate() {
 			Staff staff = Staff.authenticate(email, password);
 			Admin admin = Admin.authenticate(email,password);
@@ -128,17 +117,17 @@ public class Application extends Controller {
 			if(staff != null){
 				session().clear();
 				session("id", staff.getId().toString());
-		        session("type", roles[0]);
+		        session("type", Roles.STAFF.getName());
 				return null;
 			}else if (admin != null){
 				session().clear();
 				session("id", admin.getId().toString());
-		        session("type", roles[1]);
+		        session("type", Roles.ADMIN.getName());
 				return null;
 			}else if(patientPersonalInfo != null){
 				session().clear();
 				session("id", patientPersonalInfo.getPatient().getId().toString());
-		        session("type", roles[2]);
+		        session("type", Roles.PATIENT.getName());
 				return null;
 			}else{
 				return "errors.invalid.login";

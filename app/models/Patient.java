@@ -14,13 +14,11 @@ import javax.validation.Valid;
 
 import play.Play;
 import play.db.ebean.Model;
-import security.Roles;
-import be.objectify.deadbolt.core.models.Subject;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Patient extends Model implements Subject{
+public class Patient extends Model{
 
 	private static final long serialVersionUID = 1L;
 
@@ -46,8 +44,6 @@ public class Patient extends Model implements Subject{
 	@JsonIgnore
 	@OneToMany(mappedBy = "sharedInstance")
 	List<SharedPatient> sharedInstances = new ArrayList<SharedPatient>();
-    
-	List<Roles> roles = new ArrayList<Roles>();
 	
 	public static Finder<String,Patient> find = new Finder<String,Patient>(Play.application().configuration().getString("datasource"), String.class, Patient.class);
 	
@@ -110,24 +106,4 @@ public class Patient extends Model implements Subject{
 	public void setSharedInstances(List<SharedPatient> sharedInstances) {
 		this.sharedInstances = sharedInstances;
 	}
-
-	@Override
-	public String getIdentifier() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<Roles> getRoles() {
-		if(roles.isEmpty()){
-			roles.add(Roles.PATIENT);
-		}
-		return roles;
-	}
-
-	@Override
-	public List<? extends be.objectify.deadbolt.core.models.Permission> getPermissions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 }

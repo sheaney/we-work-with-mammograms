@@ -8,8 +8,10 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.admin;
 import views.html.newStaff;
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
 
-
+@Restrict(@Group({"ADMIN"}))
 public class Admins extends Controller {
 
 	final static Form<Staff> staffForm = Form.form(Staff.class);

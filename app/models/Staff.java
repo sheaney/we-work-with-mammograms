@@ -14,14 +14,11 @@ import play.data.format.Formats;
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
-import security.Roles;
-import be.objectify.deadbolt.core.models.Permission;
-import be.objectify.deadbolt.core.models.Subject;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Staff extends Model implements Subject{
+public class Staff extends Model{
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,6 +33,7 @@ public class Staff extends Model implements Subject{
 	String password;
 	
 	@Required
+	//Role of the medical staff within their professional health environment
 	String role;
 	
 	@Required
@@ -77,8 +75,6 @@ public class Staff extends Model implements Subject{
 	
 	@OneToMany(mappedBy="borrower")
 	List<SharedPatient> borrowedPatients = new ArrayList<SharedPatient>();
-	
-	List<Roles> roles = new ArrayList<Roles>();
 	
 	public static Finder<String,Staff> find = new Finder<String,Staff>(Play.application().configuration().getString("datasource"), String.class, Staff.class);
 	
@@ -242,23 +238,4 @@ public class Staff extends Model implements Subject{
         return find.where().eq("email", email)
             .eq("password", password).findUnique();
     }
-
-	@Override
-	public String getIdentifier() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<Roles> getRoles() {
-		if(roles.isEmpty()){
-			roles.add(Roles.STAFF);
-		}
-		return roles;
-	}
-
-	@Override
-	public List<? extends Permission> getPermissions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

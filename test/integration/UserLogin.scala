@@ -16,7 +16,7 @@ trait UserLogin extends Factories { self: PlayBrowserSpec =>
     val user = createUser[T]
     val (email, pwd, fullName) = getEmailAndPasswordAndFullName(user)
     
-    Given(s"${clazz.getName} is logged in")
+    Given(s"${clazz.getName} is about to log in")
     go to (host + "/")
     pageSource should include("¡Bienvenido!")
 
@@ -24,9 +24,6 @@ trait UserLogin extends Factories { self: PlayBrowserSpec =>
     pwdField("password").value = pwd
     
     click on ("login")
-
-    // for now, later it should include the name
-    //pageSource should include(email)
     
     user match {
       case _: Staff =>

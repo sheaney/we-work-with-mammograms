@@ -1,9 +1,19 @@
-@()
-<html>
-<head>
-    <title>Access failed</title>
-</head>
-<body>
-<h3>Access failed</h3>
-</body>
-</html>
+@(name: String)
+@moreCss = {
+  <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
+}
+
+@views.html.layouts.main("Forbidden", moreCss) {
+  <!-- Render top navbar -->
+  @navbar(name)
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+
+        <h3>Forbidden</h3>
+
+      </div><!-- end of /.col-md-8 .col-md-offset-2 -->
+    </div><!-- end of /.row -->
+  </div><!-- /.container -->
+}

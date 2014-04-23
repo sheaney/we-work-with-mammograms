@@ -2,25 +2,22 @@ package security;
 
 import static play.mvc.Results.forbidden;
 import static play.mvc.Results.redirect;
-import models.Admin;
-import models.Patient;
-import models.Staff;
+import play.libs.F;
 import play.libs.F.Function0;
 import play.libs.F.Promise;
 import play.mvc.Http.Context;
 import play.mvc.SimpleResult;
+import views.html.forbidden;
 import be.objectify.deadbolt.core.models.Subject;
 import be.objectify.deadbolt.java.DeadboltHandler;
 import be.objectify.deadbolt.java.DynamicResourceHandler;
 import controllers.routes;
-import views.html.forbidden;
 
-public class StandardDeadboltHandler implements DeadboltHandler{
+public class StandardDeadboltHandler implements DeadboltHandler {
 
 	@Override
 	public Promise<SimpleResult> beforeAuthCheck(Context arg0) {
-		// TODO Auto-generated method stub
-		return null;
+		return F.Promise.pure(null);
 	}
 
 	@Override
@@ -31,35 +28,26 @@ public class StandardDeadboltHandler implements DeadboltHandler{
 
 	@Override
 	public Subject getSubject(Context arg0) {
-		String type = arg0.session().get("type");
-		if(type == "ADMIN"){
-			return Admin.findById(Long.parseLong(arg0.session().get("id")));
-		}else if(type == "STAFF"){
-			return Staff.findById(Long.parseLong(arg0.session().get("id")));
-		}else if(type == "PATIENT"){
-			return Patient.findById(Long.parseLong(arg0.session().get("id")));
-		}else 
-			return null;
+		return new AuthorizableUser(arg0);
 	}
-	
+
 	@Override
 	public Promise<SimpleResult> onAuthFailure(Context arg0, String arg1) {
-		//if no user is logged, go to login 
-		if(arg0.session().get("id") == null){
-			return(Promise.promise(new Function0<SimpleResult>(){
+		// if no user is logged, go to login
+		if (arg0.session().get("id") == null) {
+			return (Promise.promise(new Function0<SimpleResult>() {
 				@Override
-				public SimpleResult apply() throws Throwable{
+				public SimpleResult apply() throws Throwable {
 					return redirect(routes.Application.login());
 				}
 			}));
-		}//else return 403 - forbidden
-		return(Promise.promise(new Function0<SimpleResult>(){
-			@Override
-			public SimpleResult apply() throws Throwable{
-				return forbidden(forbidden.render());
-			}
-		}));
-		//return null;
+		}else {// return 403 - forbidden
+			return (Promise.promise(new Function0<SimpleResult>() {
+				@Override
+				public SimpleResult apply() throws Throwable {
+					return forbidden(forbidden.render("Dude"));
+				}
+			}));
+		}
 	}
-
 }

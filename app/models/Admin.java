@@ -1,19 +1,13 @@
 package models;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
-import security.Roles;
-import be.objectify.deadbolt.core.models.Permission;
-import be.objectify.deadbolt.core.models.Subject;
 
 @Entity
-public class Admin extends Model implements Subject{
+public class Admin extends Model{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -25,8 +19,6 @@ public class Admin extends Model implements Subject{
 	
 	@Required
 	String password;
-	
-	List<Roles> roles = new ArrayList<Roles>();
 	
     public static Finder<String,Admin> find = new Finder<String,Admin>(
             String.class, Admin.class
@@ -64,24 +56,4 @@ public class Admin extends Model implements Subject{
         return find.where().eq("email", email)
             .eq("password", password).findUnique();
     }
-
-	@Override
-	public String getIdentifier() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<? extends Permission> getPermissions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Roles> getRoles() {
-		if(roles.isEmpty()){
-			roles.add(Roles.ADMIN);
-		}
-		return roles;
-	}
 }
