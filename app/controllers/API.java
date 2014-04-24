@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.List;
 
+import lib.json.staff.JSONStaff;
 import models.Staff;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -16,7 +17,7 @@ public class API extends Controller {
 	
 	public static Result getStaff(Long id) {
 		Staff staff = Staff.findById(id);
-		return ok(Json.toJson(staff));
+		return ok(JSONStaff.staffWithPatients(staff));
 	}
 
 }
