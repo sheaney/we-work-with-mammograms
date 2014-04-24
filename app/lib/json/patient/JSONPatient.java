@@ -15,8 +15,7 @@ public class JSONPatient {
 	private final static String SHARED = "shared";
 	private final static String ACCESS_PRIVILEGES = "accessPrivileges";
 	
-	
-	public static ObjectNode patient(Patient patient, boolean isShared) {
+	public static ObjectNode staffPatient(Patient patient, boolean isShared) {
 		ObjectNode json = Json.newObject();
 		json.put(ID, patient.getId());
 		json.put(ACCESS_PRIVILEGES, Integer.MAX_VALUE);
@@ -28,7 +27,7 @@ public class JSONPatient {
 		return json;
 	}
 	
-	public static ObjectNode borrowedPatient(SharedPatient borrowed) {
+	public static ObjectNode staffBorrowedPatient(SharedPatient borrowed) {
 		ObjectNode json = Json.newObject();
 		
 		addPermittedInfo(borrowed, json);

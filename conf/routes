@@ -76,6 +76,8 @@ GET     /api/staff						  	controllers.API.staff()
 
 GET 	/api/staff/:id				    	controllers.API.getStaff(id: Long)
 
+GET		/api/patient/:id					controllers.API.getPatient(id: Long)
+
 
 ## Assets
 

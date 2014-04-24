@@ -54,6 +54,10 @@ public class Patient extends Model {
 	public static List<Patient> all() {
 		return find.all();
 	}
+	
+	public static Patient findById(Long id) {
+		return find.byId(String.valueOf(id));
+	}
 
 	public Long getId() {
 		return id;

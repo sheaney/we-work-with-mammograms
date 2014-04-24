@@ -1,3 +1,7 @@
+delete from annotation;
+delete from mammogram;
+delete from comment;
+delete from study;
 delete from admin;
 delete from shared_patient;
 delete from patient;

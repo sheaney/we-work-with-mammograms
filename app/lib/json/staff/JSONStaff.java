@@ -57,7 +57,7 @@ public class JSONStaff {
 
 		for (Patient patient : ownPatients) {
 			boolean isShared = borrowedIds.contains(patient.getId());
-			result.add(JSONPatient.patient(patient, isShared));
+			result.add(JSONPatient.staffPatient(patient, isShared));
 		}
 
 		return result;
@@ -68,7 +68,7 @@ public class JSONStaff {
 		List<ObjectNode> result = new ArrayList<ObjectNode>();
 
 		for (SharedPatient borrowedPatient : borrowedPatients) {
-			result.add(JSONPatient.borrowedPatient(borrowedPatient));
+			result.add(JSONPatient.staffBorrowedPatient(borrowedPatient));
 		}
 
 		return result;
