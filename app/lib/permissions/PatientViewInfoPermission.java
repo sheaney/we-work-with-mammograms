@@ -22,13 +22,6 @@ final public class PatientViewInfoPermission extends Permission {
 		this.viewStudies = ByteDecodeEncoder.encode(VIEW_STUDIES);
 	}
 	
-	public PatientViewInfoPermission(String accessPrivileges) {
-		super(accessPrivileges, ACCESS_PRIVILEGES_SUBMASK);
-		this.viewPersonalInfo = ByteDecodeEncoder.encode(VIEW_PERSONAL_INFO);
-		this.viewMedicalInfo = ByteDecodeEncoder.encode(VIEW_MEDICAL_INFO);
-		this.viewStudies = ByteDecodeEncoder.encode(VIEW_STUDIES);
-	}
-	
 	public boolean canViewPersonalInfo() {
 		return hasPermission(viewPersonalInfo);
 	}

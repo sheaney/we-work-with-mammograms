@@ -15,7 +15,7 @@ public class PatientUpdateInfoPermission extends Permission {
 	private final int updateMedicalInfo;
 	private final int updateStudies;
 
-	public PatientUpdateInfoPermission(String accessPrivileges) {
+	public PatientUpdateInfoPermission(int accessPrivileges) {
 		super(accessPrivileges, ACCESS_PRIVILEGES_SUBMASK);
 		this.updatePersonalInfo = ByteDecodeEncoder.encode(UPDATE_PERSONAL_INFO);
 		this.updateMedicalInfo = ByteDecodeEncoder.encode(UPDATE_MEDICAL_INFO);
