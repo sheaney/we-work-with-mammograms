@@ -45,7 +45,8 @@ public class StandardDeadboltHandler implements DeadboltHandler {
 			return (Promise.promise(new Function0<SimpleResult>() {
 				@Override
 				public SimpleResult apply() throws Throwable {
-					return forbidden(forbidden.render("Dude"));
+					
+					return forbidden(forbidden.render());
 				}
 			}));
 		}

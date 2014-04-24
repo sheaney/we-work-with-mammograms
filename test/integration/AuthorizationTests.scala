@@ -31,7 +31,7 @@ class AuthorizationTests extends PlayBrowserSpec with UserLogin {
       When("visiting the /admin route")
       go to (host + "/admin")
       Then("The app should redirect to 403 - forbidden page")
-      pageSource should include("Forbidden")
+      pageSource should include("Prohibido")
       logout(staff)
     }
   }
@@ -61,7 +61,7 @@ class AuthorizationTests extends PlayBrowserSpec with UserLogin {
       When("visiting the /staff route")
       go to (host + "/staff")
       Then("The app should redirect to 403 - forbidden page")
-      pageSource should include("Forbidden")
+      pageSource should include("Prohibido")
       logout(patient)
     }
   }
@@ -91,7 +91,7 @@ class AuthorizationTests extends PlayBrowserSpec with UserLogin {
       When("visiting the /patient route")
       go to (host + "/patient")
       Then("The app should redirect to 403 - forbidden page")
-      pageSource should include("Forbidden")
+      pageSource should include("Prohibido")
       logout(staff)
     }
   }
