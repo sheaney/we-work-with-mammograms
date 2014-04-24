@@ -42,7 +42,7 @@ public class Patient extends Model {
 	List<Study> studies = new ArrayList<Study>();
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "shared")
+	@OneToMany(mappedBy = "sharedInstance")
 	List<SharedPatient> sharedInstances = new ArrayList<SharedPatient>();
     
 	public static Finder<String,Patient> find = new Finder<String,Patient>(Play.application().configuration().getString("datasource"), String.class, Patient.class);

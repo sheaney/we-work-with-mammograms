@@ -38,7 +38,7 @@ public class SharedPatient extends Model {
 	@Required
 	@ManyToOne
 	@JoinColumn(name="patient_id", nullable=false)
-	Patient shared;
+	Patient sharedInstance;
 	
 	@Required
 	int accessPrivileges;
@@ -67,12 +67,12 @@ public class SharedPatient extends Model {
 		this.sharer = sharer;
 	}
 
-	public Patient getShared() {
-		return shared;
+	public Patient getSharedInstance() {
+		return sharedInstance;
 	}
 
 	public void setShared(Patient shared) {
-		this.shared = shared;
+		this.sharedInstance = shared;
 	}
 
 	public Staff getBorrower() {
