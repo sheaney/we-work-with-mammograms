@@ -30,19 +30,14 @@
               <a href="@routes.Staffs.staff" class="btn btn-default btn-md btn-block">Regresar</a>
             </p>
           </div>
-          <div class="col-xs-12">
-            <p>
-              <a href="@routes.Staffs.editPatient(id)" class="btn btn-warning btn-md btn-block">Editar paciente</a>
-            </p>
-          </div>
         </div>
       </div>
     </div>
 
-    <legend>Informaci√≥n General del Paciente</legend>
+    <legend>Información General del Paciente</legend>
 
     <div class="col-md-6 col-xs-12"> 
-      <h3>Informaci√≥n Personal</h3><br>
+      <h3>Información Personal</h3><br>
 
       <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
@@ -55,7 +50,7 @@
 
       <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-          <label for="patientName" class="col-md-12 control-label">Direcci√≥n:</label>
+          <label for="patientName" class="col-md-12 control-label">Dirección:</label>
         </div>
         <div class="col-md-6 col-xs-6">
         <a href="#" editable-textarea="patient.patientAdress">{{ patient.patientAdress || 'empty' }}</a>
@@ -64,7 +59,7 @@
 
       <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-          <label for="patientName" class="col-md-12 control-label">Correo Electr√≥nico:</label>
+          <label for="patientName" class="col-md-12 control-label">Correo Electrónico:</label>
         </div>
         <div class="col-md-6 col-xs-6">
         <a href="#" editable-email="patient.email" buttons="no">{{ patient.email || 'empty' }}</a>
@@ -73,7 +68,7 @@
 
       <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-          <label for="patientName" class="col-md-12 control-label">Tel√©fono:</label>
+          <label for="patientName" class="col-md-12 control-label">Teléfono:</label>
         </div>
         <div class="col-md-6 col-xs-6">
         <a href="#" editable-tel="patient.phone" buttons="no">{{ patient.phone || 'empty' }}</a>
@@ -91,20 +86,20 @@
     </div><!-- end of .col-md-6 -->
 
     <div class="col-md-6 col-xs-12"> 
-      <h3>Informaci√≥n m√©dica</h3><br>
+      <h3>Información médica</h3><br>
 
       <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
           <label for="patientName" class="col-md-12 control-label">Edad de inicio de actividad sexual:</label>
         </div>
         <div class="col-md-6 col-xs-6">
-        <a href="#" editable-text="patient.sexAct" buttons="no">{{ patient.sexAct || 'empty' }} </a>a√±os
+        <a href="#" editable-text="patient.sexAct" buttons="no">{{ patient.sexAct || 'empty' }} </a>años
         </div>
       </div>
 
       <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-          <label for="patientName" class="col-md-12 control-label">N√∫mero de embarazos:</label>
+          <label for="patientName" class="col-md-12 control-label">Número de embarazos:</label>
         </div>
         <div class="col-md-6 col-xs-6">
         <a href="#" editable-select="patient.pregnancy" buttons="no" e-ng-options="p.value as p.text for p in options">
@@ -113,17 +108,17 @@
       </div>
       <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-          <label for="patientName" class="col-md-12 control-label">N√∫mero de c√©sareas:</label>
+          <label for="patientName" class="col-md-12 control-label">Número de césareas:</label>
         </div>
         <div class="col-md-6 col-xs-6">
         <a href="#" editable-select="patient.caesarea" buttons="no" e-ng-options="c.value as c.text for c in options">
-    {{ patient.caesarea }} </a>c√©sareas
+    {{ patient.caesarea }} </a>césareas
         </div>
       </div>
 
       <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-          <label for="patientName" class="col-md-12 control-label">N√∫mero de partos naturales:</label>
+          <label for="patientName" class="col-md-12 control-label">Número de partos naturales:</label>
         </div>
         <div class="col-md-6 col-xs-6">
      <a href="#" editable-select="patient.labour" buttons="no" e-ng-options="l.value as l.text for l in options">
@@ -133,7 +128,7 @@
 
       <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-          <label for="patientName" class="col-md-12 control-label">N√∫mero de abortos:</label>
+          <label for="patientName" class="col-md-12 control-label">Número de abortos:</label>
         </div>
         <div class="col-md-6 col-xs-6">
      <a href="#" editable-select="patient.abortion" buttons="no" e-ng-options="a.value as a.text for a in options">
@@ -146,7 +141,7 @@
           <label for="patientName" class="col-md-12 control-label">Edad de inicio de menopausia:</label>
         </div>
         <div class="col-md-6 col-xs-6">
-        <a href="#" editable-text="patient.menopause" buttons="no">{{ patient.menopause || 'empty' }} </a>a√±os
+        <a href="#" editable-text="patient.menopause" buttons="no">{{ patient.menopause || 'empty' }} </a>años
         </div>
       </div>
 
@@ -155,7 +150,7 @@
           <label for="patientName" class="col-md-12 control-label">Edad de inicio de periodo menstrual</label>
         </div>
         <div class="col-md-6 col-xs-6">
-        <a href="#" editable-text="patient.period" buttons="no">{{ patient.period || 'empty' }} </a>a√±os
+        <a href="#" editable-text="patient.period" buttons="no">{{ patient.period || 'empty' }} </a>años
         </div>
       </div>
     </div><!-- end of .col-md-6 -->
@@ -192,7 +187,7 @@
     </div><!-- end of .col-md-6 -->
 
     <center>
-      <button type="button" class="btn btn-success">Enviar al sistema de diagn√≥stico</button>
+      <button type="button" class="btn btn-success">Enviar al sistema de diagnóstico</button>
     </center>
 
   </div><!-- /.container -->

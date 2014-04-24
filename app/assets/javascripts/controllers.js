@@ -2,9 +2,9 @@
 
 /* Controllers */
 
-var staffApp = angular.module('staffApp', []);
+var staffApp = angular.module('staffApp', ['ngRoute', 'staffServices']);
 
-staffApp.controller('StaffListCtrl', function($scope) {
+staffApp.controller('StaffCtrl', function($scope) {
   $scope.selectedMember = null;
 
   $scope.displayMember = function(member) {
@@ -15,121 +15,42 @@ staffApp.controller('StaffListCtrl', function($scope) {
     return member.name + " " + member.firstLastName + " " + member.secondLastName;
   };
 
-  $scope.staff = [
-    {
-      'id': 0,
-      'name': 'Dr. Juan Francisco',
-      'firstLastName': 'Martínez ',
-      'secondLastName': 'Garza'
-    },
-    {
-      'id': 1,
-      'name': 'Juan',
-      'firstLastName': 'Cordova ',
-      'secondLastName': 'Santa'
-    },
-    {
-      'id': 2,
-      'name': 'Dr. Juan',
-      'firstLastName': 'De La Garza',
-      'secondLastName': 'Lujan'
-    }
-  ];
-
   $scope.orderName = 'name';
 });
 
-staffApp.controller('PatientListCtrl', ['$scope', '$http', function($scope, $http, $location) {
-  $scope.show= function(patient) {
-    window.location = jsRoutes.controllers.Staffs.showPatient(patient.id).url;
-  };
+staffApp.controller('PatientCtrl', function($scope, Staff) {
+      Staff.query({id: '1'}, function(data) {
+    	  $scope.staff = data;
+    	  console.log($scope.staff);
+      }
+); 
+            
+$scope.fullName = function(patient) {
+  return patient.personalInfo.name + " " + patient.personalInfo.firstLastName + " " + patient.personalInfo.secondLastName;
+   	  };
+   	  
+$scope.numberOfStudiesText = function(patient) {
+   	    var numberOfStudies = patient.studies.length;
+   	    return numberOfStudies > 0 ? numberOfStudies : 'No tiene estudios';
+   	  };
+   	  
+$scope.setPatientId = function(id) {
+$scope.patientId = id;
+   	  };
+   	  
+ });
 
-  $scope.setPatientId = function(id) {
-    $scope.patientId = id;
-  };
-
-  $scope.cssClass = function(ownPatient) {
-    return ownPatient ? 'info' : 'success';
-  };
-
-  $scope.numberOfStudiesText = function(patient) {
-    var numberOfStudies = patient.studies.length;
-    return numberOfStudies > 0 ? numberOfStudies : 'No tiene estudios';
-  };
-
-  $scope.fullName = function(patient) {
-    return patient.name + " " + patient.firstLastName + " " + patient.secondLastName;
-  };
-
-  $scope.patients = [
-    {
-      'id': 0,
-      'name': 'Juan Francisco',
-      'firstLastName': 'Martínez ',
-      'secondLastName': 'Garza',
-      'own': false,
-      'studies': [1,2,3]
-    },
-    {
-      'id': 1,
-      'name': 'Katia',
-      'firstLastName': 'Cordova ',
-      'secondLastName': 'Santa',
-      'own': true,
-      'studies': []
-    },
-    {
-      'id': 2,
-      'name': 'Aura',
-      'firstLastName': 'De La Garza ',
-      'secondLastName': 'Lujan',
-      'own': true,
-      'studies': [1]
-    },
-    {
-      'id': 3,
-      'name': 'Alejandra',
-      'firstLastName': 'Pulido ',
-      'secondLastName': 'De La Llave',
-      'own': false,
-      'studies': [1]
-    },
-    {
-      'id': 4,
-      'name': 'Enrique',
-      'firstLastName': 'Sanchez ',
-      'secondLastName': 'Godoy',
-      'own': false,
-      'studies': [1,2]
-    },
-    {
-      'id': 5,
-      'name': 'Carlos',
-      'firstLastName': 'Garza ',
-      'secondLastName': 'Quintero',
-      'own': true,
-      'studies': []
-    },
-    {
-      'id': 6,
-      'name': 'Kristina',
-      'firstLastName': 'Montejano ',
-      'secondLastName': 'De La Garza',
-      'own': false,
-      'studies': [1,2,3]
-    },
-    {
-      'id': 7,
-      'name': 'Erubiel',
-      'firstLastName': 'Zambrano ',
-      'secondLastName': 'Moctezuma',
-      'own': true,
-      'studies': [1,2]
-    }
-  ];
-
-  $scope.orderName = 'name';
-}]);
+staffApp.config(['$routeProvider',
+                 function($routeProvider) {
+                      $routeProvider.
+                        when('/staff', {
+                          templateUrl: 'staff.scala.html',
+                          controller: 'PatientCtrl'
+                        }).
+                        otherwise({
+                          redirectTo: '/staff'
+                        });
+                    }]);
 
 var form_app = angular.module("form_app", ["xeditable"]);
 
