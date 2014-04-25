@@ -52,7 +52,7 @@ class IntegrationScalaTest extends PlayBrowserSpec with UserLogin {
       click on ("login")
 
       Then("user sees the login screen with a form submission error")
-      pageSource should include(Messages("errors.invalid.login")(Lang("es")))
+      pageSource should include(Messages("error.invalid.login")(Lang("es")))
     }
   }
 
