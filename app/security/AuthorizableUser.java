@@ -11,9 +11,11 @@ import be.objectify.deadbolt.core.models.Subject;
 public class AuthorizableUser implements Subject {
 
 	private Context context;
+	private Long session;
 
 	public AuthorizableUser(Context context) {
 		this.context = context;
+		this.session = Long.parseLong(context.session().get("timeOfLogin"));
 	}
 
 	@Override
@@ -28,16 +30,22 @@ public class AuthorizableUser implements Subject {
 		};
 	}
 
+	//The following classes are required for the correct use of Deadbolt2, but they need not be implemented.
 	@Override
 	public List<? extends Permission> getPermissions() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getIdentifier() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	public Long getSession() {
+		return session;
+	}
+
+	public void setSession(Long session) {
+		this.session = session;
+	}
 }

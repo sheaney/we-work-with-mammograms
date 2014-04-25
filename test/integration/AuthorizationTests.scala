@@ -1,8 +1,8 @@
 package integration
 
 import models.Admin
-import models.Staff
 import models.Patient
+import models.Staff
 
 class AuthorizationTests extends PlayBrowserSpec with UserLogin {
 

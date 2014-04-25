@@ -1,5 +1,6 @@
 package controllers;
 
+import be.objectify.deadbolt.java.actions.SubjectNotPresent;
 import models.Admin;
 import models.PersonalInfo;
 import models.Staff;
@@ -27,9 +28,13 @@ public class Application extends Controller {
 		}
 		return redirect(routes.Application.login());
 	}
-
+	
 	public static Result login() {
-		return ok(login.render(Form.form(Login.class)));
+		if(session().get("id") != null){
+			return redirect(routes.Application.index());
+		}else{
+			return ok(login.render(Form.form(Login.class)));
+		}
 	}
 
 	public static Result logout(){
@@ -118,19 +123,22 @@ public class Application extends Controller {
 				session().clear();
 				session("id", staff.getId().toString());
 		        session("type", Roles.STAFF.getName());
+		        session("timeOfLogin", String.valueOf(System.currentTimeMillis()));
 				return null;
 			}else if (admin != null){
 				session().clear();
 				session("id", admin.getId().toString());
 		        session("type", Roles.ADMIN.getName());
+		        session("timeOfLogin", String.valueOf(System.currentTimeMillis()));
 				return null;
 			}else if(patientPersonalInfo != null){
 				session().clear();
 				session("id", patientPersonalInfo.getPatient().getId().toString());
 		        session("type", Roles.PATIENT.getName());
+		        session("timeOfLogin", String.valueOf(System.currentTimeMillis()));
 				return null;
 			}else{
-				return "errors.invalid.login";
+				return "error.invalid.login";
 			}
 		}
 	}
