@@ -5,7 +5,7 @@
 }
 
 
-@views.html.layouts.main("Bienvenido", moreCss) {
+@views.html.layouts.angular("Bienvenido", moreCss)(angularApp = "PatientApp", angularCtrl = "PatientController") {
     <!-- Render top navbar -->
     @navbar(userName)
 
@@ -21,33 +21,18 @@
 
 <div class="tab-content">
          <div id="resultados" class="tab-pane fade in active">
-              <div class="col-md-8">
-      <h2>2 de febrero de 2014</h2>
+              <div class="col-md-8" ng-repeat="study in patient.studies">
+      <h2>{{studyDate(study)}}</h2>
       <br>
-      <p>
-        Toma 1 |
-        <a href="#">Abrir</a> | 
-        <a href="#">Descargar</a>
-      </p>
-      <p>
-        Toma 2 |
-        <a href="#">Abrir</a> | 
-        <a href="#">Descargar</a>
-      </p>
-      <p>
-        Toma 3 |
-        <a href="#">Abrir</a> | 
-        <a href="#">Descargar</a>
-      </p>
-      <p>
-        Toma 4 |
+      <p ng-repeat="mammogram in study.mammograms">
+        Mamografía {{mammogramId(mammogram)}} |
         <a href="#">Abrir</a> | 
         <a href="#">Descargar</a>
       </p>
 
       <h2>Comentarios</h2>
 
-      <pre>Toma2 y Toma3 no salen muy bien y requieren una segunda opinión. - Dr. Juanito</pre>
+      <pre ng-repeat= "comment in study.comments">{{comments(comment)}}</pre>
         </div>
         </div>
 
@@ -61,70 +46,43 @@
         <label for="patientName" class="col-md-12 control-label">Nombre del paciente:</label>
         </div>
         <div class="col-md-6 col-sm-10">
-            @userName
+            {{fullName}}
         </div>
         </div>
 
        <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Dirección:</label>
+        <label for="patientAddress" class="col-md-12 control-label">Dirección:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-         @userName
+        {{address}}
          </div>
          </div>
         
         <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Correo Electrónico:</label>
+        <label for="patientEmail" class="col-md-12 control-label">Correo Electrónico:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @userName
+            {{email}}
          </div>
          </div>
-
+         
         <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Correo Electrónico:</label>
+        <label for="patientPhone" class="col-md-12 control-label">Teléfono:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @userName
+            {{telephone}}
          </div>
          </div>
 
-        <div class="col-md-12 col-xs-12">
+       <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Teléfono:</label>
+        <label for="patientBirhdate" class="col-md-12 control-label">Fecha de Nacimiento:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @userName
-         </div>
-         </div>
-
-         <div class="col-md-12 col-xs-12">
-        <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Teléfono:</label>
-        </div>
-         <div class="col-md-6 col-sm-10">
-            @userName
-         </div>
-         </div>
-
-        <div class="col-md-12 col-xs-12">
-        <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Teléfono:</label>
-        </div>
-         <div class="col-md-6 col-sm-10">
-            @userName
-         </div>
-         </div>
-
-        <div class="col-md-12 col-xs-12">
-        <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Fecha de Nacimiento:</label>
-        </div>
-         <div class="col-md-6 col-sm-10">
-            @userName
+            {{birthdate}}
          </div>
          </div>
 </div>
@@ -137,7 +95,7 @@
         <label for="patientName" class="col-md-12 control-label">Edad de inicio de actividad sexual:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @userName
+            {{sexualActivityStartAge}}
          </div>
          </div>
 
@@ -146,7 +104,7 @@
         <label for="patientName" class="col-md-12 control-label">Número de embarazos:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @userName
+            {{pregnancies}}
          </div>
          </div>
 
@@ -155,7 +113,7 @@
         <label for="patientName" class="col-md-12 control-label">Número de césareas:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @userName
+            {{cSections}}
          </div>
          </div>
 
@@ -164,7 +122,7 @@
         <label for="patientName" class="col-md-12 control-label">Número de partos naturales:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @userName
+            {{naturalDeliveries}}
          </div>
          </div>
 
@@ -173,7 +131,7 @@
         <label for="patientName" class="col-md-12 control-label">Número de abortos:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @userName
+            {{abortions}}
          </div>
          </div>
 
@@ -182,7 +140,7 @@
         <label for="patientName" class="col-md-12 control-label">Edad de inicio de menopausia:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @userName
+            {{menopauseStartAge}}
          </div>
          </div>
 
@@ -191,7 +149,7 @@
         <label for="patientName" class="col-md-12 control-label">Edad de inicio de periodo menstrual</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @userName
+            {{menstrualPeriodStartAge}}
          </div>
          </div>
 
