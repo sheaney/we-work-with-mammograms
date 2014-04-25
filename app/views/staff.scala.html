@@ -5,7 +5,7 @@
   <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
 }
 
-@views.html.layouts.angular("Bienvenido", moreCss)(angularApp = "staffApp", angularCtrl = "PatientCtrl") {
+@views.html.layouts.angular("Bienvenido", moreCss)(angularApp = "staffApp", angularCtrl = "PatientsCtrl") {
     <!-- Render top navbar -->
     @navbar(userName)
     
@@ -52,10 +52,10 @@
         <table class="table table-hover staff-patients">
           <thead>
             <th>Nombre</th>
-            <th>Nœmero de estudios</th>
+            <th>NÃºmero de estudios</th>
           </thead>
           <tbody>
-            <tr ng-repeat="patient in staff.ownPatients | filter:query | orderBy:orderName" ng-click="show(patient)">
+            <tr ng-repeat="patient in staff.ownPatients | filter:query | orderBy:orderName" class="clickable-row {{cssClass(patient.own)}}" ng-click="show(patient)">
               <td>{{fullName(patient)}}</td>
               <td>{{numberOfStudiesText(patient)}}</td>
             </tr>

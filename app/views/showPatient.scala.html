@@ -5,7 +5,7 @@
 }
 
 
-@views.html.layouts.angular("Bienvenido", moreCss)(angularApp = "form_app", angularCtrl = "FormCtrl") {
+@views.html.layouts.angular("Bienvenido", moreCss)(angularApp = "staffApp", angularCtrl = "PatientCtrl") {
 
 
   <!-- Render top navbar -->
@@ -34,44 +34,44 @@
       </div>
     </div>
 
-    <legend>Información General del Paciente</legend>
+    <legend>Informaci√≥n General del Paciente</legend>
 
     <div class="col-md-6 col-xs-12"> 
-      <h3>Información Personal</h3><br>
+      <h3>Informaci√≥n Personal</h3><br>
 
       <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
           <label for="patientName" class="col-md-12 control-label">Nombre del paciente:</label>
         </div>
         <div class="col-md-6 col-xs-6">
-        <a href="#" editable-text="patient.patientName" buttons="no">{{ patient.patientName || 'empty' }}</a>
+        <a href="#" editable-text="fullName" buttons="no">{{fullName}}</a>
         </div>
       </div>
 
       <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-          <label for="patientName" class="col-md-12 control-label">Dirección:</label>
+          <label for="patientName" class="col-md-12 control-label">Direcci√≥n:</label>
         </div>
         <div class="col-md-6 col-xs-6">
-        <a href="#" editable-textarea="patient.patientAdress">{{ patient.patientAdress || 'empty' }}</a>
-        </div>
-      </div>
-
-      <div class="col-md-12 col-xs-12">
-        <div class="col-md-6 col-xs-6">
-          <label for="patientName" class="col-md-12 control-label">Correo Electrónico:</label>
-        </div>
-        <div class="col-md-6 col-xs-6">
-        <a href="#" editable-email="patient.email" buttons="no">{{ patient.email || 'empty' }}</a>
+        <a href="#" editable-textarea="address">{{ address }}</a>
         </div>
       </div>
 
       <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-          <label for="patientName" class="col-md-12 control-label">Teléfono:</label>
+          <label for="patientName" class="col-md-12 control-label">Correo Electr√≥nico:</label>
         </div>
         <div class="col-md-6 col-xs-6">
-        <a href="#" editable-tel="patient.phone" buttons="no">{{ patient.phone || 'empty' }}</a>
+        <a href="#" editable-email="email" buttons="no">{{ email }}</a>
+        </div>
+      </div>
+
+      <div class="col-md-12 col-xs-12">
+        <div class="col-md-6 col-xs-6">
+          <label for="patientName" class="col-md-12 control-label">Tel√©fono:</label>
+        </div>
+        <div class="col-md-6 col-xs-6">
+        <a href="#" editable-tel="telephone" buttons="no">{{ telephone }}</a>
         </div>
       </div>
 
@@ -80,59 +80,59 @@
           <label for="patientName" class="col-md-12 control-label">Fecha de Nacimiento:</label>
         </div>
         <div class="col-md-6 col-xs-6">
-        <a href="#" editable-date="patient.bd" buttons="no">{{ patient.bd || 'empty' }}</a>
+        <a href="#" editable-date="birthdate" buttons="no">{{ birthdate }}</a>
         </div>
       </div>
     </div><!-- end of .col-md-6 -->
 
     <div class="col-md-6 col-xs-12"> 
-      <h3>Información médica</h3><br>
+      <h3>Informaci√≥n m√©dica</h3><br>
 
       <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
           <label for="patientName" class="col-md-12 control-label">Edad de inicio de actividad sexual:</label>
         </div>
         <div class="col-md-6 col-xs-6">
-        <a href="#" editable-text="patient.sexAct" buttons="no">{{ patient.sexAct || 'empty' }} </a>años
+        <a href="#" editable-text="sexualActivityStartAge" buttons="no">{{ sexualActivityStartAge }} </a>a√±os
         </div>
       </div>
 
       <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-          <label for="patientName" class="col-md-12 control-label">Número de embarazos:</label>
+          <label for="patientName" class="col-md-12 control-label">N√∫mero de embarazos:</label>
         </div>
         <div class="col-md-6 col-xs-6">
-        <a href="#" editable-select="patient.pregnancy" buttons="no" e-ng-options="p.value as p.text for p in options">
-    {{ patient.pregnancy }} </a>embarazos
+        <a href="#" editable-select="pregnancies" buttons="no" e-ng-options="p.value as p.text for p in options">
+    {{ pregnancies }} </a>embarazos
         </div>
       </div>
       <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-          <label for="patientName" class="col-md-12 control-label">Número de césareas:</label>
+          <label for="patientName" class="col-md-12 control-label">N√∫mero de c√©sareas:</label>
         </div>
         <div class="col-md-6 col-xs-6">
-        <a href="#" editable-select="patient.caesarea" buttons="no" e-ng-options="c.value as c.text for c in options">
-    {{ patient.caesarea }} </a>césareas
-        </div>
-      </div>
-
-      <div class="col-md-12 col-xs-12">
-        <div class="col-md-6 col-xs-6">
-          <label for="patientName" class="col-md-12 control-label">Número de partos naturales:</label>
-        </div>
-        <div class="col-md-6 col-xs-6">
-     <a href="#" editable-select="patient.labour" buttons="no" e-ng-options="l.value as l.text for l in options">
-    {{ patient.labour }} </a>partos
+        <a href="#" editable-select="cSections" buttons="no" e-ng-options="c.value as c.text for c in options">
+    {{ cSections }} </a>c√©sareas
         </div>
       </div>
 
       <div class="col-md-12 col-xs-12">
         <div class="col-md-6 col-xs-6">
-          <label for="patientName" class="col-md-12 control-label">Número de abortos:</label>
+          <label for="patientName" class="col-md-12 control-label">N√∫mero de partos naturales:</label>
         </div>
         <div class="col-md-6 col-xs-6">
-     <a href="#" editable-select="patient.abortion" buttons="no" e-ng-options="a.value as a.text for a in options">
-    {{ patient.abortion }} </a>abortos
+     <a href="#" editable-select="naturalDeliveries" buttons="no" e-ng-options="l.value as l.text for l in options">
+    {{ naturalDeliveries }} </a>partos
+        </div>
+      </div>
+
+      <div class="col-md-12 col-xs-12">
+        <div class="col-md-6 col-xs-6">
+          <label for="patientName" class="col-md-12 control-label">N√∫mero de abortos:</label>
+        </div>
+        <div class="col-md-6 col-xs-6">
+     <a href="#" editable-select="abortions" buttons="no" e-ng-options="a.value as a.text for a in options">
+    {{ abortions }} </a>abortos
         </div>
       </div>
 
@@ -141,7 +141,7 @@
           <label for="patientName" class="col-md-12 control-label">Edad de inicio de menopausia:</label>
         </div>
         <div class="col-md-6 col-xs-6">
-        <a href="#" editable-text="patient.menopause" buttons="no">{{ patient.menopause || 'empty' }} </a>años
+        <a href="#" editable-text="menopauseStartAge" buttons="no">{{ menopauseStartAge }} </a>a√±os
         </div>
       </div>
 
@@ -150,7 +150,7 @@
           <label for="patientName" class="col-md-12 control-label">Edad de inicio de periodo menstrual</label>
         </div>
         <div class="col-md-6 col-xs-6">
-        <a href="#" editable-text="patient.period" buttons="no">{{ patient.period || 'empty' }} </a>años
+        <a href="#" editable-text="menstrualPeriodStartAge" buttons="no">{{ menstrualPeriodStartAge }} </a>a√±os
         </div>
       </div>
     </div><!-- end of .col-md-6 -->
@@ -158,36 +158,24 @@
 
     <legend>Estudios del Paciente</legend>
 
-
-    <div class="col-md-12 col-xs-12"> 
-      <h2>2 de febrero de 2014</h2>
+        <div class="col-md-8" ng-repeat="study in patient.studies">
+      <h2>{{studyDate(study)}}</h2>
       <a href="@routes.Staffs.study(id, 20)">Ver detalle de estudio</a>
-      <div class="patient-study-summary" style="margin-top: 10px">
-        <p>
-          Toma 1 |
-          <a href="#">Abrir</a> | 
-          <a href="#">Descargar</a>
-        </p>
-        <p>
-          Toma 2 |
-          <a href="#">Abrir</a> | 
-          <a href="#">Descargar</a>
-        </p>
-        <p>
-          Toma 3 |
-          <a href="#">Abrir</a> | 
-          <a href="#">Descargar</a>
-        </p>
-        <p>
-          Toma 4 |
-          <a href="#">Abrir</a> | 
-          <a href="#">Descargar</a>
-        </p>
-      </div>
-    </div><!-- end of .col-md-6 -->
+      <br>
+      <br>
+      <p ng-repeat="mammogram in study.mammograms">
+        Mamograf√≠a {{mammogramId(mammogram)}} |
+        <a href="#">Abrir</a> | 
+        <a href="#">Descargar</a>
+      </p>
+
+      <h2>Comentarios</h2>
+
+      <pre ng-repeat= "comment in study.comments">{{comments(comment)}}</pre>
+        </div>
 
     <center>
-      <button type="button" class="btn btn-success">Enviar al sistema de diagnóstico</button>
+      <button type="button" class="btn btn-success">Enviar al sistema de diagn√≥stico</button>
     </center>
 
   </div><!-- /.container -->
