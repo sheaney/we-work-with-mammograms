@@ -55,7 +55,7 @@
         <label for="patientAddress" class="col-md-12 control-label">Dirección:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-        {{address}}
+        {{patient.personalInfo.address}}
          </div>
          </div>
         
@@ -64,7 +64,7 @@
         <label for="patientEmail" class="col-md-12 control-label">Correo Electrónico:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            {{email}}
+            {{patient.personalInfo.email}}
          </div>
          </div>
          
@@ -73,7 +73,7 @@
         <label for="patientPhone" class="col-md-12 control-label">Teléfono:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            {{telephone}}
+            {{patient.personalInfo.telephone}}
          </div>
          </div>
 
@@ -82,7 +82,7 @@
         <label for="patientBirhdate" class="col-md-12 control-label">Fecha de Nacimiento:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            {{birthdate}}
+            {{patient.personalInfo.birthdate}}
          </div>
          </div>
 </div>
@@ -95,7 +95,7 @@
         <label for="patientName" class="col-md-12 control-label">Edad de inicio de actividad sexual:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            {{sexualActivityStartAge}}
+            {{patient.medicalInfo.sexualActivityStartAge}}
          </div>
          </div>
 
@@ -104,7 +104,7 @@
         <label for="patientName" class="col-md-12 control-label">Número de embarazos:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            {{pregnancies}}
+            {{patient.medicalInfo.pregnancies}}
          </div>
          </div>
 
@@ -113,7 +113,7 @@
         <label for="patientName" class="col-md-12 control-label">Número de césareas:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            {{cSections}}
+            {{patient.medicalInfo.cSections}}
          </div>
          </div>
 
@@ -122,7 +122,7 @@
         <label for="patientName" class="col-md-12 control-label">Número de partos naturales:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            {{naturalDeliveries}}
+            {{patient.medicalInfo.naturalDeliveries}}
          </div>
          </div>
 
@@ -131,7 +131,7 @@
         <label for="patientName" class="col-md-12 control-label">Número de abortos:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            {{abortions}}
+            {{patient.medicalInfo.abortions}}
          </div>
          </div>
 
@@ -140,7 +140,7 @@
         <label for="patientName" class="col-md-12 control-label">Edad de inicio de menopausia:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            {{menopauseStartAge}}
+            {{patient.medicalInfo.menopauseStartAge}}
          </div>
          </div>
 
@@ -149,7 +149,7 @@
         <label for="patientName" class="col-md-12 control-label">Edad de inicio de periodo menstrual</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            {{menstrualPeriodStartAge}}
+            {{patient.medicalInfo.menstrualPeriodStartAge}}
          </div>
          </div>
 

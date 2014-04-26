@@ -23,7 +23,7 @@
         var rawData = rawCookie.substring(rawCookie.indexOf('-') + 1, rawCookie.length -1);
         var session = {};
         var id;
-        _.each(rawData.split("&"), function(rawPair) {
+        rawData.split("&").forEach(function(rawPair){
             var pair = rawPair.split('=');
             if(pair[0] == "id")
             	id = pair[1];
