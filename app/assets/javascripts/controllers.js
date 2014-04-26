@@ -125,11 +125,14 @@ staffApp.run(function(editableOptions) {
 	});
 
 
-var patientApp = angular.module('PatientApp', ['ngRoute', 'patientServices']);
+var patientApp = angular.module('patientApp', ['ngRoute', 'patientServices', 'CookieCtrl']);
 
-patientApp.controller('PatientController', function($scope, Patient) {
-    Patient.query({id: '1'}, function(data) {
-    	
+patientApp.controller('PatientController', function($scope, Patient, id) {
+	
+	// Session Information
+	  $scope.id = id;
+	 	  	
+    Patient.query({id: id}, function(data) {	
       $scope.patient = data;
     
     // Personal Information
