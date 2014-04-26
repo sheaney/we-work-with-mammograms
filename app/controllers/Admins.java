@@ -11,6 +11,7 @@ import views.html.newStaff;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 
+
 @Restrict(@Group({"ADMIN"}))
 public class Admins extends Controller {
 

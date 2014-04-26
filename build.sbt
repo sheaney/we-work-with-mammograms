@@ -22,7 +22,8 @@ libraryDependencies ++= Seq(
   "postgresql" % "postgresql" % "9.1-901.jdbc4",
   "org.webjars" %% "webjars-play" % "2.2.0",
   "org.webjars" % "bootstrap" % "2.3.1",
-  "be.objectify" %% "deadbolt-java" % "2.2-RC4"
+  "be.objectify" %% "deadbolt-java" % "2.2-RC4",
+  "com.amazonaws" % "aws-java-sdk" % "1.6.0"
 )
 
 playJavaSettings ++ SassPlugin.sassSettings
