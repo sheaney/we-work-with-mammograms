@@ -5,7 +5,7 @@
   <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
 }
 
-@views.html.layouts.angular("Bienvenido", moreCss)(angularApp = "staffApp", angularCtrl = "PatientsCtrl") {
+@views.html.layouts.angular("Bienvenido", moreCss)(angularApp = "staffApp", angularCtrl = "ShowStaffCtrl") {
     <!-- Render top navbar -->
     @navbar(userName)
     
@@ -55,8 +55,8 @@
             <th>Número de estudios</th>
           </thead>
           <tbody>
-            <tr ng-repeat="patient in staff.ownPatients | filter:query | orderBy:orderName" class="clickable-row {{cssClass(patient.own)}}" ng-click="show(patient)">
-              <td>{{fullName(patient)}}</td>
+            <tr ng-repeat="patient in staff.ownPatients.concat(staff.borrowedPatients) | filter:query | orderBy:orderProp" class="clickable-row {{cssClass(patient)}}" ng-click="show(patient)">
+              <td>{{fullName(patient)}} <span><b>{{sharedTag(patient)}}</b></span></td>
               <td>{{numberOfStudiesText(patient)}}</td>
             </tr>
           </tbody>
