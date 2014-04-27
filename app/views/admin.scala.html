@@ -1,4 +1,4 @@
-@(admin: Admin)
+@(user: String)
 
 @moreCss = {
   <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
@@ -6,7 +6,7 @@
 
 @views.html.layouts.main("Bienvenido", moreCss) {
     <!-- Render top navbar -->
-    @navbar(admin.getEmail())
+    @navbar(user)
     
     @if(flash.contains("success")) {
       <p class="success">

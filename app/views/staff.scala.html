@@ -1,4 +1,4 @@
-@(staff: Staff)
+@(user: String)
 
 @moreCss = {
   <link href="@routes.Assets.at("stylesheets/staff.css")" rel="stylesheet">
@@ -7,7 +7,7 @@
 
 @views.html.layouts.angular("Bienvenido", moreCss)(angularApp = "staffApp", angularCtrl = "PatientCtrl") {
     <!-- Render top navbar -->
-    @navbar(staff.getFullName())
+    @navbar(user)
     
     @if(flash.contains("success")) {
       <p class="success">
@@ -52,7 +52,7 @@
         <table class="table table-hover staff-patients">
           <thead>
             <th>Nombre</th>
-            <th>Nœmero de estudios</th>
+            <th>Nï¿½mero de estudios</th>
           </thead>
           <tbody>
             <tr ng-repeat="patient in staff.ownPatients | filter:query | orderBy:orderName" ng-click="show(patient)">

@@ -1,17 +1,16 @@
-@(patient: Patient)
+@(user: String)
 @moreCss = {
   <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
 }
 
-@defining(patient.getPersonalInfo().getFullName()) { fullName =>
 @views.html.layouts.main("Bienvenido", moreCss) {
     <!-- Render top navbar -->
-    @navbar(fullName)
+    @navbar(user)
 
     <div class="container">
 
         <div class="starter-template">
-        <h1 style="padding-bottom:20px">@fullName</h1>
+        <h1 style="padding-bottom:20px">@user</h1>
     
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#resultados">Resultados</a></li>
@@ -60,7 +59,7 @@
         <label for="patientName" class="col-md-12 control-label">Nombre del paciente:</label>
         </div>
         <div class="col-md-6 col-sm-10">
-            @fullName
+            @user
         </div>
         </div>
 
@@ -69,7 +68,7 @@
         <label for="patientName" class="col-md-12 control-label">Dirección:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-         @fullName
+         @user
          </div>
          </div>
         
@@ -78,7 +77,7 @@
         <label for="patientName" class="col-md-12 control-label">Correo Electrónico:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @fullName
+            @user
          </div>
          </div>
 
@@ -87,7 +86,7 @@
         <label for="patientName" class="col-md-12 control-label">Correo Electrónico:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @fullName
+            @user
          </div>
          </div>
 
@@ -96,7 +95,7 @@
         <label for="patientName" class="col-md-12 control-label">Teléfono:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @fullName
+            @user
          </div>
          </div>
 
@@ -105,7 +104,7 @@
         <label for="patientName" class="col-md-12 control-label">Teléfono:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @fullName
+            @user
          </div>
          </div>
 
@@ -114,7 +113,7 @@
         <label for="patientName" class="col-md-12 control-label">Teléfono:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @fullName
+            @user
          </div>
          </div>
 
@@ -123,7 +122,7 @@
         <label for="patientName" class="col-md-12 control-label">Fecha de Nacimiento:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @fullName
+            @user
          </div>
          </div>
 </div>
@@ -136,7 +135,7 @@
         <label for="patientName" class="col-md-12 control-label">Edad de inicio de actividad sexual:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @fullName
+            @user
          </div>
          </div>
 
@@ -145,7 +144,7 @@
         <label for="patientName" class="col-md-12 control-label">Número de embarazos:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @fullName
+            @user
          </div>
          </div>
 
@@ -154,7 +153,7 @@
         <label for="patientName" class="col-md-12 control-label">Número de césareas:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @fullName
+            @user
          </div>
          </div>
 
@@ -163,7 +162,7 @@
         <label for="patientName" class="col-md-12 control-label">Número de partos naturales:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @fullName
+            @user
          </div>
          </div>
 
@@ -172,7 +171,7 @@
         <label for="patientName" class="col-md-12 control-label">Número de abortos:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @fullName
+            @user
          </div>
          </div>
 
@@ -181,7 +180,7 @@
         <label for="patientName" class="col-md-12 control-label">Edad de inicio de menopausia:</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @fullName
+            @user
          </div>
          </div>
 
@@ -190,7 +189,7 @@
         <label for="patientName" class="col-md-12 control-label">Edad de inicio de periodo menstrual</label>
         </div>
          <div class="col-md-6 col-sm-10">
-            @fullName
+            @user
          </div>
          </div>
 
@@ -202,5 +201,4 @@
     </div>
 
   </div><!-- /.container -->
-}
 }

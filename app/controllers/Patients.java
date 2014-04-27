@@ -11,7 +11,7 @@ import views.html.patient;
 public class Patients extends Controller {
 	
 	public static Result patient() {
-		return ok(patient.render(Patient.findById(Long.parseLong(session("id")))));
+		return ok(patient.render(session().get("user")));
 	}
 	
 }

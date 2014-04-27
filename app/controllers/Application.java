@@ -124,18 +124,21 @@ public class Application extends Controller {
 				session("id", staff.getId().toString());
 		        session("type", Roles.STAFF.getName());
 		        session("timeOfLogin", String.valueOf(System.currentTimeMillis()));
+		        session("user",staff.getFullName());
 				return null;
 			}else if (admin != null){
 				session().clear();
 				session("id", admin.getId().toString());
 		        session("type", Roles.ADMIN.getName());
 		        session("timeOfLogin", String.valueOf(System.currentTimeMillis()));
+		        session("user",admin.getEmail());
 				return null;
 			}else if(patientPersonalInfo != null){
 				session().clear();
 				session("id", patientPersonalInfo.getPatient().getId().toString());
 		        session("type", Roles.PATIENT.getName());
 		        session("timeOfLogin", String.valueOf(System.currentTimeMillis()));
+		        session("user", patientPersonalInfo.getFullName());
 				return null;
 			}else{
 				return "error.invalid.login";

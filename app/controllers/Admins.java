@@ -17,7 +17,7 @@ public class Admins extends Controller {
 	final static Form<Staff> staffForm = Form.form(Staff.class);
 	
 	public static Result admin() {
-		return ok(admin.render(Admin.findById(Long.parseLong(session("id")))));
+		return ok(admin.render(session().get("user")));
 	}
 
 	public static Result newStaff() {

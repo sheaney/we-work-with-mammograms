@@ -23,7 +23,7 @@ public class Staffs extends Controller {
 	final static Form<Patient> patientForm = Form.form(Patient.class);
 
 	public static Result staff() {
-		return ok(staff.render(Staff.findById(Long.parseLong(session("id")))));
+		return ok(staff.render(session().get("user")));
 	}
 	
 	public static Result newStudy(Long patientId) {
