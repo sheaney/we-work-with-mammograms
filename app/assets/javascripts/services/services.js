@@ -14,6 +14,14 @@ patientServices.factory('Patient', function($resource){
   });
 });
 
+var patientInfoServices = angular.module('patientInfoServices', ['ngResource']);
+
+patientInfoServices.factory('PatientInfo', function($resource){
+  return $resource('/api/patient/:id/info', {}, {
+    query: {method: 'GET', params: {id: 'id'}, isArray: false}
+  });
+});
+
 var CookieCtrl = angular.module('CookieCtrl', ['ngCookies']);
 
 //Cookie Session

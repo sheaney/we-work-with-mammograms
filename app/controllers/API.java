@@ -25,5 +25,15 @@ public class API extends Controller {
 		Staff staff = Staff.findById(id);
 		return ok(JSONStaff.staffWithPatients(staff));
 	}
+	
+	public static Result getPatientInfo(Long id) {
+		Patient patient = Patient.findById(id);
+		// Get staff ID from session or from API access token
+		Long staffId = 1L;
+		Staff staff = Staff.findById(staffId);
+		
+		// Validate that patient really does exist, and return appropriate error or success message
+		return ok(JSONStaff.staffPatient(staff, id));
+	}
 
 }

@@ -49,14 +49,41 @@ public class JSONStaff {
 
 		return result;
 	}
+	
+	public static ObjectNode staffPatient(Staff staff, Long patientId) {
+		List<Patient> ownPatients = staff.getOwnPatients();
+		List<SharedPatient> borrowedPatients = staff.getBorrowedPatients();
+		
+		Set<Long> ownPatientIds = getOwnPatientIds(ownPatients);
+		Set<Long> borrowedPatientIds = getBorrowedPatientIds(borrowedPatients);
+		Set<Long> sharedIds = getSharedPatientIds(staff);
+		
+		if (ownPatientIds.contains(patientId)) {
+			Patient searched = getFromOwnPatients(patientId, ownPatients);
+			if (searched != null) {
+				return JSONPatient.staffPatient(searched, sharedIds.contains(patientId));
+			} else {
+				return null;
+			}
+		} else if (borrowedPatientIds.contains(patientId)) {
+			SharedPatient borrowed = getFromBorrowedPatients(patientId, borrowedPatients);
+			if (borrowed != null) {
+				return JSONPatient.staffBorrowedPatient(borrowed);
+			} else {
+				return null;
+			}
+		}
+		
+		return null;
+	}
 
 	private static List<ObjectNode> ownPatients(Staff staff) {
-		Set<Long> borrowedIds = getSharedPatientIds(staff);
+		Set<Long> sharedIds = getSharedPatientIds(staff);
 		List<Patient> ownPatients = staff.getOwnPatients();
 		List<ObjectNode> result = new ArrayList<ObjectNode>();
 
 		for (Patient patient : ownPatients) {
-			boolean isShared = borrowedIds.contains(patient.getId());
+			boolean isShared = sharedIds.contains(patient.getId());
 			result.add(JSONPatient.staffPatient(patient, isShared));
 		}
 
@@ -84,6 +111,46 @@ public class JSONStaff {
 		}
 
 		return ids;
+	}
+	
+	private static Set<Long> getBorrowedPatientIds(List<SharedPatient> borrowedPatients) {
+		Set<Long> ids = new HashSet<Long>();
+
+		for (SharedPatient borrowedPatient : borrowedPatients) {
+			Patient borrowed = borrowedPatient.getSharedInstance();
+			ids.add(borrowed.getId());
+		}
+
+		return ids;
+	}
+	
+	private static Set<Long> getOwnPatientIds(List<Patient> ownPatients) {
+		Set<Long> ids = new HashSet<Long>();
+		
+		for (Patient ownPatient : ownPatients) {
+			ids.add(ownPatient.getId());
+		}
+		
+		return ids;
+	}
+	
+	private static Patient getFromOwnPatients(Long id, List<Patient> ownPatients) {
+		for (Patient ownPatient : ownPatients) {
+			if (ownPatient.getId().equals(id)) {
+				return ownPatient;
+			}
+		}
+		return null;
+	}
+	
+	private static SharedPatient getFromBorrowedPatients(Long id, List<SharedPatient> borrowedPatients) {
+		for (SharedPatient borrowedPatient : borrowedPatients) {
+			Patient borrowed = borrowedPatient.getSharedInstance();
+			if (borrowed.getId().equals(id)) {
+				return borrowedPatient;
+			}
+		}
+		return null;
 	}
 
 }

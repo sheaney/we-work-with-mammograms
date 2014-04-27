@@ -5,8 +5,7 @@
 }
 
 
-@views.html.layouts.main("Bienvenido", moreCss) {
-
+@views.html.layouts.angular("Bienvenido", moreCss)(angularApp = "patientInfoApp", angularCtrl = "PatientInfoCtrl") {
 
   <!-- Render top navbar -->
   @navbar(userName)
@@ -44,7 +43,7 @@
           <label for="patientName" class="col-md-12 control-label">Nombre del paciente:</label>
         </div>
         <div class="col-md-6 col-xs-6">
-        <a href="#" editable-text="patient.patientName" buttons="no">{{ showdetails(1) || 'empty' }}</a>
+          <a href="#" editable-text="patient.patientName" buttons="no">{{ fullName || empty}}</a>
         </div>
       </div>
 
@@ -53,7 +52,7 @@
           <label for="patientName" class="col-md-12 control-label">Dirección:</label>
         </div>
         <div class="col-md-6 col-xs-6">
-        <a href="#" editable-textarea="patient.patientAdress">{{ patient.patientAdress || 'empty' }}</a>
+          <a href="#" editable-textarea="patient.patientAdress">{{ patient.personalInfo.address || 'empty' }}</a>
         </div>
       </div>
 
@@ -62,7 +61,7 @@
           <label for="patientName" class="col-md-12 control-label">Correo Electrónico:</label>
         </div>
         <div class="col-md-6 col-xs-6">
-        <a href="#" editable-email="patient.email" buttons="no">{{ patient.email || 'empty' }}</a>
+          <a href="#" editable-email="patient.email" buttons="no">{{ patient.personalInfo.email || 'empty' }}</a>
         </div>
       </div>
 
@@ -71,7 +70,7 @@
           <label for="patientName" class="col-md-12 control-label">Teléfono:</label>
         </div>
         <div class="col-md-6 col-xs-6">
-        <a href="#" editable-tel="patient.phone" buttons="no">{{ patient.phone || 'empty' }}</a>
+          <a href="#" editable-tel="patient.phone" buttons="no">{{ patient.personalInfo.telephone || 'empty' }}</a>
         </div>
       </div>
 
@@ -80,7 +79,7 @@
           <label for="patientName" class="col-md-12 control-label">Fecha de Nacimiento:</label>
         </div>
         <div class="col-md-6 col-xs-6">
-        <a href="#" editable-date="patient.bd" buttons="no">{{ patient.bd || 'empty' }}</a>
+          <a href="#" editable-date="patient.bd" buttons="no">{{ patient.personalInfo.birthdate || 'empty' }}</a>
         </div>
       </div>
     </div><!-- end of .col-md-6 -->
@@ -93,7 +92,7 @@
           <label for="patientName" class="col-md-12 control-label">Edad de inicio de actividad sexual:</label>
         </div>
         <div class="col-md-6 col-xs-6">
-        <a href="#" editable-text="patient.sexAct" buttons="no">{{ patient.sexAct || 'empty' }} </a>años
+          <a href="#" editable-text="patient.sexAct" buttons="no">{{ patient.medicalInfo.sexualActivityStartAge || 'empty' }} </a>años
         </div>
       </div>
 
@@ -102,8 +101,8 @@
           <label for="patientName" class="col-md-12 control-label">Número de embarazos:</label>
         </div>
         <div class="col-md-6 col-xs-6">
-        <a href="#" editable-select="patient.pregnancy" buttons="no" e-ng-options="p.value as p.text for p in options">
-    {{ patient.pregnancy }} </a>embarazos
+          <a href="#" editable-select="patient.pregnancy" buttons="no">
+    {{ patient.medicalInfo.pregnancies }} </a>embarazos
         </div>
       </div>
       <div class="col-md-12 col-xs-12">
@@ -112,7 +111,7 @@
         </div>
         <div class="col-md-6 col-xs-6">
         <a href="#" editable-select="patient.caesarea" buttons="no" e-ng-options="c.value as c.text for c in options">
-    {{ patient.caesarea }} </a>césareas
+    {{ patient.medicalInfo.cSections }} </a>césareas
         </div>
       </div>
 
@@ -122,7 +121,7 @@
         </div>
         <div class="col-md-6 col-xs-6">
      <a href="#" editable-select="patient.labour" buttons="no" e-ng-options="l.value as l.text for l in options">
-    {{ patient.labour }} </a>partos
+    {{ patient.medicalInfo.naturalDeliveries }} </a>partos
         </div>
       </div>
 
@@ -131,8 +130,8 @@
           <label for="patientName" class="col-md-12 control-label">Número de abortos:</label>
         </div>
         <div class="col-md-6 col-xs-6">
-     <a href="#" editable-select="patient.abortion" buttons="no" e-ng-options="a.value as a.text for a in options">
-    {{ patient.abortion }} </a>abortos
+         <a href="#" editable-select="patient.abortion" buttons="no" e-ng-options="a.value as a.text for a in options">
+        {{ patient.medicalInfo.abortions }} </a>abortos
         </div>
       </div>
 
@@ -141,7 +140,7 @@
           <label for="patientName" class="col-md-12 control-label">Edad de inicio de menopausia:</label>
         </div>
         <div class="col-md-6 col-xs-6">
-        <a href="#" editable-text="patient.menopause" buttons="no">{{ patient.menopause || 'empty' }} </a>años
+          <a href="#" editable-text="patient.menopause" buttons="no">{{ patient.medicalInfo.menopauseStartAge || 'empty' }} </a>años
         </div>
       </div>
 
@@ -150,7 +149,7 @@
           <label for="patientName" class="col-md-12 control-label">Edad de inicio de periodo menstrual</label>
         </div>
         <div class="col-md-6 col-xs-6">
-        <a href="#" editable-text="patient.period" buttons="no">{{ patient.period || 'empty' }} </a>años
+          <a href="#" editable-text="patient.period" buttons="no">{{ patient.medicalInfo.menstrualPeriodStartAge || 'empty' }} </a>años
         </div>
       </div>
     </div><!-- end of .col-md-6 -->
