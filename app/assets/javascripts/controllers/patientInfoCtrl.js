@@ -1,4 +1,4 @@
-var patientInfoApp = angular.module('patientInfoApp', ['patientInfoServices', 'CookieCtrl']);
+var patientInfoApp = angular.module('patientInfoApp', ['patientInfoServices', 'CookieCtrl', 'xeditable']);
 
 patientInfoApp.controller('PatientInfoCtrl', function($scope, PatientInfo, id) {
 	
@@ -7,21 +7,23 @@ patientInfoApp.controller('PatientInfoCtrl', function($scope, PatientInfo, id) {
 
   PatientInfo.query({id: id}, function(data) {	
     $scope.patient = data;
+    setPatientInfoAvailability($scope.patient);
     // need to handle failure
     $scope.fullName = data.personalInfo.name + " " + data.personalInfo.firstLastName + " " + data.personalInfo.secondLastName;
   });
 
-  // Studies
-  $scope.studyDate = function(study) {
-    return study.createdAt;
+  // Patient info availability
+  var setPatientInfoAvailability = function(patient) {
+    $scope.availablePersonalInfo = patient.personalInfo != undefined;
+    $scope.availableMedicalInfo  = patient.medicalInfo != undefined;
+    $scope.availableStudies      = patient.studies != undefined;
   };
 
-  $scope.mammogramId = function(mammogram) {
-    return mammogram.id;
-  };
+  // orderBy property
+  $scope.mostRecent = 'createdAt';
 
-  $scope.comments = function(comment) {
-    return comment.content;
-  };
+});
 
+patientInfoApp.run(function(editableOptions) {
+    editableOptions.theme = 'bs3';
 });
