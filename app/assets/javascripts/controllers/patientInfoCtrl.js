@@ -1,11 +1,11 @@
-var patientInfoApp = angular.module('patientInfoApp', ['patientInfoServices', 'CookieCtrl', 'xeditable']);
+var patientInfoApp = angular.module('patientInfoApp', ['patientInfoServices', 'xeditable']);
 
-patientInfoApp.controller('PatientInfoCtrl', function($scope, PatientInfo, id) {
+patientInfoApp.controller('PatientInfoCtrl', function($scope, PatientInfo) {
 	
 	// Session Information
-  $scope.id = id;
+  $scope.id = $('#patient').data('patient-id');
 
-  PatientInfo.query({id: id}, function(data) {	
+  PatientInfo.query({id: $scope.id}, function(data) {	
     $scope.patient = data;
     setPatientInfoAvailability($scope.patient);
     // need to handle failure
