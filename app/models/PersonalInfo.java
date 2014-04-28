@@ -129,6 +129,7 @@ public class PersonalInfo extends Model {
             .eq("password", password).findUnique();
     }
     
+    @JsonIgnore
     public Patient getPatient(){
     	return Patient.find.where().eq("personal_info_id", id).findUnique();
     }
