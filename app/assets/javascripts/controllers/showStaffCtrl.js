@@ -1,9 +1,9 @@
 'use strict';
 
-var staffApp = angular.module('staffApp', ['staffServices', 'xeditable']);
-staffApp.controller('ShowStaffCtrl', function($scope, Staff) {
+var staffApp = angular.module('staffApp', ['staffServices', 'CookieCtrl']);
+staffApp.controller('ShowStaffCtrl', function($scope, Staff, id) {
 
-  Staff.query({id: '1'}, function(data) {
+  Staff.query({id: id}, function(data) {
     $scope.staff = data;
   });
 
@@ -41,20 +41,4 @@ staffApp.controller('ShowStaffCtrl', function($scope, Staff) {
   };
 
   $scope.orderProp = 'personalInfo.name';
-});
-
-staffApp.run(function(editableOptions) { editableOptions.theme = 'bs3'; });
-
-staffApp.controller('StaffCtrl', function($scope) {
-  $scope.selectedMember = null;
-
-  $scope.displayMember = function(member) {
-    $scope.selectedMember = member;
-  };
-
-  $scope.fullName = function(member) {
-    return member.name + " " + member.firstLastName + " " + member.secondLastName;
-  };
-
-  $scope.orderName = 'name';
 });

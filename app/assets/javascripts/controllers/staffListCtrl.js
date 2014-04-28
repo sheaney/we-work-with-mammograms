@@ -1,6 +1,6 @@
 'use strict';
 
-var sharePatientApp = angular.module('sharePatientApp', ['staffServices', 'xeditable']);
+var sharePatientApp = angular.module('sharePatientApp', ['staffServices']);
 
 sharePatientApp.controller('StaffListCtrl', function($scope) {
   $scope.selectedMember = null;

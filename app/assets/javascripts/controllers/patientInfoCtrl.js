@@ -2,7 +2,7 @@ var patientInfoApp = angular.module('patientInfoApp', ['patientInfoServices', 'x
 
 patientInfoApp.controller('PatientInfoCtrl', function($scope, PatientInfo) {
 	
-	// Session Information
+	// Patient id
   $scope.id = $('#patient').data('patient-id');
 
   PatientInfo.query({id: $scope.id}, function(data) {	
