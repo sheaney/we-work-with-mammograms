@@ -1,8 +1,12 @@
 package factories
 
-import models.{ Admin, Staff, Patient, PersonalInfo, MedicalInfo }
 import java.text.SimpleDateFormat
-import play.db.ebean.Model
+
+import models.Admin
+import models.MedicalInfo
+import models.Patient
+import models.PersonalInfo
+import models.Staff
 
 trait Factories {
 

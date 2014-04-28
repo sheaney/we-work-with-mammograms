@@ -19,10 +19,14 @@ public class Admin extends Model{
 	
 	@Required
 	String password;
-
+	
     public static Finder<String,Admin> find = new Finder<String,Admin>(
             String.class, Admin.class
     );
+    
+	public static Admin findById(Long id) {
+		return find.byId(String.valueOf(id));
+	}
     
 	public Long getId() {
 		return id;

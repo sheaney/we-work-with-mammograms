@@ -79,7 +79,7 @@ create table shared_patient (
   sharer_id                 bigint,
   borrower_id               bigint,
   patient_id                bigint,
-  access_privileges         integer,
+  permission                smallint,
   constraint pk_shared_patient primary key (id))
 ;
 
@@ -146,8 +146,8 @@ alter table shared_patient add constraint fk_shared_patient_sharer_9 foreign key
 create index ix_shared_patient_sharer_9 on shared_patient (sharer_id);
 alter table shared_patient add constraint fk_shared_patient_borrower_10 foreign key (borrower_id) references staff (id);
 create index ix_shared_patient_borrower_10 on shared_patient (borrower_id);
-alter table shared_patient add constraint fk_shared_patient_sharedInsta_11 foreign key (patient_id) references patient (id);
-create index ix_shared_patient_sharedInsta_11 on shared_patient (patient_id);
+alter table shared_patient add constraint fk_shared_patient_shared_11 foreign key (patient_id) references patient (id);
+create index ix_shared_patient_shared_11 on shared_patient (patient_id);
 alter table study add constraint fk_study_owner_12 foreign key (patient_id) references patient (id);
 create index ix_study_owner_12 on study (patient_id);
 

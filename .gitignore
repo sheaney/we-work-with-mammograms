@@ -12,3 +12,4 @@ tmp
 .target/
 .metadata/
 *~
+conf/evolutions/default/1.sql

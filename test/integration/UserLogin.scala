@@ -1,36 +1,39 @@
 package integration
 
-import models.{ Admin, Staff, Patient, PersonalInfo, MedicalInfo }
-import com.avaje.ebean.Ebean
 import scala.reflect.ClassTag
-import play.db.ebean.Model
+
 import factories.Factories
+import models.Admin
+import models.Patient
+import models.PersonalInfo
+import models.Staff
+import play.db.ebean.Model
 
 trait UserLogin extends Factories { self: PlayBrowserSpec =>
 
   def login[T <: Model: ClassTag]: T = {
     val clazz = implicitly[ClassTag[T]].runtimeClass
     val user = createUser[T]
-    val (email, pwd) = getEmailAndPassword(user)
-
-    Given(s"${clazz.getName} is logged in")
+    val (email, pwd, fullName) = getEmailAndPasswordAndFullName(user)
+    
+    Given(s"${clazz.getName} is about to log in")
     go to (host + "/")
     pageSource should include("¡Bienvenido!")
 
     emailField("email").value = email
     pwdField("password").value = pwd
-
+    
     click on ("login")
-
-    // for now, later it should include the name
-    pageSource should include(email)
     
     user match {
       case _: Staff =>
         pageSource should include("Compartidos")
         pageSource should include("Propios")
-      case _ =>
-        
+        pageSource should include(fullName)
+      case _: Admin =>
+        pageSource should include(email)
+      case _: Patient =>
+        pageSource should include(fullName)
     }
 
     // Return logged in user
@@ -63,14 +66,14 @@ trait UserLogin extends Factories { self: PlayBrowserSpec =>
     user.asInstanceOf[T]
   }
   
-  private def getEmailAndPassword[T <: Model: ClassTag](user: T): (String, String) = {
+  private def getEmailAndPasswordAndFullName[T <: Model: ClassTag](user: T): (String, String, String) = {
     user match {
       case staff: Staff =>
-        (staff.getEmail, staff.getPassword)
+        (staff.getEmail, staff.getPassword, staff.getFullName)
       case admin: Admin =>
-        (admin.getEmail, admin.getPassword)
+        (admin.getEmail, admin.getPassword, "")
       case patient: Patient =>
-        (patient.getPersonalInfo.getEmail, patient.getPersonalInfo.getPassword)
+        (patient.getPersonalInfo.getEmail, patient.getPersonalInfo.getPassword, patient.getPersonalInfo.getFullName)
       case _ =>
         fail(s"Could not obtain user and password for ${implicitly[ClassTag[T]].runtimeClass}")
     }

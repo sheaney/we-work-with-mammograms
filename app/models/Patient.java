@@ -12,13 +12,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import play.Play;
 import play.db.ebean.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-public class Patient extends Model {
+public class Patient extends Model{
 
 	private static final long serialVersionUID = 1L;
 
@@ -44,7 +44,7 @@ public class Patient extends Model {
 	@JsonIgnore
 	@OneToMany(mappedBy = "sharedInstance")
 	List<SharedPatient> sharedInstances = new ArrayList<SharedPatient>();
-    
+	
 	public static Finder<String,Patient> find = new Finder<String,Patient>(Play.application().configuration().getString("datasource"), String.class, Patient.class);
 	
 	public static void create(Patient patient) {
@@ -106,5 +106,4 @@ public class Patient extends Model {
 	public void setSharedInstances(List<SharedPatient> sharedInstances) {
 		this.sharedInstances = sharedInstances;
 	}
-	
 }

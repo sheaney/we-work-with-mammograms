@@ -72,6 +72,10 @@ public class PersonalInfo extends Model {
 		this.name = name;
 	}
 
+	public String getFullName(){
+		return this.name + " " + this.firstLastName + " " + this.secondLastName;
+	}
+	
 	public String getFirstLastName() {
 		return firstLastName;
 	}
@@ -123,5 +127,9 @@ public class PersonalInfo extends Model {
     public static PersonalInfo authenticate(String email, String password) {
         return find.where().eq("email", email)
             .eq("password", password).findUnique();
+    }
+    
+    public Patient getPatient(){
+    	return Patient.find.where().eq("personal_info_id", id).findUnique();
     }
 }

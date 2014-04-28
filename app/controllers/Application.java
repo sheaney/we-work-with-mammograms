@@ -1,18 +1,22 @@
 package controllers;
 
+import be.objectify.deadbolt.java.actions.SubjectNotPresent;
 import models.Admin;
 import models.PersonalInfo;
 import models.Staff;
+import play.Routes;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import play.Routes;
-import views.html.*;
+import security.Roles;
+import views.html.contact;
+import views.html.login;
+import views.html.settings;
 
 public class Application extends Controller {
 	
 	public static Result index() {
-		String type = session("type");
+		String type = session().get("type");
 		if(type != null){
 			if(type.equals("ADMIN")){
 				return redirect(routes.Admins.admin());
@@ -24,9 +28,13 @@ public class Application extends Controller {
 		}
 		return redirect(routes.Application.login());
 	}
-
+	
 	public static Result login() {
-		return ok(login.render(Form.form(Login.class)));
+		if(session().get("id") != null){
+			return redirect(routes.Application.index());
+		}else{
+			return ok(login.render(Form.form(Login.class)));
+		}
 	}
 
 	public static Result logout(){
@@ -39,16 +47,10 @@ public class Application extends Controller {
 	    if (loginForm.hasErrors()) {
 	        return badRequest(login.render(loginForm));
 	    } else {
-	        session().clear();
-	        session("email", loginForm.get().getEmail());
-	        
-	        session("type", loginForm.get().getType());
-	        
-	        return redirect(
-	            routes.Application.index()
-	        );
+	        return redirect(routes.Application.index());
 	    }
 	}
+	
 	
 	public static Result contact() {
 		return ok(contact.render("Juanito"));
@@ -96,8 +98,6 @@ public class Application extends Controller {
 
 		public String email;
 		public String password;
-		private String type = "";
-		public String roles[]=  {"STAFF", "ADMIN", "PATIENT"};
 		
 		public String getEmail() {
 			return email;
@@ -115,29 +115,33 @@ public class Application extends Controller {
 			this.password = password;
 		}
 
-		public String getType() {
-			return type;
-		}
-
-		public void setType(String type) {
-			this.type = type;
-		}
-
 		public String validate() {
 			Staff staff = Staff.authenticate(email, password);
 			Admin admin = Admin.authenticate(email,password);
 			PersonalInfo patientPersonalInfo = PersonalInfo.authenticate(email,password);
-			if (admin != null){
-				type = roles[1];
+			if(staff != null){
+				session().clear();
+				session("id", staff.getId().toString());
+		        session("type", Roles.STAFF.getName());
+		        session("timeOfLogin", String.valueOf(System.currentTimeMillis()));
+		        session("user",staff.getFullName());
 				return null;
-			}else if(staff != null){
-				type = roles[0];
+			}else if (admin != null){
+				session().clear();
+				session("id", admin.getId().toString());
+		        session("type", Roles.ADMIN.getName());
+		        session("timeOfLogin", String.valueOf(System.currentTimeMillis()));
+		        session("user",admin.getEmail());
 				return null;
 			}else if(patientPersonalInfo != null){
-				type = roles[2];
+				session().clear();
+				session("id", patientPersonalInfo.getPatient().getId().toString());
+		        session("type", Roles.PATIENT.getName());
+		        session("timeOfLogin", String.valueOf(System.currentTimeMillis()));
+		        session("user", patientPersonalInfo.getFullName());
 				return null;
 			}else{
-				return "errors.invalid.login";
+				return "error.invalid.login";
 			}
 		}
 	}

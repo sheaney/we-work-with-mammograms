@@ -18,7 +18,7 @@ import play.db.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Staff extends Model {
+public class Staff extends Model{
 
 	private static final long serialVersionUID = 1L;
 
@@ -33,6 +33,7 @@ public class Staff extends Model {
 	String password;
 	
 	@Required
+	//Role of the medical staff within their professional health environment
 	String role;
 	
 	@Required
@@ -83,6 +84,10 @@ public class Staff extends Model {
 	
 	public static List<Staff> all() {
 		return find.all();
+	}
+	
+	public String getFullName(){
+		return this.name + " " + this.firstLastName + " " + this.secondLastName;
 	}
 	
 	public static Staff findById(Long id) {

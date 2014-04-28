@@ -8,7 +8,7 @@ format.date =
 error.required = Este campo es requerido
 error.email = Ingrese un correo válido
 error.invalid.java.util.Date = Fecha es inválida
-error.invalid.login = El usuario y/o contraseña que ingresó es incorrecto(a)
+error.invalid.login = El usuario y/o contraseña que ingresó es incorrecto(a).
 
 # Standard fields
 name = Nombre
