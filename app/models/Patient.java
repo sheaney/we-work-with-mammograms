@@ -1,7 +1,9 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -53,6 +55,22 @@ public class Patient extends Model{
 	
 	public static List<Patient> all() {
 		return find.all();
+	}
+	
+	public static Map<String, String> availableNumberedOptions() {
+		Map<String, String> options = new HashMap<String, String>();
+		options.put("10", "10");
+		options.put("9", "9");
+		options.put("8", "8");
+		options.put("7", "7");
+		options.put("6", "6");
+		options.put("5", "5");
+		options.put("4", "4");
+		options.put("3", "3");
+		options.put("2", "2");
+		options.put("1", "1");
+		options.put("0", "0");
+		return options;
 	}
 	
 	public static Patient findById(Long id) {
