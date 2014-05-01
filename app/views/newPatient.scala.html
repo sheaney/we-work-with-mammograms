@@ -2,11 +2,7 @@
 
 @import views.html.forms._
 
-@moreCss = {
-  <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
-}
-
-@views.html.layouts.main("Nuevo Paciente", moreCss) {
+@views.html.layouts.main("Nuevo Paciente") {
   <!-- Render top navbar -->
   @navbar(userName)
 

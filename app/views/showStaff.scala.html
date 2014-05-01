@@ -1,10 +1,6 @@
 @(id: Long, userName: String)
 
-@moreCss = {
-  <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
-}
-
-@views.html.layouts.angular("Bienvenido", moreCss)(angularApp = "form_app", angularCtrl = "FormCtrl") {
+@views.html.layouts.angular("Bienvenido")(angularApp = "form_app", angularCtrl = "FormCtrl") {
 
 
     <!-- Render top navbar -->

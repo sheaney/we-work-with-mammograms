@@ -1,11 +1,6 @@
 @(userName: String)
 
-@moreCss = {
-  <link href="@routes.Assets.at("stylesheets/navbar.css")" rel="stylesheet">
-}
-
-
-@views.html.layouts.main("Contacto", moreCss) {
+@views.html.layouts.main("Contacto") {
     <!-- Render top navbar -->
     @navbar(userName)
 
