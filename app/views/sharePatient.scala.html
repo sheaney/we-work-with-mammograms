@@ -5,7 +5,7 @@
 }
 
 
-@views.html.layouts.angular("Paciente", moreCss)(angularApp = "staffApp", angularCtrl="StaffListCtrl") {
+@views.html.layouts.angular("Paciente", moreCss)(angularApp = "sharePatientApp", angularCtrl="StaffListCtrl") {
   <!-- Render top navbar -->
   @navbar(userName)
 
@@ -37,7 +37,7 @@
         </tbody>
       </table>
 
-      <div ng-show="selectedMember != null">
+      <div ng-if="selectedMember != null">
         <h3>{{fullName(selectedMember)}}</h3>
 
         <form role="form" method="GET" action="@routes.Staffs.showPatient(id)">

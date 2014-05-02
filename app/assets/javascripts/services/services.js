@@ -6,6 +6,14 @@ staffServices.factory('Staff', function($resource){
   });
 });
 
+var shareStaffServices = angular.module('shareStaffServices', ['ngResource']);
+
+shareStaffServices.factory('Staff', function($resource){
+  return $resource('/api/staff/', {}, {
+    query: {method:'GET', isArray:true}
+  });
+});
+
 var patientServices = angular.module('patientServices', ['ngResource']);
 
 patientServices.factory('Patient', function($resource){
