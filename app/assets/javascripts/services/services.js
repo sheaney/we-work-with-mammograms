@@ -6,7 +6,7 @@ staffServices.factory('Staff', function($resource){
   });
 });
 
-var shareStaffServices = angular.module('shareStaffServices', ['ngResource']);
+var shareStaffServices = angular.module('sharePatientServices', ['ngResource']);
 
 shareStaffServices.factory('Staff', function($resource){
   return $resource('/api/staff/', {}, {

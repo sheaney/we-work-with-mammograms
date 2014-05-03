@@ -1,10 +1,16 @@
 'use strict';
 
-var sharePatientApp = angular.module('sharePatientApp', ['staffServices']);
+var sharePatientApp = angular.module('sharePatientApp', ['sharePatientServices']);
 
-sharePatientApp.controller('StaffListCtrl', function($scope) {
+sharePatientApp.controller('StaffListCtrl', function($scope, Staff) {
+	
+	Staff.query(function(data) {	
+	    $scope.staff = data;
+		  });	
+	
+	
   $scope.selectedMember = null;
-
+ 
   $scope.displayMember = function(member) {
     $scope.selectedMember = member;
   };
