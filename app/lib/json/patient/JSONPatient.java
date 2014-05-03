@@ -15,6 +15,9 @@ public class JSONPatient {
 	private final static String SHARED = "shared";
 	private final static String ACCESS_PRIVILEGES = "accessPrivileges";
 	
+	private final static String FIELD = "field";
+	private final static String MSG = "msg";
+	
 	public static ObjectNode staffPatient(Patient patient, boolean isShared) {
 		ObjectNode json = Json.newObject();
 		json.put(ID, patient.getId());
@@ -31,6 +34,15 @@ public class JSONPatient {
 		ObjectNode json = Json.newObject();
 		
 		addPermittedInfo(borrowed, json);
+		
+		return json;
+	}
+	
+	public static ObjectNode staffPatientFailure(Patient patient) {
+		ObjectNode json = Json.newObject();
+		
+		json.put(FIELD, "name");
+		json.put(MSG, "Este campo esta mal");
 		
 		return json;
 	}

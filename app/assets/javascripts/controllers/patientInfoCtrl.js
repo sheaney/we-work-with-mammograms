@@ -1,6 +1,6 @@
 var patientInfoApp = angular.module('patientInfoApp', ['patientInfoServices', 'xeditable']);
 
-patientInfoApp.controller('PatientInfoCtrl', function($scope, PatientInfo) {
+patientInfoApp.controller('PatientInfoCtrl', function($scope, $http, PatientInfo) {
 	
 	// Patient id
   $scope.id = $('#patient').data('patient-id');
@@ -42,11 +42,28 @@ patientInfoApp.controller('PatientInfoCtrl', function($scope, PatientInfo) {
     $scope.availableStudies      = patient.studies != undefined;
   };
 
+  // Obtains xeditable form from outer scope
+  var getXeditableForm = function(formName) {
+    var form = window[formName];
+    return angular.element(form).scope()[formName];
+  };
+
   // onaftersave handlers
   $scope.submitPersonalInfo = function() {
     var personalInfo = $scope.patient.personalInfo;
     console.log(personalInfo);
+    var route = jsRoutes.controllers.API.updatePersonalInfo($scope.id);
+    var xeditableForm = getXeditableForm('editablePersonalInfo');
+
     console.log('Submitting personal info');
+    return $http.put(route.url, personalInfo).
+      success(function(data, status, headers, config) {
+        console.log('success');
+      }).
+      error(function(error, status, headers, config) {
+        console.log('error');
+        xeditableForm.$setError(error.field, error.msg);
+      });
   };
 
   $scope.submitMedicalInfo = function() {

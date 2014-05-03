@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.List;
 
+import lib.json.patient.JSONPatient;
 import lib.json.staff.JSONStaff;
 import models.Patient;
 import models.Staff;
@@ -33,6 +34,15 @@ public class API extends Controller {
 		
 		// Validate that patient really does exist, and return appropriate error or success message
 		return ok(JSONStaff.staffPatient(staff, id));
+	}
+	
+	public static Result updatePersonalInfo(Long id) {
+		Patient patient = Patient.findById(id);
+		return internalServerError(JSONPatient.staffPatientFailure(patient));
+//		return ok("foo");
+		// Construct failure response
+		
+		//  return [500, {field: 'name', msg: 'Server-side error for this username!'}];
 	}
 
 }

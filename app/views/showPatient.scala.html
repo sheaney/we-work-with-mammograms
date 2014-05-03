@@ -46,7 +46,7 @@
               <span class="col-md-6 col-xs-6">
                 <b>Nombres:</b>
               </span>
-              <span editable-text="patient.personalInfo.name" class="col-md-6 col-xs-6">
+              <span editable-text="patient.personalInfo.name" e-name="name" class="col-md-6 col-xs-6">
                 {{ patient.personalInfo.name || empty}}
               </span>
             </div>
@@ -55,7 +55,7 @@
               <span class="col-md-6 col-xs-6">
                 <b>Apellido Paterno:</b>
               </span>
-              <span editable-text="patient.personalInfo.firstLastName" class="col-md-6 col-xs-6">
+              <span editable-text="patient.personalInfo.firstLastName" e-name="firstLastName" class="col-md-6 col-xs-6">
                 {{ patient.personalInfo.firstLastName || empty}}
               </span>
             </div>
@@ -64,7 +64,7 @@
               <span class="col-md-6 col-xs-6">
                 <b>Apellido Materno:</b>
               </span>
-              <span editable-text="patient.personalInfo.secondLastName" class="col-md-6 col-xs-6">
+              <span editable-text="patient.personalInfo.secondLastName" e-name="secondLastName" class="col-md-6 col-xs-6">
                 {{ patient.personalInfo.secondLastName || empty}}
               </span>
             </div>
@@ -73,7 +73,7 @@
               <span class="col-md-6 col-xs-6">
                 <b>Dirección:</b>
               </span>
-              <span editable-textarea="patient.personalInfo.address" class="col-md-6 col-xs-6">
+              <span editable-textarea="patient.personalInfo.address" e-name="address" class="col-md-6 col-xs-6">
                 {{ patient.personalInfo.address || 'empty' }}
               </span>
             </div>
@@ -82,7 +82,7 @@
               <span class="col-md-6 col-xs-6">
                 <b>Correo Electrónico:</b>
               </span>
-              <span editable-email="patient.personalInfo.email" class="col-md-6 col-xs-6">
+              <span editable-email="patient.personalInfo.email" e-name="email" class="col-md-6 col-xs-6">
                 {{ patient.personalInfo.email || 'empty' }}
               </span>
             </div>
@@ -91,7 +91,7 @@
               <span class="col-md-6 col-xs-6">
                 <b>Teléfono:</b>
               </span>
-              <span editable-tel="patient.personalInfo.telephone" class="col-md-6 col-xs-6">
+              <span editable-tel="patient.personalInfo.telephone" e-name="telephone" class="col-md-6 col-xs-6">
                 {{ patient.personalInfo.telephone || 'empty' }}
               </span>
             </div>
@@ -100,7 +100,7 @@
               <span class="col-md-6 col-xs-6">
                 <b>Fecha de Nacimiento:</b>
               </span>
-              <span editable-date="patient.personalInfo.birthdate" class="col-md-6 col-xs-6">
+              <span editable-date="patient.personalInfo.birthdate" e-name="birthdate" class="col-md-6 col-xs-6">
                 {{ patient.personalInfo.birthdate || 'empty' }}</a>
               </span>
             </div>
