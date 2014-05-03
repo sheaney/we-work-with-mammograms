@@ -37,8 +37,9 @@ public class PersonalInfo extends Model {
 	@Required 
 	String telephone;
 	
-	@Required
-	@Formats.DateTime(pattern="dd/MM/yyyy")
+	@JsonIgnore
+//	@Required
+//	@Formats.DateTime(pattern="dd/MM/yyyy")
 	Date birthdate;
 	
 	@JsonIgnore

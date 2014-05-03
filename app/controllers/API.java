@@ -56,15 +56,11 @@ public class API extends Controller {
 		if (binding.hasErrors()) {
 			return badRequest(Json.toJson(JSONPatient.staffPatientFailure(getErrors(binding))));
 		} else {
+			PersonalInfo info = binding.get();
+			patient.setPersonalInfo(info);
+			patient.getPersonalInfo().update();
 			return ok("foo");
 		}
-		
-//		patient.getPersonalInfo().delete();
-//		patient.setPersonalInfo(personalInfo);
-//		patient.getPersonalInfo().save();
-		
-		
-//		return ok("foo");
 	}
 	
 	private static <T> Map<String, String> getErrors(Form<T> form) {
