@@ -1,10 +1,15 @@
 package lib.json.patient;
 
+import static lib.json.JSONConstants.ID;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import lib.permissions.PatientViewInfoPermission;
 import models.Patient;
 import models.SharedPatient;
 import play.libs.Json;
-import static lib.json.JSONConstants.*;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -38,13 +43,19 @@ public class JSONPatient {
 		return json;
 	}
 	
-	public static ObjectNode staffPatientFailure(Patient patient) {
-		ObjectNode json = Json.newObject();
+	public static List<ObjectNode> staffPatientFailure(Map<String, String> errors) {
+		List<ObjectNode> errorsLst = new LinkedList<ObjectNode>();
 		
-		json.put(FIELD, "name");
-		json.put(MSG, "Este campo esta mal");
+		for (Map.Entry<String, String> error : errors.entrySet()) {
+			ObjectNode node = Json.newObject();
+			String field = error.getKey();
+			String msg = error.getValue();
+			node.put(FIELD, field);
+			node.put(MSG, msg);
+			errorsLst.add(node);
+		}
 		
-		return json;
+		return errorsLst;
 	}
 	
 	private static void addPermittedInfo(SharedPatient borrowed, ObjectNode json) {

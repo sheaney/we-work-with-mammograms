@@ -59,10 +59,14 @@ patientInfoApp.controller('PatientInfoCtrl', function($scope, $http, PatientInfo
     return $http.put(route.url, personalInfo).
       success(function(data, status, headers, config) {
         console.log('success');
+        console.log(data);
       }).
-      error(function(error, status, headers, config) {
+      error(function(errors, status, headers, config) {
         console.log('error');
-        xeditableForm.$setError(error.field, error.msg);
+        for (var i = 0; i < errors.length; i++) {
+          var error = errors[i];
+          xeditableForm.$setError(error.field, error.msg);
+        }
       });
   };
 
