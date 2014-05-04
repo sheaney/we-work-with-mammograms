@@ -16,6 +16,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import lib.OwnPatientContainer;
+import lib.PatientContainer;
+import lib.SharedPatientContainer;
 import lib.json.patient.JSONPatient;
 import models.Patient;
 import models.SharedPatient;
@@ -51,30 +54,21 @@ public class JSONStaff {
 	}
 	
 	public static ObjectNode staffPatient(Staff staff, Long patientId) {
-		List<Patient> ownPatients = staff.getOwnPatients();
-		List<SharedPatient> borrowedPatients = staff.getBorrowedPatients();
-		
-		Set<Long> ownPatientIds = getOwnPatientIds(ownPatients);
-		Set<Long> borrowedPatientIds = getBorrowedPatientIds(borrowedPatients);
-		Set<Long> sharedIds = getSharedPatientIds(staff);
-		
-		if (ownPatientIds.contains(patientId)) {
-			Patient searched = getFromOwnPatients(patientId, ownPatients);
-			if (searched != null) {
-				return JSONPatient.staffPatient(searched, sharedIds.contains(patientId));
-			} else {
-				return null;
-			}
-		} else if (borrowedPatientIds.contains(patientId)) {
-			SharedPatient borrowed = getFromBorrowedPatients(patientId, borrowedPatients);
-			if (borrowed != null) {
-				return JSONPatient.staffBorrowedPatient(borrowed);
-			} else {
-				return null;
-			}
+		PatientContainer patientContainer = PatientContainer.getPatientContainer(staff, patientId);
+		if (patientContainer == null) {
+			return null;
 		}
 		
-		return null;
+		if (patientContainer instanceof OwnPatientContainer) {
+			Set<Long> sharedIds = getSharedPatientIds(staff);
+			Patient searched = ((OwnPatientContainer) patientContainer).getPatient();
+			return JSONPatient.staffPatient(searched, sharedIds.contains(patientId));
+		} else if (patientContainer instanceof SharedPatientContainer) {
+			SharedPatient borrowed = ((SharedPatientContainer) patientContainer).getSharedPatient();
+			return JSONPatient.staffBorrowedPatient(borrowed);
+		} else {
+			return null;
+		}
 	}
 
 	private static List<ObjectNode> ownPatients(Staff staff) {
@@ -113,44 +107,6 @@ public class JSONStaff {
 		return ids;
 	}
 	
-	private static Set<Long> getBorrowedPatientIds(List<SharedPatient> borrowedPatients) {
-		Set<Long> ids = new HashSet<Long>();
 
-		for (SharedPatient borrowedPatient : borrowedPatients) {
-			Patient borrowed = borrowedPatient.getSharedInstance();
-			ids.add(borrowed.getId());
-		}
-
-		return ids;
-	}
-	
-	private static Set<Long> getOwnPatientIds(List<Patient> ownPatients) {
-		Set<Long> ids = new HashSet<Long>();
-		
-		for (Patient ownPatient : ownPatients) {
-			ids.add(ownPatient.getId());
-		}
-		
-		return ids;
-	}
-	
-	private static Patient getFromOwnPatients(Long id, List<Patient> ownPatients) {
-		for (Patient ownPatient : ownPatients) {
-			if (ownPatient.getId().equals(id)) {
-				return ownPatient;
-			}
-		}
-		return null;
-	}
-	
-	private static SharedPatient getFromBorrowedPatients(Long id, List<SharedPatient> borrowedPatients) {
-		for (SharedPatient borrowedPatient : borrowedPatients) {
-			Patient borrowed = borrowedPatient.getSharedInstance();
-			if (borrowed.getId().equals(id)) {
-				return borrowedPatient;
-			}
-		}
-		return null;
-	}
 
 }
