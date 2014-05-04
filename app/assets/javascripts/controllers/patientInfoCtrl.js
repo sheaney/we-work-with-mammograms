@@ -43,6 +43,12 @@ patientInfoApp.controller('PatientInfoCtrl', function($scope, $http, $filter, Pa
     $scope.availableStudies      = patient.studies != undefined;
   };
 
+  $scope.patientFullName = function() {
+    return $scope.patient ? ($scope.patient.personalInfo.name + " " +
+      $scope.patient.personalInfo.firstLastName + " " +
+      $scope.patient.personalInfo.secondLastName) : "";
+  };
+
   // Obtains xeditable form from outer scope
   var getXeditableForm = function(formName) {
     var form = window[formName];
