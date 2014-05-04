@@ -34,6 +34,7 @@ patientInfoApp.controller('PatientInfoCtrl', function($scope, $http, $filter, Pa
     $scope.patient.personalInfo.birthdate= $filter('date')($scope.patient.personalInfo.birthdate, 'dd/MM/yyyy');
     $scope.studyUrl = jsRoutes.controllers.Staffs.study($scope.id, $scope.patient.id).url;
     setPatientInfoAvailability($scope.patient);
+    setUpdateableInfo($scope.patient);
     // need to handle failure
   });
 
@@ -42,6 +43,12 @@ patientInfoApp.controller('PatientInfoCtrl', function($scope, $http, $filter, Pa
     $scope.availablePersonalInfo = patient.personalInfo != undefined;
     $scope.availableMedicalInfo  = patient.medicalInfo != undefined;
     $scope.availableStudies      = patient.studies != undefined;
+  };
+
+  var setUpdateableInfo = function(patient) {
+    $scope.updateablePersonalInfo = patient.updateablePersonalInfo;
+    $scope.updateableMedicalInfo  = patient.updateableMedicalInfo;
+    $scope.updateableStudies      = patient.updateableStudies;
   };
 
   // Patient full name gets computed if patient is available

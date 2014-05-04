@@ -107,11 +107,11 @@
 
             <div class="col-xs-offset-4">
               <!-- button to show form -->
-              <button type="button" class="btn btn-default" ng-click="editablePersonalInfo.$show()" ng-show="!editablePersonalInfo.$visible">
+              <button type="button" class="btn btn-default" ng-click="editablePersonalInfo.$show()" ng-disabled="!updateablePersonalInfo" ng-show="!editablePersonalInfo.$visible">
                 Editar
               </button>
-              <!-- buttons to submit / cancel form -->
-              <span ng-show="editablePersonalInfo.$visible">
+              <span ng-if="updateablePersonalInfo" ng-show="editablePersonalInfo.$visible">
+                <!-- buttons to submit / cancel form -->
                 <button type="submit" class="btn btn-primary" ng-disabled="editablePersonalInfo.$waiting">
                   Guardar
                 </button>
@@ -230,11 +230,11 @@
 
             <div class="col-xs-offset-4">
               <!-- button to show form -->
-              <button type="button" class="btn btn-default" ng-click="editableMedicalInfo.$show()" ng-show="!editableMedicalInfo.$visible">
+              <button type="button" class="btn btn-default" ng-click="editableMedicalInfo.$show()" ng-disabled="!updateableMedicalInfo" ng-show="!editableMedicalInfo.$visible">
                 Editar
               </button>
-              <!-- buttons to submit / cancel form -->
-              <span ng-show="editableMedicalInfo.$visible">
+              <span ng-if="updateableMedicalInfo" ng-show="editableMedicalInfo.$visible">
+                <!-- buttons to submit / cancel form -->
                 <button type="submit" class="btn btn-primary" ng-disabled="editableMedicalInfo.$waiting">
                   Guardar
                 </button>
