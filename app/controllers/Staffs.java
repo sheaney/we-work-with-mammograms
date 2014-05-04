@@ -1,5 +1,7 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import lib.PasswordGenerator;
 import models.Patient;
 import models.SharedPatient;
@@ -48,6 +50,10 @@ public class Staffs extends Controller {
 	}
 	
 	public static Result createSharedPatient(Long id, Long borrowerId) {
+		JsonNode jsonNode = request().body().asJson();
+		System.out.println(jsonNode);
+//		boolean viewPersonalInfo = permissions.get("viewPersonalInfo").asBoolean();
+//		System.out.println(viewPersonalInfo);
 		return badRequest("failure");
 	}
 	

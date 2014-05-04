@@ -38,11 +38,11 @@ sharePatientApp.controller('StaffListCtrl', function($scope, $http, Staff) {
 
   $scope.permissions = {
     viewPersonalInfo: false,
-    editPersonalInfo: false,
+    updatePersonalInfo: false,
     viewMedicalInfo: false,
-    editMedicalInfo: false,
+    updateMedicalInfo: false,
     viewStudies: false,
-    editStudies: false
+    updateStudies: false
   };
 
 });
