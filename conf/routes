@@ -77,6 +77,8 @@ GET 	/api/staff/:id				    	controllers.API.getStaff(id: Long)
 
 PUT     /api/patient/:id/personal-info		controllers.API.updatePersonalInfo(id: Long)
 
+PUT		/api/patient/:id/medical-info		controllers.API.updateMedicalInfo(id: Long)
+
 GET		/api/patient/:id					controllers.API.getPatient(id: Long)
 
 GET 	/api/patient/:id/info				controllers.API.getPatientInfo(id: Long)

@@ -91,19 +91,19 @@
               <span class="col-md-6 col-xs-6">
                 <b>Teléfono:</b>
               </span>
-              <span editable-tel="patient.personalInfo.telephone" e-name="telephone" class="col-md-6 col-xs-6">
+              <span editable-text="patient.personalInfo.telephone" e-name="telephone" class="col-md-6 col-xs-6">
                 {{ patient.personalInfo.telephone || 'empty' }}
               </span>
             </div>
 
-            <!--<div class="col-md-12 col-xs-12">-->
-              <!--<span class="col-md-6 col-xs-6">-->
-                <!--<b>Fecha de Nacimiento:</b>-->
-              <!--</span>-->
-              <!--<span editable-date="patient.personalInfo.birthdate" e-name="birthdate" class="col-md-6 col-xs-6">-->
-                <!--{{ patient.personalInfo.birthdate || 'empty' }}</a>-->
-              <!--</span>-->
-            <!--</div>-->
+            <div class="col-md-12 col-xs-12">
+              <span class="col-md-6 col-xs-6">
+                <b>Fecha de Nacimiento:</b>
+              </span>
+              <span editable-text="patient.personalInfo.birthdate" e-name="birthdate" class="col-md-6 col-xs-6">
+                {{ patient.personalInfo.birthdate || 'empty' }}</a>
+              </span>
+            </div>
 
             <div class="col-xs-offset-4">
               <!-- button to show form -->
@@ -133,7 +133,7 @@
               <span class="col-md-6 col-xs-6">
                 <b>Edad de inicio de actividad sexual:</b>
               </span>
-              <span editable-text="patient.medicalInfo.sexualActivityStartAge" class="col-md-6 col-xs-6">
+              <span editable-text="patient.medicalInfo.sexualActivityStartAge" e-name="sexualActivityStartAge" class="col-md-6 col-xs-6">
                 {{ patient.medicalInfo.sexualActivityStartAge || 'empty' }}
               </span>
             </div>
@@ -142,7 +142,7 @@
               <span class="col-md-6 col-xs-6">
                 <b>Número de embarazos:</b>
               </span>
-              <span editable-select="patient.medicalInfo.pregnancies" e-ng-options="p.value as p.text for p in options" class="col-md-6 col-xs-6">
+              <span editable-select="patient.medicalInfo.pregnancies" e-name="pregnancies" e-ng-options="p.value as p.text for p in options" class="col-md-6 col-xs-6">
                 {{ patient.medicalInfo.pregnancies || 0 }}
               </span>
             </div>
@@ -151,7 +151,7 @@
               <span class="col-md-6 col-xs-6">
                 <b>Número de cesáreas:</b>
               </span>
-              <span editable-select="patient.medicalInfo.cSections" e-ng-options="p.value as p.text for p in options" class="col-md-6 col-xs-6">
+              <span editable-select="patient.medicalInfo.cSections" e-name="cSections" e-ng-options="p.value as p.text for p in options" class="col-md-6 col-xs-6">
                 {{ patient.medicalInfo.cSections || 0 }}
               </span>
             </div>
@@ -160,7 +160,7 @@
               <span class="col-md-6 col-xs-6">
                 <b>Número de partos naturales:</b>
               </span>
-              <span editable-select="patient.medicalInfo.naturalDeliveries" e-ng-options="p.value as p.text for p in options" class="col-md-6 col-xs-6">
+              <span editable-select="patient.medicalInfo.naturalDeliveries" e-name="naturalDeliveries" e-ng-options="p.value as p.text for p in options" class="col-md-6 col-xs-6">
                 {{ patient.medicalInfo.naturalDeliveries || 0 }}
               </span>
             </div>
@@ -169,7 +169,7 @@
               <span class="col-md-6 col-xs-6">
                 <b>Número de abortos:</b>
               </span>
-              <span editable-select="patient.medicalInfo.abortions" e-ng-options="p.value as p.text for p in options" class="col-md-6 col-xs-6">
+              <span editable-select="patient.medicalInfo.abortions" e-name="abortions" e-ng-options="p.value as p.text for p in options" class="col-md-6 col-xs-6">
                 {{ patient.medicalInfo.abortions || 0 }}
               </span>
             </div>
@@ -178,7 +178,7 @@
               <span class="col-md-6 col-xs-6">
                 <b>Edad de inicio de menopausia:</b>
               </span>
-              <span editable-text="patient.medicalInfo.menopauseStartAge" class="col-md-6 col-xs-6">
+              <span editable-text="patient.medicalInfo.menopauseStartAge" e-name="menopauseStartAge" class="col-md-6 col-xs-6">
                 {{ patient.medicalInfo.menopauseStartAge || empty}}
               </span>
             </div>
@@ -187,7 +187,7 @@
               <span class="col-md-6 col-xs-6">
                 <b>Edad de inicio de periodo menstrual:</b>
               </span>
-              <span editable-text="patient.medicalInfo.menstrualPeriodStartAge" class="col-md-6 col-xs-6">
+              <span editable-text="patient.medicalInfo.menstrualPeriodStartAge" e-name="menstrualPeriodStartAge" class="col-md-6 col-xs-6">
                 {{ patient.medicalInfo.menstrualPeriodStartAge || empty}}
               </span>
             </div>
@@ -196,7 +196,7 @@
               <span class="col-md-6 col-xs-6">
                 <b>Predisposición familiar:</b>
               </span>
-              <span editable-select="patient.medicalInfo.familyPredisposition" e-ng-options="p.value as p.text for p in booleans" class="col-md-6 col-xs-6">
+              <span editable-select="patient.medicalInfo.familyPredisposition" e-name="familyPredisposition" e-ng-options="p.value as p.text for p in booleans" class="col-md-6 col-xs-6">
                 {{ translate(patient.medicalInfo.familyPredisposition) }}
               </span>
             </div>
@@ -205,7 +205,7 @@
               <span class="col-md-6 col-xs-6">
                 <b>Terapia hormonal de reemplazo:</b>
               </span>
-              <span editable-select="patient.medicalInfo.hormonalReplacementTherapy" e-ng-options="p.value as p.text for p in booleans" class="col-md-6 col-xs-6">
+              <span editable-select="patient.medicalInfo.hormonalReplacementTherapy" e-name="hormonalReplacementTherapy" e-ng-options="p.value as p.text for p in booleans" class="col-md-6 col-xs-6">
                 {{ translate(patient.medicalInfo.hormonalReplacementTherapy) }}
               </span>
             </div>
@@ -214,7 +214,7 @@
               <span class="col-md-6 col-xs-6">
                 <b>Enfermedades mamarias previas:</b>
               </span>
-              <span editable-select="patient.medicalInfo.previousMammaryDiseases" e-ng-options="p.value as p.text for p in booleans" class="col-md-6 col-xs-6">
+              <span editable-select="patient.medicalInfo.previousMammaryDiseases" e-name="previousMammaryDiseases" e-ng-options="p.value as p.text for p in booleans" class="col-md-6 col-xs-6">
                 {{ translate(patient.medicalInfo.previousMammaryDiseases) }}
               </span>
             </div>
@@ -223,7 +223,7 @@
               <span class="col-md-6 col-xs-6">
                 <b>Amamantó hijos:</b>
               </span>
-              <span editable-select="patient.medicalInfo.breastfedChildren" e-ng-options="p.value as p.text for p in booleans" class="col-md-6 col-xs-6">
+              <span editable-select="patient.medicalInfo.breastfedChildren" e-name="breastfedChildren" e-ng-options="p.value as p.text for p in booleans" class="col-md-6 col-xs-6">
                 {{ translate(patient.medicalInfo.breastfedChildren) }}
               </span>
             </div>

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import lib.json.patient.JSONPatient;
 import lib.json.staff.JSONStaff;
+import models.MedicalInfo;
 import models.Patient;
 import models.PersonalInfo;
 import models.Staff;
@@ -22,6 +23,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public class API extends Controller {
 	final static Form<PersonalInfo> personalInfoBinding = Form.form(PersonalInfo.class);
+	final static Form<MedicalInfo> medicalInfoBinding = Form.form(MedicalInfo.class);
 	
 	public static Result getPatient(Long id) {
 		Patient patient = Patient.findById(id);
@@ -51,7 +53,6 @@ public class API extends Controller {
 	public static Result updatePersonalInfo(Long id) {
 		Patient patient = Patient.findById(id);
 		JsonNode jsonNode = request().body().asJson();
-		System.out.println(jsonNode);
 		Form<PersonalInfo> binding = personalInfoBinding.bind(jsonNode);
 		if (binding.hasErrors()) {
 			return badRequest(Json.toJson(JSONPatient.staffPatientFailure(getErrors(binding))));
@@ -59,7 +60,22 @@ public class API extends Controller {
 			PersonalInfo info = binding.get();
 			patient.setPersonalInfo(info);
 			patient.getPersonalInfo().update();
-			return ok("foo");
+			return ok("success");
+		}
+	}
+	
+	@BodyParser.Of(BodyParser.Json.class)
+	public static Result updateMedicalInfo(Long id) {
+		Patient patient = Patient.findById(id);
+		JsonNode jsonNode = request().body().asJson();
+		Form<MedicalInfo> binding = medicalInfoBinding.bind(jsonNode);
+		if (binding.hasErrors()) {
+			return badRequest(Json.toJson(JSONPatient.staffPatientFailure(getErrors(binding))));
+		} else {
+			MedicalInfo info = binding.get();
+			patient.setMedicalInfo(info);
+			patient.getMedicalInfo().update();
+			return ok("success");
 		}
 	}
 	
@@ -71,7 +87,7 @@ public class API extends Controller {
 			List<ValidationError> validationErrors = entry.getValue();
 			List<String> messages = new LinkedList<String>();
 			for (ValidationError ve : validationErrors) {
-				String msg = Messages.get(ve.message());
+				String msg = Messages.get(ve.message(), ve.arguments());
 				messages.add(msg);
 			}
 			String concatMessages = concatenateStrings(messages, "\n");

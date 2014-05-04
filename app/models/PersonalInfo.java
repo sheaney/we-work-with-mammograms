@@ -6,6 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import play.data.format.Formats;
+import play.data.validation.Constraints.MaxLength;
+import play.data.validation.Constraints.MinLength;
+import play.data.validation.Constraints.Pattern;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
@@ -28,18 +31,21 @@ public class PersonalInfo extends Model {
 	@Required 
 	String secondLastName;
 	
-	@Required 
+	@Required
+	@MinLength(10)
 	String address;
 	
 	@Required 
 	String email;
 	
-	@Required 
+	@Required
+	@MinLength(7)
+	@MaxLength(13)
+	@Pattern(value="\\d+", message="error.numeric")
 	String telephone;
 	
-	@JsonIgnore
-//	@Required
-//	@Formats.DateTime(pattern="dd/MM/yyyy")
+	@Required
+	@Formats.DateTime(pattern="dd/MM/yyyy")
 	Date birthdate;
 	
 	@JsonIgnore

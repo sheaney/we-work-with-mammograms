@@ -5,6 +5,10 @@ constraint.date =
 format.date = 
 
 # Error messages
+error.numeric = Solo dígitos
+error.minLength = Longitud mínima es {0}
+error.maxLength = Longitud máxima es {0}
+error.invalid = El valor ingresado es inválido
 error.required = Este campo es requerido
 error.email = Ingrese un correo válido
 error.invalid.java.util.Date = Fecha es inválida

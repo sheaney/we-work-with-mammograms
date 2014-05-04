@@ -1,6 +1,6 @@
 var patientInfoApp = angular.module('patientInfoApp', ['patientInfoServices', 'xeditable']);
 
-patientInfoApp.controller('PatientInfoCtrl', function($scope, $http, PatientInfo) {
+patientInfoApp.controller('PatientInfoCtrl', function($scope, $http, $filter, PatientInfo) {
 	
 	// Patient id
   $scope.id = $('#patient').data('patient-id');
@@ -31,6 +31,7 @@ patientInfoApp.controller('PatientInfoCtrl', function($scope, $http, PatientInfo
 
   PatientInfo.query({id: $scope.id}, function(data) {	
     $scope.patient = data;
+    $scope.patient.personalInfo.birthdate= $filter('date')($scope.patient.personalInfo.birthdate, 'dd/MM/yyyy');
     setPatientInfoAvailability($scope.patient);
     // need to handle failure
   });
@@ -48,32 +49,34 @@ patientInfoApp.controller('PatientInfoCtrl', function($scope, $http, PatientInfo
     return angular.element(form).scope()[formName];
   };
 
-  // onaftersave handlers
   $scope.submitPersonalInfo = function() {
-    var personalInfo = $scope.patient.personalInfo;
-    console.log(personalInfo);
     var route = jsRoutes.controllers.API.updatePersonalInfo($scope.id);
+    var personalInfo = $scope.patient.personalInfo;
     var xeditableForm = getXeditableForm('editablePersonalInfo');
 
-    console.log('Submitting personal info');
-    return $http.put(route.url, personalInfo).
+    return updateRequest(route.url, personalInfo, xeditableForm);
+  };
+
+  $scope.submitMedicalInfo = function() {
+    var route = jsRoutes.controllers.API.updateMedicalInfo($scope.id);
+    var medicalInfo = $scope.patient.medicalInfo;
+    var xeditableForm = getXeditableForm('editableMedicalInfo');
+
+    return updateRequest(route.url, medicalInfo, xeditableForm);
+  };
+
+  // Updates info on server
+  var updateRequest = function(url, info, xeditableForm) {
+    return $http.put(url, info).
       success(function(data, status, headers, config) {
-        console.log('success');
-        console.log(data);
+        console.log(data); // Success
       }).
       error(function(errors, status, headers, config) {
-        console.log('error');
         for (var i = 0; i < errors.length; i++) {
           var error = errors[i];
           xeditableForm.$setError(error.field, error.msg);
         }
       });
-  };
-
-  $scope.submitMedicalInfo = function() {
-    var medicalInfo = $scope.patient.medicalInfo;
-    console.log(medicalInfo);
-    console.log('Submitting medical info');
   };
 
   // ng orderBy property
@@ -82,5 +85,5 @@ patientInfoApp.controller('PatientInfoCtrl', function($scope, $http, PatientInfo
 });
 
 patientInfoApp.run(function(editableOptions) {
-    editableOptions.theme = 'bs3';
+  editableOptions.theme = 'bs3';
 });

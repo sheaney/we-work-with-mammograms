@@ -90,7 +90,8 @@ public class Application extends Controller {
             // API actions
             controllers.routes.javascript.API.staff(),
             controllers.routes.javascript.API.getStaff(),
-            controllers.routes.javascript.API.updatePersonalInfo()
+            controllers.routes.javascript.API.updatePersonalInfo(),
+            controllers.routes.javascript.API.updateMedicalInfo()
           )
       );
     }
