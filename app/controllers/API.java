@@ -5,8 +5,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import lib.PatientContainer;
 import lib.json.errors.JSONErrors;
 import lib.json.staff.JSONStaff;
+import lib.permissions.PatientUpdateInfoPermission;
 import models.MedicalInfo;
 import models.Patient;
 import models.PersonalInfo;
@@ -53,34 +55,40 @@ public class API extends Controller {
 	@BodyParser.Of(BodyParser.Json.class)
 	public static Result updatePersonalInfo(Long id) {
 		Patient patient = Patient.findById(id);
-		// Verify if patient can edit info
-
-		JsonNode jsonNode = request().body().asJson();
-		Form<PersonalInfo> binding = personalInfoBinding.bind(jsonNode);
-		if (binding.hasErrors()) {
-			return badRequest(Json.toJson(JSONErrors
-					.patientInfoErrors(getErrors(binding))));
+		if (getUpdateInfoPermissions(obtainStaff(), patient.getId()).canUpdatePersonalInfo()) {
+			JsonNode jsonNode = request().body().asJson();
+			Form<PersonalInfo> binding = personalInfoBinding.bind(jsonNode);
+			if (binding.hasErrors()) {
+				return badRequest(Json.toJson(JSONErrors
+						.patientInfoErrors(getErrors(binding))));
+			} else {
+				PersonalInfo info = binding.get();
+				patient.setPersonalInfo(info);
+				patient.getPersonalInfo().update();
+				return ok("success");
+			}
 		} else {
-			PersonalInfo info = binding.get();
-			patient.setPersonalInfo(info);
-			patient.getPersonalInfo().update();
-			return ok("success");
+			return forbidden("Can't update info");
 		}
 	}
 
 	@BodyParser.Of(BodyParser.Json.class)
 	public static Result updateMedicalInfo(Long id) {
 		Patient patient = Patient.findById(id);
-		JsonNode jsonNode = request().body().asJson();
-		Form<MedicalInfo> binding = medicalInfoBinding.bind(jsonNode);
-		if (binding.hasErrors()) {
-			return badRequest(Json.toJson(JSONErrors
-					.patientInfoErrors(getErrors(binding))));
+		if (getUpdateInfoPermissions(obtainStaff(), patient.getId()).canUpdateMedicalInfo()) {
+			JsonNode jsonNode = request().body().asJson();
+			Form<MedicalInfo> binding = medicalInfoBinding.bind(jsonNode);
+			if (binding.hasErrors()) {
+				return badRequest(Json.toJson(JSONErrors
+						.patientInfoErrors(getErrors(binding))));
+			} else {
+				MedicalInfo info = binding.get();
+				patient.setMedicalInfo(info);
+				patient.getMedicalInfo().update();
+				return ok("success");
+			}
 		} else {
-			MedicalInfo info = binding.get();
-			patient.setMedicalInfo(info);
-			patient.getMedicalInfo().update();
-			return ok("success");
+			return forbidden("Can't update info");
 		}
 	}
 
@@ -88,6 +96,11 @@ public class API extends Controller {
 		// Get staff ID from session or from API access token
 		Long staffId = Long.parseLong(session().get("id"));
 		return Staff.findById(staffId);
+	}
+	
+	private static PatientUpdateInfoPermission getUpdateInfoPermissions(Staff staff, Long patientId) {
+		PatientContainer patientContainer = PatientContainer.getPatientContainer(staff, patientId);
+		return new PatientUpdateInfoPermission(patientContainer.getAccessPrivileges());
 	}
 
 	private static <T> Map<String, String> getErrors(Form<T> form) {
