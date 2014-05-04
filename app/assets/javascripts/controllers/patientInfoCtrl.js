@@ -32,11 +32,14 @@ patientInfoApp.controller('PatientInfoCtrl', function($scope, $http, $filter, Pa
   PatientInfo.query({id: $scope.id}, function(data) {	
     $scope.patient = data;
     $scope.patient.personalInfo.birthdate= $filter('date')($scope.patient.personalInfo.birthdate, 'dd/MM/yyyy');
-    $scope.studyUrl = jsRoutes.controllers.Staffs.study($scope.id, $scope.patient.id).url;
     setPatientInfoAvailability($scope.patient);
     setUpdateableInfo($scope.patient);
     // need to handle failure
   });
+  
+  $scope.gotostudyUrl = function(studyId){
+ 	window.location = jsRoutes.controllers.Staffs.study($scope.patient.id, studyId).url;
+  }
 
   // Patient info availability
   var setPatientInfoAvailability = function(patient) {
