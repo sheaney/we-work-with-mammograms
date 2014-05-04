@@ -24,7 +24,7 @@ sharePatientApp.controller('StaffListCtrl', function($scope, $http, Staff) {
   $scope.submit = function(id){
 	console.log("Selected Member ID: " + id);  
 	$scope.id = id; 
-	$http.post("@routes.Staffs.showPatient(id)", $scope.id);
+	$http.post("@routes.Staffs.showPatient(id)", "id=" + $scope.id);
 
   };
 	  
