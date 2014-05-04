@@ -20,9 +20,6 @@ public class JSONPatient {
 	private final static String SHARED = "shared";
 	private final static String ACCESS_PRIVILEGES = "accessPrivileges";
 	
-	private final static String FIELD = "field";
-	private final static String MSG = "msg";
-	
 	public static ObjectNode staffPatient(Patient patient, boolean isShared) {
 		ObjectNode json = Json.newObject();
 		json.put(ID, patient.getId());
@@ -41,21 +38,6 @@ public class JSONPatient {
 		addPermittedInfo(borrowed, json);
 		
 		return json;
-	}
-	
-	public static List<ObjectNode> staffPatientFailure(Map<String, String> errors) {
-		List<ObjectNode> errorsLst = new LinkedList<ObjectNode>();
-		
-		for (Map.Entry<String, String> error : errors.entrySet()) {
-			ObjectNode node = Json.newObject();
-			String field = error.getKey();
-			String msg = error.getValue();
-			node.put(FIELD, field);
-			node.put(MSG, msg);
-			errorsLst.add(node);
-		}
-		
-		return errorsLst;
 	}
 	
 	private static void addPermittedInfo(SharedPatient borrowed, ObjectNode json) {

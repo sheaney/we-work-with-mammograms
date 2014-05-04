@@ -32,6 +32,7 @@ patientInfoApp.controller('PatientInfoCtrl', function($scope, $http, $filter, Pa
   PatientInfo.query({id: $scope.id}, function(data) {	
     $scope.patient = data;
     $scope.patient.personalInfo.birthdate= $filter('date')($scope.patient.personalInfo.birthdate, 'dd/MM/yyyy');
+    $scope.studyUrl = jsRoutes.controllers.Staffs.study($scope.id, $scope.patient.id).url;
     setPatientInfoAvailability($scope.patient);
     // need to handle failure
   });
@@ -43,6 +44,7 @@ patientInfoApp.controller('PatientInfoCtrl', function($scope, $http, $filter, Pa
     $scope.availableStudies      = patient.studies != undefined;
   };
 
+  // Patient full name gets computed if patient is available
   $scope.patientFullName = function() {
     return $scope.patient ? ($scope.patient.personalInfo.name + " " +
       $scope.patient.personalInfo.firstLastName + " " +
@@ -71,7 +73,7 @@ patientInfoApp.controller('PatientInfoCtrl', function($scope, $http, $filter, Pa
     return updateRequest(route.url, medicalInfo, xeditableForm);
   };
 
-  // Updates info on server
+  // Updates patient info on server
   var updateRequest = function(url, info, xeditableForm) {
     return $http.put(url, info).
       success(function(data, status, headers, config) {

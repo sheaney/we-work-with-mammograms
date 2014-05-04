@@ -253,7 +253,7 @@
           <div class="study" ng-repeat="study in patient.studies">
             <h2>{{study.createdAt}}</h2>
 
-            <a href="@routes.Staffs.study(id, 20)">Ver detalle de estudio</a>
+            <a href="{{ studyUrl }}">Ver detalle de estudio</a>
 
             <div class="patient-study-summary" ng-repeat="mammogram in study.mammograms | orderBy:mostRecent" style="margin-top: 10px">
               <p>

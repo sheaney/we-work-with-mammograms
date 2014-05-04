@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import lib.json.errors.JSONErrors;
 import lib.json.patient.JSONPatient;
 import lib.json.staff.JSONStaff;
 import models.MedicalInfo;
@@ -55,7 +56,7 @@ public class API extends Controller {
 		JsonNode jsonNode = request().body().asJson();
 		Form<PersonalInfo> binding = personalInfoBinding.bind(jsonNode);
 		if (binding.hasErrors()) {
-			return badRequest(Json.toJson(JSONPatient.staffPatientFailure(getErrors(binding))));
+			return badRequest(Json.toJson(JSONErrors.patientInfoErrors(getErrors(binding))));
 		} else {
 			PersonalInfo info = binding.get();
 			patient.setPersonalInfo(info);
@@ -70,7 +71,7 @@ public class API extends Controller {
 		JsonNode jsonNode = request().body().asJson();
 		Form<MedicalInfo> binding = medicalInfoBinding.bind(jsonNode);
 		if (binding.hasErrors()) {
-			return badRequest(Json.toJson(JSONPatient.staffPatientFailure(getErrors(binding))));
+			return badRequest(Json.toJson(JSONErrors.patientInfoErrors(getErrors(binding))));
 		} else {
 			MedicalInfo info = binding.get();
 			patient.setMedicalInfo(info);
