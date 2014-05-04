@@ -40,7 +40,7 @@
       <div id="patient-info" ng-if="selectedMember != null">
         <h3>{{fullName(selectedMember)}}</h3>
 
-        <form role="form" ng-submit="sharePatient(selectedMember.id)">
+        <form name="shared-info" ng-submit="sharePatient(selectedMember.id)">
           <ul>
             <div>
               <label>
@@ -48,8 +48,11 @@
               </label>
               <div class="form-inline">
                 <div class="checkbox" >
-                  <input type="checkbox" name="view-personal-infoview"  ng-checked="personalInfo" ng-disabled="personalInfo"> Ver
-                  <input type="checkbox" name="edit-personal-info"  ng-model="personalInfo"> Editar
+                  <input type="checkbox"
+                    ng-model="permissions.viewPersonalInfo"
+                    ng-checked="permissions.editPersonalInfo"
+                    ng-disabled="permissions.editPersonalInfo"> Ver
+                  <input type="checkbox" ng-model="permissions.editPersonalInfo"> Editar
                 </div>
               </div>
             </div>
@@ -58,10 +61,13 @@
               <label>
                 <li type=square>Información Médica </li>
               </label>
-              <div class="form-inline">   
+              <div class="form-inline">
                 <div class="checkbox" >
-                  <input type="checkbox" name="view-medical-info" ng-checked="medicalInfo" ng-disabled="medicalInfo"> Ver
-                  <input type="checkbox" name="edit-medical-info" ng-model="medicalInfo"> Editar
+                  <input type="checkbox"
+                    ng-model="permissions.viewMedicalInfo"
+                    ng-checked="permissions.editMedicalInfo"
+                    ng-disabled="permissions.editMedicalInfo"> Ver
+                  <input type="checkbox" ng-model="permissions.editMedicalInfo"> Editar
                 </div>
               </div>
             </div>
@@ -70,10 +76,13 @@
               <label>
                 <li type=square>Estudios </li>
               </label>
-              <div class="form-inline">   
+              <div class="form-inline">
                 <div class="checkbox" >
-                  <input type="checkbox" name="view-studies" ng-checked="studies" ng-disabled="studies"> Ver
-                  <input type="checkbox" name="edit-studies" ng-model="studies"> Editar
+                  <input type="checkbox"
+                    ng-model="permissions.viewStudies"
+                    ng-checked="permissions.editStudies"
+                    ng-disabled="permissions.editStudies"> Ver
+                  <input type="checkbox" ng-model="permissions.editStudies"> Editar
                 </div>
               </div>
             </div>

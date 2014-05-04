@@ -27,13 +27,22 @@ sharePatientApp.controller('StaffListCtrl', function($scope, $http, Staff) {
     var route  = jsRoutes.controllers.Staffs.createSharedPatient($scope.patientId, borrowerId);
     var method = route.method.toLowerCase();
     var url    = route.url;
-    $http[method](url).
+    $http[method](url, $scope.permissions).
       success(function(data, status, headers, config) {
         console.log(data); // Success
       }).
       error(function(error, status, headers, config) {
         console.log(error);
       });
+  };
+
+  $scope.permissions = {
+    viewPersonalInfo: false,
+    editPersonalInfo: false,
+    viewMedicalInfo: false,
+    editMedicalInfo: false,
+    viewStudies: false,
+    editStudies: false
   };
 
 });
