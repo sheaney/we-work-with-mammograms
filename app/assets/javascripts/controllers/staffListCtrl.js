@@ -2,7 +2,7 @@
 
 var sharePatientApp = angular.module('sharePatientApp', ['sharePatientServices']);
 
-sharePatientApp.controller('StaffListCtrl', function($scope, Staff) {
+sharePatientApp.controller('StaffListCtrl', function($scope, $http, Staff) {
 	
 	Staff.query(function(data) {	
 	    $scope.staff = data;
@@ -20,4 +20,12 @@ sharePatientApp.controller('StaffListCtrl', function($scope, Staff) {
   };
 
   $scope.orderName = 'name';
+  
+  $scope.submit = function(id){
+	console.log("Selected Member ID: " + id);  
+	$scope.id = id; 
+	$http.post("@routes.Staffs.showPatient(id)", $scope.id);
+
+  };
+	  
 });

@@ -37,10 +37,10 @@
         </tbody>
       </table>
 
-    <div ng-if="selectedMember != null" ng-model="selectedMember.id">
+    <div ng-if="selectedMember != null">
         <h3>{{fullName(selectedMember)}}</h3>
         
-      <form role="form"  method="POST" action="@routes.Staffs.showPatient(id)">
+      <form role="form" ng-submit="submit(selectedMember.id)" method="POST" action="@routes.Staffs.showPatient(id)">
 
 		<br>
                         
@@ -53,8 +53,8 @@
               </label>
             	<div class="form-inline">   
           	   		<div class="checkbox" >
-                	  	<input type="checkbox" id="checkSlave" ng-checked="personal" ng-disabled="personal"> Ver
-                 		<input type="checkbox" ng-model="personal"> Editar
+                	  	<input type="checkbox" name="personal-info-view"  ng-checked="personal" ng-disabled="personal"> Ver
+                 		<input type="checkbox" name="personal-info-edit"  ng-model="personal"> Editar
               		</div>
             	</div>  
             </div>  
@@ -65,8 +65,8 @@
               </label>
             	<div class="form-inline">   
           	   		<div class="checkbox" >
-                	 	<input type="checkbox" id="checkSlave" ng-checked="medica" ng-disabled="medica"> Ver
-                 		<input type="checkbox" ng-model="medica"> Editar
+                	 	<input type="checkbox" name="medical-info-view" ng-checked="medica" ng-disabled="medica"> Ver
+                 		<input type="checkbox" name="medical-info-edit" ng-model="medica"> Editar
               		</div>
             	</div>     
            </div>
@@ -77,15 +77,15 @@
               </label>
             	<div class="form-inline">   
           	   		<div class="checkbox" >
-                	 	<input type="checkbox" id="checkSlave" ng-checked="estudios" ng-disabled="estudios"> Ver
-                 		<input type="checkbox" ng-model="estudios"> Editar
+                	 	<input type="checkbox" name="study-view" ng-checked="estudios" ng-disabled="estudios"> Ver
+                 		<input type="checkbox" name="study-edit" ng-model="estudios"> Editar
               		</div>
             	</div>
             </div>     
            
            </ul>
           <br>
-          <button type="submit" class="btn btn-primary btn-md">Compartir</button>
+          <button class="btn btn-primary btn-md">Compartir</button>
           <a href="@routes.Staffs.staff" class="btn btn-default btn-md">Regresar</a>
         </form>
         
