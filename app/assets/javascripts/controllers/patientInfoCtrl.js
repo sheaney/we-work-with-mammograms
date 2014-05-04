@@ -40,6 +40,10 @@ patientInfoApp.controller('PatientInfoCtrl', function($scope, $http, $filter, Pa
   $scope.gotostudyUrl = function(studyId){
  	window.location = jsRoutes.controllers.Staffs.study($scope.patient.id, studyId).url;
   }
+  
+  $scope.gotoNewStudy = function(){
+	 	window.location = jsRoutes.controllers.Staffs.newStudy($scope.patient.id).url;
+	  }
 
   // Patient info availability
   var setPatientInfoAvailability = function(patient) {

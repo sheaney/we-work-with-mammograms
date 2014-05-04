@@ -260,7 +260,10 @@
 	
 		<div id="study-tab" class="tab-pane fade"> 
         <div class="col-md-12 col-xs-12" data-patient="studies" ng-if="availableStudies">
+           	
            <h3>Estudios del Paciente</h3>
+           <button type="button" ng-click="gotoNewStudy()" class="btn btn-primary">Nuevo Estudio</button>
+           
 
           <div class="study" ng-repeat="study in patient.studies">
             <h2>{{study.createdAt}}</h2>
