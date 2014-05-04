@@ -1,10 +1,8 @@
 package controllers;
 
-import be.objectify.deadbolt.java.actions.Group;
-import be.objectify.deadbolt.java.actions.Restrict;
 import lib.PasswordGenerator;
 import models.Patient;
-import models.Staff;
+import models.SharedPatient;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -16,12 +14,15 @@ import views.html.showPatient;
 import views.html.showStaff;
 import views.html.staff;
 import views.html.study;
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
 
 @Restrict(@Group({"STAFF"}))
 public class Staffs extends Controller {
 	
 	final static Form<Patient> patientForm = Form.form(Patient.class);
-
+	final static Form<SharedPatient> sharePatientForm = Form.form(SharedPatient.class);
+	
 	public static Result staff() {
 		return ok(staff.render(session().get("user")));
 	}
@@ -43,7 +44,15 @@ public class Staffs extends Controller {
 	}
 	
 	public static Result sharePatient(Long id) {
-		return ok(sharePatient.render(id, "Juanito"));
+		Form<SharedPatient> filledForm = sharePatientForm.bindFromRequest();
+		
+		if(filledForm.hasErrors()){
+			return badRequest(sharePatient.render(session().get("user"),filledForm));
+		}else{
+			//
+		}
+		return null;
+		//return ok(sharePatient.render(id, "Juanito"));
 	}
 	
     public static Result newPatient() {
@@ -53,7 +62,7 @@ public class Staffs extends Controller {
     public static Result createPatient() {
 		Form<Patient> filledForm = patientForm.bindFromRequest();
 		if (filledForm.hasErrors()) {
-			return badRequest(newPatient.render("Juanito", filledForm));
+			return badRequest(newPatient.render(session().get("user"), filledForm));
 		} else {
 			PasswordGenerator pg = new PasswordGenerator();
 			Patient patient = filledForm.get();

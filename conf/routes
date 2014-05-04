@@ -34,6 +34,9 @@ POST	/staff/patient/create			  	controllers.Staffs.createPatient()
 # Share patient
 GET     /staff/patient/:id/share          	controllers.Staffs.sharePatient(id: Long)
 
+#Create shared patient
+POST    /staff/patient/:id/share			controllers.Staffs.createSharedPatient(id: Long)
+
 # Edit patient
 GET     /staff/patient/:id/edit           	controllers.Staffs.editPatient(id: Long)
 

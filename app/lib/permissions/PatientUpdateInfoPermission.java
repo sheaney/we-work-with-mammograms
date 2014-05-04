@@ -11,15 +11,20 @@ public class PatientUpdateInfoPermission extends Permission {
 	private final static String UPDATE_MEDICAL_INFO = "0000000000000000000000000000010";
 	private final static String UPDATE_STUDIES = "0000000000000000000000000000001";
 
-	private final int updatePersonalInfo;
-	private final int updateMedicalInfo;
-	private final int updateStudies;
+	private final int updatePersonalInfo = ByteDecodeEncoder
+			.encode(UPDATE_PERSONAL_INFO);
+	private final int updateMedicalInfo = ByteDecodeEncoder
+			.encode(UPDATE_MEDICAL_INFO);
+	private final int updateStudies = ByteDecodeEncoder.encode(UPDATE_STUDIES);
+
+	public PatientUpdateInfoPermission(boolean personalInfo,
+			boolean medicalInfo, boolean studies) {
+		super(calculateAccessPrivileges(personalInfo, medicalInfo, studies),
+				ACCESS_PRIVILEGES_SUBMASK);
+	}
 
 	public PatientUpdateInfoPermission(int accessPrivileges) {
 		super(accessPrivileges, ACCESS_PRIVILEGES_SUBMASK);
-		this.updatePersonalInfo = ByteDecodeEncoder.encode(UPDATE_PERSONAL_INFO);
-		this.updateMedicalInfo = ByteDecodeEncoder.encode(UPDATE_MEDICAL_INFO);
-		this.updateStudies = ByteDecodeEncoder.encode(UPDATE_STUDIES);
 	}
 
 	public boolean canUpdatePersonalInfo() {
@@ -32,5 +37,20 @@ public class PatientUpdateInfoPermission extends Permission {
 
 	public boolean canUpdateStudies() {
 		return hasPermission(updateStudies);
+	}
+
+	private static int calculateAccessPrivileges(boolean personalInfo,
+			boolean medicalInfo, boolean studies) {
+		int accessPrivileges = 0;
+		if (personalInfo) {
+			accessPrivileges += ByteDecodeEncoder.encode(UPDATE_PERSONAL_INFO);
+		}
+		if (medicalInfo) {
+			accessPrivileges += ByteDecodeEncoder.encode(UPDATE_MEDICAL_INFO);
+		}
+		if (studies) {
+			accessPrivileges += ByteDecodeEncoder.encode(UPDATE_STUDIES);
+		}
+		return accessPrivileges;
 	}
 }
