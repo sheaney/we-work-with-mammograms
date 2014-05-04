@@ -21,7 +21,7 @@
     </div> <!-- /row -->
   </div> <!-- /container -->
 
-  <div class="container">
+  <div id="staff-selector" data-patient-id="@id" class="container">
 
     <div class="col-md-8 col-md-offset-2">
       <table class="table table-hover staff-members">
@@ -37,60 +37,53 @@
         </tbody>
       </table>
 
-    <div ng-if="selectedMember != null">
+      <div id="patient-info" ng-if="selectedMember != null">
         <h3>{{fullName(selectedMember)}}</h3>
-        
-      <form role="form" ng-submit="submit(selectedMember.id)" method="POST" action="@routes.Staffs.showPatient(id)">
 
-		<br>
-                        
-        <ul>
-          <div class="form-group">
-          
-          <div>
-              <label>
-           <li type=square>Información Personal </li>
-              </label>
-            	<div class="form-inline">   
-          	   		<div class="checkbox" >
-                	  	<input type="checkbox" name="personal-info-view"  ng-checked="personal" ng-disabled="personal"> Ver
-                 		<input type="checkbox" name="personal-info-edit"  ng-model="personal"> Editar
-              		</div>
-            	</div>  
-            </div>  
-           
-           <div>
-           <label>
-           <li type=square>Información Médica </li>
-              </label>
-            	<div class="form-inline">   
-          	   		<div class="checkbox" >
-                	 	<input type="checkbox" name="medical-info-view" ng-checked="medica" ng-disabled="medica"> Ver
-                 		<input type="checkbox" name="medical-info-edit" ng-model="medica"> Editar
-              		</div>
-            	</div>     
-           </div>
-            
+        <form role="form" ng-submit="sharePatient(selectedMember.id)">
+          <ul>
             <div>
               <label>
-           <li type=square>Estudios </li>
+                <li type=square>Información Personal </li>
               </label>
-            	<div class="form-inline">   
-          	   		<div class="checkbox" >
-                	 	<input type="checkbox" name="study-view" ng-checked="estudios" ng-disabled="estudios"> Ver
-                 		<input type="checkbox" name="study-edit" ng-model="estudios"> Editar
-              		</div>
-            	</div>
-            </div>     
-           
-           </ul>
-          <br>
+              <div class="form-inline">
+                <div class="checkbox" >
+                  <input type="checkbox" name="view-personal-infoview"  ng-checked="personalInfo" ng-disabled="personalInfo"> Ver
+                  <input type="checkbox" name="edit-personal-info"  ng-model="personalInfo"> Editar
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label>
+                <li type=square>Información Médica </li>
+              </label>
+              <div class="form-inline">   
+                <div class="checkbox" >
+                  <input type="checkbox" name="view-medical-info" ng-checked="medicalInfo" ng-disabled="medicalInfo"> Ver
+                  <input type="checkbox" name="edit-medical-info" ng-model="medicalInfo"> Editar
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label>
+                <li type=square>Estudios </li>
+              </label>
+              <div class="form-inline">   
+                <div class="checkbox" >
+                  <input type="checkbox" name="view-studies" ng-checked="studies" ng-disabled="studies"> Ver
+                  <input type="checkbox" name="edit-studies" ng-model="studies"> Editar
+                </div>
+              </div>
+            </div>
+
+          </ul>
           <button class="btn btn-primary btn-md">Compartir</button>
           <a href="@routes.Staffs.staff" class="btn btn-default btn-md">Regresar</a>
         </form>
-        
-         </div>
-      </div>
+
+      </div><!-- end of selected member div -->
     </div>
 
   </div><!-- /container -->

@@ -83,6 +83,7 @@ public class Application extends Controller {
             controllers.routes.javascript.Staffs.showStaff(),
             controllers.routes.javascript.Staffs.newStudy(),
             controllers.routes.javascript.Staffs.study(),
+            controllers.routes.javascript.Staffs.createSharedPatient(),
             
             // Patient actions
             controllers.routes.javascript.Patients.patient(),

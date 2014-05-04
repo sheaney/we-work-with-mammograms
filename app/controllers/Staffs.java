@@ -44,15 +44,11 @@ public class Staffs extends Controller {
 	}
 	
 	public static Result sharePatient(Long id) {
-		Form<SharedPatient> filledForm = sharePatientForm.bindFromRequest();
-		
-		if(filledForm.hasErrors()){
-			return badRequest(sharePatient.render(session().get("user"),filledForm));
-		}else{
-			//
-		}
-		return null;
-		//return ok(sharePatient.render(id, "Juanito"));
+		return ok(sharePatient.render(id, "Juanito"));
+	}
+	
+	public static Result createSharedPatient(Long id, Long borrowerId) {
+		return badRequest("failure");
 	}
 	
     public static Result newPatient() {
