@@ -10,9 +10,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import lib.DBExecutionContext;
 import play.db.ebean.Model;
+import play.libs.F.Function0;
+import play.libs.F.Promise;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Study extends Model {
@@ -74,5 +77,18 @@ public class Study extends Model {
 	public void setMammograms(Set<Mammogram> mammograms) {
 		this.mammograms = mammograms;
 	}
-
+	
+    public Promise<Void> asyncSave() {
+        return Promise.promise(new Function0<Void>() {
+            @Override
+            public Void apply() throws Throwable {
+                save();
+                return null;
+            }
+        },DBExecutionContext.ctx);
+    }
+    //TODO this method...
+    public String validate(){
+    	return null;
+    }
 }

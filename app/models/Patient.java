@@ -16,37 +16,40 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 
+import lib.DBExecutionContext;
 import play.Play;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+import play.libs.F.Function0;
+import play.libs.F.Promise;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Patient extends Model{
+public class Patient extends Model {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
-	
+
 	@Valid
 	@OneToOne(cascade = CascadeType.ALL)
 	PersonalInfo personalInfo;
-	
+
 	@Valid
 	@OneToOne(cascade = CascadeType.ALL)
 	MedicalInfo medicalInfo;
-	
+
 	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="staff_id", nullable=false)
+	@JoinColumn(name = "staff_id", nullable = false)
 	Staff owner;
 	
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
 	List<Study> studies = new ArrayList<Study>();
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "sharedInstance", cascade = CascadeType.ALL)
 	List<SharedPatient> sharedInstances = new ArrayList<SharedPatient>();
@@ -62,11 +65,11 @@ public class Patient extends Model{
 	public static void create(Patient patient) {
 		patient.save();
 	}
-	
+
 	public static List<Patient> all() {
 		return find.all();
 	}
-	
+
 	public static Map<String, String> availableNumberedOptions() {
 		Map<String, String> options = new HashMap<String, String>();
 		options.put("10", "10");
@@ -82,9 +85,19 @@ public class Patient extends Model{
 		options.put("0", "0");
 		return options;
 	}
-	
+
 	public static Patient findById(Long id) {
 		return find.byId(String.valueOf(id));
+	}
+
+	public static Promise<Patient> findByIdAsync(final Long id) {
+		return Promise.promise(new Function0<Patient>() {
+			@Override
+			public Patient apply() throws Throwable {
+				Long notFinalId = id;
+				return find.byId(String.valueOf(notFinalId));
+			}
+		}, DBExecutionContext.ctx);
 	}
 
 	public Long getId() {
@@ -94,7 +107,7 @@ public class Patient extends Model{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public PersonalInfo getPersonalInfo() {
 		return personalInfo;
 	}
