@@ -35,8 +35,16 @@
 
     <div class="row">
       <div id="patient" class="col-md-12" data-patient-id="@id">
-        <legend>Información General del Paciente</legend>
-
+        
+         <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" href="#personal-info-tab">Información Personal</a></li>
+          <li><a data-toggle="tab" href="#medical-info-tab">Información Médica</a></li>
+          <li><a data-toggle="tab" href="#study-tab">Estudios</a></li>
+        </ul>
+        
+		<div class="tab-content">
+		
+		<div id="personal-info-tab" class="tab-pane fade in active">
         <div class="col-md-6 col-xs-12" data-patient="personal-info" ng-if="availablePersonalInfo"> 
           <form editable-form name="editablePersonalInfo" onaftersave="submitPersonalInfo()">
 
@@ -123,7 +131,9 @@
           </div><!-- end of .col-md-6 -->
 
         </form>
+        </div>
 
+		<div id = "medical-info-tab" class="tab-pane fade">
         <div class="col-md-6 col-xs-12" data-patient="medical-info" ng-if="availableMedicalInfo"> 
           <form editable-form name="editableMedicalInfo" onaftersave="submitMedicalInfo()">
 
@@ -246,14 +256,19 @@
 
           </form>
         </div><!-- end of .col-md-6 -->
-
+        </div>
+	
+		<div id="study-tab" class="tab-pane fade"> 
         <div class="col-md-12 col-xs-12" data-patient="studies" ng-if="availableStudies">
-          <legend>Estudios del Paciente</legend>
+           	
+           <h3>Estudios del Paciente</h3>
+           <button type="button" ng-click="gotoNewStudy()" class="btn btn-primary">Nuevo Estudio</button>
+           
 
           <div class="study" ng-repeat="study in patient.studies">
             <h2>{{study.createdAt}}</h2>
 
-            <a href="{{ studyUrl }}">Ver detalle de estudio</a>
+            <a href="#" ng-click="gotostudyUrl(study.id)">Ver detalle de estudio</a>
 
             <div class="patient-study-summary" ng-repeat="mammogram in study.mammograms | orderBy:mostRecent" style="margin-top: 10px">
               <p>
@@ -264,13 +279,17 @@
             </div>
           </div>
         </div><!-- end of .col-md-6 -->
+        
+     <center>
+      <button type="button" class="btn btn-success">Enviar al sistema de diagnóstico</button>
+    </center>
+        
       </div> <!-- end of patient div -->
     </div>
 
-    <center>
-      <button type="button" class="btn btn-success">Enviar al sistema de diagnóstico</button>
-    </center>
 
+</div>
+</div>
   </div><!-- /.container -->
 }
 
