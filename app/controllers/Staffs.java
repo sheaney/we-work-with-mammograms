@@ -69,6 +69,7 @@ public class Staffs extends Controller {
 		System.out.println("shared patient = " + sharedPatient.getSharedInstance().getPersonalInfo().getName());
 		System.out.println(sharedPatient.getAccessPrivileges());
 		SharedPatient.create(sharedPatient);
+		flash("success", "El paciente se ha compartido exitosamente");
 		return ok("success");
 //		return badRequest("failure");
 	}

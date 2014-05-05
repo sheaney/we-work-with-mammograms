@@ -30,11 +30,11 @@ patientInfoApp.controller('PatientInfoCtrl', function($scope, $http, $filter, Pa
   };
 
   PatientInfo.query({id: $scope.id}, function(data) {	
-    $scope.patient = data;
-    $scope.patient.personalInfo.birthdate= $filter('date')($scope.patient.personalInfo.birthdate, 'dd/MM/yyyy');
-    $scope.studyUrl = jsRoutes.controllers.Staffs.study($scope.id, $scope.patient.id).url;
-    setPatientInfoAvailability($scope.patient);
-    setUpdateableInfo($scope.patient);
+    var patient = data;
+    $scope.patient = patient;
+    setPatientInfoAvailability(patient);
+    setUpdateableInfo(patient);
+    setExtraScopeAttributes(patient);
     // need to handle failure
   });
 
@@ -51,11 +51,21 @@ patientInfoApp.controller('PatientInfoCtrl', function($scope, $http, $filter, Pa
     $scope.updateableStudies      = patient.updateableStudies;
   };
 
-  // Patient full name gets computed if patient is available
+  var setExtraScopeAttributes = function(patient) {
+    // Render correct date format for birthdate
+    if ($scope.availablePersonalInfo) {
+      $scope.patient.personalInfo.birthdate= $filter('date')($scope.patient.personalInfo.birthdate, 'dd/MM/yyyy');
+    }
+    $scope.studyUrl = jsRoutes.controllers.Staffs.study($scope.id, $scope.patient.id).url;
+  };
+
+  // Patient full name gets computed if personalInfo is available
   $scope.patientFullName = function() {
-    return $scope.patient ? ($scope.patient.personalInfo.name + " " +
-      $scope.patient.personalInfo.firstLastName + " " +
-      $scope.patient.personalInfo.secondLastName) : "";
+    if ($scope.availablePersonalInfo) {
+      return $scope.patient.personalInfo.name + " " + $scope.patient.personalInfo.firstLastName + " " + $scope.patient.personalInfo.secondLastName;
+    } else {
+      return 'Paciente prestado';
+    }
   };
 
   // Obtains xeditable form from outer scope

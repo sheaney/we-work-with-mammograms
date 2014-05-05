@@ -30,6 +30,8 @@ sharePatientApp.controller('StaffListCtrl', function($scope, $http, Staff) {
     $http[method](url, $scope.permissions).
       success(function(data, status, headers, config) {
         console.log(data); // Success
+        // Redirect to staff home
+        window.location.href = jsRoutes.controllers.Staffs.staff().url;
       }).
       error(function(error, status, headers, config) {
         console.log(error);

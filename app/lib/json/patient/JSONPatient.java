@@ -46,6 +46,7 @@ public class JSONPatient {
 		PatientUpdateInfoPermission updatePermissions = new PatientUpdateInfoPermission(accessPrivileges);
 		Patient patient = borrowed.getSharedInstance();
 		
+		json.put(ID, patient.getId());
 		if (viewPermissions.canViewPersonalInfo()) {
 			json.put(UPDATEABLE_PERSONAL_INFO, updatePermissions.canUpdatePersonalInfo());
 			json.put(PERSONAL_INFO, Json.toJson(patient.getPersonalInfo()));

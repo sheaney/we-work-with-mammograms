@@ -28,16 +28,30 @@ staffApp.controller('ShowStaffCtrl', function($scope, Staff, id) {
   };
 
   $scope.fullName = function(patient) {
-    return patient.personalInfo.name + " " + patient.personalInfo.firstLastName + " " + patient.personalInfo.secondLastName;
+    if (patient.personalInfo) {
+      return patient.personalInfo.name + " " + patient.personalInfo.firstLastName + " " + patient.personalInfo.secondLastName;
+    } else {
+      return defaults.fullName;
+    }
   };
 
   $scope.numberOfStudiesText = function(patient) {
-    var numberOfStudies = patient.studies.length;
-    return numberOfStudies > 0 ? numberOfStudies : 'No tiene estudios';
+    if (patient.studies) {
+      var numberOfStudies = patient.studies.length;
+      return numberOfStudies > 0 ? numberOfStudies : 'No tiene estudios';
+    } else {
+      return defaults.nbrStudies;
+    }
   };
 
   $scope.setPatientId = function(id) {
     $scope.patientId = id;
+  };
+
+  // Default values when access to information is denied
+  var defaults = {
+    fullName: 'Paciente compartido',
+    nbrStudies: 'No se sabe'
   };
 
   $scope.orderProp = 'personalInfo.name';
