@@ -3,6 +3,10 @@ constraint.required = Requerido
 constraint.email =
 constraint.date = 
 format.date = 
+constraint.minLength= Longitud mínima es {0}
+constraint.maxLength= Longitud máxima es {0}
+constraint.pattern= Sólo números
+
 
 # Error messages
 error.numeric = Solo dígitos
