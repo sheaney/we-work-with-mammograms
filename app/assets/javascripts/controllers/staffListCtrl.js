@@ -38,6 +38,10 @@ sharePatientApp.controller('StaffListCtrl', function($scope, $http, Staff) {
       });
   };
 
+  $scope.toggle = function(permission) {
+    $scope.permissions[permission] = !$scope.permissions[permission];
+  };
+
   $scope.permissions = {
     viewPersonalInfo: false,
     updatePersonalInfo: false,
