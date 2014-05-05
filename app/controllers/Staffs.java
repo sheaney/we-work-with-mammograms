@@ -1,10 +1,13 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import lib.PasswordGenerator;
+import lib.json.permissions.JSONPermissions;
+import lib.permissions.PatientUpdateInfoPermission;
+import lib.permissions.PatientViewInfoPermission;
+import lib.permissions.Permission;
 import models.Patient;
 import models.SharedPatient;
+import models.Staff;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -19,11 +22,13 @@ import views.html.study;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 @Restrict(@Group({"STAFF"}))
 public class Staffs extends Controller {
 	
 	final static Form<Patient> patientForm = Form.form(Patient.class);
-	final static Form<SharedPatient> sharePatientForm = Form.form(SharedPatient.class);
+	final static Form<SharedPatient> sharedPatientForm = Form.form(SharedPatient.class);
 	
 	public static Result staff() {
 		return ok(staff.render(session().get("user")));
@@ -51,10 +56,21 @@ public class Staffs extends Controller {
 	
 	public static Result createSharedPatient(Long id, Long borrowerId) {
 		JsonNode jsonNode = request().body().asJson();
-		System.out.println(jsonNode);
-//		boolean viewPersonalInfo = permissions.get("viewPersonalInfo").asBoolean();
-//		System.out.println(viewPersonalInfo);
-		return badRequest("failure");
+		// Create patient
+		PatientViewInfoPermission patientViewInfo = JSONPermissions.unbindViewInfoPermissions(jsonNode);
+		PatientUpdateInfoPermission patientUpdateInfo = JSONPermissions.unbindUpdateInfoPermissions(jsonNode);
+		Staff sharer = API.obtainStaff(); // get staff from session
+		Staff borrower = Staff.findById(borrowerId);
+		Patient patient = Patient.findById(id);
+		int accessPrivileges = Permission.concatAccessPrivileges(patientViewInfo, patientUpdateInfo);
+		SharedPatient sharedPatient = new SharedPatient(sharer, borrower, patient, accessPrivileges);
+		System.out.println("sharer = " + sharedPatient.getSharer().getName());
+		System.out.println("borrower = " + sharedPatient.getBorrower().getName());
+		System.out.println("shared patient = " + sharedPatient.getSharedInstance().getPersonalInfo().getName());
+		System.out.println(sharedPatient.getAccessPrivileges());
+		SharedPatient.create(sharedPatient);
+		return ok("success");
+//		return badRequest("failure");
 	}
 	
     public static Result newPatient() {

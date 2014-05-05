@@ -92,7 +92,7 @@ public class API extends Controller {
 		}
 	}
 
-	private static Staff obtainStaff() {
+	public static Staff obtainStaff() {
 		// Get staff ID from session or from API access token
 		Long staffId = Long.parseLong(session().get("id"));
 		return Staff.findById(staffId);

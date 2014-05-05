@@ -7,9 +7,9 @@ package lib.permissions;
  */
 final public class PatientViewInfoPermission extends Permission {
 	private final static String ACCESS_PRIVILEGES_SUBMASK = "0000000000000000000000000000111";
-	private final static String VIEW_PERSONAL_INFO = "0000000000000000000000000000100";
-	private final static String VIEW_MEDICAL_INFO = "0000000000000000000000000000010";
-	private final static String VIEW_STUDIES = "0000000000000000000000000000001";
+	private final static String VIEW_PERSONAL_INFO 		  = "0000000000000000000000000000100";
+	private final static String VIEW_MEDICAL_INFO 		  = "0000000000000000000000000000010";
+	private final static String VIEW_STUDIES 			  = "0000000000000000000000000000001";
 
 	private final int viewPersonalInfo = ByteDecodeEncoder
 			.encode(VIEW_PERSONAL_INFO);

@@ -34,7 +34,7 @@ class PatientUpdateInfoPermissionTest extends FunSpec with Matchers {
     }
 
     it("returns false if disabled privilege ...x0xyyy") {
-      val accessPrivileges = Seq("100000", "000101", "0011001")
+      val accessPrivileges = Seq("100000", "000101", "001001")
       verifyPermission(allowed = false, accessPrivileges)(_.canUpdateMedicalInfo())
     }
 
@@ -52,5 +52,37 @@ class PatientUpdateInfoPermissionTest extends FunSpec with Matchers {
       verifyPermission(allowed = false, accessPrivileges)(_.canUpdateStudies())
     }
 
+  }
+
+  describe("boolean constructor") {
+    it("update personal info permission is set to true") {
+      val (personalInfo, medicalInfo, studies) = (true, false, false)
+      val permissions = new PatientUpdateInfoPermission(personalInfo, medicalInfo, studies)
+
+      val errorMsg = "Only should be able to update personal info"
+      assert(permissions.canUpdatePersonalInfo(), errorMsg)
+      assert(!permissions.canUpdateMedicalInfo(), errorMsg)
+      assert(!permissions.canUpdateStudies(), errorMsg)
+    }
+
+    it("update medical info permission is set to true") {
+      val (personalInfo, medicalInfo, studies) = (false, true, false)
+      val permissions = new PatientUpdateInfoPermission(personalInfo, medicalInfo, studies)
+
+      val errorMsg = "Only should be able to update medical info"
+      assert(!permissions.canUpdatePersonalInfo(), errorMsg)
+      assert(permissions.canUpdateMedicalInfo(), errorMsg)
+      assert(!permissions.canUpdateStudies(), errorMsg)
+    }
+
+    it("update studies permission is set to true") {
+      val (personalInfo, medicalInfo, studies) = (false, false, true)
+      val permissions = new PatientUpdateInfoPermission(personalInfo, medicalInfo, studies)
+
+      val errorMsg = "Only should be able to udpate studies"
+      assert(!permissions.canUpdatePersonalInfo(), errorMsg)
+      assert(!permissions.canUpdateMedicalInfo(), errorMsg)
+      assert(permissions.canUpdateStudies(), errorMsg)
+    }
   }
 }

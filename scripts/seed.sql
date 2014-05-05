@@ -27,7 +27,7 @@ insert into patient(id, personal_info_id, medical_info_id, staff_id) values (2,2
 insert into patient(id, personal_info_id, medical_info_id, staff_id) values (3,3,3,2);
 
 insert into shared_patient(id, created_at, sharer_id, borrower_id, patient_id, access_privileges)
-  values (1, '2014-04-21', 2, 1, 3, 7);
+  values (1, '2014-04-21', 2, 1, 3, 15);
 
 insert into study(id, created_at, patient_id)
   values (1, '2014-04-24', 1);

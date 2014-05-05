@@ -18,6 +18,7 @@ class PatientViewInfoPermissionTest extends FunSpec with Matchers {
     it("returns true if enabled privilege ...1xx") {
       val accessPrivileges = Seq("100101", "101", "100")
       verifyPermission(allowed = true, accessPrivileges)(_.canViewPersonalInfo())
+
     }
 
     it("returns false if disabled privilege ...0xx") {
@@ -53,6 +54,38 @@ class PatientViewInfoPermissionTest extends FunSpec with Matchers {
       verifyPermission(allowed = false, accessPrivileges)(_.canViewStudies())
     }
 
+  }
+
+  describe("boolean constructor") {
+    it("view personal info permission is set to true") {
+      val (personalInfo, medicalInfo, studies) = (true, false, false)
+      val permissions = new PatientViewInfoPermission(personalInfo, medicalInfo, studies)
+
+      val errorMsg = "Only should be able to view personal info"
+      assert(permissions.canViewPersonalInfo(), errorMsg)
+      assert(!permissions.canViewMedicalInfo(), errorMsg)
+      assert(!permissions.canViewStudies(), errorMsg)
+    }
+
+    it("view medical info permission is set to true") {
+      val (personalInfo, medicalInfo, studies) = (false, true, false)
+      val permissions = new PatientViewInfoPermission(personalInfo, medicalInfo, studies)
+
+      val errorMsg = "Only should be able to view medical info"
+      assert(!permissions.canViewPersonalInfo(), errorMsg)
+      assert(permissions.canViewMedicalInfo(), errorMsg)
+      assert(!permissions.canViewStudies(), errorMsg)
+    }
+
+    it("view studies permission is set to true") {
+      val (personalInfo, medicalInfo, studies) = (false, false, true)
+      val permissions = new PatientViewInfoPermission(personalInfo, medicalInfo, studies)
+
+      val errorMsg = "Only should be able to view studies"
+      assert(!permissions.canViewPersonalInfo(), errorMsg)
+      assert(!permissions.canViewMedicalInfo(), errorMsg)
+      assert(permissions.canViewStudies(), errorMsg)
+    }
   }
 
 }

@@ -14,34 +14,46 @@ import play.db.ebean.Model;
 
 @Entity
 public class SharedPatient extends Model {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	Long id;
-	
+
 	@Required
 	Date createdAt = new Date(System.currentTimeMillis());
-	
+
 	@JsonIgnore
 	@Required
 	@ManyToOne
-	@JoinColumn(name="sharer_id", nullable=false)
+	@JoinColumn(name = "sharer_id", nullable = false)
 	Staff sharer;
-	
+
 	@JsonIgnore
 	@Required
 	@ManyToOne
-	@JoinColumn(name="borrower_id", nullable=false)
+	@JoinColumn(name = "borrower_id", nullable = false)
 	Staff borrower;
-	
+
 	@Required
 	@ManyToOne
-	@JoinColumn(name="patient_id", nullable=false)
+	@JoinColumn(name = "patient_id", nullable = false)
 	Patient sharedInstance;
-	
+
 	@Required
 	int accessPrivileges;
+
+	public SharedPatient(Staff sharer, Staff borrower, Patient sharedInstance,
+			int accessPrivileges) {
+		this.sharer = sharer;
+		this.borrower = borrower;
+		this.sharedInstance = sharedInstance;
+		this.accessPrivileges = accessPrivileges;
+	}
+	
+	public static void create(SharedPatient sharedPatient) {
+		sharedPatient.save();
+	}
 
 	public Long getId() {
 		return id;

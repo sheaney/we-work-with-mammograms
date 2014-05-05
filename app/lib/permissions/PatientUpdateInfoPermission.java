@@ -6,10 +6,10 @@ package lib.permissions;
  * account these last bits
  */
 public class PatientUpdateInfoPermission extends Permission {
-	private final static String ACCESS_PRIVILEGES_SUBMASK = "0000000000000000000000000000111";
-	private final static String UPDATE_PERSONAL_INFO = "0000000000000000000000000000100";
-	private final static String UPDATE_MEDICAL_INFO = "0000000000000000000000000000010";
-	private final static String UPDATE_STUDIES = "0000000000000000000000000000001";
+	private final static String ACCESS_PRIVILEGES_SUBMASK = "0000000000000000000000000111000";
+	private final static String UPDATE_PERSONAL_INFO 	  = "0000000000000000000000000100000";
+	private final static String UPDATE_MEDICAL_INFO 	  = "0000000000000000000000000010000";
+	private final static String UPDATE_STUDIES 			  = "0000000000000000000000000001000";
 
 	private final int updatePersonalInfo = ByteDecodeEncoder
 			.encode(UPDATE_PERSONAL_INFO);
