@@ -77,6 +77,7 @@ public class Staff extends Model {
 	List<SharedPatient> sharedPatients = new ArrayList<SharedPatient>();
 
 	@OneToMany(mappedBy = "borrower", cascade = CascadeType.ALL)
+
 	List<SharedPatient> borrowedPatients = new ArrayList<SharedPatient>();
 
 	public static Finder<String, Staff> find = new Finder<String, Staff>(Play
@@ -300,4 +301,5 @@ public class Staff extends Model {
 	public String toString() {
 		return this.getFullName();
 	}
+	
 }
