@@ -46,6 +46,9 @@ GET     /staff/patient/:id                	controllers.Staffs.showPatient(id: Lo
 # New study
 GET     /staff/:patientId/study/new       	controllers.Staffs.newStudy(patientId: Long)
 
+#Create new study
+POST 	/staff/:patientId/study/new       	controllers.Staffs.createNewStudy(patientId: Long)
+
 # Show study
 GET     /staff/study/:patientId/:id       	controllers.Staffs.study(patientId: Long, id: Long)
 

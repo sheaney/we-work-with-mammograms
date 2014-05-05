@@ -1,4 +1,7 @@
-@(userName: String)
+@(userName: String, patientId: Long, studyForm: play.data.Form[Study])
+
+
+@import views.html.forms._
 
 @views.html.layouts.main("Crear Estudio") {
   <!-- Render top navbar -->
@@ -8,24 +11,7 @@
     <div class="col-md-8 col-md-offset-2">
       <h2>Crear nuevo estudio</h2>
       <br>
-      <form role="form">
-        <fieldset>
-          <legend>Tomas</legend>
-          <div class="form-group">
-            <label for="filesToUpload">Seleccione las mamografías</label>
-            <input type="file" id="filesToUpload" multiple="">
-            <p class="help-block">Imágenes deben pesar menos de 80 MB</p>
-            <!--<textarea class="form-control" placeholder="Comentarios sobre el estudio..." rows="5"></textarea>-->
-          </div>
-        </fieldset>
-        <fieldset>
-          <legend>Comentarios</legend>
-          <div class="form-group">
-            <textarea class="form-control" id="studyComment" placeholder="Comentarios sobre el estudio..." rows="5"></textarea>
-          </div>
-        </fieldset>
-        <button type="submit" class="btn btn-default">Guardar estudio</button>
-      </form>
+      @formForNewStudy(studyForm, patientId)
     </div>
   </div>
 }
