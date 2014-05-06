@@ -35,261 +35,254 @@
 
     <div class="row">
       <div id="patient" class="col-md-12" data-patient-id="@id">
-        
+
          <ul class="nav nav-tabs">
-          <li class="active"><a data-toggle="tab" href="#personal-info-tab">Información Personal</a></li>
-          <li><a data-toggle="tab" href="#medical-info-tab">Información Médica</a></li>
-          <li><a data-toggle="tab" href="#study-tab">Estudios</a></li>
+          <li ng-if="availablePersonalInfo" class="active"><a data-toggle="tab" href="#personal-info-tab">Información Personal</a></li>
+          <li ng-if="availableMedicalInfo"><a data-toggle="tab" href="#medical-info-tab">Información Médica</a></li>
+          <li ng-if="availableStudies"><a data-toggle="tab" href="#studies-tab">Estudios</a></li>
         </ul>
-        
-		<div class="tab-content">
+
+        <div class="tab-content">
 		
-		<div id="personal-info-tab" class="tab-pane fade in active">
-        <div class="col-md-6 col-xs-12" data-patient="personal-info" ng-if="availablePersonalInfo"> 
-          <form editable-form name="editablePersonalInfo" onaftersave="submitPersonalInfo()">
+          <div id="personal-info-tab" class="col-md-6 col-xs-12 tab-pane fade in active" data-patient="personal-info" ng-if="availablePersonalInfo"> 
+            <form editable-form name="editablePersonalInfo" onaftersave="submitPersonalInfo()">
 
-            <div class="col-md-12 col-xs-12">
-              <h3>Información Personal</h3>
+              <div class="col-md-12 col-xs-12">
+                <h3>Información Personal</h3>
 
-              <span class="col-md-6 col-xs-6">
-                <b>Nombres:</b>
-              </span>
-              <span editable-text="patient.personalInfo.name" e-name="name" class="col-md-6 col-xs-6">
-                {{ patient.personalInfo.name || empty}}
-              </span>
-            </div>
+                <span class="col-md-6 col-xs-6">
+                  <b>Nombres:</b>
+                </span>
+                <span editable-text="patient.personalInfo.name" e-name="name" class="col-md-6 col-xs-6">
+                  {{ patient.personalInfo.name || empty}}
+                </span>
+              </div>
 
-            <div class="col-md-12 col-xs-12">
-              <span class="col-md-6 col-xs-6">
-                <b>Apellido Paterno:</b>
-              </span>
-              <span editable-text="patient.personalInfo.firstLastName" e-name="firstLastName" class="col-md-6 col-xs-6">
-                {{ patient.personalInfo.firstLastName || empty}}
-              </span>
-            </div>
+              <div class="col-md-12 col-xs-12">
+                <span class="col-md-6 col-xs-6">
+                  <b>Apellido Paterno:</b>
+                </span>
+                <span editable-text="patient.personalInfo.firstLastName" e-name="firstLastName" class="col-md-6 col-xs-6">
+                  {{ patient.personalInfo.firstLastName || empty}}
+                </span>
+              </div>
 
-            <div class="col-md-12 col-xs-12">
-              <span class="col-md-6 col-xs-6">
-                <b>Apellido Materno:</b>
-              </span>
-              <span editable-text="patient.personalInfo.secondLastName" e-name="secondLastName" class="col-md-6 col-xs-6">
-                {{ patient.personalInfo.secondLastName || empty}}
-              </span>
-            </div>
+              <div class="col-md-12 col-xs-12">
+                <span class="col-md-6 col-xs-6">
+                  <b>Apellido Materno:</b>
+                </span>
+                <span editable-text="patient.personalInfo.secondLastName" e-name="secondLastName" class="col-md-6 col-xs-6">
+                  {{ patient.personalInfo.secondLastName || empty}}
+                </span>
+              </div>
 
-            <div class="col-md-12 col-xs-12">
-              <span class="col-md-6 col-xs-6">
-                <b>Dirección:</b>
-              </span>
-              <span editable-textarea="patient.personalInfo.address" e-name="address" class="col-md-6 col-xs-6">
-                {{ patient.personalInfo.address || 'empty' }}
-              </span>
-            </div>
+              <div class="col-md-12 col-xs-12">
+                <span class="col-md-6 col-xs-6">
+                  <b>Dirección:</b>
+                </span>
+                <span editable-textarea="patient.personalInfo.address" e-name="address" class="col-md-6 col-xs-6">
+                  {{ patient.personalInfo.address || 'empty' }}
+                </span>
+              </div>
 
-            <div class="col-md-12 col-xs-12">
-              <span class="col-md-6 col-xs-6">
-                <b>Correo Electrónico:</b>
-              </span>
-              <span editable-email="patient.personalInfo.email" e-name="email" class="col-md-6 col-xs-6">
-                {{ patient.personalInfo.email || 'empty' }}
-              </span>
-            </div>
+              <div class="col-md-12 col-xs-12">
+                <span class="col-md-6 col-xs-6">
+                  <b>Correo Electrónico:</b>
+                </span>
+                <span editable-email="patient.personalInfo.email" e-name="email" class="col-md-6 col-xs-6">
+                  {{ patient.personalInfo.email || 'empty' }}
+                </span>
+              </div>
 
-            <div class="col-md-12 col-xs-12">
-              <span class="col-md-6 col-xs-6">
-                <b>Teléfono:</b>
-              </span>
-              <span editable-text="patient.personalInfo.telephone" e-name="telephone" class="col-md-6 col-xs-6">
-                {{ patient.personalInfo.telephone || 'empty' }}
-              </span>
-            </div>
+              <div class="col-md-12 col-xs-12">
+                <span class="col-md-6 col-xs-6">
+                  <b>Teléfono:</b>
+                </span>
+                <span editable-text="patient.personalInfo.telephone" e-name="telephone" class="col-md-6 col-xs-6">
+                  {{ patient.personalInfo.telephone || 'empty' }}
+                </span>
+              </div>
 
-            <div class="col-md-12 col-xs-12">
-              <span class="col-md-6 col-xs-6">
-                <b>Fecha de Nacimiento:</b>
-              </span>
-              <span editable-text="patient.personalInfo.birthdate" e-name="birthdate" class="col-md-6 col-xs-6">
-                {{ patient.personalInfo.birthdate || 'empty' }}</a>
-              </span>
-            </div>
+              <div class="col-md-12 col-xs-12">
+                <span class="col-md-6 col-xs-6">
+                  <b>Fecha de Nacimiento:</b>
+                </span>
+                <span editable-text="patient.personalInfo.birthdate" e-name="birthdate" class="col-md-6 col-xs-6">
+                  {{ patient.personalInfo.birthdate || 'empty' }}</a>
+                </span>
+              </div>
 
-            <div class="col-xs-offset-4">
-              <!-- button to show form -->
-              <button type="button" class="btn btn-default" ng-click="editablePersonalInfo.$show()" ng-disabled="!updateablePersonalInfo" ng-show="!editablePersonalInfo.$visible">
-                Editar
-              </button>
-              <span ng-if="updateablePersonalInfo" ng-show="editablePersonalInfo.$visible">
-                <!-- buttons to submit / cancel form -->
-                <button type="submit" class="btn btn-primary" ng-disabled="editablePersonalInfo.$waiting">
-                  Guardar
+              <div class="col-xs-offset-4">
+                <!-- button to show form -->
+                <button type="button" class="btn btn-default" ng-click="editablePersonalInfo.$show()" ng-disabled="!updateablePersonalInfo" ng-show="!editablePersonalInfo.$visible">
+                  Editar
                 </button>
-                <button type="button" class="btn btn-default" ng-disabled="editablePersonalInfo.$waiting" ng-click="editablePersonalInfo.$cancel()">
-                  Cancelar
-                </button>
-              </span>
-            </div>
-          </div><!-- end of .col-md-6 -->
-
-        </form>
-        </div>
-
-		<div id = "medical-info-tab" class="tab-pane fade">
-        <div class="col-md-6 col-xs-12" data-patient="medical-info" ng-if="availableMedicalInfo"> 
-          <form editable-form name="editableMedicalInfo" onaftersave="submitMedicalInfo()">
-
-            <div class="col-md-12 col-xs-12">
-              <h3>Información médica</h3><br>
-
-              <span class="col-md-6 col-xs-6">
-                <b>Edad de inicio de actividad sexual:</b>
-              </span>
-              <span editable-text="patient.medicalInfo.sexualActivityStartAge" e-name="sexualActivityStartAge" class="col-md-6 col-xs-6">
-                {{ patient.medicalInfo.sexualActivityStartAge || 'empty' }}
-              </span>
-            </div>
-
-            <div class="col-md-12 col-xs-12">
-              <span class="col-md-6 col-xs-6">
-                <b>Número de embarazos:</b>
-              </span>
-              <span editable-select="patient.medicalInfo.pregnancies" e-name="pregnancies" e-ng-options="p.value as p.text for p in options" class="col-md-6 col-xs-6">
-                {{ patient.medicalInfo.pregnancies || 0 }}
-              </span>
-            </div>
-
-            <div class="col-md-12 col-xs-12">
-              <span class="col-md-6 col-xs-6">
-                <b>Número de cesáreas:</b>
-              </span>
-              <span editable-select="patient.medicalInfo.cSections" e-name="cSections" e-ng-options="p.value as p.text for p in options" class="col-md-6 col-xs-6">
-                {{ patient.medicalInfo.cSections || 0 }}
-              </span>
-            </div>
-
-            <div class="col-md-12 col-xs-12">
-              <span class="col-md-6 col-xs-6">
-                <b>Número de partos naturales:</b>
-              </span>
-              <span editable-select="patient.medicalInfo.naturalDeliveries" e-name="naturalDeliveries" e-ng-options="p.value as p.text for p in options" class="col-md-6 col-xs-6">
-                {{ patient.medicalInfo.naturalDeliveries || 0 }}
-              </span>
-            </div>
-
-            <div class="col-md-12 col-xs-12">
-              <span class="col-md-6 col-xs-6">
-                <b>Número de abortos:</b>
-              </span>
-              <span editable-select="patient.medicalInfo.abortions" e-name="abortions" e-ng-options="p.value as p.text for p in options" class="col-md-6 col-xs-6">
-                {{ patient.medicalInfo.abortions || 0 }}
-              </span>
-            </div>
-
-            <div class="col-md-12 col-xs-12">
-              <span class="col-md-6 col-xs-6">
-                <b>Edad de inicio de menopausia:</b>
-              </span>
-              <span editable-text="patient.medicalInfo.menopauseStartAge" e-name="menopauseStartAge" class="col-md-6 col-xs-6">
-                {{ patient.medicalInfo.menopauseStartAge || empty}}
-              </span>
-            </div>
-
-            <div class="col-md-12 col-xs-12">
-              <span class="col-md-6 col-xs-6">
-                <b>Edad de inicio de periodo menstrual:</b>
-              </span>
-              <span editable-text="patient.medicalInfo.menstrualPeriodStartAge" e-name="menstrualPeriodStartAge" class="col-md-6 col-xs-6">
-                {{ patient.medicalInfo.menstrualPeriodStartAge || empty}}
-              </span>
-            </div>
-
-            <div class="col-md-12 col-xs-12">
-              <span class="col-md-6 col-xs-6">
-                <b>Predisposición familiar:</b>
-              </span>
-              <span editable-select="patient.medicalInfo.familyPredisposition" e-name="familyPredisposition" e-ng-options="p.value as p.text for p in booleans" class="col-md-6 col-xs-6">
-                {{ translate(patient.medicalInfo.familyPredisposition) }}
-              </span>
-            </div>
-
-            <div class="col-md-12 col-xs-12">
-              <span class="col-md-6 col-xs-6">
-                <b>Terapia hormonal de reemplazo:</b>
-              </span>
-              <span editable-select="patient.medicalInfo.hormonalReplacementTherapy" e-name="hormonalReplacementTherapy" e-ng-options="p.value as p.text for p in booleans" class="col-md-6 col-xs-6">
-                {{ translate(patient.medicalInfo.hormonalReplacementTherapy) }}
-              </span>
-            </div>
-
-            <div class="col-md-12 col-xs-12">
-              <span class="col-md-6 col-xs-6">
-                <b>Enfermedades mamarias previas:</b>
-              </span>
-              <span editable-select="patient.medicalInfo.previousMammaryDiseases" e-name="previousMammaryDiseases" e-ng-options="p.value as p.text for p in booleans" class="col-md-6 col-xs-6">
-                {{ translate(patient.medicalInfo.previousMammaryDiseases) }}
-              </span>
-            </div>
-
-            <div class="col-md-12 col-xs-12">
-              <span class="col-md-6 col-xs-6">
-                <b>Amamantó hijos:</b>
-              </span>
-              <span editable-select="patient.medicalInfo.breastfedChildren" e-name="breastfedChildren" e-ng-options="p.value as p.text for p in booleans" class="col-md-6 col-xs-6">
-                {{ translate(patient.medicalInfo.breastfedChildren) }}
-              </span>
-            </div>
-
-            <div class="col-xs-offset-4">
-              <!-- button to show form -->
-              <button type="button" class="btn btn-default" ng-click="editableMedicalInfo.$show()" ng-disabled="!updateableMedicalInfo" ng-show="!editableMedicalInfo.$visible">
-                Editar
-              </button>
-              <span ng-if="updateableMedicalInfo" ng-show="editableMedicalInfo.$visible">
-                <!-- buttons to submit / cancel form -->
-                <button type="submit" class="btn btn-primary" ng-disabled="editableMedicalInfo.$waiting">
-                  Guardar
-                </button>
-                <button type="button" class="btn btn-default" ng-disabled="editableMedicalInfo.$waiting" ng-click="editableMedicalInfo.$cancel()">
-                  Cancelar
-                </button>
-              </span>
-            </div>
+                <span ng-if="updateablePersonalInfo" ng-show="editablePersonalInfo.$visible">
+                  <!-- buttons to submit / cancel form -->
+                  <button type="submit" class="btn btn-primary" ng-disabled="editablePersonalInfo.$waiting">
+                    Guardar
+                  </button>
+                  <button type="button" class="btn btn-default" ng-disabled="editablePersonalInfo.$waiting" ng-click="editablePersonalInfo.$cancel()">
+                    Cancelar
+                  </button>
+                </span>
+              </div>
+            </div><!-- end of data-patient=personal-info  -->
 
           </form>
-        </div><!-- end of .col-md-6 -->
-        </div>
-	
-		<div id="study-tab" class="tab-pane fade"> 
-        <div class="col-md-12 col-xs-12" data-patient="studies" ng-if="availableStudies">
-           	
-           <h3>Estudios del Paciente</h3>
-           <button type="button" ng-click="gotoNewStudy()" class="btn btn-primary">Nuevo Estudio</button>
-           
 
-          <div class="study" ng-repeat="study in patient.studies">
-            <h2>{{study.createdAt}}</h2>
+          <div id="medical-info-tab" class="col-md-6 col-xs-12 tab-pane fade" data-patient="medical-info" ng-if="availableMedicalInfo"> 
+            <form editable-form name="editableMedicalInfo" onaftersave="submitMedicalInfo()">
 
-            <a href="#" ng-click="gotostudyUrl(study.id)">Ver detalle de estudio</a>
+              <div class="col-md-12 col-xs-12">
+                <h3>Información médica</h3><br>
 
-            <div class="patient-study-summary" ng-repeat="mammogram in study.mammograms | orderBy:mostRecent" style="margin-top: 10px">
-              <p>
-                {{mammogram.id}} |
-                <a href="#">Abrir</a> |
-                <a href="#">Descargar</a>
-              </p>
+                <span class="col-md-6 col-xs-6">
+                  <b>Edad de inicio de actividad sexual:</b>
+                </span>
+                <span editable-text="patient.medicalInfo.sexualActivityStartAge" e-name="sexualActivityStartAge" class="col-md-6 col-xs-6">
+                  {{ patient.medicalInfo.sexualActivityStartAge || 'empty' }}
+                </span>
+              </div>
+
+              <div class="col-md-12 col-xs-12">
+                <span class="col-md-6 col-xs-6">
+                  <b>Número de embarazos:</b>
+                </span>
+                <span editable-select="patient.medicalInfo.pregnancies" e-name="pregnancies" e-ng-options="p.value as p.text for p in options" class="col-md-6 col-xs-6">
+                  {{ patient.medicalInfo.pregnancies || 0 }}
+                </span>
+              </div>
+
+              <div class="col-md-12 col-xs-12">
+                <span class="col-md-6 col-xs-6">
+                  <b>Número de cesáreas:</b>
+                </span>
+                <span editable-select="patient.medicalInfo.cSections" e-name="cSections" e-ng-options="p.value as p.text for p in options" class="col-md-6 col-xs-6">
+                  {{ patient.medicalInfo.cSections || 0 }}
+                </span>
+              </div>
+
+              <div class="col-md-12 col-xs-12">
+                <span class="col-md-6 col-xs-6">
+                  <b>Número de partos naturales:</b>
+                </span>
+                <span editable-select="patient.medicalInfo.naturalDeliveries" e-name="naturalDeliveries" e-ng-options="p.value as p.text for p in options" class="col-md-6 col-xs-6">
+                  {{ patient.medicalInfo.naturalDeliveries || 0 }}
+                </span>
+              </div>
+
+              <div class="col-md-12 col-xs-12">
+                <span class="col-md-6 col-xs-6">
+                  <b>Número de abortos:</b>
+                </span>
+                <span editable-select="patient.medicalInfo.abortions" e-name="abortions" e-ng-options="p.value as p.text for p in options" class="col-md-6 col-xs-6">
+                  {{ patient.medicalInfo.abortions || 0 }}
+                </span>
+              </div>
+
+              <div class="col-md-12 col-xs-12">
+                <span class="col-md-6 col-xs-6">
+                  <b>Edad de inicio de menopausia:</b>
+                </span>
+                <span editable-text="patient.medicalInfo.menopauseStartAge" e-name="menopauseStartAge" class="col-md-6 col-xs-6">
+                  {{ patient.medicalInfo.menopauseStartAge || empty}}
+                </span>
+              </div>
+
+              <div class="col-md-12 col-xs-12">
+                <span class="col-md-6 col-xs-6">
+                  <b>Edad de inicio de periodo menstrual:</b>
+                </span>
+                <span editable-text="patient.medicalInfo.menstrualPeriodStartAge" e-name="menstrualPeriodStartAge" class="col-md-6 col-xs-6">
+                  {{ patient.medicalInfo.menstrualPeriodStartAge || empty}}
+                </span>
+              </div>
+
+              <div class="col-md-12 col-xs-12">
+                <span class="col-md-6 col-xs-6">
+                  <b>Predisposición familiar:</b>
+                </span>
+                <span editable-select="patient.medicalInfo.familyPredisposition" e-name="familyPredisposition" e-ng-options="p.value as p.text for p in booleans" class="col-md-6 col-xs-6">
+                  {{ translate(patient.medicalInfo.familyPredisposition) }}
+                </span>
+              </div>
+
+              <div class="col-md-12 col-xs-12">
+                <span class="col-md-6 col-xs-6">
+                  <b>Terapia hormonal de reemplazo:</b>
+                </span>
+                <span editable-select="patient.medicalInfo.hormonalReplacementTherapy" e-name="hormonalReplacementTherapy" e-ng-options="p.value as p.text for p in booleans" class="col-md-6 col-xs-6">
+                  {{ translate(patient.medicalInfo.hormonalReplacementTherapy) }}
+                </span>
+              </div>
+
+              <div class="col-md-12 col-xs-12">
+                <span class="col-md-6 col-xs-6">
+                  <b>Enfermedades mamarias previas:</b>
+                </span>
+                <span editable-select="patient.medicalInfo.previousMammaryDiseases" e-name="previousMammaryDiseases" e-ng-options="p.value as p.text for p in booleans" class="col-md-6 col-xs-6">
+                  {{ translate(patient.medicalInfo.previousMammaryDiseases) }}
+                </span>
+              </div>
+
+              <div class="col-md-12 col-xs-12">
+                <span class="col-md-6 col-xs-6">
+                  <b>Amamantó hijos:</b>
+                </span>
+                <span editable-select="patient.medicalInfo.breastfedChildren" e-name="breastfedChildren" e-ng-options="p.value as p.text for p in booleans" class="col-md-6 col-xs-6">
+                  {{ translate(patient.medicalInfo.breastfedChildren) }}
+                </span>
+              </div>
+
+              <div class="col-xs-offset-4">
+                <!-- button to show form -->
+                <button type="button" class="btn btn-default" ng-click="editableMedicalInfo.$show()" ng-disabled="!updateableMedicalInfo" ng-show="!editableMedicalInfo.$visible">
+                  Editar
+                </button>
+                <span ng-if="updateableMedicalInfo" ng-show="editableMedicalInfo.$visible">
+                  <!-- buttons to submit / cancel form -->
+                  <button type="submit" class="btn btn-primary" ng-disabled="editableMedicalInfo.$waiting">
+                    Guardar
+                  </button>
+                  <button type="button" class="btn btn-default" ng-disabled="editableMedicalInfo.$waiting" ng-click="editableMedicalInfo.$cancel()">
+                    Cancelar
+                  </button>
+                </span>
+              </div>
+
+            </form>
+          </div><!-- end of data-patient=medical-info -->
+    
+          <div id="studies-tab" class="col-md-12 col-xs-12 tab-pane fade" data-patient="studies" ng-if="availableStudies">
+
+            <h3>Estudios del Paciente</h3>
+            <button ng-if="updateableStudies" type="button" ng-click="gotoNewStudy()" class="btn btn-primary">Nuevo Estudio</button>
+
+            <div class="study" ng-repeat="study in patient.studies">
+              <h2>{{study.createdAt}}</h2>
+
+              <a href="#" ng-click="gotostudyUrl(study.id)">Ver detalle de estudio</a>
+
+              <div class="patient-study-summary" ng-repeat="mammogram in study.mammograms | orderBy:mostRecent" style="margin-top: 10px">
+                <p>
+                  {{mammogram.id}} |
+                  <a href="#">Abrir</a> |
+                  <a href="#">Descargar</a>
+                </p>
+              </div>
             </div>
-          </div>
-        </div><!-- end of .col-md-6 -->
-        
-     <center>
-      <button type="button" class="btn btn-success">Enviar al sistema de diagnóstico</button>
-    </center>
-        
-      </div> <!-- end of patient div -->
-    </div>
+
+            <center>
+              <button type="button" class="btn btn-success">Enviar al sistema de diagnóstico</button>
+            </center>
+          </div><!-- end of .studies tab -->
+
+        </div> <!-- end of #patient div -->
+      </div> <!-- end of .tab content -->
+    </div><!-- end of .row -->
 
 
-</div>
-</div>
   </div><!-- /.container -->
 }
 
