@@ -2,7 +2,7 @@
 
 var sharePatientApp = angular.module('sharePatientApp', ['sharePatientServices']);
 
-sharePatientApp.controller('StaffListCtrl', function($scope, $http, Staff) {
+sharePatientApp.controller('SharePatientCtrl', function($scope, $http, Staff) {
   // Patient id
   $scope.patientId = $('#staff-selector').data('patient-id');
 	
