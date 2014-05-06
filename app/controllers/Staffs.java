@@ -11,14 +11,8 @@ import models.Staff;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.editPatient;
-import views.html.newPatient;
-import views.html.newStudy;
-import views.html.sharePatient;
-import views.html.showPatient;
-import views.html.showStaff;
-import views.html.staff;
-import views.html.study;
+import views.html.*;
+import java.util.List;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 
@@ -68,9 +62,17 @@ public class Staffs extends Controller {
 		System.out.println("borrower = " + sharedPatient.getBorrower().getName());
 		System.out.println("shared patient = " + sharedPatient.getSharedInstance().getPersonalInfo().getName());
 		System.out.println(sharedPatient.getAccessPrivileges());
-		SharedPatient.create(sharedPatient);
-		flash("success", "El paciente se ha compartido exitosamente");
-		return ok("success");
+		SharedPatient alreadySharedPatient = getAlreadySharedPatientWithBorrower(sharedPatient, sharer, borrower);
+		if (alreadySharedPatient == null) {
+			SharedPatient.create(sharedPatient);
+			flash("success", "El paciente se ha compartido exitosamente");
+			return ok("success");
+		} else {
+//			alreadySharedPatient.update(sharedPatient);
+			flash("success", "El paciente ya se ha compartido");
+			return badRequest("El paciente ya se ha compartido");
+		}
+		
 //		return badRequest("failure");
 	}
 	
@@ -95,6 +97,20 @@ public class Staffs extends Controller {
     
     public static Result showStaff(Long id) {
         return ok(showStaff.render(id, "Juanito"));
+    }
+    
+    public static SharedPatient getAlreadySharedPatientWithBorrower(SharedPatient patient, Staff sharer, Staff borrower) {
+    	List<SharedPatient> sharedPatients = sharer.getSharedPatients();
+    	for (SharedPatient shared : sharedPatients) {
+    		boolean hasSameSharer = shared.getSharer().getId() == sharer.getId();
+    		boolean hasSameBorrower = shared.getBorrower().getId() == borrower.getId();
+    		boolean isSamePatient = shared.getSharedInstance().getId() == patient.getSharedInstance().getId();
+    		if (hasSameSharer || hasSameBorrower || isSamePatient) {
+    			return shared;
+    		}
+    	}
+    	
+    	return null;
     }
 	
 }

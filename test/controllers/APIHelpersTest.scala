@@ -35,6 +35,7 @@ class APIHelpersTest extends ModelsHelper {
       var list = List(s).asJava
       resultingList = APIHelpers.filterMatchingStaffFromList(list, newStaff(2)).asScala
       resultingList should have size 1
+      resultingList should equal (list.asScala)
 
       // 1 member list with same id as staff being compared
       list = List(newStaff(1)).asJava
