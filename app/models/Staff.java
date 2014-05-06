@@ -241,4 +241,9 @@ public class Staff extends Model{
         return find.where().eq("email", email)
             .eq("password", password).findUnique();
     }
+	
+	@Override
+	public String toString() {
+		return this.getFullName();
+	}
 }

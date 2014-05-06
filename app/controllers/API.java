@@ -36,7 +36,8 @@ public class API extends Controller {
 
 	public static Result staff() {
 		List<Staff> staff = Staff.all();
-		return ok(Json.toJson(staff));
+		List<Staff> staffWithoutCurrent = APIHelpers.filterMatchingStaffFromList(staff, obtainStaff());
+		return ok(Json.toJson(staffWithoutCurrent));
 	}
 
 	public static Result getStaff(Long id) {
