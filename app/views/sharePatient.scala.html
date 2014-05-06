@@ -52,7 +52,7 @@
                     ng-model="permissions.viewPersonalInfo"
                     ng-checked="permissions.updatePersonalInfo"
                     ng-disabled="permissions.updatePersonalInfo"> Ver
-                  <input type="checkbox" ng-click="toggle('viewPersonalInfo')" ng-model="permissions.updatePersonalInfo"> Editar
+                  <input type="checkbox" ng-model="permissions.updatePersonalInfo" ng-click="setViewPermission('PersonalInfo')" > Editar
                 </div>
               </div>
             </div>
@@ -67,7 +67,7 @@
                     ng-model="permissions.viewMedicalInfo"
                     ng-checked="permissions.updateMedicalInfo"
                     ng-disabled="permissions.updateMedicalInfo"> Ver
-                  <input type="checkbox" ng-click="toggle('viewMedicalInfo')" ng-model="permissions.updateMedicalInfo"> Editar
+                  <input type="checkbox" ng-click="setViewPermission('viewMedicalInfo')" ng-model="permissions.updateMedicalInfo"> Editar
                 </div>
               </div>
             </div>
@@ -82,7 +82,7 @@
                     ng-model="permissions.viewStudies"
                     ng-checked="permissions.updateStudies"
                     ng-disabled="permissions.updateStudies"> Ver
-                  <input type="checkbox" ng-click="toggle('viewStudies')" ng-model="permissions.updateStudies"> Editar
+                  <input type="checkbox" ng-click="setViewPermission('viewStudies')" ng-model="permissions.updateStudies"> Editar
                 </div>
               </div>
             </div>
