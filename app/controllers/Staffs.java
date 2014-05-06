@@ -86,6 +86,7 @@ public class Staffs extends Controller {
 			PasswordGenerator pg = new PasswordGenerator();
 			Patient patient = filledForm.get();
 			patient.getPersonalInfo().setPassword(pg.next());
+			patient.setOwner(API.obtainStaff());
 			Patient.create(patient);
 			flash("success", "Un nuevo paciente se ha creado");
 			return redirect(routes.Staffs.staff());
