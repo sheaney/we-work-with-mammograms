@@ -59,6 +59,13 @@ patientInfoApp.controller('PatientInfoCtrl', function($scope, $http, $filter, Pa
     $scope.studyUrl = jsRoutes.controllers.Staffs.study($scope.id, $scope.patient.id).url;
   };
 
+  // Show study
+  $scope.showStudy = function(study) {
+    var studyUrl = jsRoutes.controllers.Staffs.study($scope.patient.id, study.id).url;
+    window.location.href = studyUrl;
+  };
+
+
   // Patient full name gets computed if personalInfo is available
   $scope.patientFullName = function() {
     if ($scope.availablePersonalInfo) {
