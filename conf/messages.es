@@ -37,6 +37,8 @@ hormonal-replacement-therapy = ¿Utilizó terapia hormonal de reemplazo?
 previous-mammary-diseases = ¿Tuvo enfermedades mamarias previas?
 menstrual-period-start-age = Edad de inicio del periodo menstrual
 breastfed-children = ¿Amamantó hijos?
+can-view-comments = Puede ver comentarios
+can-view-annotations = Puede ver anotaciones
 
 # Formats
 formats.date = dd/MM/aaaa

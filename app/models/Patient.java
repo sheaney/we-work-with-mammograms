@@ -17,6 +17,7 @@ import javax.persistence.OneToOne;
 import javax.validation.Valid;
 
 import play.Play;
+import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -49,6 +50,12 @@ public class Patient extends Model{
 	@JsonIgnore
 	@OneToMany(mappedBy = "sharedInstance")
 	List<SharedPatient> sharedInstances = new ArrayList<SharedPatient>();
+	
+	@Required
+	boolean viewComments;
+	
+	@Required
+	boolean viewAnnotations;
 	
 	public static Finder<String,Patient> find = new Finder<String,Patient>(Play.application().configuration().getString("datasource"), String.class, Patient.class);
 	
@@ -126,5 +133,21 @@ public class Patient extends Model{
 
 	public void setSharedInstances(List<SharedPatient> sharedInstances) {
 		this.sharedInstances = sharedInstances;
+	}
+
+	public boolean canViewComments() {
+		return viewComments;
+	}
+
+	public void setViewComments(boolean viewComments) {
+		this.viewComments = viewComments;
+	}
+
+	public boolean canViewAnnotations() {
+		return viewAnnotations;
+	}
+
+	public void setViewAnnotations(boolean viewAnnotations) {
+		this.viewAnnotations = viewAnnotations;
 	}
 }

@@ -125,6 +125,20 @@
 	    	handler = FieldConstructor(radioB.f),
 	      	lang = Lang.defaultLang)
 	      	
+	   @inputRadio.render(
+	    	field = patientForm("viewComments"),
+	    	options = Seq("Yes" -> "Sí", "No" -> "No"),
+	    	args = Array('class -> "form-control", '_label -> Messages("can-view-comments"), '_inputDivClass -> "col-md-3"),
+	    	handler = FieldConstructor(radioB.f),
+	      	lang = Lang.defaultLang)
+	      	
+	   @inputRadio.render(
+	    	field = patientForm("viewAnnotations"),
+	    	options = Seq("Yes" -> "Sí", "No" -> "No"),
+	    	args = Array('class -> "form-control", '_label -> Messages("can-view-annotations"), '_inputDivClass -> "col-md-3"),
+	    	handler = FieldConstructor(radioB.f),
+	      	lang = Lang.defaultLang)
+	      	
 		<!-- <div class="form-group">
 	    <label for="inputText" class="col-md-2 control-label">¿Tiene predisposición familiar?:</label>
 	    <div class="col-md-2 text-left">
