@@ -7,16 +7,19 @@
 @views.html.layouts.angular("Bienvenido", moreCss)(angularApp = "staffApp", angularCtrl = "ShowStaffCtrl") {
     <!-- Render top navbar -->
     @navbar(userName)
-    
-    @if(flash.contains("success")) {
-      <p class="success">
-          @flash.get("success")
-      </p>
-    }
 
     <div class="container staff-patient-search">
       <div class="row">
         <div class="col-md-8 col-md-offset-2">
+          <!-- Show flash messages -->
+          @if(flash.contains("success")) {
+            <div class="col-md-12 flash-messages">
+              <p class="alert alert-success text-center">
+                @flash.get("success")
+              </p>
+            </div>
+          }
+
           <div class="col-xs-12 col-md-3">
             <a href="@routes.Staffs.newPatient" class="btn btn-primary btn-md btn-block">Crear paciente</a>
             <br>
