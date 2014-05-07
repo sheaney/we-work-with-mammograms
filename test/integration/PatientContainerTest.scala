@@ -7,7 +7,7 @@ import factories._
 import models.Patient
 import models.Staff
 import models.SharedPatient
-import lib.PatientContainer
+import lib.{ PatientContainer, OwnPatientContainer, SharedPatientContainer }
 
 class PatientContainerTest extends ModelsHelper with Factories {
   def newSharedPatient(spId: Long, s: Staff, b: Staff, si: Patient): SharedPatient = {
@@ -20,19 +20,59 @@ class PatientContainerTest extends ModelsHelper with Factories {
     }.value
   }
 
-  def setupRelationships(sharer: Staff, borrower: Staff, patient: Patient, sharedPatient: SharedPatient) {
-    sharer.getOwnPatients().add(patient)
-    sharer.getSharedPatients().add(sharedPatient)
-    patient.setOwner(sharer)
+  describe("PatientContainer#getPatientContainer") {
+    it("returns intance of OwnPatientContainer if patient belongs to staff") {
+      running(app) {
+        val staff = new Staff
+        val patient = new patientFactory { val id = 1L }.value
+        staff.getOwnPatients().add(patient)
+        PatientContainer.getPatientContainer(staff, patient) match {
+          case _: OwnPatientContainer =>
+          case _ => fail("Should return an instance of PatientContainer")
+        }
+      }
+    }
 
-    borrower.getBorrowedPatients().add(sharedPatient)
-    sharedPatient.setBorrower(borrower)
+    it("returns intance of SharedPatientContainer if patient has been borrowed by staff") {
+      running(app) {
+        val staff = new Staff
+        val patient = new patientFactory { val id = 1L }.value
+        val sharedPatient = newSharedPatient(1L, null, null, patient)
+        staff.getBorrowedPatients().add(sharedPatient)
+        PatientContainer.getPatientContainer(staff, patient) match {
+          case _: SharedPatientContainer =>
+          case _ => fail("Should return an instance of PatientContainer")
+        }
+      }
+    }
 
-    patient.getSharedInstances().add(sharedPatient)
-    sharedPatient.setSharedInstance(patient)
+    it("returns null if patient is not among staff's own or borrowed patients") {
+      running(app) {
+        val staff = new Staff
+        val patient = new patientFactory { val id = 1L }.value
+        val differentPatient = new patientFactory { val id = 2L }.value
+        val anotherPatient = new patientFactory { val id = 3L }.value
+        val sharedPatient = newSharedPatient(1L, null, null, differentPatient)
+        staff.getOwnPatients().add(anotherPatient)
+        staff.getBorrowedPatients().add(sharedPatient)
+        PatientContainer.getPatientContainer(staff, patient) shouldBe (null)
+      }
+    }
   }
 
   describe("PatientContainer#getAlreadySharedPatient") {
+    def setupRelationships(sharer: Staff, borrower: Staff, patient: Patient, sharedPatient: SharedPatient) {
+      sharer.getOwnPatients().add(patient)
+      sharer.getSharedPatients().add(sharedPatient)
+      patient.setOwner(sharer)
+
+      borrower.getBorrowedPatients().add(sharedPatient)
+      sharedPatient.setBorrower(borrower)
+
+      patient.getSharedInstances().add(sharedPatient)
+      sharedPatient.setSharedInstance(patient)
+    }
+    
     it("returns existing shared patient between sharer and borrower") {
       running(app) {
         val id = 1L
@@ -51,39 +91,43 @@ class PatientContainerTest extends ModelsHelper with Factories {
 
     describe("returns false when shared patient has not already been shared between sharer and borrower") {
       it("different sharers") {
-        val id = 1L
-        val sharer = new staffFactory { val id = 1L }.value
-        val borrower = new staffFactory { val id = 2L }.value
-        val sharedInstance = new patientFactory { val id = 1L }.value
-        val sharedPatient = newSharedPatient(id, sharer, borrower, sharedInstance)
-        setupRelationships(sharer, borrower, sharedInstance, sharedPatient)
+        running(app) {
+          val id = 1L
+          val sharer = new staffFactory { val id = 1L }.value
+          val borrower = new staffFactory { val id = 2L }.value
+          val sharedInstance = new patientFactory { val id = 1L }.value
+          val sharedPatient = newSharedPatient(id, sharer, borrower, sharedInstance)
+          setupRelationships(sharer, borrower, sharedInstance, sharedPatient)
 
-        val anotherSharer = new staffFactory { val id = 2L }.value // different sharer
-        val sameBorrower = new staffFactory { val id = 2L }.value
-        val sameSharedInstance = new patientFactory { val id = 1L }.value
-        val sameSharedPatient = newSharedPatient(id, sharer, borrower, sharedInstance)
-        val sharedPatientToLookup = newSharedPatient(id, anotherSharer, sameBorrower, sameSharedInstance)
-        setupRelationships(anotherSharer, sameBorrower, sameSharedInstance, sameSharedPatient)
+          val anotherSharer = new staffFactory { val id = 2L }.value // different sharer
+          val sameBorrower = new staffFactory { val id = 2L }.value
+          val sameSharedInstance = new patientFactory { val id = 1L }.value
+          val sameSharedPatient = newSharedPatient(id, sharer, borrower, sharedInstance)
+          val sharedPatientToLookup = newSharedPatient(id, anotherSharer, sameBorrower, sameSharedInstance)
+          setupRelationships(anotherSharer, sameBorrower, sameSharedInstance, sameSharedPatient)
 
-        PatientContainer.getAlreadySharedPatient(sharedPatientToLookup, sharer, borrower) shouldBe (null)
+          PatientContainer.getAlreadySharedPatient(sharedPatientToLookup, sharer, borrower) shouldBe (null)
+        }
       }
-      
+
       it("different borrowers") {
-        val id = 1L
-        val sharer = new staffFactory { val id = 1L }.value
-        val borrower = new staffFactory { val id = 2L }.value
-        val sharedInstance = new patientFactory { val id = 1L }.value
-        val sharedPatient = newSharedPatient(id, sharer, borrower, sharedInstance)
-        setupRelationships(sharer, borrower, sharedInstance, sharedPatient)
+        running(app) {
+          val id = 1L
+          val sharer = new staffFactory { val id = 1L }.value
+          val borrower = new staffFactory { val id = 2L }.value
+          val sharedInstance = new patientFactory { val id = 1L }.value
+          val sharedPatient = newSharedPatient(id, sharer, borrower, sharedInstance)
+          setupRelationships(sharer, borrower, sharedInstance, sharedPatient)
 
-        val sameSharer = new staffFactory { val id = 1L }.value
-        val anotherBorrower = new staffFactory { val id = 3L }.value // different borrower
-        val sameSharedInstance = new patientFactory { val id = 1L }.value
-        val sameSharedPatient = newSharedPatient(id, sharer, borrower, sharedInstance)
-        val sharedPatientToLookup = newSharedPatient(id, sameSharer, anotherBorrower, sameSharedInstance)
-        setupRelationships(sameSharer, anotherBorrower, sameSharedInstance, sameSharedPatient)
+          val sameSharer = new staffFactory { val id = 1L }.value
+          val anotherBorrower = new staffFactory { val id = 3L }.value // different borrower
+          val sameSharedInstance = new patientFactory { val id = 1L }.value
+          val sameSharedPatient = newSharedPatient(id, sharer, borrower, sharedInstance)
+          val sharedPatientToLookup = newSharedPatient(id, sameSharer, anotherBorrower, sameSharedInstance)
+          setupRelationships(sameSharer, anotherBorrower, sameSharedInstance, sameSharedPatient)
 
-        PatientContainer.getAlreadySharedPatient(sharedPatientToLookup, sharer, borrower) shouldBe (null)
+          PatientContainer.getAlreadySharedPatient(sharedPatientToLookup, sharer, borrower) shouldBe (null)
+        }
       }
 
     }

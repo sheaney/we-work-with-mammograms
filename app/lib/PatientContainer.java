@@ -12,7 +12,19 @@ public abstract class PatientContainer {
 
 	public abstract int getAccessPrivileges();
 
-	public static PatientContainer getPatientContainer(Staff staff, Patient patient) {
+	/**
+	 * Useful for finding out if a patient is a staff's own patient or if the
+	 * patient is a borrowed patient
+	 * 
+	 * @param staff
+	 *            member which we are interested in
+	 * @param patient
+	 *            asked about
+	 * @return instance of OwnPatientContainer, SharedPatientContainer or null
+	 *         if patient is staff's own, borrowed, or none respectively
+	 */
+	public static PatientContainer getPatientContainer(Staff staff,
+			Patient patient) {
 		Long patientId = patient.getId();
 		List<Patient> ownPatients = staff.getOwnPatients();
 		List<SharedPatient> borrowedPatients = staff.getBorrowedPatients();
@@ -74,7 +86,7 @@ public abstract class PatientContainer {
 				break;
 			}
 		}
-		
+
 		return existingSharedPatient;
 	}
 
