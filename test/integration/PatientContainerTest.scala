@@ -32,8 +32,8 @@ class PatientContainerTest extends ModelsHelper with Factories {
     sharedPatient.setSharedInstance(patient)
   }
 
-  describe("PatientContainer#hasAlreadySharedThePatient") {
-    it("returns true when shared patient already has been shared between sharer and borrower") {
+  describe("PatientContainer#getAlreadySharedPatient") {
+    it("returns existing shared patient between sharer and borrower") {
       running(app) {
         val id = 1L
         val sharer = new staffFactory { val id = 1L }.value
@@ -45,29 +45,11 @@ class PatientContainerTest extends ModelsHelper with Factories {
         val sharedPatientToLookup = newSharedPatient(id, sharer, borrower, sharedInstance)
         setupRelationships(sharer, borrower, sharedInstance, sharedPatient)
 
-        PatientContainer.hasAlreadySharedThePatient(sharedPatientToLookup, sharer, borrower) shouldBe (true)
+        PatientContainer.getAlreadySharedPatient(sharedPatientToLookup, sharer, borrower) shouldBe (sharedPatient)
       }
     }
 
     describe("returns false when shared patient has not already been shared between sharer and borrower") {
-      it("different borrowers") {
-        val id = 1L
-        val sharer = new staffFactory { val id = 1L }.value
-        val borrower = new staffFactory { val id = 2L }.value
-        val sharedInstance = new patientFactory { val id = 1L }.value
-        val sharedPatient = newSharedPatient(id, sharer, borrower, sharedInstance)
-        setupRelationships(sharer, borrower, sharedInstance, sharedPatient)
-
-        val sameSharer = new staffFactory { val id = 1L }.value
-        val anotherBorrower = new staffFactory { val id = 3L }.value // different borrower
-        val sameSharedInstance = new patientFactory { val id = 1L }.value
-        val sameSharedPatient = newSharedPatient(id, sharer, borrower, sharedInstance)
-        val sharedPatientToLookup = newSharedPatient(id, sameSharer, anotherBorrower, sameSharedInstance)
-        setupRelationships(sameSharer, anotherBorrower, sameSharedInstance, sameSharedPatient)
-
-        PatientContainer.hasAlreadySharedThePatient(sharedPatientToLookup, sharer, borrower) shouldBe (false)
-      }
-
       it("different sharers") {
         val id = 1L
         val sharer = new staffFactory { val id = 1L }.value
@@ -83,7 +65,25 @@ class PatientContainerTest extends ModelsHelper with Factories {
         val sharedPatientToLookup = newSharedPatient(id, anotherSharer, sameBorrower, sameSharedInstance)
         setupRelationships(anotherSharer, sameBorrower, sameSharedInstance, sameSharedPatient)
 
-        PatientContainer.hasAlreadySharedThePatient(sharedPatientToLookup, sharer, borrower) shouldBe (false)
+        PatientContainer.getAlreadySharedPatient(sharedPatientToLookup, sharer, borrower) shouldBe (null)
+      }
+      
+      it("different borrowers") {
+        val id = 1L
+        val sharer = new staffFactory { val id = 1L }.value
+        val borrower = new staffFactory { val id = 2L }.value
+        val sharedInstance = new patientFactory { val id = 1L }.value
+        val sharedPatient = newSharedPatient(id, sharer, borrower, sharedInstance)
+        setupRelationships(sharer, borrower, sharedInstance, sharedPatient)
+
+        val sameSharer = new staffFactory { val id = 1L }.value
+        val anotherBorrower = new staffFactory { val id = 3L }.value // different borrower
+        val sameSharedInstance = new patientFactory { val id = 1L }.value
+        val sameSharedPatient = newSharedPatient(id, sharer, borrower, sharedInstance)
+        val sharedPatientToLookup = newSharedPatient(id, sameSharer, anotherBorrower, sameSharedInstance)
+        setupRelationships(sameSharer, anotherBorrower, sameSharedInstance, sameSharedPatient)
+
+        PatientContainer.getAlreadySharedPatient(sharedPatientToLookup, sharer, borrower) shouldBe (null)
       }
 
     }

@@ -33,21 +33,49 @@ public abstract class PatientContainer {
 	}
 
 	/**
-	 * Find out if a SharedPatient has already been shared between a sharer and a borrower
+	 * Get already shared patient between a sharer and a borrower
 	 * 
-	 * @param patient SharedPatient
-	 * @param sharer Staff
-	 * @param borrower Staff
-	 * @return true | false depending if shared patient already was shared
+	 * @param patient
+	 *            SharedPatient
+	 * @param sharer
+	 *            Staff
+	 * @param borrower
+	 *            Staff
+	 * @return SharedPatient or null if no shared patient exists between sharer
+	 *         and borrower
 	 */
-	public static boolean hasAlreadySharedThePatient(
-			SharedPatient patient, Staff sharer, Staff borrower) {
+	public static SharedPatient getAlreadySharedPatient(SharedPatient patient,
+			Staff sharer, Staff borrower) {
+		// Ids
+		long patientSharerId = patient.getSharer().getId();
+		long patientBorrowerId = patient.getBorrower().getId();
+		SharedPatient existingSharedPatient = null;
 
-		boolean hasSameSharer = patient.getSharer().getId() == sharer.getId();
-		boolean hasSameBorrower = patient.getBorrower().getId() == borrower
-				.getId();
+		// Lookup if patient is among sharer's shared patients
+		boolean sharedBySharer = false;
+		List<SharedPatient> sharedPatients = sharer.getSharedPatients();
+		for (SharedPatient shared : sharedPatients) {
+			sharedBySharer = shared.getSharer().getId() == patientSharerId;
+			if (sharedBySharer) {
+				break;
+			}
+		}
+
+		if (!sharedBySharer)
+			return null;
+
+		// Lookup if patient is among borrower's borrowed patients
+		boolean borrowedByBorrower = false;
+		List<SharedPatient> borrowedPatients = borrower.getBorrowedPatients();
+		for (SharedPatient borrowed : borrowedPatients) {
+			borrowedByBorrower = borrowed.getBorrower().getId() == patientBorrowerId;
+			if (borrowedByBorrower) {
+				existingSharedPatient = borrowed;
+				break;
+			}
+		}
 		
-		return hasSameSharer && hasSameBorrower;
+		return existingSharedPatient;
 	}
 
 	private static Set<Long> getBorrowedPatientIds(

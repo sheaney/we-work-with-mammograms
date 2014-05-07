@@ -49,21 +49,27 @@ public class Staffs extends Controller {
 	}
 	
 	public static Result createSharedPatient(Long id, Long borrowerId) {
+		Patient patient = Patient.findById(id);
+		Staff sharer = API.obtainStaff(); // get staff from session
+		if (!sharer.canSharePatient(patient)) {
+			return badRequest("Este paciente no te pertenece y no se puede compartir");
+		}
+		
 		JsonNode jsonNode = request().body().asJson();
-		// Create patient
+		// Create shared patient
+		Staff borrower = Staff.findById(borrowerId);
 		PatientViewInfoPermission patientViewInfo = JSONPermissions.unbindViewInfoPermissions(jsonNode);
 		PatientUpdateInfoPermission patientUpdateInfo = JSONPermissions.unbindUpdateInfoPermissions(jsonNode);
-		Staff sharer = API.obtainStaff(); // get staff from session
-		Staff borrower = Staff.findById(borrowerId);
-		Patient patient = Patient.findById(id);
 		int accessPrivileges = Permission.concatAccessPrivileges(patientViewInfo, patientUpdateInfo);
 		SharedPatient sharedPatient = new SharedPatient(sharer, borrower, patient, accessPrivileges);
+		
 		System.out.println("sharer = " + sharedPatient.getSharer().getName());
 		System.out.println("borrower = " + sharedPatient.getBorrower().getName());
 		System.out.println("shared patient = " + sharedPatient.getSharedInstance().getPersonalInfo().getName());
 		System.out.println(sharedPatient.getAccessPrivileges());
-		boolean alreadyShared = PatientContainer.hasAlreadySharedThePatient(sharedPatient, sharer, borrower);
-		if (alreadyShared) {
+		SharedPatient alreadySharedPatient = PatientContainer.getAlreadySharedPatient(sharedPatient, sharer, borrower);
+		if (alreadySharedPatient != null) {
+			alreadySharedPatient.update(sharedPatient);
 			flash("success", "El paciente ya se ha compartido");
 			return badRequest("El paciente ya se ha compartido");
 		} else {
