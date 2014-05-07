@@ -20,79 +20,81 @@ import play.db.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Staff extends Model{
+public class Staff extends Model {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
-	
+
 	@Required
 	@Email
 	String email;
-	
+
 	@JsonIgnore
 	String password;
-	
+
 	@Required
-	//Role of the medical staff within their professional health environment
+	// Role of the medical staff within their professional health environment
 	String role;
-	
+
 	@Required
 	String name;
 
 	@Required
 	String firstLastName;
-	
+
 	@Required
 	String secondLastName;
-	
+
 	@Required
 	String address;
-	
+
 	@Required
 	String telephone;
-	
+
 	@Required
-	@Formats.DateTime(pattern="dd/MM/yyyy")
+	@Formats.DateTime(pattern = "dd/MM/yyyy")
 	Date birthdate;
-	
+
 	@Required
 	String cedula;
-	
+
 	@Required
 	String RFC;
-	
-	@OneToMany(mappedBy="owner", cascade = CascadeType.ALL)
+
+	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
 	List<Patient> ownPatients;
-	
-	@OneToMany(mappedBy="commenter")
+
+	@OneToMany(mappedBy = "commenter")
 	List<Comment> comments = new ArrayList<Comment>();
-	
-	@OneToMany(mappedBy="annotator")
+
+	@OneToMany(mappedBy = "annotator")
 	List<Annotation> annotations = new ArrayList<Annotation>();
-	
-	@OneToMany(mappedBy="sharer")
+
+	@OneToMany(mappedBy = "sharer")
 	List<SharedPatient> sharedPatients = new ArrayList<SharedPatient>();
-	
-	@OneToMany(mappedBy="borrower")
+
+	@OneToMany(mappedBy = "borrower")
 	List<SharedPatient> borrowedPatients = new ArrayList<SharedPatient>();
-	
-	public static Finder<String,Staff> find = new Finder<String,Staff>(Play.application().configuration().getString("datasource"), String.class, Staff.class);
-	
+
+	public static Finder<String, Staff> find = new Finder<String, Staff>(Play
+			.application().configuration().getString("datasource"),
+			String.class, Staff.class);
+
 	public static void create(Staff staff) {
 		staff.save();
 	}
-	
+
 	public static List<Staff> all() {
 		return find.all();
 	}
-	
-	public String getFullName(){
+
+	public String getFullName() {
 		return this.name + " " + this.firstLastName + " " + this.secondLastName;
 	}
-	
+
 	public static Staff findById(Long id) {
 		return find.byId(String.valueOf(id));
 	}
@@ -228,8 +230,8 @@ public class Staff extends Model{
 	public void setOwnPatients(List<Patient> ownPatients) {
 		this.ownPatients = ownPatients;
 	}
-	
-    public List<SharedPatient> getBorrowedPatients() {
+
+	public List<SharedPatient> getBorrowedPatients() {
 		return borrowedPatients;
 	}
 
@@ -238,10 +240,25 @@ public class Staff extends Model{
 	}
 
 	public static Staff authenticate(String email, String password) {
-        return find.where().eq("email", email)
-            .eq("password", password).findUnique();
-    }
-	
+		return find.where().eq("email", email).eq("password", password)
+				.findUnique();
+	}
+
+	/**
+	 * Verifies if this staff can share the patient
+	 * 
+	 * @param patient Patient to be shared
+	 * @return true if patient is among staff's own patients and false otherwise
+	 */
+	public boolean canSharePatient(Patient patient) {
+		for (Patient ownPatient : this.ownPatients) {
+			if (ownPatient.getId() == patient.getId()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Override
 	public String toString() {
 		return this.getFullName();

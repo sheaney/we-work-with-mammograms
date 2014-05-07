@@ -1,12 +1,7 @@
 package factories
 
 import java.text.SimpleDateFormat
-
-import models.Admin
-import models.MedicalInfo
-import models.Patient
-import models.PersonalInfo
-import models.Staff
+import models._
 
 trait Factories {
 
@@ -23,6 +18,37 @@ trait Factories {
     s.setRFC("83473847asfdjklj")
     s.setPassword("secret")
     s
+  }
+  
+  trait patientFactory {
+    val id: Long
+    def value: Patient = {
+      val p = new Patient
+      p.setId(id)
+      p
+    }
+  }
+  
+  trait staffFactory {
+    val id: Long
+    def value: Staff = {
+      val s = new Staff
+      s.setId(id)
+      s
+    }
+  }
+  
+  trait sharedPatientFactory {
+    val id: Long
+    val sharer: Staff
+    val borrower: Staff
+    val sharedInstance: Patient
+    val accessPrivileges: Int
+    def value: SharedPatient = {
+      val sp = new SharedPatient(sharer, borrower, sharedInstance, accessPrivileges)
+      sp.setId(id)
+      sp
+    }
   }
 
   def sampleAdmin = {

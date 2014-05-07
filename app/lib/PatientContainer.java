@@ -9,6 +9,7 @@ import models.SharedPatient;
 import models.Staff;
 
 public abstract class PatientContainer {
+
 	public abstract int getAccessPrivileges();
 
 	public static PatientContainer getPatientContainer(Staff staff,
@@ -29,6 +30,24 @@ public abstract class PatientContainer {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Find out if a SharedPatient has already been shared between a sharer and a borrower
+	 * 
+	 * @param patient SharedPatient
+	 * @param sharer Staff
+	 * @param borrower Staff
+	 * @return true | false depending if shared patient already was shared
+	 */
+	public static boolean hasAlreadySharedThePatient(
+			SharedPatient patient, Staff sharer, Staff borrower) {
+
+		boolean hasSameSharer = patient.getSharer().getId() == sharer.getId();
+		boolean hasSameBorrower = patient.getBorrower().getId() == borrower
+				.getId();
+		
+		return hasSameSharer && hasSameBorrower;
 	}
 
 	private static Set<Long> getBorrowedPatientIds(

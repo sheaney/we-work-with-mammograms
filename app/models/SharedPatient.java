@@ -83,7 +83,7 @@ public class SharedPatient extends Model {
 		return sharedInstance;
 	}
 
-	public void setShared(Patient shared) {
+	public void setSharedInstance(Patient shared) {
 		this.sharedInstance = shared;
 	}
 

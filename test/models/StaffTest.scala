@@ -7,9 +7,10 @@ import helpers.TestSetup.samplePatient
 import helpers.TestSetup.sampleStaff
 import org.scalatest.Assertions._
 import play.db.ebean.Model.Finder
+import factories.Factories
 
-class StaffTest extends ModelsHelper {
-  
+class StaffTest extends ModelsHelper with Factories {
+
   describe("Saving a staff member to database") {
 
     ignore("test should fail") {
@@ -66,13 +67,35 @@ class StaffTest extends ModelsHelper {
         }
       }
     }
-    
-    it("should validate a Staff's Login information"){
+
+    it("should validate a Staff's Login information") {
       running(app) {
         import play.api.Play.current
-    	  val staff = sampleStaff
-    	  staff.save()
+        val staff = sampleStaff
+        staff.save()
         assert(Staff.authenticate(staff.getEmail, staff.getPassword) != null)
+      }
+    }
+
+    describe("Staff#canSharePatient") {
+      it("returns true if patient is among staff's own patients") {
+        running(app) {
+          val staff = new Staff
+          val patient = new patientFactory { val id = 1L }.value
+          val patientToShare = new patientFactory { val id = 1L }.value
+          staff.getOwnPatients().add(patient)
+          staff.canSharePatient(patientToShare) shouldBe true
+        }
+      }
+
+      it("returns false if patient is not among staff's own patients") {
+        running(app) {
+          val staff = new Staff
+          val patient = new patientFactory { val id = 1L }.value
+          val patientToShare = new patientFactory { val id = 2L }.value
+          staff.getOwnPatients().add(patient)
+          staff.canSharePatient(patientToShare) shouldBe false
+        }
       }
     }
   }
