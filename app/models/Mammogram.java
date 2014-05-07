@@ -1,7 +1,8 @@
 package models;
 
 import java.sql.Date;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -10,10 +11,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Mammogram extends Model {
@@ -35,7 +36,7 @@ public class Mammogram extends Model {
 	Study study;
 	
 	@OneToMany(mappedBy = "annotated")
-	Set<Annotation> annotations = new HashSet<Annotation>();
+	List<Annotation> annotations = new ArrayList<Annotation>();
 
 	public Long getId() {
 		return id;
@@ -69,11 +70,11 @@ public class Mammogram extends Model {
 		this.study = study;
 	}
 
-	public Set<Annotation> getAnnotations() {
+	public List<Annotation> getAnnotations() {
 		return annotations;
 	}
 
-	public void setAnnotations(Set<Annotation> annotations) {
+	public void setAnnotations(List<Annotation> annotations) {
 		this.annotations = annotations;
 	}
 	

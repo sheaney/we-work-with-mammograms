@@ -35,11 +35,13 @@ public class Staffs extends Controller {
 	}
 
 	public static Result newStudy(Long patientId) {
-		return ok(newStudy.render(session().get("user"), patientId, newStudyForm));
+		Patient patient = Patient.findById(patientId);
+		return ok(newStudy.render(patient, newStudyForm));
 	}
 
 	public static Promise<Result> createNewStudy(final Long patientId) {
-		return Promise.promise(new Function0<Result>() {
+		Promise<Result> promise = Promise.promise(new Function0<Result>() {
+			public final Patient patient = Patient.findById(patientId);
 
 			@Override
 			public Result apply() throws Throwable {
@@ -47,18 +49,17 @@ public class Staffs extends Controller {
 				Form<Study> filledForm = newStudyForm.bindFromRequest();
 				//TODO check for errors and form validation
 				if (filledForm.hasErrors()) {
-					return badRequest(newStudy.render(session()
-							.get("user"),patientId,filledForm));
+					return badRequest(newStudy.render(patient, filledForm));
 				} else {
 					MultipartFormData body = request().body()
 							.asMultipartFormData();
 					List<MultipartFormData.FilePart> parts = body.getFiles();
 					//let's assume for meow that they are all image files
 					
-					/*for (MultipartFormData.FilePart part : parts) {
+					for (MultipartFormData.FilePart part : parts) {
 						System.out.println(part.getContentType() + " "
 								+ part.getFilename());
-					}*/
+					}
 				}
 				
 				// new study to save asynchronously to db
@@ -73,6 +74,8 @@ public class Staffs extends Controller {
 			}
 
 		});
+		
+		return promise;
 	}
 
 	public static Result study(Long patientId, Long id) {

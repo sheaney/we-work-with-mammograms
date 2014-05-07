@@ -1,7 +1,9 @@
 package models;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -28,7 +30,7 @@ public class Study extends Model {
 	Date createdAt = new Date(System.currentTimeMillis());
 	
 	@OneToMany(mappedBy = "commented")
-	Set<Comment> comments = new HashSet<Comment>();
+	List<Comment> comments = new ArrayList<Comment>();
 	
 	@JsonIgnore
 	@ManyToOne
@@ -36,7 +38,7 @@ public class Study extends Model {
 	Patient owner;
 	
 	@OneToMany(mappedBy = "study")
-	Set<Mammogram> mammograms = new HashSet<Mammogram>();
+	List<Mammogram> mammograms = new ArrayList<Mammogram>();
 
 	public Long getId() {
 		return id;
@@ -54,11 +56,11 @@ public class Study extends Model {
 		this.createdAt = createdAt;
 	}
 
-	public Set<Comment> getComments() {
+	public List<Comment> getComments() {
 		return comments;
 	}
 
-	public void setComments(Set<Comment> comments) {
+	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
 
@@ -70,11 +72,11 @@ public class Study extends Model {
 		this.owner = owner;
 	}
 
-	public Set<Mammogram> getMammograms() {
+	public List<Mammogram> getMammograms() {
 		return mammograms;
 	}
 
-	public void setMammograms(Set<Mammogram> mammograms) {
+	public void setMammograms(List<Mammogram> mammograms) {
 		this.mammograms = mammograms;
 	}
 	

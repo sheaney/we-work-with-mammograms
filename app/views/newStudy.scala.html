@@ -1,17 +1,17 @@
-@(userName: String, patientId: Long, studyForm: play.data.Form[Study])
+@(patient: Patient, studyForm: play.data.Form[Study])
 
 
 @import views.html.forms._
 
 @views.html.layouts.main("Crear Estudio") {
   <!-- Render top navbar -->
-  @navbar(userName)
+  @navbar(patient.getPersonalInfo().getFullName())
 
   <div class="container">
     <div class="col-md-8 col-md-offset-2">
       <h2>Crear nuevo estudio</h2>
       <br>
-      @formForNewStudy(studyForm, patientId)
+      @formForNewStudy(studyForm, patient.getId())
     </div>
   </div>
 }
