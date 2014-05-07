@@ -2,6 +2,7 @@ package models;
 
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -9,8 +10,10 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import play.Play;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+import play.db.ebean.Model.Finder;
 
 @Entity
 public class SharedPatient extends Model {
@@ -25,18 +28,18 @@ public class SharedPatient extends Model {
 
 	@JsonIgnore
 	@Required
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "sharer_id", nullable = false)
 	Staff sharer;
 
 	@JsonIgnore
 	@Required
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "borrower_id", nullable = false)
 	Staff borrower;
 
 	@Required
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "patient_id", nullable = false)
 	Patient sharedInstance;
 
@@ -51,8 +54,14 @@ public class SharedPatient extends Model {
 		this.accessPrivileges = accessPrivileges;
 	}
 	
+	public static Finder<String,SharedPatient> find = new Finder<String,SharedPatient>(Play.application().configuration().getString("datasource"), String.class, SharedPatient.class);
+	
 	public static void create(SharedPatient sharedPatient) {
 		sharedPatient.save();
+	}
+	
+	public static SharedPatient findById(Long id) {
+		return find.byId(String.valueOf(id));
 	}
 
 	public Long getId() {

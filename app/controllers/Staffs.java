@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 public class Staffs extends Controller {
 	
 	final static Form<Patient> patientForm = Form.form(Patient.class);
-	final static Form<SharedPatient> sharedPatientForm = Form.form(SharedPatient.class);
 	
 	public static Result staff() {
 		return ok(staff.render(session().get("user")));
@@ -69,9 +68,10 @@ public class Staffs extends Controller {
 		System.out.println(sharedPatient.getAccessPrivileges());
 		SharedPatient alreadySharedPatient = PatientContainer.getAlreadySharedPatient(sharedPatient, sharer, borrower);
 		if (alreadySharedPatient != null) {
-			alreadySharedPatient.update(sharedPatient);
-			flash("success", "El paciente ya se ha compartido");
-			return badRequest("El paciente ya se ha compartido");
+			alreadySharedPatient.setAccessPrivileges(sharedPatient.getAccessPrivileges());
+			alreadySharedPatient.update();
+			flash("success", "El paciente previamente compartido se ha modificado exitosamente");
+			return ok("El paciente previamente compartido se ha modificado exitosamente");
 		} else {
 			SharedPatient.create(sharedPatient);
 			flash("success", "El paciente se ha compartido exitosamente");

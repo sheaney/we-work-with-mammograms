@@ -44,11 +44,11 @@ public class Patient extends Model{
 	@JoinColumn(name="staff_id", nullable=false)
 	Staff owner;
 	
-	@OneToMany(mappedBy = "owner")
+	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
 	List<Study> studies = new ArrayList<Study>();
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "sharedInstance")
+	@OneToMany(mappedBy = "sharedInstance", cascade = CascadeType.ALL)
 	List<SharedPatient> sharedInstances = new ArrayList<SharedPatient>();
 	
 	@Required
@@ -150,4 +150,10 @@ public class Patient extends Model{
 	public void setViewAnnotations(boolean viewAnnotations) {
 		this.viewAnnotations = viewAnnotations;
 	}
+	
+	@Override
+	public String toString() {
+		return this.personalInfo.getFullName();
+	}
+
 }

@@ -67,16 +67,16 @@ public class Staff extends Model {
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
 	List<Patient> ownPatients;
 
-	@OneToMany(mappedBy = "commenter")
+	@OneToMany(mappedBy = "commenter", cascade = CascadeType.ALL)
 	List<Comment> comments = new ArrayList<Comment>();
 
-	@OneToMany(mappedBy = "annotator")
+	@OneToMany(mappedBy = "annotator", cascade = CascadeType.ALL)
 	List<Annotation> annotations = new ArrayList<Annotation>();
 
-	@OneToMany(mappedBy = "sharer")
+	@OneToMany(mappedBy = "sharer", cascade = CascadeType.ALL)
 	List<SharedPatient> sharedPatients = new ArrayList<SharedPatient>();
 
-	@OneToMany(mappedBy = "borrower")
+	@OneToMany(mappedBy = "borrower", cascade = CascadeType.ALL)
 	List<SharedPatient> borrowedPatients = new ArrayList<SharedPatient>();
 
 	public static Finder<String, Staff> find = new Finder<String, Staff>(Play
