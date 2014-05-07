@@ -53,8 +53,9 @@ public class JSONStaff {
 		return result;
 	}
 	
-	public static ObjectNode staffPatient(Staff staff, Long patientId) {
-		PatientContainer patientContainer = PatientContainer.getPatientContainer(staff, patientId);
+	public static ObjectNode staffPatient(Staff staff, Patient patient) {
+		Long patientId = patient.getId();
+		PatientContainer patientContainer = PatientContainer.getPatientContainer(staff, patient);
 		if (patientContainer == null) {
 			return null;
 		}

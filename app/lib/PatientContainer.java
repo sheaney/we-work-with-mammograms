@@ -12,8 +12,8 @@ public abstract class PatientContainer {
 
 	public abstract int getAccessPrivileges();
 
-	public static PatientContainer getPatientContainer(Staff staff,
-			Long patientId) {
+	public static PatientContainer getPatientContainer(Staff staff, Patient patient) {
+		Long patientId = patient.getId();
 		List<Patient> ownPatients = staff.getOwnPatients();
 		List<SharedPatient> borrowedPatients = staff.getBorrowedPatients();
 

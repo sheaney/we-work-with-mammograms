@@ -77,8 +77,6 @@ public class Staffs extends Controller {
 			flash("success", "El paciente se ha compartido exitosamente");
 			return ok("success");
 		}
-		
-//		return badRequest("failure");
 	}
 	
     public static Result newPatient() {

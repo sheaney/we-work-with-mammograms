@@ -47,10 +47,11 @@ public class API extends Controller {
 
 	public static Result getPatientInfo(Long id) {
 		Staff staff = obtainStaff();
+		Patient patient = Patient.findById(id);
 
 		// Validate that patient really does exist, and return appropriate error
 		// or success message
-		return ok(JSONStaff.staffPatient(staff, id));
+		return ok(JSONStaff.staffPatient(staff, patient));
 	}
 
 	@BodyParser.Of(BodyParser.Json.class)
@@ -100,7 +101,8 @@ public class API extends Controller {
 	}
 	
 	private static PatientUpdateInfoPermission getUpdateInfoPermissions(Staff staff, Long patientId) {
-		PatientContainer patientContainer = PatientContainer.getPatientContainer(staff, patientId);
+		Patient patient = Patient.findById(patientId);
+		PatientContainer patientContainer = PatientContainer.getPatientContainer(staff, patient);
 		return new PatientUpdateInfoPermission(patientContainer.getAccessPrivileges());
 	}
 
