@@ -1,7 +1,7 @@
 @(id: Long, userName: String)
 
 @moreCss = {
-  <link href="@routes.Assets.at("stylesheets/shareStaff.css")" rel="stylesheet">
+  <link href="@routes.Assets.at("stylesheets/sharePatient.css")" rel="stylesheet">
 }
 
 
@@ -48,11 +48,15 @@
               </label>
               <div class="form-inline">
                 <div class="checkbox" >
-                  <input type="checkbox"
-                    ng-model="permissions.viewPersonalInfo"
-                    ng-checked="permissions.updatePersonalInfo"
-                    ng-disabled="permissions.updatePersonalInfo"> Ver
-                  <input type="checkbox" ng-model="permissions.updatePersonalInfo" ng-click="setViewPermission('PersonalInfo')" > Editar
+                  <label>
+                    <input type="checkbox"
+                      ng-model="permissions.viewPersonalInfo"
+                      ng-checked="permissions.updatePersonalInfo"
+                      ng-disabled="permissions.updatePersonalInfo"> Ver
+                  </label>
+                  <label>
+                    <input type="checkbox" ng-model="permissions.updatePersonalInfo" ng-click="setViewPermission('PersonalInfo')" > Editar
+                  </label>
                 </div>
               </div>
             </div>
@@ -63,11 +67,15 @@
               </label>
               <div class="form-inline">
                 <div class="checkbox" >
-                  <input type="checkbox"
-                    ng-model="permissions.viewMedicalInfo"
-                    ng-checked="permissions.updateMedicalInfo"
-                    ng-disabled="permissions.updateMedicalInfo"> Ver
-                  <input type="checkbox" ng-click="setViewPermission('MedicalInfo')" ng-model="permissions.updateMedicalInfo"> Editar
+                  <label>
+                    <input type="checkbox"
+                      ng-model="permissions.viewMedicalInfo"
+                      ng-checked="permissions.updateMedicalInfo"
+                      ng-disabled="permissions.updateMedicalInfo"> Ver
+                  </label>
+                  <label>
+                    <input type="checkbox" ng-click="setViewPermission('MedicalInfo')" ng-model="permissions.updateMedicalInfo"> Editar
+                  </label>
                 </div>
               </div>
             </div>
@@ -78,11 +86,15 @@
               </label>
               <div class="form-inline">
                 <div class="checkbox" >
-                  <input type="checkbox"
-                    ng-model="permissions.viewStudies"
-                    ng-checked="permissions.updateStudies"
-                    ng-disabled="permissions.updateStudies"> Ver
-                  <input type="checkbox" ng-click="setViewPermission('Studies')" ng-model="permissions.updateStudies"> Editar
+                  <label>
+                    <input type="checkbox"
+                      ng-model="permissions.viewStudies"
+                      ng-checked="permissions.updateStudies"
+                      ng-disabled="permissions.updateStudies"> Ver
+                  </label>
+                  <label>
+                    <input type="checkbox" ng-click="setViewPermission('Studies')" ng-model="permissions.updateStudies"> Editar
+                  </label>
                 </div>
               </div>
             </div>
