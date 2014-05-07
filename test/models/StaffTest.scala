@@ -11,6 +11,62 @@ import factories.Factories
 
 class StaffTest extends ModelsHelper with Factories {
 
+  describe("Staff#findOwnPatient") {
+    it("returns the patient if it exists") {
+      running(app) {
+        val staff = new Staff()
+        val patient = new patientFactory { val id = 1L }.value
+        val anotherPatient = new patientFactory { val id = 2L }.value
+        val andAnotherPatient = new patientFactory { val id = 3L }.value
+        staff.getOwnPatients().add(patient)
+        staff.getOwnPatients().add(anotherPatient)
+        staff.getOwnPatients().add(andAnotherPatient)
+
+        //      assert(staff.findOwnPatient.getId() == patient.getId())
+        staff.findOwnPatient(patient).getId() shouldBe (patient.getId())
+      }
+    }
+
+    it("returns null if the patient does not exist") {
+      running(app) {
+        val staff = new Staff()
+        val patient = new Patient()
+        patient.setId(1L)
+
+        staff.findOwnPatient(patient) shouldBe (null)
+      }
+    }
+
+  }
+
+  describe("Staff#findBorrowedPatient") {
+    it("returns the borrowed patient if it exists") {
+      running(app) {
+        val sharer = new Staff
+        val borrower = new Staff
+        val sharedPatientInstance = new patientFactory { val id = 1L }.value
+        val sharedPatient = new SharedPatient(sharer, borrower, sharedPatientInstance, Integer.MAX_VALUE)
+
+        borrower.getBorrowedPatients().add(sharedPatient);
+
+        borrower.findBorrowedPatient(sharedPatientInstance).getId() shouldBe (sharedPatient.getId())
+      }
+
+    }
+
+    it("returns null if the borrowed patient does not exist") {
+      running(app) {
+        val sharer = new Staff
+        val borrower = new Staff
+        val sharedPatientInstance = new patientFactory { val id = 1L }.value
+        val sharedPatient = new SharedPatient(sharer, borrower, sharedPatientInstance, Integer.MAX_VALUE)
+
+        borrower.findBorrowedPatient(sharedPatientInstance) shouldBe (null)
+      }
+    }
+
+  }
+
   describe("Saving a staff member to database") {
 
     ignore("test should fail") {

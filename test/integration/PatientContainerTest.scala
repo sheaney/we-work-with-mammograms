@@ -73,7 +73,7 @@ class PatientContainerTest extends ModelsHelper with Factories {
       sharedPatient.setSharedInstance(patient)
     }
     
-    it("returns existing shared patient between sharer and borrower") {
+    it("returns true if shared patient between sharer and borrower") {
       running(app) {
         val id = 1L
         val sharer = new staffFactory { val id = 1L }.value

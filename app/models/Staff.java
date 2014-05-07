@@ -91,6 +91,42 @@ public class Staff extends Model {
 		return find.all();
 	}
 
+	/**
+	 * Returns patient if it belong to staff's own patients
+	 * 
+	 * @param patient
+	 *            Patient to look for
+	 * @return null if patient does not belong to staff's own patients and the
+	 *         patient if id does
+	 */
+	public Patient findOwnPatient(Patient patient) {
+		for (Patient ownPatient : this.ownPatients) {
+			if (ownPatient.getId() == patient.getId())
+				return ownPatient;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns borrowed patient if it belongs to staff's borrowed patients
+	 * 
+	 * @param patient
+	 *            borrowed patient to look for
+	 * @return null if borrowed patient has not been borrowed or an instance of
+	 *         the borrowed patient if it has
+	 */
+	public SharedPatient findBorrowedPatient(Patient patient) {
+		for (SharedPatient borrowed : this.borrowedPatients) {
+			Patient p = borrowed.getSharedInstance();
+			if (p.getId() == patient.getId()) {
+				return borrowed;
+			}
+		}
+
+		return null;
+	}
+
 	public String getFullName() {
 		return this.name + " " + this.firstLastName + " " + this.secondLastName;
 	}
@@ -247,7 +283,8 @@ public class Staff extends Model {
 	/**
 	 * Verifies if this staff can share the patient
 	 * 
-	 * @param patient Patient to be shared
+	 * @param patient
+	 *            Patient to be shared
 	 * @return true if patient is among staff's own patients and false otherwise
 	 */
 	public boolean canSharePatient(Patient patient) {

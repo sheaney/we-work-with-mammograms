@@ -25,19 +25,13 @@ public abstract class PatientContainer {
 	 */
 	public static PatientContainer getPatientContainer(Staff staff,
 			Patient patient) {
-		Long patientId = patient.getId();
-		List<Patient> ownPatients = staff.getOwnPatients();
-		List<SharedPatient> borrowedPatients = staff.getBorrowedPatients();
-
-		Set<Long> ownPatientIds = getOwnPatientIds(ownPatients);
-		Set<Long> borrowedPatientIds = getBorrowedPatientIds(borrowedPatients);
-
-		if (ownPatientIds.contains(patientId)) {
-			Patient own = getFromOwnPatients(patientId, ownPatients);
+		Patient own = staff.findOwnPatient(patient);
+		if (own != null) {
 			return new OwnPatientContainer(own);
-		} else if (borrowedPatientIds.contains(patientId)) {
-			SharedPatient borrowed = getFromBorrowedPatients(patientId,
-					borrowedPatients);
+		}
+		
+		SharedPatient borrowed = staff.findBorrowedPatient(patient);
+		if (borrowed != null) {
 			return new SharedPatientContainer(borrowed);
 		}
 
@@ -90,45 +84,4 @@ public abstract class PatientContainer {
 		return existingSharedPatient;
 	}
 
-	private static Set<Long> getBorrowedPatientIds(
-			List<SharedPatient> borrowedPatients) {
-		Set<Long> ids = new HashSet<Long>();
-
-		for (SharedPatient borrowedPatient : borrowedPatients) {
-			Patient borrowed = borrowedPatient.getSharedInstance();
-			ids.add(borrowed.getId());
-		}
-
-		return ids;
-	}
-
-	private static Set<Long> getOwnPatientIds(List<Patient> ownPatients) {
-		Set<Long> ids = new HashSet<Long>();
-
-		for (Patient ownPatient : ownPatients) {
-			ids.add(ownPatient.getId());
-		}
-
-		return ids;
-	}
-
-	private static Patient getFromOwnPatients(Long id, List<Patient> ownPatients) {
-		for (Patient ownPatient : ownPatients) {
-			if (ownPatient.getId().equals(id)) {
-				return ownPatient;
-			}
-		}
-		return null;
-	}
-
-	private static SharedPatient getFromBorrowedPatients(Long id,
-			List<SharedPatient> borrowedPatients) {
-		for (SharedPatient borrowedPatient : borrowedPatients) {
-			Patient borrowed = borrowedPatient.getSharedInstance();
-			if (borrowed.getId().equals(id)) {
-				return borrowedPatient;
-			}
-		}
-		return null;
-	}
 }
