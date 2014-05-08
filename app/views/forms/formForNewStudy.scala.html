@@ -1,6 +1,8 @@
 @(studyForm: play.data.Form[Study], patientId: Long)
 
 @import helper._
+@import views.html.bootstrap._
+@import play.api.i18n._
 
 @form(action = routes.Staffs.createNewStudy(patientId),'role -> "form", 'enctype -> "multipart/form-data") {
         <fieldset>
@@ -14,9 +16,9 @@
         </fieldset>
         <fieldset>
           <legend>Comentarios</legend>
-          <div class="form-group">
-            <textarea class="form-control" id="studyComment" placeholder="Comentarios sobre el estudio..." rows="5"></textarea>
-          </div>
+          @textarea(
+          	field = studyForm("comments[0].content"), 
+          	args = 'placeholder -> "Comentarios sobre el estudio...", 'rows -> "5", '_label -> "", 'class -> "form-control")
         </fieldset>
         <button type="submit" class="btn btn-default">Guardar estudio</button>
 }

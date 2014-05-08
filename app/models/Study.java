@@ -2,17 +2,18 @@ package models;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.Valid;
 
 import lib.DBExecutionContext;
+import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import play.libs.F.Function0;
 import play.libs.F.Promise;
@@ -29,7 +30,9 @@ public class Study extends Model {
 	
 	Date createdAt = new Date(System.currentTimeMillis());
 	
+	@Required
 	@OneToMany(mappedBy = "commented")
+	@Valid
 	List<Comment> comments = new ArrayList<Comment>();
 	
 	@JsonIgnore
@@ -37,7 +40,7 @@ public class Study extends Model {
 	@JoinColumn(name="patient_id", nullable=false)
 	Patient owner;
 	
-	@OneToMany(mappedBy = "study")
+	@OneToMany(mappedBy = "study", cascade = CascadeType.ALL)
 	List<Mammogram> mammograms = new ArrayList<Mammogram>();
 
 	public Long getId() {

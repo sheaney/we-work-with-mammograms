@@ -12,6 +12,12 @@
 	.error-msg {
 		color: red;
 	}
+
+  dd {
+    &.error {
+      color: red;
+    }
+  }
 }
 
 .flash-messages {

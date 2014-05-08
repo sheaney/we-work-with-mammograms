@@ -11,10 +11,10 @@ constraint.pattern= Sólo números
 # Error messages
 error.numeric = Solo dígitos
 error.minLength = Longitud mínima es {0}
-error.maxLength = Longitud máxima es {0}
+error.maxLength = Excede la longitud máxima de {0} caracteres
 error.invalid = El valor ingresado es inválido
 error.required = Este campo es requerido
-error.email = Ingrese un correo válido
+error.email = Ingrese un correo válido			
 error.invalid.java.util.Date = Fecha es inválida
 error.invalid.login = El usuario y/o contraseña que ingresó es incorrecto(a).
 
