@@ -13,3 +13,5 @@ tmp
 .metadata/
 *~
 conf/evolutions/default/1.sql
+.idea/
+.idea_modules
