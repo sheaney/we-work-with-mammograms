@@ -1,16 +1,16 @@
 package models
 
+import org.scalatest.Assertions._
+
+import factories.Factories
+import helpers.TestSetup.samplePatient
+import helpers.TestSetup.sampleStaff
 import play.api.test.FakeApplication
 import play.api.test.Helpers.running
 import play.core.j.JavaGlobalSettingsAdapter
-import helpers.TestSetup.samplePatient
-import helpers.TestSetup.sampleStaff
-import org.scalatest.Assertions._
-import play.db.ebean.Model.Finder
-import factories.Factories
 
 class StaffTest extends ModelsHelper with Factories {
-
+  
   describe("Staff#findOwnPatient") {
     it("returns the patient if it exists") {
       running(app) {
