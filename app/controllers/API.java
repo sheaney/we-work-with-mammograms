@@ -47,12 +47,18 @@ public class API extends Controller {
 
 	public static Result getPatientInfo(Long id) {
 		Staff staff = obtainStaff();
+		// Validate that patient really does exist
 		Patient patient = Patient.findById(id);
-
-		// Validate that patient really does exist, and return appropriate error
-		// or success message
-		return ok(JSONStaff.staffPatient(staff, patient));
-	}
+		if (patient == null)
+			return notFound(Json.newObject().put("NOT_FOUND", "")); // return json with error msg
+		
+		PatientContainer patientContainer = PatientContainer.getPatientContainer(staff, patient);
+		if (patientContainer == null)
+			return forbidden(Json.newObject().put("FORBIDDEN", "")); // return json with error msg
+		
+		//success
+		return ok(JSONStaff.staffPatient(staff, patientContainer));
+		}
 
 	@BodyParser.Of(BodyParser.Json.class)
 	public static Result updatePersonalInfo(Long id) {
