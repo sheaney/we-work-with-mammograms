@@ -20,7 +20,7 @@ public abstract class PatientContainer {
 	 *            member which we are interested in
 	 * @param patient
 	 *            asked about
-	 * @return instance of OwnPatientContainer, SharedPatientContainer or null
+	 * @return instance of OwnPatientContainer, SharedPatientContainer or EmptyPatientContainer
 	 *         if patient is staff's own, borrowed, or none respectively
 	 */
 	public static PatientContainer getPatientContainer(Staff staff,
@@ -35,7 +35,7 @@ public abstract class PatientContainer {
 			return new SharedPatientContainer(borrowed);
 		}
 
-		return null;
+		return new EmptyPatientContainer();
 	}
 
 	/**
@@ -83,5 +83,12 @@ public abstract class PatientContainer {
 
 		return existingSharedPatient;
 	}
+
+    /**
+     * Returns true if the container is empty
+     *
+     * @return if the patient attribute is null or if called from an EmptyPatientContainer
+     **/
+    public abstract boolean isEmpty();
 
 }

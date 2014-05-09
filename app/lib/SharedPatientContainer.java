@@ -19,4 +19,9 @@ public class SharedPatientContainer extends PatientContainer {
 		return sharedPatient.getAccessPrivileges();
 	}
 
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
 }
