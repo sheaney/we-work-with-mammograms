@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import controllers.validations.APIValidations;
 import lib.PatientContainer;
 import lib.json.errors.JSONErrors;
 import lib.json.staff.JSONStaff;
@@ -46,14 +47,13 @@ public class API extends Controller {
 	}
 
 	public static Result getPatientInfo(Long id) {
+        //TODO staff human or external service?
 		Staff staff = obtainStaff();
-		// Validate that patient really does exist
-		Patient patient = Patient.findById(id);
-		if (patient == null)
-			return notFound(Json.newObject().put("NOT_FOUND", "")); // return json with error msg
-		
-		PatientContainer patientContainer = PatientContainer.getPatientContainer(staff, patient);
+        PatientContainer patientContainer = APIValidations.canAccessPatient(staff,id);
+
 		if (patientContainer == null)
+			return notFound(Json.newObject().put("NOT_FOUND", "")); // return json with error msg
+		else if (patientContainer.isEmpty())
 			return forbidden(Json.newObject().put("FORBIDDEN", "")); // return json with error msg
 		
 		//success
@@ -62,6 +62,7 @@ public class API extends Controller {
 
 	@BodyParser.Of(BodyParser.Json.class)
 	public static Result updatePersonalInfo(Long id) {
+        //TODO check that this patient actually exists
 		Patient patient = Patient.findById(id);
 		if (getUpdateInfoPermissions(obtainStaff(), patient.getId()).canUpdatePersonalInfo()) {
 			JsonNode jsonNode = request().body().asJson();
@@ -82,6 +83,7 @@ public class API extends Controller {
 
 	@BodyParser.Of(BodyParser.Json.class)
 	public static Result updateMedicalInfo(Long id) {
+        //TODO check that this patient actually exists
 		Patient patient = Patient.findById(id);
 		if (getUpdateInfoPermissions(obtainStaff(), patient.getId()).canUpdateMedicalInfo()) {
 			JsonNode jsonNode = request().body().asJson();
@@ -102,11 +104,13 @@ public class API extends Controller {
 
 	public static Staff obtainStaff() {
 		// Get staff ID from session or from API access token
+        //TODO staff human or external service?
 		Long staffId = Long.parseLong(session().get("id"));
 		return Staff.findById(staffId);
 	}
 	
 	private static PatientUpdateInfoPermission getUpdateInfoPermissions(Staff staff, Long patientId) {
+        //TODO check that this patient actually exists
 		Patient patient = Patient.findById(patientId);
 		PatientContainer patientContainer = PatientContainer.getPatientContainer(staff, patient);
 		return new PatientUpdateInfoPermission(patientContainer.getAccessPrivileges());
@@ -133,9 +137,7 @@ public class API extends Controller {
 
 	private static String concatenateStrings(List<String> strings, String sep) {
 		StringBuilder sb = new StringBuilder();
-		for (String s : strings) {
-			sb.append(s + sep);
-		}
+		for (String s : strings) sb.append(s).append(sep);
 		return sb.toString();
 	}
 
