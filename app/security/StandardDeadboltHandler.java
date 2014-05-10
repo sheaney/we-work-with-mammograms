@@ -18,21 +18,11 @@ public class StandardDeadboltHandler implements DeadboltHandler {
 	private final Long sessionDurationInMilliseconds = 3600000L;
 
 	@Override
-	public Promise<SimpleResult> beforeAuthCheck(Context arg0) {
-		return F.Promise.pure(null);
-	}
-	//required by the "implements DeadboltHandler" class annotation
-	@Override
-	public DynamicResourceHandler getDynamicResourceHandler(Context arg0) {
-		return null;
-	}
-
-	@Override
 	public Subject getSubject(Context arg0) {
 		AuthorizableUser user = new AuthorizableUser(arg0);
 		// If time of login + sessionDurationInMilliseconds is less
 		// than the actual time then the session has expired
-		if (user.getSession() + sessionDurationInMilliseconds < System.currentTimeMillis()) {
+		if (user.getTimeOfLogin() + sessionDurationInMilliseconds < System.currentTimeMillis()) {
 			arg0.session().clear();
 			return null;
 		}
@@ -58,4 +48,15 @@ public class StandardDeadboltHandler implements DeadboltHandler {
 			}));
 		}
 	}
+
+	//required by the "implements DeadboltHandler" class annotation
+    @Override
+    public Promise<SimpleResult> beforeAuthCheck(Context arg0) {
+        return F.Promise.pure(null);
+    }
+    @Override
+    public DynamicResourceHandler getDynamicResourceHandler(Context arg0) {
+        return null;
+    }
+
 }

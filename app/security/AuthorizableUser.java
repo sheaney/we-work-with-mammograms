@@ -11,11 +11,11 @@ import be.objectify.deadbolt.core.models.Subject;
 public class AuthorizableUser implements Subject {
 
 	private Context context;
-	private Long session;
+	private Long timeOfLogin;
 
 	public AuthorizableUser(Context context) {
 		this.context = context;
-		this.session = Long.parseLong(context.session().get("timeOfLogin"));
+		this.timeOfLogin = Long.parseLong(context.session().get("timeOfLogin"));
 	}
 
 	@Override
@@ -41,11 +41,11 @@ public class AuthorizableUser implements Subject {
 		return null;
 	}
 
-	public Long getSession() {
-		return session;
+	public Long getTimeOfLogin() {
+		return timeOfLogin;
 	}
 
-	public void setSession(Long session) {
-		this.session = session;
+	public void setTimeOfLogin(Long timeOfLogin) {
+		this.timeOfLogin = timeOfLogin;
 	}
 }
