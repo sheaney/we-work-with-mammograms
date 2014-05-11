@@ -1,28 +1,31 @@
 package controllers;
 
+import java.io.File;
 import java.util.List;
 
 import lib.PasswordGenerator;
+import lib.PatientContainer;
 import lib.json.permissions.JSONPermissions;
 import lib.permissions.PatientUpdateInfoPermission;
 import lib.permissions.PatientViewInfoPermission;
 import lib.permissions.Permission;
-import lib.PatientContainer;
 import models.Patient;
 import models.SharedPatient;
 import models.Staff;
 import models.Study;
+import views.html.*;
 import play.data.Form;
 import play.libs.F.Function0;
 import play.libs.F.Promise;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Result;
-import views.html.*;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 
 import com.fasterxml.jackson.databind.JsonNode;
+
+import content.Uploader;
 
 @Restrict(@Group({ "STAFF" }))
 public class Staffs extends Controller {
@@ -56,9 +59,13 @@ public class Staffs extends Controller {
 					List<MultipartFormData.FilePart> parts = body.getFiles();
 					//let's assume for meow that they are all image files
 					
+					// Test upload
 					for (MultipartFormData.FilePart part : parts) {
-						System.out.println(part.getContentType() + " "
-								+ part.getFilename());
+						String key = part.getContentType() + " " + part.getFilename();
+						File imageFile = part.getFile();
+                        System.out.println(imageFile.exists());
+						System.out.println("Uploading file to AWS bucket");
+//						Uploader.upload(key, imageFile);
 					}
 				}
 				
