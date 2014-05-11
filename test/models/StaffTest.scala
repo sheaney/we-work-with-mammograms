@@ -1,16 +1,16 @@
 package models
 
+import org.scalatest.Assertions._
+
+import factories.Factories
+import helpers.TestSetup.samplePatient
+import helpers.TestSetup.sampleStaff
 import play.api.test.FakeApplication
 import play.api.test.Helpers.running
 import play.core.j.JavaGlobalSettingsAdapter
-import helpers.TestSetup.samplePatient
-import helpers.TestSetup.sampleStaff
-import org.scalatest.Assertions._
-import play.db.ebean.Model.Finder
-import factories.Factories
 
 class StaffTest extends ModelsHelper with Factories {
-
+  
   describe("Staff#findOwnPatient") {
     it("returns the patient if it exists") {
       running(app) {
@@ -21,9 +21,12 @@ class StaffTest extends ModelsHelper with Factories {
         staff.getOwnPatients().add(patient)
         staff.getOwnPatients().add(anotherPatient)
         staff.getOwnPatients().add(andAnotherPatient)
+        staff.save()
+
+        val sameStaff = Staff.findById(staff.getId)
 
         //      assert(staff.findOwnPatient.getId() == patient.getId())
-        staff.findOwnPatient(patient).getId() shouldBe (patient.getId())
+        sameStaff.findOwnPatient(patient).getId() shouldBe (patient.getId())
       }
     }
 
@@ -32,6 +35,8 @@ class StaffTest extends ModelsHelper with Factories {
         val staff = new Staff()
         val patient = new Patient()
         patient.setId(1L)
+        staff.save()
+        patient.save()
 
         staff.findOwnPatient(patient) shouldBe (null)
       }
@@ -45,11 +50,16 @@ class StaffTest extends ModelsHelper with Factories {
         val sharer = new Staff
         val borrower = new Staff
         val sharedPatientInstance = new patientFactory { val id = 1L }.value
+        sharer.save(); borrower.save(); sharedPatientInstance.save()
         val sharedPatient = new SharedPatient(sharer, borrower, sharedPatientInstance, Integer.MAX_VALUE)
+        sharedPatient.save()
 
-        borrower.getBorrowedPatients().add(sharedPatient);
+        borrower.getBorrowedPatients().add(sharedPatient)
+        borrower.save()
 
-        borrower.findBorrowedPatient(sharedPatientInstance).getId() shouldBe (sharedPatient.getId())
+        val sameBorrower = Staff.findById(borrower.getId())
+
+        sameBorrower.findBorrowedPatient(sharedPatientInstance).getId() shouldBe (sharedPatient.getId())
       }
 
     }
@@ -151,6 +161,28 @@ class StaffTest extends ModelsHelper with Factories {
           val patientToShare = new patientFactory { val id = 2L }.value
           staff.getOwnPatients().add(patient)
           staff.canSharePatient(patientToShare) shouldBe false
+        }
+      }
+    }
+
+    describe("Saves staff with own patient") {
+      it("successfully saves a staffs patient") {
+        running(app) {
+          val staff = sampleStaff
+          val patient = samplePatient
+
+          patient.save()
+
+          staff.getOwnPatients().add(patient)
+
+          staff.save()
+          
+          val sameStaff = Staff.findById(staff.getId)
+
+          assert(sameStaff.getOwnPatients().get(0).getId() === patient.getId())
+
+          patient.delete()
+          staff.delete()
         }
       }
     }

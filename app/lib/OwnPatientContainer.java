@@ -18,4 +18,9 @@ public class OwnPatientContainer extends PatientContainer {
 	public int getAccessPrivileges() {
 		return Integer.MAX_VALUE;
 	}
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
 }

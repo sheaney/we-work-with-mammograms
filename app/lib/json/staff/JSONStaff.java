@@ -53,23 +53,15 @@ public class JSONStaff {
 		return result;
 	}
 	
-	public static ObjectNode staffPatient(Staff staff, Patient patient) {
-		Long patientId = patient.getId();
-		PatientContainer patientContainer = PatientContainer.getPatientContainer(staff, patient);
-		if (patientContainer == null) {
-			return null;
-		}
+	public static ObjectNode staffPatient(Staff staff,PatientContainer patientContainer) {
 		
 		if (patientContainer instanceof OwnPatientContainer) {
 			Set<Long> sharedIds = getSharedPatientIds(staff);
 			Patient searched = ((OwnPatientContainer) patientContainer).getPatient();
-			return JSONPatient.staffPatient(searched, sharedIds.contains(patientId));
-		} else if (patientContainer instanceof SharedPatientContainer) {
-			SharedPatient borrowed = ((SharedPatientContainer) patientContainer).getSharedPatient();
-			return JSONPatient.staffBorrowedPatient(borrowed);
-		} else {
-			return null;
+			return JSONPatient.staffPatient(searched, sharedIds.contains(searched.getId()));
 		}
+		SharedPatient borrowed = ((SharedPatientContainer) patientContainer).getSharedPatient();
+		return JSONPatient.staffBorrowedPatient(borrowed);
 	}
 
 	private static List<ObjectNode> ownPatients(Staff staff) {

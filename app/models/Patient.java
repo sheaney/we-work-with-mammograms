@@ -166,7 +166,7 @@ public class Patient extends Model {
 	
 	@Override
 	public String toString() {
-		return this.personalInfo.getFullName();
+		return this.personalInfo != null ? this.personalInfo.getFullName() : "Sin nombre";
 	}
 
 }
