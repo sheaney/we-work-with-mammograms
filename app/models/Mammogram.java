@@ -28,7 +28,7 @@ public class Mammogram extends Model {
 	Date createdAt = new Date(System.currentTimeMillis());
 	
 	@Required
-	String url;
+	String key;
 	
 	@JsonIgnore
 	@ManyToOne
@@ -54,12 +54,12 @@ public class Mammogram extends Model {
 		this.createdAt = createdAt;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getKey() {
+		return key;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setKey(String key) {
+		this.key = key;
 	}
 
 	public Study getStudy() {

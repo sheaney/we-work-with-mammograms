@@ -3,6 +3,8 @@ package controllers;
 import java.io.File;
 import java.util.List;
 
+import content.FileWriter;
+import content.S3Uploader;
 import lib.PasswordGenerator;
 import lib.PatientContainer;
 import lib.json.permissions.JSONPermissions;
@@ -13,6 +15,7 @@ import models.Patient;
 import models.SharedPatient;
 import models.Staff;
 import models.Study;
+import play.Play;
 import views.html.*;
 import play.data.Form;
 import play.libs.F.Function0;
@@ -46,6 +49,7 @@ public class Staffs extends Controller {
 		Promise<Result> promise = Promise.promise(new Function0<Result>() {
 			public final Patient patient = Patient.findById(patientId);
 
+            // What to return in case of failure???
 			@Override
 			public Result apply() throws Throwable {
 				// first we check that the images uploaded are actual images
@@ -54,22 +58,33 @@ public class Staffs extends Controller {
 				if (filledForm.hasErrors()) {
 					return badRequest(newStudy.render(patient, filledForm));
 				} else {
+                    Study study = filledForm.get();
 					MultipartFormData body = request().body()
 							.asMultipartFormData();
 					List<MultipartFormData.FilePart> parts = body.getFiles();
-					//let's assume for meow that they are all image files
-					
+					// Need to verify that all parts are image files first
+
+                    // If this is the case, then upload to S3 or write to disk
+                    Boolean uploadConfig = Play.application().configuration().getBoolean("s3Upload");
+                    boolean s3Upload = uploadConfig != null && uploadConfig;
+                    Uploader uploader = s3Upload ? new S3Uploader() : new FileWriter();
+                    String logMsg = s3Upload ? "Uploading mammogram image to s3" : "Writing mammogram image to disk";
+
+                    // Associate study with patient
+                    patient.getStudies().add(study);
+
 					// Test upload
+                    int i = 0;
 					for (MultipartFormData.FilePart part : parts) {
-						String key = part.getContentType() + " " + part.getFilename();
+                        String key = "images/study/studyId/mammograms/" + i;
 						File imageFile = part.getFile();
-                        System.out.println(imageFile.exists());
-						System.out.println("Uploading file to AWS bucket");
-//						Uploader.upload(key, imageFile);
+						System.out.println(logMsg);
+						uploader.write(key, imageFile);
+                        i++;
 					}
 				}
 
-        flash("success", "Se ha creado un nuevo estudio para el paciente");
+                flash("success", "Se ha creado un nuevo estudio para el paciente");
 				return ok(showPatient.render(patientId, session().get("user")));
 			}
 
