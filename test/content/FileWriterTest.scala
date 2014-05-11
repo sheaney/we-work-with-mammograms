@@ -2,8 +2,8 @@ package content
 
 import org.scalatest.FunSpec
 import java.io._
-import java.nio.file.{FileSystems, Files}
 import org.apache.commons.io.FileUtils
+import content.Uploader.FileWriterException
 
 /**
  * Created by sheaney on 5/8/14.
@@ -13,7 +13,7 @@ class FileWriterTest extends FunSpec {
     it("returns FileNotFoundException exception if file does not exist in the filesystem") {
       val key = "foo/bar/baz"
       val fileWriter = new FileWriter
-      intercept[FileNotFoundException] {
+      intercept[FileWriterException] {
         fileWriter.read(key)
       }
     }

@@ -3,10 +3,10 @@ package content
 import org.scalatest.FunSpec
 
 import java.io.{InputStream, File}
-import com.amazonaws.{AmazonClientException, AmazonServiceException}
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.regions.{ Region, Regions }
+import content.Uploader.AWSException
 
 /**
  * Created by sheaney on 5/8/14.
@@ -18,10 +18,7 @@ class S3UploaderTest extends FunSpec {
       try {
         new ProfileCredentialsProvider().getCredentials()
       } catch {
-        case _: Exception => fail(
-          "Cannot load the credentials from the credential profiles file. " +
-          "Please make sure that your credentials file is at the correct " +
-          "location (~/.aws/config), and is in valid format.")
+        case awse: AWSException => fail(awse.getMessage)
       }
     }
   }
@@ -32,10 +29,7 @@ class S3UploaderTest extends FunSpec {
       try {
         s3Uploader.testConnection()
       } catch {
-        case ase: AmazonServiceException =>
-          fail(ase.getMessage)
-        case ace: AmazonClientException =>
-          fail(ace.getMessage)
+        case awse: AWSException => fail(awse.getMessage)
       }
 
     }
@@ -53,10 +47,7 @@ class S3UploaderTest extends FunSpec {
         try {
           s3Uploader.write(key, file)
         } catch {
-          case ase: AmazonServiceException =>
-            fail(ase.getMessage)
-          case ace: AmazonClientException =>
-            fail(ace.getMessage)
+          case awse: AWSException => fail(awse.getMessage)
         }
       }
     }
@@ -65,24 +56,34 @@ class S3UploaderTest extends FunSpec {
       it ("obtains the file that was uploaded to AWS S3") {
         val s3Uploader = new S3Uploader
 
-        val inputStream = s3Uploader.read(key)
-        inputStream match {
-          case _: InputStream =>
-          case _ => fail("Did not return an InputStream")
+        try {
+          val inputStream = s3Uploader.read(key)
+          inputStream match {
+            case _: InputStream =>
+            case _ => fail("Did not return an InputStream")
+          }
+        } catch {
+          case awse: AWSException => fail(awse.getMessage)
         }
+
       }
     }
 
     describe("destroy") {
       it("effectively destroys the file that was just previously updated") {
-        val credentials = new ProfileCredentialsProvider().getCredentials()
-        val bucketName = "wwwm"
+        try {
+          val credentials = new ProfileCredentialsProvider().getCredentials()
+          val bucketName = "wwwm"
 
-        val s3 = new AmazonS3Client(credentials)
-        val usEast = Region.getRegion(Regions.US_EAST_1)
-        s3.setRegion(usEast)
+          val s3 = new AmazonS3Client(credentials)
+          val usEast = Region.getRegion(Regions.US_EAST_1)
+          s3.setRegion(usEast)
 
-        s3.deleteObject(bucketName, key)
+          s3.deleteObject(bucketName, key)
+        } catch {
+          case e: Exception => fail(e.getMessage)
+        }
+
       }
     }
   }

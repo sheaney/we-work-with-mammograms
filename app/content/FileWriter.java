@@ -9,15 +9,19 @@ import java.io.*;
  */
 public class FileWriter implements Uploader {
 
-    public InputStream read(String key) throws FileNotFoundException {
-        System.out.println(key);
+    public InputStream read(String key) throws UploaderException {
+        FileInputStream fileInput = null;
         File file = new File(key);
-        FileInputStream fileInput = new FileInputStream(file);
+        try {
+            fileInput = new FileInputStream(file);
+        } catch (Exception e) {
+            throw new FileWriterException(e.getMessage(), e);
+        }
 
         return fileInput;
     }
 
-    public void write(String key, File file) {
+    public void write(String key, File file) throws UploaderException {
         String fileExtension = getFileExtension(file);
         String filePath = key + "." +  fileExtension;
 
@@ -30,12 +34,11 @@ public class FileWriter implements Uploader {
             } else {
                 outputFile.setLastModified(System.currentTimeMillis());
             }
-            System.out.println(outputFile.lastModified());
 
             ImageIO.write(bi, fileExtension, outputFile);
 
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            throw new FileWriterException(e.getMessage(), e);
         }
 
     }
