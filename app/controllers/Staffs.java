@@ -11,10 +11,7 @@ import lib.json.permissions.JSONPermissions;
 import lib.permissions.PatientUpdateInfoPermission;
 import lib.permissions.PatientViewInfoPermission;
 import lib.permissions.Permission;
-import models.Patient;
-import models.SharedPatient;
-import models.Staff;
-import models.Study;
+import models.*;
 import play.Play;
 import views.html.*;
 import play.data.Form;
@@ -64,23 +61,33 @@ public class Staffs extends Controller {
 					List<MultipartFormData.FilePart> parts = body.getFiles();
 					// Need to verify that all parts are image files first
 
-                    // If this is the case, then upload to S3 or write to disk
+                    // Obtain uploader
                     Boolean uploadConfig = Play.application().configuration().getBoolean("s3Upload");
                     boolean s3Upload = uploadConfig != null && uploadConfig;
                     Uploader uploader = s3Upload ? new S3Uploader() : new FileWriter();
                     String logMsg = s3Upload ? "Uploading mammogram image to s3" : "Writing mammogram image to disk";
 
                     // Associate study with patient
-                    patient.getStudies().add(study);
+                    study.setOwner(patient);
+                    study.save();
 
-					// Test upload
-                    int i = 0;
+                    String studyId = String.valueOf(study.getId());
+
+					// Create mammograms and persist images
 					for (MultipartFormData.FilePart part : parts) {
-                        String key = "images/study/studyId/mammograms/" + i;
+                        // Associate mammogram with study
+                        Mammogram mammogram = new Mammogram();
+                        mammogram.setStudy(study);
+                        mammogram.save();
+
+                        // Calculate mammogram key and update with value
+                        String mammogramId = String.valueOf(mammogram.getId());
+                        String key = String.format("images/study/%s/mammograms/%s", studyId, mammogramId);
+
+                        // Upload to AWS s3 or write to disk
 						File imageFile = part.getFile();
 						System.out.println(logMsg);
 						uploader.write(key, imageFile);
-                        i++;
 					}
 				}
 

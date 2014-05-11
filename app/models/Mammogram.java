@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import play.Play;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
@@ -27,9 +28,6 @@ public class Mammogram extends Model {
 	@Required
 	Date createdAt = new Date(System.currentTimeMillis());
 	
-	@Required
-	String key;
-	
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="study_id", nullable=false)
@@ -37,6 +35,12 @@ public class Mammogram extends Model {
 	
 	@OneToMany(mappedBy = "annotated")
 	List<Annotation> annotations = new ArrayList<Annotation>();
+
+    public static Finder<String,Mammogram> find = new Finder<String,Mammogram>(Play.application().configuration().getString("datasource"), String.class, Mammogram.class);
+
+    public static Mammogram findById(Long id) {
+        return find.byId(String.valueOf(id));
+    }
 
 	public Long getId() {
 		return id;
@@ -52,14 +56,6 @@ public class Mammogram extends Model {
 
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
-	}
-
-	public String getKey() {
-		return key;
-	}
-
-	public void setKey(String key) {
-		this.key = key;
 	}
 
 	public Study getStudy() {

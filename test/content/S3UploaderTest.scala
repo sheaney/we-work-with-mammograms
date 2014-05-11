@@ -40,7 +40,7 @@ class S3UploaderTest extends FunSpec {
 
     describe("#write") {
       it("uploads an empty file to AWS S3") {
-        val file = new File("test/toma3.gif")
+        val file = new File("test/toma3")
         assert(file.exists(), "Need to provide a test file to upload")
 
         val s3Uploader = new S3Uploader

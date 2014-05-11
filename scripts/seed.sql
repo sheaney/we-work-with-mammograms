@@ -38,8 +38,8 @@ insert into study(id, created_at, patient_id)
 insert into comment(id, content, created_at, staff_id, study_id)
   values(1, 'Toma2 y Toma3 no salen muy bien y requieren una segunda opinión.', '2014-04-25', 1, 1);
 
-insert into mammogram(id, created_at, key, study_id)
-  values(1, '2014-04-24', 'www.test.com', 1);
+insert into mammogram(id, created_at, study_id)
+  values(1, '2014-04-24', 1);
 
 insert into annotation(id, content, created_at, mammogram_id, staff_id)
   values(1, 'Coordenadas (234, 82) se observa algo extraño', '2014-04-25', 1, 1);

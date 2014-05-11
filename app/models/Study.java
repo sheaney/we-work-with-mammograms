@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.validation.Valid;
 
 import lib.DBExecutionContext;
+import play.Play;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import play.libs.F.Function0;
@@ -42,6 +43,12 @@ public class Study extends Model {
 	
 	@OneToMany(mappedBy = "study", cascade = CascadeType.ALL)
 	List<Mammogram> mammograms = new ArrayList<Mammogram>();
+
+    public static Finder<String,Study> find = new Finder<String,Study>(Play.application().configuration().getString("datasource"), String.class, Study.class);
+
+    public static Study findById(Long id) {
+        return find.byId(String.valueOf(id));
+    }
 
 	public Long getId() {
 		return id;
