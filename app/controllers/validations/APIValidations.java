@@ -15,9 +15,8 @@ public class APIValidations {
      * @param patientId such patient
      * @return null if the Patient is non existing or a PatientContainer from the method PatientContainer.getPatientContainer()
      */
-    public static PatientContainer canAccessPatient(Staff staff, Long patientId){
+    public static PatientContainer getPatientAccess(Staff staff, Patient patient){
         // Validate that patient really does exist
-        Patient patient = Patient.findById(patientId);
         if (patient == null){
             return null;
         }

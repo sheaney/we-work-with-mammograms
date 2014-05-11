@@ -25,10 +25,8 @@ import play.mvc.Result;
 import com.fasterxml.jackson.databind.JsonNode;
 
 public class API extends Controller {
-	final static Form<PersonalInfo> personalInfoBinding = Form
-			.form(PersonalInfo.class);
-	final static Form<MedicalInfo> medicalInfoBinding = Form
-			.form(MedicalInfo.class);
+	final static Form<PersonalInfo> personalInfoBinding = Form.form(PersonalInfo.class);
+	final static Form<MedicalInfo> medicalInfoBinding = Form.form(MedicalInfo.class);
 
 	public static Result getPatient(Long id) {
 		Patient patient = Patient.findById(id);
@@ -47,80 +45,87 @@ public class API extends Controller {
 	}
 
 	public static Result getPatientInfo(Long id) {
-        //TODO staff human or external service?
+		// TODO staff human or external service?
 		Staff staff = obtainStaff();
-        PatientContainer patientContainer = APIValidations.canAccessPatient(staff,id);
+		Patient patient = Patient.findById(id);
+		PatientContainer patientContainer = APIValidations.getPatientAccess(staff, patient);
 
 		if (patientContainer == null)
 			return notFound(Json.newObject().put("NOT_FOUND", "")); // return json with error msg
 		else if (patientContainer.isEmpty())
 			return forbidden(Json.newObject().put("FORBIDDEN", "")); // return json with error msg
-		
-		//success
+
+		// success
 		return ok(JSONStaff.staffPatient(staff, patientContainer));
-		}
+	}
 
 	@BodyParser.Of(BodyParser.Json.class)
 	public static Result updatePersonalInfo(Long id) {
-        //TODO check that this patient actually exists
+		// Check that this patient actually exists
 		Patient patient = Patient.findById(id);
-		if (getUpdateInfoPermissions(obtainStaff(), patient.getId()).canUpdatePersonalInfo()) {
+		Staff staff = obtainStaff();
+
+		PatientContainer patientContainer = APIValidations.getPatientAccess(staff, patient);
+
+		if (patientContainer == null)
+			return notFound("Patient doesn't exist.");
+
+		if (new PatientUpdateInfoPermission(patientContainer.getAccessPrivileges()).canUpdatePersonalInfo()) {
 			JsonNode jsonNode = request().body().asJson();
 			Form<PersonalInfo> binding = personalInfoBinding.bind(jsonNode);
 			if (binding.hasErrors()) {
-				return badRequest(Json.toJson(JSONErrors
-						.patientInfoErrors(getErrors(binding))));
+				return badRequest(Json.toJson(JSONErrors.patientInfoErrors(getErrors(binding))));
 			} else {
 				PersonalInfo info = binding.get();
 				patient.setPersonalInfo(info);
 				patient.getPersonalInfo().update();
-				return ok("success");
+				return ok("Success");
 			}
-		} else {
-			return forbidden("Can't update info");
-		}
+		} else
+
+			return unauthorized("Can't update info.");
 	}
 
 	@BodyParser.Of(BodyParser.Json.class)
 	public static Result updateMedicalInfo(Long id) {
-        //TODO check that this patient actually exists
+		// Check that this patient actually exists
 		Patient patient = Patient.findById(id);
-		if (getUpdateInfoPermissions(obtainStaff(), patient.getId()).canUpdateMedicalInfo()) {
+		Staff staff = obtainStaff();
+
+		PatientContainer patientContainer = APIValidations.getPatientAccess(staff, patient);
+
+		if (patientContainer == null)
+			return notFound("Patient doesn't exist.");
+
+		else if (new PatientUpdateInfoPermission(patientContainer.getAccessPrivileges()).canUpdateMedicalInfo()) {
 			JsonNode jsonNode = request().body().asJson();
 			Form<MedicalInfo> binding = medicalInfoBinding.bind(jsonNode);
 			if (binding.hasErrors()) {
-				return badRequest(Json.toJson(JSONErrors
-						.patientInfoErrors(getErrors(binding))));
+				System.out.println("Errors");
+				return badRequest(Json.toJson(JSONErrors.patientInfoErrors(getErrors(binding))));
 			} else {
+				System.out.println("Successful Update");
 				MedicalInfo info = binding.get();
 				patient.setMedicalInfo(info);
 				patient.getMedicalInfo().update();
 				return ok("success");
 			}
-		} else {
-			return forbidden("Can't update info");
-		}
+		} else
+			return unauthorized("Can't update info");
+		
 	}
 
 	public static Staff obtainStaff() {
 		// Get staff ID from session or from API access token
-        //TODO staff human or external service?
+		// TODO staff human or external service?
 		Long staffId = Long.parseLong(session().get("id"));
 		return Staff.findById(staffId);
-	}
-	
-	private static PatientUpdateInfoPermission getUpdateInfoPermissions(Staff staff, Long patientId) {
-        //TODO check that this patient actually exists
-		Patient patient = Patient.findById(patientId);
-		PatientContainer patientContainer = PatientContainer.getPatientContainer(staff, patient);
-		return new PatientUpdateInfoPermission(patientContainer.getAccessPrivileges());
 	}
 
 	private static <T> Map<String, String> getErrors(Form<T> form) {
 		Map<String, String> errors = new HashMap<String, String>();
 
-		for (Map.Entry<String, List<ValidationError>> entry : form.errors()
-				.entrySet()) {
+		for (Map.Entry<String, List<ValidationError>> entry : form.errors().entrySet()) {
 			String field = entry.getKey();
 			List<ValidationError> validationErrors = entry.getValue();
 			List<String> messages = new LinkedList<String>();
@@ -137,7 +142,8 @@ public class API extends Controller {
 
 	private static String concatenateStrings(List<String> strings, String sep) {
 		StringBuilder sb = new StringBuilder();
-		for (String s : strings) sb.append(s).append(sep);
+		for (String s : strings)
+			sb.append(s).append(sep);
 		return sb.toString();
 	}
 
