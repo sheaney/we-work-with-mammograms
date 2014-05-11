@@ -35,6 +35,14 @@
 
     <div class="row">
       <div id="patient" class="col-md-12" data-patient-id="@id">
+          <!-- Show flash messages -->
+          @if(flash.contains("success")) {
+            <div class="col-md-12 flash-messages">
+              <p class="alert alert-success text-center">
+                @flash.get("success")
+              </p>
+            </div>
+          }
 
          <ul class="nav nav-tabs">
           <li ng-if="availablePersonalInfo" class="active"><a data-toggle="tab" href="#personal-info-tab">Información Personal</a></li>

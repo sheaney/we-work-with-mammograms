@@ -1,9 +1,12 @@
 @(patient: Patient, studyForm: play.data.Form[Study])
 
-
 @import views.html.forms._
 
-@views.html.layouts.main("Crear Estudio") {
+@moreScripts = {
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/uploadStudy.js")"></script>
+}
+
+@views.html.layouts.main("Crear Estudio", moreScripts = moreScripts) {
   <!-- Render top navbar -->
   @navbar(patient.getPersonalInfo().getFullName())
 

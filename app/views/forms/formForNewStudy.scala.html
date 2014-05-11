@@ -4,7 +4,7 @@
 @import views.html.bootstrap._
 @import play.api.i18n._
 
-@form(action = routes.Staffs.createNewStudy(patientId),'role -> "form", 'enctype -> "multipart/form-data") {
+@form(action = routes.Staffs.createNewStudy(patientId), Symbol("data-callback-url") -> routes.Staffs.showPatient(patientId).url, 'id -> "studyUploadForm",'role -> "form", 'enctype -> "multipart/form-data") {
         <fieldset>
           <legend>Tomas</legend>
           <div class="form-group">
@@ -20,5 +20,8 @@
           	field = studyForm("comments[0].content"), 
           	args = 'placeholder -> "Comentarios sobre el estudio...", 'rows -> "5", '_label -> "", 'class -> "form-control")
         </fieldset>
-        <button type="submit" class="btn btn-default">Guardar estudio</button>
+        <!--<button type="submit" class="btn btn-default" data-loading-text="Cargando...">Guardar estudio</button>-->
+        <button type="submit" id="loading-example-btn" data-loading-text="Loading..." class="btn btn-primary">
+            Loading state
+        </button>
 }

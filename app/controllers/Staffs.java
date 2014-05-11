@@ -68,15 +68,8 @@ public class Staffs extends Controller {
 //						Uploader.upload(key, imageFile);
 					}
 				}
-				
-				// new study to save asynchronously to db
-				// Study study = new Study();
-				// find patient asynchronously
-				// Promise<Patient> patient = Patient.findByIdAsync(patientId);
-				// get the patient once the promise completes with a timeout of
-				// 10 secs
-				// study.setOwner(patient.get(10000L));
 
+        flash("success", "Se ha creado un nuevo estudio para el paciente");
 				return ok(showPatient.render(patientId, session().get("user")));
 			}
 
