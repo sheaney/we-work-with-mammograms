@@ -27,5 +27,15 @@ public class JSONErrors {
 		
 		return errorsLst;
 	}
+
+    public static ObjectNode studyCreationErrors(String msg) {
+        List<String> errorMsgs = new LinkedList<>();
+        errorMsgs.add(msg);
+
+        ObjectNode errors = Json.newObject();
+        errors.put(MSG, Json.toJson(errorMsgs));
+
+        return errors;
+    }
 	
 }

@@ -3,8 +3,9 @@ $(function(e) {
   $('#studyUploadForm').on('submit',(function(e) {
     e.preventDefault();
     var $this = $(this);
-    //$this.button('loading');
     var formData = new FormData(this);
+    // display loading spinner
+    // ...
 
     $.ajax({
       type:'POST',
@@ -14,18 +15,26 @@ $(function(e) {
       contentType: false,
       processData: false
     }).done(function(data) {
-      //$this.button('reset');
-      console.log("success");
-      console.log($this.data('callback-url'));
       window.location.href = $this.data('callback-url');
     }).fail(function(data) {
-      //$this.button('reset');
-      console.log("error");
-      console.log(data);
+      var errorObject = data.responseJSON;
+      var errorMsgs = getErrorMessages(errorObject);
+      console.log(errorMsgs);
+      // Display errorMsgs in UI
+      // ...
+    }).always(function(data) {
+      // Hide loading spinner
+      // ...
     });
 
   }));
 
+  // Error messages are a JS array
+  var getErrorMessages = function(errorObject) {
+    var defaultMsgNode = "msg";
+    var errorNode = errorObject[defaultMsgNode] ? defaultMsgNode : "comments[0].content";
+    return errorObject[errorNode];
+  }
 
   var setSpinner = function() {
 

@@ -11,6 +11,7 @@ import content.FileWriter;
 import content.S3Uploader;
 import lib.PasswordGenerator;
 import lib.PatientContainer;
+import lib.json.errors.JSONErrors;
 import lib.json.permissions.JSONPermissions;
 import lib.permissions.PatientUpdateInfoPermission;
 import lib.permissions.PatientViewInfoPermission;
@@ -66,13 +67,18 @@ public class Staffs extends Controller {
 				Form<Study> filledForm = newStudyForm.bindFromRequest();
 				//TODO check for errors and form validation
 				if (filledForm.hasErrors()) {
-					return badRequest(newStudy.render(patient, filledForm));
+					return badRequest(filledForm.errorsAsJson());
 				} else {
                     Study study = filledForm.get();
 					MultipartFormData body = request().body()
 							.asMultipartFormData();
 					List<MultipartFormData.FilePart> parts = body.getFiles();
 					// Need to verify that all parts are image files first
+                    for (MultipartFormData.FilePart part : parts) {
+                        if (!part.getContentType().matches("image/.*")) {
+                            return badRequest(JSONErrors.studyCreationErrors("Solo se pueden subir imágenes"));
+                        }
+                    }
 
                     // Obtain uploader
                     Tuple<Uploader, String> uploaderAndLog = obtainUploaderAndLogMsg(true);
@@ -94,7 +100,7 @@ public class Staffs extends Controller {
 
                         // Calculate mammogram key and update with value
                         String mammogramId = String.valueOf(mammogram.getId());
-                        String key = String.format("images/study/%s/mammograms/%s", studyId, mammogramId);
+                        String key = String.format("images/study/%s/mammogram/%s", studyId, mammogramId);
 
                         // Upload to AWS s3 or write to disk
 						File imageFile = part.getFile();
@@ -104,8 +110,9 @@ public class Staffs extends Controller {
 				}
 
                 flash("success", "Se ha creado un nuevo estudio para el paciente");
-                // TODO borrowed = false for now
-                return ok(showPatient.render(patientId, session().get("user"), false));
+                Staff staff = Staff.findById(Long.parseLong(session().get("id")));
+                boolean updatedABorrowedPatient = staff.findBorrowedPatient(patient) != null;
+                return ok(showPatient.render(patientId, session().get("user"), updatedABorrowedPatient));
 			}
 
 		});
@@ -205,7 +212,7 @@ public class Staffs extends Controller {
 
     public static Result renderMammogram(Long sid, Long mid) throws IOException {
         // TODO Extract mammogram key into a utility helper method
-        String key = String.format("images/study/%d/mammograms/%d", sid, mid);
+        String key = String.format("images/study/%d/mammogram/%d", sid, mid);
         // Obtain reader
         Tuple<Uploader, String> readerAndLogMsg = obtainUploaderAndLogMsg(false);
         Uploader reader = readerAndLogMsg._1;
