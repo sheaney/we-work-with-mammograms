@@ -59,6 +59,7 @@ public class Staffs extends Controller {
 	public static Promise<Result> createNewStudy(final Long patientId) {
 		Promise<Result> promise = Promise.promise(new Function0<Result>() {
 			public final Patient patient = Patient.findById(patientId);
+            public final Staff staff = Staff.findById(Long.parseLong(session().get("id")));
 
             // What to return in case of failure???
 			@Override
@@ -70,6 +71,12 @@ public class Staffs extends Controller {
 					return badRequest(filledForm.errorsAsJson());
 				} else {
                     Study study = filledForm.get();
+
+                    // Set commenter for comments added to study
+                    for (Comment comment : study.getComments()) {
+                        comment.setCommenter(staff);
+                    }
+
 					MultipartFormData body = request().body()
 							.asMultipartFormData();
 					List<MultipartFormData.FilePart> parts = body.getFiles();
@@ -110,7 +117,6 @@ public class Staffs extends Controller {
 				}
 
                 flash("success", "Se ha creado un nuevo estudio para el paciente");
-                Staff staff = Staff.findById(Long.parseLong(session().get("id")));
                 boolean updatedABorrowedPatient = staff.findBorrowedPatient(patient) != null;
                 return ok(showPatient.render(patientId, session().get("user"), updatedABorrowedPatient));
 			}
