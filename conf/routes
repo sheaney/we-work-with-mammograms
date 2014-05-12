@@ -103,15 +103,17 @@ GET     /api/service/test                   controllers.ServiceAPI.test
 #returns all patients id's so the services is able to iterate calls to further routes
 GET     /api/service/patients               controllers.ServiceAPI.getPatients()
 
+GET     /api/service/schema/:pid            controllers.ServiceAPI.getSchema(pid: Long)
+
 GET     /api/service/patient/:id            controllers.ServiceAPI.getServicePatient(id: Long, info ?= null)
 
-GET     /api/service/patient/:pid/study/:sid  controllers.ServiceAPI.getServiceStudy(patientId: Long, studyId: Long)
+GET     /api/service/study/:sid             controllers.ServiceAPI.getServiceStudy(sid: Long)
 
-GET     /api/service/patient/:pid/study/:sid/comment/:cid
+GET     /api/service/comment/:cid           controllers.ServiceAPI.getServiceComment(cid: Long)
 
-GET     /api/service/patient/:pid/study/:sid/mammogram/:mid
+GET     /api/service/mammogram/:mid         controllers.ServiceAPI.getServiceMammogram(mid: Long)
 
-GET     /api/service/patient/:pid/study/:sid/mammogram/:mid/annotation/:aid
+GET     /api/service/annotation/:aid        controllers.ServiceAPI.getServiceAnnotation(aid: Long)
 
 ## Assets
 

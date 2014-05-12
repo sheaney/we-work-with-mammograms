@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import play.Play;
 import play.data.validation.Constraints.MaxLength;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -36,8 +37,10 @@ public class Annotation extends Model {
 	@ManyToOne
 	@JoinColumn(name="staff_id", nullable=false)
 	Staff annotator;
-	
-	public Long getId() {
+
+    public static Finder<String,Annotation> find = new Finder<String,Annotation>(Play.application().configuration().getString("datasource"), String.class, Annotation.class);
+
+    public Long getId() {
 		return id;
 	}
 
@@ -76,5 +79,8 @@ public class Annotation extends Model {
 	public void setAnnotator(Staff annotator) {
 		this.annotator = annotator;
 	}
-	
+
+    public static Annotation findById(Long aid) {
+        return find.byId(String.valueOf(aid));
+    }
 }
