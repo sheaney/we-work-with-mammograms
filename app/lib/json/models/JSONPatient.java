@@ -1,6 +1,8 @@
 package lib.json.models;
 
 import static lib.json.JSONConstants.ID;
+
+import lib.json.errors.JSONErrors;
 import lib.permissions.PatientUpdateInfoPermission;
 import lib.permissions.PatientViewInfoPermission;
 import models.Patient;
@@ -20,6 +22,9 @@ public class JSONPatient {
 	private final static String UPDATEABLE_PERSONAL_INFO = "updateablePersonalInfo";
 	private final static String UPDATEABLE_MEDICAL_INFO = "updateableMedicalInfo";
 	private final static String UPDATEABLE_STUDIES = "updateableStudies";
+
+    private final static String PERSONAL = "personal";
+    private final static String MEDICAL = "medical";
 	
 	public static ObjectNode staffPatient(Patient patient, boolean isShared) {
 		ObjectNode json = Json.newObject();
@@ -73,5 +78,22 @@ public class JSONPatient {
         }
         JsonPatientsIds.put("Patients",Json.toJson(ids));
         return JsonPatientsIds;
+    }
+
+    public static ObjectNode servicePatient(Patient patient,String info){
+        ObjectNode jsonPatient = Json.newObject();
+        jsonPatient.put(ID, patient.getId());
+        if(info == null) {//show both personal and medical
+            jsonPatient.put(PERSONAL_INFO, Json.toJson(patient.getPersonalInfo()));
+            jsonPatient.put(MEDICAL_INFO, Json.toJson(patient.getMedicalInfo()));
+            return jsonPatient;
+        }else if(info.toLowerCase().equals(PERSONAL)){ //show only personal
+            jsonPatient.put(PERSONAL_INFO, Json.toJson(patient.getPersonalInfo()));
+            return jsonPatient;
+        }else if(info.toLowerCase().equals(MEDICAL)){//show only medical
+            jsonPatient.put(MEDICAL_INFO, Json.toJson(patient.getMedicalInfo()));
+            return jsonPatient;
+        }
+        return JSONErrors.undefined();
     }
 }

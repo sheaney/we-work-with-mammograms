@@ -5,6 +5,11 @@ import models._
 
 trait Factories {
 
+  def sampleService = {
+    val s = new ServiceAuth("email@example.com")
+    s
+  }
+
   def sampleStaff = {
     val ft = new SimpleDateFormat("dd/MM/yyyy")
 
