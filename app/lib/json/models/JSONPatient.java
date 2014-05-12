@@ -7,6 +7,7 @@ import lib.permissions.PatientUpdateInfoPermission;
 import lib.permissions.PatientViewInfoPermission;
 import models.Patient;
 import models.SharedPatient;
+import models.Study;
 import play.libs.Json;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -69,7 +70,7 @@ public class JSONPatient {
 		}
 	}
 
-    public static ObjectNode allPatientsService(){
+    public static ObjectNode getServicePatientIds(){
         List<Patient> patients = Patient.all();
         List<Long> ids = new ArrayList<Long>();
         ObjectNode JsonPatientsIds = Json.newObject();
