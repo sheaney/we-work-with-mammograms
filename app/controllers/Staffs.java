@@ -186,10 +186,10 @@ public class Staffs extends Controller {
 			flash("success", "Un nuevo paciente se ha creado");
 			return redirect(routes.Staffs.staff());
 		}
-	}
+  }
 
-	public static Result showStaff(Long id) {
-		return ok(showStaff.render(id, "Juanito"));
-	}
-
+  public static Result showStaff(Long id) {
+      return ok(showStaff.render(id, session().get("user")));
+  }
+	
 }

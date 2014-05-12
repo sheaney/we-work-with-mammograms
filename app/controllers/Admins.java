@@ -22,13 +22,13 @@ public class Admins extends Controller {
 	}
 
 	public static Result newStaff() {
-		return ok(newStaff.render("Juanito", staffForm));
+		return ok(newStaff.render(session().get("user"), staffForm));
 	}
 
 	public static Result createStaff() {
 		Form<Staff> filledForm = staffForm.bindFromRequest();
 		if (filledForm.hasErrors()) {
-			return badRequest(newStaff.render("Juanito", filledForm));
+			return badRequest(newStaff.render(session().get("user"), filledForm));
 		} else {
 			PasswordGenerator pg = new PasswordGenerator();
 			Staff staff = filledForm.get();

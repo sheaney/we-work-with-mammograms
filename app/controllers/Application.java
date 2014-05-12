@@ -53,11 +53,11 @@ public class Application extends Controller {
 	
 	
 	public static Result contact() {
-		return ok(contact.render("Juanito"));
+		return ok(contact.render(session().get("user")));
 	}
 
     public static Result settings(){
-        return ok(settings.render("Juanito"));
+        return ok(settings.render(session().get("user")));
     }
 
     public static Result jsRoutes() {
