@@ -118,8 +118,8 @@ public class Staff extends Model {
 	 *         the borrowed patient if it has
 	 */
 	public SharedPatient findBorrowedPatient(Patient patient) {
-		for (SharedPatient borrowed : this.borrowedPatients) {
-			Patient p = borrowed.getSharedInstance();
+		for (SharedPatient borrowed : this.getBorrowedPatients()) {
+            Patient p = borrowed.getSharedInstance();
 			if (p.getId() == patient.getId()) {
 				return borrowed;
 			}

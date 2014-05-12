@@ -135,7 +135,6 @@ public class Staffs extends Controller {
 		
 		Patient patient = Patient.findById(id);
 		Staff staff = Staff.findById(Long.parseLong(session().get("id")));
-		
 		if(staff.findBorrowedPatient(patient) != null) {
 			borrowed = true;
         } else {
