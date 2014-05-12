@@ -32,7 +32,7 @@ public class Study extends Model {
 	Date createdAt = new Date(System.currentTimeMillis());
 	
 	@Required
-	@OneToMany(mappedBy = "commented")
+	@OneToMany(mappedBy = "commented", cascade = CascadeType.ALL)
 	@Valid
 	List<Comment> comments = new ArrayList<Comment>();
 	
