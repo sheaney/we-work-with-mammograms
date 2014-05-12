@@ -1,4 +1,4 @@
-@(id: Long, userName: String)
+@(id: Long, userName: String, borrowed: Boolean)
 
 @moreCss = {
   <link href="@routes.Assets.at("stylesheets/showPatient.css")" rel="stylesheet">
@@ -20,7 +20,7 @@
         <div class="pull-right">
           <div class="col-xs-12">
             <p>
-              <a href="@routes.Staffs.sharePatient(id)" class="btn btn-primary btn-md btn-block">Compartir paciente</a>
+              <a href="@routes.Staffs.sharePatient(id)" class="btn btn-primary btn-md btn-block" ng-if="!@borrowed">Compartir paciente</a>
             </p>
           </div>
           <div class="col-xs-12">

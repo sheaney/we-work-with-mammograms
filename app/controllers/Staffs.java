@@ -23,6 +23,9 @@ import play.mvc.Result;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 
+
+
+
 import com.fasterxml.jackson.databind.JsonNode;
 
 import content.Uploader;
@@ -92,7 +95,8 @@ public class Staffs extends Controller {
 				}
 
                 flash("success", "Se ha creado un nuevo estudio para el paciente");
-				return ok(showPatient.render(patientId, session().get("user")));
+                // TODO borrowed = false for now
+                return ok(showPatient.render(patientId, session().get("user"), false));
 			}
 
 		});
@@ -105,15 +109,27 @@ public class Staffs extends Controller {
 	}
 
 	public static Result showPatient(Long id) {
-		return ok(showPatient.render(id, "Juanito"));
+		
+		boolean borrowed;
+		
+		Patient patient = Patient.findById(id);
+		Staff staff = Staff.findById(Long.parseLong(session().get("id")));
+		
+		if(staff.findBorrowedPatient(patient) != null) {
+			borrowed = true;
+        } else {
+			borrowed = false;
+	    }
+				
+		return ok(showPatient.render(id, session().get("user"), borrowed));
 	}
 
 	public static Result editPatient(Long id) {
-		return ok(editPatient.render(id, "Juanito"));
+		return ok(editPatient.render(id, session().get("user")));
 	}
 
 	public static Result sharePatient(Long id) {
-		return ok(sharePatient.render(id, "Juanito"));
+		return ok(sharePatient.render(id, session().get("user")));
 	}
 	
 	public static Result createSharedPatient(Long id, Long borrowerId) {
