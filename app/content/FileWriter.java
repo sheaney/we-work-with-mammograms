@@ -12,16 +12,16 @@ import java.nio.file.Paths;
  */
 public class FileWriter implements Uploader {
 
-    public InputStream read(String key) throws UploaderException {
-        FileInputStream fileInput = null;
+    public BufferedImage read(String key) throws UploaderException {
+        BufferedImage bufferedImage = null;
         File file = new File(key);
         try {
-            fileInput = new FileInputStream(file);
+            bufferedImage = ImageIO.read(new FileInputStream(file));
         } catch (Exception e) {
             throw new FileWriterException(e.getMessage(), e);
         }
 
-        return fileInput;
+        return bufferedImage;
     }
 
     public void write(String key, File file) throws UploaderException {

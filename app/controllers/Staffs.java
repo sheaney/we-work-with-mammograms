@@ -1,6 +1,10 @@
 package controllers;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import content.FileWriter;
@@ -13,6 +17,7 @@ import lib.permissions.PatientViewInfoPermission;
 import lib.permissions.Permission;
 import models.*;
 import play.Play;
+import play.libs.F;
 import views.html.*;
 import play.data.Form;
 import play.libs.F.Function0;
@@ -29,6 +34,11 @@ import be.objectify.deadbolt.java.actions.Restrict;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import content.Uploader;
+
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
+
+import static play.libs.F.Tuple;
 
 @Restrict(@Group({ "STAFF" }))
 public class Staffs extends Controller {
@@ -65,10 +75,9 @@ public class Staffs extends Controller {
 					// Need to verify that all parts are image files first
 
                     // Obtain uploader
-                    Boolean uploadConfig = Play.application().configuration().getBoolean("s3Upload");
-                    boolean s3Upload = uploadConfig != null && uploadConfig;
-                    Uploader uploader = s3Upload ? new S3Uploader() : new FileWriter();
-                    String logMsg = s3Upload ? "Uploading mammogram image to s3" : "Writing mammogram image to disk";
+                    Tuple<Uploader, String> uploaderAndLog = obtainUploaderAndLogMsg(true);
+                    Uploader uploader = uploaderAndLog._1;
+                    String logMsg = uploaderAndLog._2;
 
                     // Associate study with patient
                     study.setOwner(patient);
@@ -164,10 +173,6 @@ public class Staffs extends Controller {
 		}
 	}
 
-	public static Result createSharedPatient(Long id) {
-		return null;
-	}
-
 	public static Result newPatient() {
 		return ok(newPatient.render(session().get("user"), patientForm));
 	}
@@ -188,8 +193,47 @@ public class Staffs extends Controller {
 		}
   }
 
-  public static Result showStaff(Long id) {
-      return ok(showStaff.render(id, session().get("user")));
-  }
+    public static Result showStaff(Long id) {
+          return ok(showStaff.render(id, session().get("user")));
+      }
+
+    public static Result showMammogram(Long sid, Long mid) {
+          Study study = Study.findById(sid);
+          Mammogram mammogram = Mammogram.findById(mid);
+          return ok(showMammogram.render(study, mammogram, session().get("user")));
+    }
+
+    public static Result renderMammogram(Long sid, Long mid) throws IOException {
+        // TODO Extract mammogram key into a utility helper method
+        String key = String.format("images/study/%d/mammograms/%d", sid, mid);
+        // Obtain reader
+        Tuple<Uploader, String> readerAndLogMsg = obtainUploaderAndLogMsg(false);
+        Uploader reader = readerAndLogMsg._1;
+        System.out.println(readerAndLogMsg._2);
+        BufferedImage image = reader.read(key);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(image, "png", baos);
+        ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+
+        return ok(bais).as("image/png");
+    }
+
+    private static Tuple<Uploader, String> obtainUploaderAndLogMsg(boolean upload) {
+        String logMsg = "";
+
+        // Obtain uploader
+        Boolean uploadConfig = Play.application().configuration().getBoolean("s3Upload");
+        boolean s3Upload = uploadConfig != null && uploadConfig;
+        Uploader uploader = s3Upload ? new S3Uploader() : new FileWriter();
+        if (upload) {
+            logMsg = s3Upload ? "Uploading mammogram image to s3" : "Writing mammogram image to disk";
+        } else {
+            logMsg = s3Upload ? "Reading mammogram image from s3" : "Reading mammogram image from disk";
+        }
+
+        Tuple<Uploader, String> uploaderAndLog = new Tuple(uploader, logMsg);
+
+        return uploaderAndLog;
+    }
 	
 }

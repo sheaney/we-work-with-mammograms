@@ -52,6 +52,12 @@ POST 	/staff/:patientId/study/new       	controllers.Staffs.createNewStudy(patie
 # Show study
 GET     /staff/study/:patientId/:id       	controllers.Staffs.study(patientId: Long, id: Long)
 
+# Show mammogram
+GET     /staff/study/:sid/mammogram/:mid    controllers.Staffs.showMammogram(sid: Long, mid: Long)
+
+# Render mammogram image
+GET     /images/study/:sid/mammogram/:mid   controllers.Staffs.renderMammogram(sid: Long, mid: Long)
+
 
 ## Patients Controller
 

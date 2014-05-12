@@ -15,10 +15,6 @@ patientApp.controller('PatientController', function($scope, Patient, id) {
     return study.createdAt;
   };
 
-  $scope.mammogramId = function(mammogram) {
-    return mammogram.id;
-  };
-
   $scope.comments = function(comment) {
     return comment.content;
   };

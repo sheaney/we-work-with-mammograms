@@ -4,6 +4,7 @@ import org.scalatest.FunSpec
 import java.io._
 import org.apache.commons.io.FileUtils
 import content.Uploader.FileWriterException
+import java.awt.image.BufferedImage
 
 /**
  * Created by sheaney on 5/8/14.
@@ -24,7 +25,7 @@ class FileWriterTest extends FunSpec {
       assert(file.exists(), """"A test image file needs to exist named "test/toma3 for test to pass""")
       val fileWriter = new FileWriter
       fileWriter.read(key) match {
-        case fis: FileInputStream => assert(fis != null, "Input stream should be != null")
+        case fis: BufferedImage => assert(fis != null, "Input stream should be != null")
         case _ => fail("Should return an InputStream")
       }
     }

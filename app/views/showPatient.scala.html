@@ -140,8 +140,7 @@
           </form>
 
           <div id="medical-info-tab" class="col-md-6 col-xs-12 tab-pane fade" data-patient="medical-info" ng-if="availableMedicalInfo"> 
-            <form editable-form name="editableMedicalInfo" onaftersave="submitMedicalInfo()">
-
+            <form editable-form name="editableMedicalInfo" onaftersave="submitMedicalInfo()"> 
               <div class="col-md-12 col-xs-12">
                 <h3>Información médica</h3><br>
 
@@ -273,11 +272,9 @@
               <a href="#" ng-click="showStudy(study)">Ver detalle de estudio</a>
 
               <div class="patient-study-summary" ng-repeat="mammogram in study.mammograms | orderBy:mostRecent" style="margin-top: 10px">
-                <p>
-                  {{mammogram.id}} |
-                  <a href="#">Abrir</a> |
-                  <a href="#">Descargar</a>
-                </p>
+                {{mammogram.id}} |
+                <a href="#" ng-click="showMammogram(study, mammogram)">Abrir</a> |
+                <a ng-href="/images/study/{{study.id}}/mammogram/{{mammogram.id}}" download="{{study.createdAt}}_{{study.id}}_{{mammogram.id}}">Descargar</a>
               </div>
             </div>
 

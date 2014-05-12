@@ -1,0 +1,9 @@
+@(study: Study, mammogram: Mammogram, userName: String)
+
+@views.html.layouts.main("Mamografía") {
+    <!-- Render top navbar -->
+    @navbar(userName)
+
+    <img id="mammogram" src="@routes.Staffs.renderMammogram(study.getId(), mammogram.getId())"/>
+
+}

@@ -2,11 +2,12 @@ package content
 
 import org.scalatest.FunSpec
 
-import java.io.{InputStream, File}
+import java.io.File
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.regions.{ Region, Regions }
 import content.Uploader.AWSException
+import java.awt.image.BufferedImage
 
 /**
  * Created by sheaney on 5/8/14.
@@ -57,9 +58,9 @@ class S3UploaderTest extends FunSpec {
         val s3Uploader = new S3Uploader
 
         try {
-          val inputStream = s3Uploader.read(key)
-          inputStream match {
-            case _: InputStream =>
+          val bufferedImage = s3Uploader.read(key)
+          bufferedImage match {
+            case _: BufferedImage =>
             case _ => fail("Did not return an InputStream")
           }
         } catch {

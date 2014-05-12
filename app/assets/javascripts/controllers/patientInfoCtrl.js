@@ -65,6 +65,10 @@ patientInfoApp.controller('PatientInfoCtrl', function($scope, $http, $filter, Pa
     window.location.href = studyUrl;
   };
 
+  $scope.showMammogram = function(study, mammogram) {
+    var mammogramUrl = jsRoutes.controllers.Staffs.showMammogram(study.id, mammogram.id).url;
+    window.location.href = mammogramUrl;
+  };
 
   // Patient full name gets computed if personalInfo is available
   $scope.patientFullName = function() {

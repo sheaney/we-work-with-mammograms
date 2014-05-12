@@ -11,6 +11,8 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.InputStream;
 
@@ -37,7 +39,7 @@ public class S3Uploader implements Uploader {
 
     }
 
-    public InputStream read(String key) throws AWSException {
+    public BufferedImage read(String key) throws AWSException {
         AWSCredentials credentials = getCredentials();
         AmazonS3 s3 = new AmazonS3Client(credentials);
 
@@ -47,7 +49,7 @@ public class S3Uploader implements Uploader {
         try {
             S3Object s3Object = s3.getObject(new GetObjectRequest(BUCKET_NAME, key));
 
-            return s3Object.getObjectContent();
+            return ImageIO.read(s3Object.getObjectContent());
         }  catch (Exception e) {
             throw new AWSException(e.getMessage(), e);
         }

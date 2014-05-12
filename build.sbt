@@ -37,6 +37,6 @@ initialCommands in console += """
   new play.core.StaticApplication(new java.io.File("."))
 """
 
-resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns)
+javacOptions += "-Xlint:deprecation"
 
 incOptions := incOptions.value.withNameHashing(true)
