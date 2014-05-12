@@ -1,4 +1,4 @@
-package lib.json.patient;
+package lib.json.models;
 
 import static lib.json.JSONConstants.ID;
 import lib.permissions.PatientUpdateInfoPermission;
@@ -8,6 +8,9 @@ import models.SharedPatient;
 import play.libs.Json;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class JSONPatient {
 	private final static String PERSONAL_INFO = "personalInfo";
@@ -61,4 +64,14 @@ public class JSONPatient {
 		}
 	}
 
+    public static ObjectNode allPatientsService(){
+        List<Patient> patients = Patient.all();
+        List<Long> ids = new ArrayList<Long>();
+        ObjectNode JsonPatientsIds = Json.newObject();
+        for(Patient patient: patients){
+            ids.add(patient.getId());
+        }
+        JsonPatientsIds.put("Patients",Json.toJson(ids));
+        return JsonPatientsIds;
+    }
 }

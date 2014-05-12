@@ -44,3 +44,5 @@ insert into mammogram(id, created_at, url, study_id)
 insert into annotation(id, content, created_at, mammogram_id, staff_id)
   values(1, 'Coordenadas (234, 82) se observa algo extraño', '2014-04-25', 1, 1);
 
+insert into service_auth(id, email, auth_token)
+  values(1, 'someemail@somedomain.com', 'lne8nkvvr1nnmde3hgudgjo7av')
