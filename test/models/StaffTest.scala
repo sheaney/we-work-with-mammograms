@@ -171,17 +171,15 @@ class StaffTest extends ModelsHelper with Factories {
           val staff = sampleStaff
           val patient = samplePatient
 
+          staff.save()
+
+          patient.setOwner(staff)
           patient.save()
 
-          staff.getOwnPatients().add(patient)
-
-          staff.save()
-          
           val sameStaff = Staff.findById(staff.getId)
 
           assert(sameStaff.getOwnPatients().get(0).getId() === patient.getId())
 
-          patient.delete()
           staff.delete()
         }
       }
