@@ -18,7 +18,6 @@ import lib.permissions.PatientViewInfoPermission;
 import lib.permissions.Permission;
 import models.*;
 import play.Play;
-import play.libs.F;
 import views.html.*;
 import play.data.Form;
 import play.libs.F.Function0;
@@ -37,7 +36,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import content.Uploader;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
 
 import static play.libs.F.Tuple;
 
@@ -53,7 +51,7 @@ public class Staffs extends Controller {
 
 	public static Result newStudy(Long patientId) {
 		Patient patient = Patient.findById(patientId);
-		return ok(newStudy.render(patient, newStudyForm));
+		return ok(newStudy.render(patient, session().get("user"), newStudyForm));
 	}
 
 	public static Promise<Result> createNewStudy(final Long patientId) {
