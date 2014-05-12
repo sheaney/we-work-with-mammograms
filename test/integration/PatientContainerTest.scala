@@ -46,7 +46,7 @@ class PatientContainerTest extends ModelsHelper with Factories {
       }
     }
 
-    it("returns null if patient is not among staff's own or borrowed patients") {
+    it("PatientContainer#isEmpty returns true if patient is not among staff's own or borrowed patients") {
       running(app) {
         val staff = new Staff
         val patient = new patientFactory { val id = 1L }.value
@@ -55,7 +55,7 @@ class PatientContainerTest extends ModelsHelper with Factories {
         val sharedPatient = newSharedPatient(1L, null, null, differentPatient)
         staff.getOwnPatients().add(anotherPatient)
         staff.getBorrowedPatients().add(sharedPatient)
-        PatientContainer.getPatientContainer(staff, patient) shouldBe (null)
+        PatientContainer.getPatientContainer(staff, patient).isEmpty shouldBe (true)
       }
     }
   }

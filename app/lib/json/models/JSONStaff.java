@@ -1,4 +1,4 @@
-package lib.json.staff;
+package lib.json.models;
 
 import static lib.json.JSONConstants.ADDRESS;
 import static lib.json.JSONConstants.BIRTHDATE;
@@ -19,7 +19,7 @@ import java.util.Set;
 import lib.OwnPatientContainer;
 import lib.PatientContainer;
 import lib.SharedPatientContainer;
-import lib.json.patient.JSONPatient;
+import lib.json.models.JSONPatient;
 import models.Patient;
 import models.SharedPatient;
 import models.Staff;

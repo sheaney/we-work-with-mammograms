@@ -1,10 +1,11 @@
-package integration
+package integration.authorization
 
 import models.Admin
 import models.Patient
 import models.Staff
+import integration.{UserLogin, PlayBrowserSpec}
 
-class AuthorizationTests extends PlayBrowserSpec with UserLogin {
+class UserAuthorizationTest extends PlayBrowserSpec with UserLogin {
 
   describe("Access to Admin Controller") {
     it("should redirect to login page if no user is present") {
