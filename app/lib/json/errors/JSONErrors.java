@@ -27,5 +27,16 @@ public class JSONErrors {
 		
 		return errorsLst;
 	}
-	
+
+    public static ObjectNode undefined() {
+        return Json.newObject().put("UNDEFINED","Undefined parameter.");
+    }
+
+    public static ObjectNode notFound() {
+        return Json.newObject().put("NOT_FOUND", "Patient id not found");
+    }
+
+    public static ObjectNode ok() {
+        return Json.newObject().put("STATUS", "OK");
+    }
 }

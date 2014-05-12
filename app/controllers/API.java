@@ -27,7 +27,10 @@ import play.mvc.Result;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import security.ServiceDeadboltHandler;
+import security.StandardDeadboltHandler;
 
+//TODO refactor this class
+@Restrict(value={@Group("STAFF")}, handler = StandardDeadboltHandler.class)
 public class API extends Controller {
 	final static Form<PersonalInfo> personalInfoBinding = Form.form(PersonalInfo.class);
 	final static Form<MedicalInfo> medicalInfoBinding = Form.form(MedicalInfo.class);
@@ -49,7 +52,6 @@ public class API extends Controller {
 	}
 
 	public static Result getPatientInfo(Long id) {
-		// TODO staff human or external service?
 		Staff staff = obtainStaff();
 		Patient patient = Patient.findById(id);
 		PatientContainer patientContainer = APIValidations.getPatientAccess(staff, patient);
@@ -121,7 +123,6 @@ public class API extends Controller {
 
 	public static Staff obtainStaff() {
 		// Get staff ID from session or from API access token
-		// TODO staff human or external service?
 		Long staffId = Long.parseLong(session().get("id"));
 		return Staff.findById(staffId);
 	}
@@ -150,9 +151,4 @@ public class API extends Controller {
 			sb.append(s).append(sep);
 		return sb.toString();
 	}
-
-    @Restrict(value={@Group("SERVICE")}, handler = ServiceDeadboltHandler.class)
-    public static Result getPatients(){
-       return ok(JSONPatient.allPatientsService());
-    }
 }

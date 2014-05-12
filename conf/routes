@@ -90,10 +90,20 @@ GET		/api/patient/:id					controllers.API.getPatient(id: Long)
 GET 	/api/patient/:id/info				controllers.API.getPatientInfo(id: Long)
 
 #External Services calls
-GET     /api/service/test                   controllers.TestServiceController.test
+GET     /api/service/test                   controllers.ServiceAPI.test
 
 #returns all patients id's so the services is able to iterate calls to further routes
-GET     /api/service/patients               controllers.API.getPatients()
+GET     /api/service/patients               controllers.ServiceAPI.getPatients()
+
+GET     /api/service/patient/:id            controllers.ServiceAPI.getServicePatient(id: Long, info ?= null)
+
+GET     /api/service/patient/:pid/study/:sid  controllers.ServiceAPI.getServiceStudy(patientId: Long, studyId: Long)
+
+GET     /api/service/patient/:pid/study/:sid/comment/:cid
+
+GET     /api/service/patient/:pid/study/:sid/mammogram/:mid
+
+GET     /api/service/patient/:pid/study/:sid/mammogram/:mid/annotation/:aid
 
 ## Assets
 
