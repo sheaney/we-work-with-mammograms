@@ -121,7 +121,8 @@ public class Staffs extends Controller {
 	}
 
 	public static Result study(Long patientId, Long id) {
-		return ok(study.render(id, session().get("user")));
+        Study s = Study.findById(id);
+        return ok(study.render(id, session().get("user"), s));
 	}
 
 	public static Result showPatient(Long id) {
@@ -205,9 +206,9 @@ public class Staffs extends Controller {
       }
 
     public static Result showMammogram(Long sid, Long mid) {
-          Study study = Study.findById(sid);
-          Mammogram mammogram = Mammogram.findById(mid);
-          return ok(showMammogram.render(study, mammogram, session().get("user")));
+        Study study = Study.findById(sid);
+        Mammogram mammogram = Mammogram.findById(mid);
+        return ok(showMammogram.render(study, mammogram, session().get("user")));
     }
 
     public static Result renderMammogram(Long sid, Long mid) throws IOException {

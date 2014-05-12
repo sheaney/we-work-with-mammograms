@@ -1,4 +1,4 @@
-@(id: Long, userName: String)
+@(id: Long, userName: String, study: Study)
 
 @views.html.layouts.main("Estudio") {
   <!-- Render top navbar -->
@@ -7,29 +7,14 @@
   <div class="container">
     <div class="col-md-8 col-md-offset-2">
       <h2>2 de febrero de 2014</h2>
-      <br>
-      <p>
-        Toma 1 |
-        <a href="#">Abrir</a> | 
-        <a href="#">Descargar</a>
-      </p>
-      <p>
-        Toma 2 |
-        <a href="#">Abrir</a> | 
-        <a href="#">Descargar</a>
-      </p>
-      <p>
-        Toma 3 |
-        <a href="#">Abrir</a> | 
-        <a href="#">Descargar</a>
-      </p>
-      <p>
-        Toma 4 |
-        <a href="#">Abrir</a> | 
-        <a href="#">Descargar</a>
-      </p>
+      @for(mammogram <- study.getMammograms) {
+        <p>
+          @mammogram.getId |
+          <a href="@routes.Staffs.showMammogram(study.getId, mammogram.getId)">Abrir</a> |
+          <a href="@routes.Staffs.renderMammogram(study.getId, mammogram.getId)" download="@{study.getCreatedAt}_@{study.getId}_@{mammogram.getId}">Descargar</a>
+        </p>
 
-      <!--<a href="#">+ Agregar otra toma</a>-->
+      }
       <label for="filesToUpload">Agregar otra mamografía</label>
       <input type="file" id="filesToUpload" multiple="">
       <p class="help-block">Imágenes deben pesar menos de 80 MB</p>
@@ -40,7 +25,15 @@
       <br>
       <button type="button" class="btn btn-primary">Agregar comentario</button>
 
-      <div class="col-md-12" style="margin: 10px 0 10px 0;">Toma2 y Toma3 no salen muy bien y requieren una segunda opinión. - <b>Dr. Juanito</b> <button class="btn btn-default btn-sm">Remover</button></div>
+      <!--<div class="col-md-12" style="margin: 10px 0 10px 0;">Toma2 y Toma3 no salen muy bien y requieren una segunda opinión. - <b>Dr. Juanito</b> <button class="btn btn-default btn-sm">Remover</button></div>-->
+      @for(comment <- study.getComments) {
+        <div class"col-md-8">
+          <pre>@comment.getContent</pre>
+        </div>
+        <div class="col-md-4">
+          <button class="btn btn-default btn-sm">Remover</button>
+        </div>
+      }
       <br>
 
       <a class="btn btn-success" href="@routes.Staffs.showPatient(id)">Guardar</a>
