@@ -29,9 +29,6 @@ import play.mvc.Result;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 
-
-
-
 import com.fasterxml.jackson.databind.JsonNode;
 
 import content.Uploader;
@@ -133,7 +130,8 @@ public class Staffs extends Controller {
 		boolean borrowed;
 		
 		Patient patient = Patient.findById(id);
-		Staff staff = Staff.findById(Long.parseLong(session().get("id")));
+		Staff staff = API.obtainStaff();
+		
 		if(staff.findBorrowedPatient(patient) != null) {
 			borrowed = true;
         } else {

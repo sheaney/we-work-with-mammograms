@@ -1,3 +1,19 @@
 body {
   padding-top: 70px;
 }
+
+
+@media screen and (max-width: 370px) {
+    .navbar-brand {
+        font-size:20px;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .navbar-brand {
+        font-size:18px;
+    }
+}
+ 
+ 
+ 

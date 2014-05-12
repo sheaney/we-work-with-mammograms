@@ -264,7 +264,9 @@
           <div id="studies-tab" class="col-md-12 col-xs-12 tab-pane fade" data-patient="studies" ng-if="availableStudies">
 
             <h3>Estudios del Paciente</h3>
+            <p ng-if="!@borrowed">
             <a ng-if="updateableStudies" href="@routes.Staffs.newStudy(id)" class="btn btn-primary">Nuevo Estudio</a>
+            </p>
 
             <div class="study" ng-repeat="study in patient.studies">
               <h2>{{ formatDate(study.createdAt) }}</h2>
