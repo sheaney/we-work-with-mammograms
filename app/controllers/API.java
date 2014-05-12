@@ -5,10 +5,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
 import controllers.validations.APIValidations;
 import lib.PatientContainer;
 import lib.json.errors.JSONErrors;
-import lib.json.staff.JSONStaff;
+import lib.json.models.JSONPatient;
+import lib.json.models.JSONStaff;
 import lib.permissions.PatientUpdateInfoPermission;
 import models.MedicalInfo;
 import models.Patient;
@@ -23,6 +26,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import security.ServiceDeadboltHandler;
 
 public class API extends Controller {
 	final static Form<PersonalInfo> personalInfoBinding = Form
@@ -141,4 +145,8 @@ public class API extends Controller {
 		return sb.toString();
 	}
 
+    @Restrict(value={@Group("SERVICE")}, handler = ServiceDeadboltHandler.class)
+    public static Result getPatients(){
+       return ok(JSONPatient.allPatientsService());
+    }
 }

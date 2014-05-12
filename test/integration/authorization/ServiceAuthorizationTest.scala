@@ -21,6 +21,7 @@ class ServiceAuthorizationTest extends PlayBrowserSpec with WsTestClient{
       val request = wsCall(controllers.routes.TestServiceController.test)(Helpers.testServerPort).withHeaders(("Authorization",service.getAuthToken))
       val response = Await.result(request.get(),Duration.Inf)
       response.status should be (Status.OK)
+      service.delete()
     }
 
     it("should return HTTP UNAUTHORIZED status having incorrect credentials"){
