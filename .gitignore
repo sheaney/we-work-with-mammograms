@@ -18,3 +18,4 @@ we-work-with-mammograms.iml
 conf/evolutions/default/1.sql
 .idea/
 .idea_modules
+images/
