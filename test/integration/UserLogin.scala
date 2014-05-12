@@ -14,7 +14,7 @@ trait UserLogin extends Factories { self: PlayBrowserSpec =>
   def login[T <: Model: ClassTag]: T = {
     val clazz = implicitly[ClassTag[T]].runtimeClass
     val user = createUser[T]
-    val (email, pwd, fullName) = getEmailAndPasswordAndFullName(user)
+    val (email, pwd, shortName) = getEmailAndPasswordAndShortName(user)
     
     Given(s"${clazz.getName} is about to log in")
     go to (host + "/")
@@ -29,11 +29,11 @@ trait UserLogin extends Factories { self: PlayBrowserSpec =>
       case _: Staff =>
         pageSource should include("Compartidos")
         pageSource should include("Propios")
-        pageSource should include(fullName)
+        pageSource should include(shortName)
       case _: Admin =>
         pageSource should include(email)
       case _: Patient =>
-        pageSource should include(fullName)
+        pageSource should include(shortName)
     }
 
     // Return logged in user
@@ -66,14 +66,14 @@ trait UserLogin extends Factories { self: PlayBrowserSpec =>
     user.asInstanceOf[T]
   }
   
-  private def getEmailAndPasswordAndFullName[T <: Model: ClassTag](user: T): (String, String, String) = {
+  private def getEmailAndPasswordAndShortName[T <: Model: ClassTag](user: T): (String, String, String) = {
     user match {
       case staff: Staff =>
-        (staff.getEmail, staff.getPassword, staff.getFullName)
+        (staff.getEmail, staff.getPassword, staff.getShortName)
       case admin: Admin =>
         (admin.getEmail, admin.getPassword, "")
       case patient: Patient =>
-        (patient.getPersonalInfo.getEmail, patient.getPersonalInfo.getPassword, patient.getPersonalInfo.getFullName)
+        (patient.getPersonalInfo.getEmail, patient.getPersonalInfo.getPassword, patient.getPersonalInfo.getShortName)
       case _ =>
         fail(s"Could not obtain user and password for ${implicitly[ClassTag[T]].runtimeClass}")
     }

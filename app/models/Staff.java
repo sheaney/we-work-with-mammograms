@@ -132,6 +132,8 @@ public class Staff extends Model {
 		return this.name + " " + this.firstLastName + " " + this.secondLastName;
 	}
 
+    public String getShortName() { return this.name + " " + this.firstLastName; }
+
 	public static Staff findById(Long id) {
 		return find.byId(String.valueOf(id));
 	}

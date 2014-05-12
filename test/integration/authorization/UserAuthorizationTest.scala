@@ -52,7 +52,7 @@ class UserAuthorizationTest extends PlayBrowserSpec with UserLogin {
       When("visiting the /staff route")
       go to (host + "/staff")
       Then("The app should redirect to staff main page (allowing access)")
-      pageSource should include(staff.getFullName())
+      pageSource should include(staff.getShortName())
       logout(staff)
     }
 
@@ -82,7 +82,7 @@ class UserAuthorizationTest extends PlayBrowserSpec with UserLogin {
       When("visiting the /patient route")
       go to (host + "/patient")
       Then("The app should redirect to staff main page (allowing access)")
-      pageSource should include(patient.getPersonalInfo().getFullName())
+      pageSource should include(patient.getPersonalInfo().getShortName())
       logout(patient)
     }
 

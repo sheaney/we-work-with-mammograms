@@ -83,6 +83,9 @@ public class PersonalInfo extends Model {
 	public String getFullName(){
 		return this.name + " " + this.firstLastName + " " + this.secondLastName;
 	}
+
+    @JsonIgnore
+    public String getShortName() { return this.name + " " + this.firstLastName; }
 	
 	public String getFirstLastName() {
 		return firstLastName;

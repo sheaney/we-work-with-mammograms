@@ -46,8 +46,8 @@
 
          <ul class="nav nav-tabs">
           <li ng-if="availablePersonalInfo" class="active"><a data-toggle="tab" href="#personal-info-tab">Información Personal</a></li>
-          <li ng-if="availableMedicalInfo"><a data-toggle="tab" href="#medical-info-tab">Información Médica</a></li>
-          <li ng-if="availableStudies"><a data-toggle="tab" href="#studies-tab">Estudios</a></li>
+          <li ng-if="availableMedicalInfo" ng-class="{active: !availablePersonalInfo }"><a data-toggle="tab" href="#medical-info-tab">Información Médica</a></li>
+          <li ng-if="availableStudies" ng-class="{active: !availablePersonalInfo && !availableMedicalInfo }"><a data-toggle="tab" href="#studies-tab">Estudios</a></li>
         </ul>
 
         <div class="tab-content">
@@ -138,9 +138,8 @@
             </div><!-- end of data-patient=personal-info  -->
 
           </form>
-
-          <div id="medical-info-tab" class="col-md-6 col-xs-12 tab-pane fade" data-patient="medical-info" ng-if="availableMedicalInfo"> 
-            <form editable-form name="editableMedicalInfo" onaftersave="submitMedicalInfo()"> 
+          <div id="medical-info-tab" ng-class="!availablePersonalInfo ? 'col-md-6 col-xs-12 tab-pane fade in active' : 'col-md-6 col-xs-12 tab-pane fade'" data-patient="medical-info" ng-if="availableMedicalInfo"> 
+            <form editable-form name="editableMedicalInfo" onaftersave="submitMedicalInfo()">
               <div class="col-md-12 col-xs-12">
                 <h3>Información médica</h3><br>
 
@@ -261,11 +260,11 @@
             </form>
           </div><!-- end of data-patient=medical-info -->
 
-          <div id="studies-tab" class="col-md-12 col-xs-12 tab-pane fade" data-patient="studies" ng-if="availableStudies">
+          <div id="studies-tab" ng-class="(!availablePersonalInfo && !availableMedicalInfo) ? 'col-md-6 col-xs-12 tab-pane fade in active' : 'col-md-6 col-xs-12 tab-pane fade'" data-patient="studies" ng-if="availableStudies">
 
             <h3>Estudios del Paciente</h3>
-            <p ng-if="!@borrowed">
-            <a ng-if="updateableStudies" href="@routes.Staffs.newStudy(id)" class="btn btn-primary">Nuevo Estudio</a>
+            <p>
+              <a ng-if="updateableStudies" href="@routes.Staffs.newStudy(id)" class="btn btn-primary">Nuevo Estudio</a>
             </p>
 
             <div class="study" ng-repeat="study in patient.studies">

@@ -128,7 +128,7 @@ public class Application extends Controller {
 				session("id", staff.getId().toString());
 		        session("type", Roles.STAFF.getName());
 		        session("timeOfLogin", String.valueOf(System.currentTimeMillis()));
-		        session("user", staff.getName() + " " + staff.getFirstLastName());
+		        session("user", staff.getShortName());
 				return null;
 			}else if (admin != null){
 				session().clear();
@@ -142,7 +142,7 @@ public class Application extends Controller {
 				session("id", patientPersonalInfo.getPatient().getId().toString());
 		        session("type", Roles.PATIENT.getName());
 		        session("timeOfLogin", String.valueOf(System.currentTimeMillis()));
-		        session("user", patientPersonalInfo.getName() + " " + patientPersonalInfo.getFirstLastName());
+		        session("user", patientPersonalInfo.getShortName());
 				return null;
 			}else{
 				return "error.invalid.login";
