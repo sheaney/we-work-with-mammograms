@@ -115,6 +115,11 @@ patientInfoApp.controller('PatientInfoCtrl', function($scope, $http, $filter, Pa
       });
   };
 
+  $scope.formatDate = function(epoch) {
+    var date = new Date(epoch);
+    return moment(date).format('LLLL');
+  };
+
   // ng orderBy property
   $scope.mostRecent = 'createdAt';
 

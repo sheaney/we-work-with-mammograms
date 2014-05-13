@@ -27,7 +27,7 @@
           @for(study <- studyOpt) {
             @for(comment <- study.getComments) {
               <div class"col-md-8">
-                <pre>@comment.getContent - <b>@comment.getCommenter.getRole.capitalize @comment.getCommenter</b></pre>
+                <pre>@comment.getContent - <b>@comment.getCommenter.getRole.capitalize @comment.getCommenter (@helpers.DateHelper.getDateFormat(comment.getCreatedAt))</b></pre>
               </div>
               <div class="col-md-4">
                 <a href="#" class="btn btn-default btn-sm">Remover</a>
