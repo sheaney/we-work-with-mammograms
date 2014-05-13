@@ -1,25 +1,45 @@
-@(studyForm: play.data.Form[Study], patientId: Long)
+@(studyForm: play.data.Form[Study], owner: Patient, studyOpt: Option[Study] = None)
 
 @import helper._
 @import views.html.bootstrap._
 @import play.api.i18n._
 
-@form(action = routes.Staffs.createNewStudy(patientId), Symbol("data-callback-url") -> routes.Staffs.showPatient(patientId).url, 'id -> "studyUploadForm",'role -> "form", 'enctype -> "multipart/form-data") {
+@form(action = routes.Staffs.createNewStudy(owner.getId), Symbol("data-callback-url") -> routes.Staffs.showPatient(owner.getId).url, 'id -> "studyUploadForm",'role -> "form", 'enctype -> "multipart/form-data") {
         <fieldset>
           <legend>Tomas</legend>
+          @for(study <- studyOpt) {
+            @for(mammogram <- study.getMammograms) {
+              <p>
+                @mammogram.getId |
+                <a href="@routes.Staffs.showMammogram(study.getId, mammogram.getId)">Abrir</a> |
+                <a href="@routes.Staffs.renderMammogram(study.getId, mammogram.getId)" download="@{study.getCreatedAt}_@{study.getId}_@{mammogram.getId}">Descargar</a>
+              </p>
+            }
+          }
           <div class="form-group">
-            <label for="filesToUpload">Seleccione las mamografías</label>
+            <label for="filesToUpload">@studyOpt.map(_ => "Agregar tomas").getOrElse("Seleccione las tomas")</label>
             <input type="file" name ="filesToUpload" id="filesToUpload" multiple="" enctype="multipart/form-data">
             <p class="help-block">Imágenes deben pesar menos de 80 MB</p>
-            
           </div>
         </fieldset>
         <fieldset>
           <legend>Comentarios</legend>
+          @for(study <- studyOpt) {
+            @for(comment <- study.getComments) {
+              <div class"col-md-8">
+                <pre>@comment.getContent - <b>@comment.getCommenter.getRole.capitalize @comment.getCommenter</b></pre>
+              </div>
+              <div class="col-md-4">
+                <a href="#" class="btn btn-default btn-sm">Remover</a>
+              </div>
+            }
+          }
           @textarea(
           	field = studyForm("comments[0].content"), 
           	args = 'placeholder -> "Comentarios sobre el estudio...", 'rows -> "5", '_label -> "", 'class -> "form-control")
         </fieldset>
-        <button type="submit" class="btn btn-default" data-loading-text="Cargando...">Guardar estudio</button>
+
+        <button type="submit" class="btn btn-primary" data-loading-text="Cargando...">Guardar estudio</button>
+        <a class="btn btn-default" href="@routes.Staffs.showPatient(owner.getId)">Regresar</a>
 
 }

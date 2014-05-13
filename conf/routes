@@ -46,7 +46,7 @@ GET     /staff/patient/:id                	controllers.Staffs.showPatient(id: Lo
 # New study
 GET     /staff/:patientId/study/new       	controllers.Staffs.newStudy(patientId: Long)
 
-#Create new study
+# Create new study
 POST 	/staff/:patientId/study/new       	controllers.Staffs.createNewStudy(patientId: Long)
 
 # Show study
@@ -90,6 +90,8 @@ GET 	/api/staff/:id				    	controllers.API.getStaff(id: Long)
 PUT     /api/patient/:id/personal-info		controllers.API.updatePersonalInfo(id: Long)
 
 PUT		/api/patient/:id/medical-info		controllers.API.updateMedicalInfo(id: Long)
+
+PUT     /api/patient/:pid/study/:sid        controllers.API.updateStudy(pid: Long, sid: Long)
 
 GET		/api/patient/:id					controllers.API.getPatient(id: Long)
 

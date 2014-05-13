@@ -18,6 +18,7 @@ import lib.permissions.PatientViewInfoPermission;
 import lib.permissions.Permission;
 import models.*;
 import play.Play;
+import play.mvc.BodyParser;
 import views.html.*;
 import play.data.Form;
 import play.libs.F.Function0;
@@ -62,7 +63,6 @@ public class Staffs extends Controller {
             // What to return in case of failure???
 			@Override
 			public Result apply() throws Throwable {
-				// first we check that the images uploaded are actual images
 				Form<Study> filledForm = newStudyForm.bindFromRequest();
 				//TODO check for errors and form validation
 				if (filledForm.hasErrors()) {
@@ -126,7 +126,7 @@ public class Staffs extends Controller {
 
 	public static Result study(Long patientId, Long id) {
         Study s = Study.findById(id);
-        return ok(study.render(id, session().get("user"), s));
+        return ok(study.render(id, session().get("user"), s, newStudyForm));
 	}
 
 	public static Result showPatient(Long id) {
