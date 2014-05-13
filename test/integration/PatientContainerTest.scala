@@ -73,7 +73,7 @@ class PatientContainerTest extends ModelsHelper with Factories {
       sharedPatient.setSharedInstance(patient)
     }
     
-    it("returns true if shared patient between sharer and borrower") {
+    it("returns shared patient between sharer and borrower") {
       running(app) {
         val id = 1L
         val sharer = new staffFactory { val id = 1L }.value
@@ -85,11 +85,11 @@ class PatientContainerTest extends ModelsHelper with Factories {
         val sharedPatientToLookup = newSharedPatient(id, sharer, borrower, sharedInstance)
         setupRelationships(sharer, borrower, sharedInstance, sharedPatient)
 
-        PatientContainer.getAlreadySharedPatient(sharedPatientToLookup, sharer, borrower) shouldBe (sharedPatient)
+        PatientContainer.getAlreadySharedPatient(sharedPatientToLookup, sharer, borrower).getId shouldBe (sharedPatient.getId)
       }
     }
 
-    describe("returns false when shared patient has not already been shared between sharer and borrower") {
+    describe("returns null when shared patient has not already been shared between sharer and borrower") {
       it("different sharers") {
         running(app) {
           val id = 1L
@@ -131,6 +131,22 @@ class PatientContainerTest extends ModelsHelper with Factories {
       }
 
     }
+
+    it("returns null when sharing a different patient between sharer and borrower") {
+      val id = 1L
+      val sharer = new staffFactory { val id = 1L }.value
+      val borrower = new staffFactory { val id = 2L }.value
+      val sharedInstance = new patientFactory { val id = 1L }.value
+      val sharedPatient = newSharedPatient(id, sharer, borrower, sharedInstance)
+      setupRelationships(sharer, borrower, sharedInstance, sharedPatient)
+
+      val newId = 2L
+      val anotherSharedInstance = new patientFactory { val id = 2L }.value
+      val anotherSharedPatient = newSharedPatient(newId, sharer, borrower, anotherSharedInstance)
+
+      PatientContainer.getAlreadySharedPatient(anotherSharedPatient, sharer, borrower) shouldBe (null)
+    }
+
 
   }
 

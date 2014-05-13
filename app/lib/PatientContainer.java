@@ -55,13 +55,15 @@ public abstract class PatientContainer {
 		// Ids
 		long patientSharerId = patient.getSharer().getId();
 		long patientBorrowerId = patient.getBorrower().getId();
+        long patientId = patient.getSharedInstance().getId();
 		SharedPatient existingSharedPatient = null;
 
 		// Lookup if patient is among sharer's shared patients
 		boolean sharedBySharer = false;
 		List<SharedPatient> sharedPatients = sharer.getSharedPatients();
 		for (SharedPatient shared : sharedPatients) {
-			sharedBySharer = shared.getSharer().getId() == patientSharerId;
+            Patient p = shared.getSharedInstance();
+			sharedBySharer = p.getId() == patientId && shared.getSharer().getId() == patientSharerId;
 			if (sharedBySharer) {
 				break;
 			}
@@ -74,7 +76,8 @@ public abstract class PatientContainer {
 		boolean borrowedByBorrower = false;
 		List<SharedPatient> borrowedPatients = borrower.getBorrowedPatients();
 		for (SharedPatient borrowed : borrowedPatients) {
-			borrowedByBorrower = borrowed.getBorrower().getId() == patientBorrowerId;
+            Patient p = borrowed.getSharedInstance();
+			borrowedByBorrower = p.getId() == patientId && borrowed.getBorrower().getId() == patientBorrowerId;
 			if (borrowedByBorrower) {
 				existingSharedPatient = borrowed;
 				break;
