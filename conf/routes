@@ -109,11 +109,17 @@ GET     /api/service/patient/:id            controllers.ServiceAPI.getServicePat
 
 GET     /api/service/study/:sid             controllers.ServiceAPI.getServiceStudy(sid: Long)
 
+POST    /api/service/comment/               controllers.ServiceAPI.postServiceComment()
+
 GET     /api/service/comment/:cid           controllers.ServiceAPI.getServiceComment(cid: Long)
+
+PUT     /api/service/comment/:cid           controllers.ServiceAPI.putServiceComment(cid: Long)
 
 GET     /api/service/mammogram/:mid         controllers.ServiceAPI.getServiceMammogram(mid: Long)
 
 GET     /api/service/annotation/:aid        controllers.ServiceAPI.getServiceAnnotation(aid: Long)
+
+PUT     /api/service/annotation/:aid        controllers.ServiceAPI.putServiceAnnotation(aid: Long)
 
 ## Assets
 

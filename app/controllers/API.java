@@ -95,8 +95,7 @@ public class API extends Controller {
 	}
 
 	@BodyParser.Of(BodyParser.Json.class)
-	public static Result updateMedicalInfo(Long id) {
-		// Check that this patient actually exists
+	public static Result updateMedicalInfo(Long id){
 		Patient patient = Patient.findById(id);
 		Staff staff = obtainStaff();
 
