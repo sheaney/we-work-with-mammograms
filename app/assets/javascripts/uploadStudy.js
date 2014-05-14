@@ -8,7 +8,17 @@ $(function(e) {
     var $this = $(this);
     var formData = new FormData(this);
     // display loading spinner
-    // ...
+
+    var opts = {
+    		  lines: 11, // The number of lines to draw
+    		  length: 21, // The length of each line
+    		  width: 8, // The line thickness
+    		  radius: 14 // The radius of the inner circle
+    		};
+    
+    var target = document.getElementById('spinner');
+    var spinner = new Spinner(opts).spin(target);
+    target.appendChild(spinner.el);
 
     $.ajax({
       type:$(this).attr('method'),
@@ -26,8 +36,7 @@ $(function(e) {
       // Display errorMsgs in UI
       // ...
     }).always(function(data) {
-      // Hide loading spinner
-      // ...
+
     });
 
   };
