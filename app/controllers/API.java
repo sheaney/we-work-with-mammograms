@@ -112,7 +112,6 @@ public class API extends Controller {
 				System.out.println("Errors");
 				return badRequest(Json.toJson(JSONErrors.patientInfoErrors(getErrors(binding))));
 			} else {
-				System.out.println("Successful Update");
 				MedicalInfo info = binding.get();
 				patient.setMedicalInfo(info);
 				patient.getMedicalInfo().update();
@@ -135,6 +134,9 @@ public class API extends Controller {
 
                 if (patientContainer == null)
                     return notFound("Patient doesn't exist.");
+
+                if (new PatientUpdateInfoPermission(patientContainer.getAccessPrivileges()).canUpdateStudies())
+                    return unauthorized("Can't update info");
 
                 Form<Study> binding = studyForm.bindFromRequest();
                 if (binding.hasErrors()) {

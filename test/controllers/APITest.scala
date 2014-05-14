@@ -136,7 +136,6 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories {
 
         val session = createSession(Some(staff))
         val fakeRequest = createFakeRequest(updatePersonalInfoUrl(patient.getId()), session)
-        val fakeRequestWithSession = fakeRequest.withSession(session.toSeq: _*)
         val json = Json.toJson(Map("foo" -> "bar"))
         val fakeRequestWithJson = fakeRequest.withJsonBody(json)
         val Some(result) = route(fakeRequestWithJson)
@@ -173,7 +172,6 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories {
 
           val session = createSession(Some(staff))
           val fakeRequest = createFakeRequest(updatePersonalInfoUrl(patient.getId()), session)
-          val fakeRequestWithSession = fakeRequest.withSession(session.toSeq: _*)
           val json = personalInfoJson(patient, correct = false)
           val fakeRequestWithJson = fakeRequest.withJsonBody(json)
           val Some(result) = route(fakeRequestWithJson)
@@ -224,7 +222,6 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories {
 
           val session = createSession(Some(borrower))
           val fakeRequest = createFakeRequest(updatePersonalInfoUrl(sharedPatientInstance.getId()), session)
-          val fakeRequestWithSession = fakeRequest.withSession(session.toSeq: _*)
 
           val json = personalInfoJson(sharedPatientInstance, correct = true)
           val fakeRequestWithJson = fakeRequest.withJsonBody(json)
@@ -253,7 +250,6 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories {
 
             val session = createSession(Some(borrower))
             val fakeRequest = createFakeRequest(updatePersonalInfoUrl(sharedPatientInstance.getId()), session)
-            val fakeRequestWithSession = fakeRequest.withSession(session.toSeq: _*)
             val json = personalInfoJson(sharedPatientInstance, correct = false)
             val fakeRequestWithJson = fakeRequest.withJsonBody(json)
             val Some(result) = route(fakeRequestWithJson)
@@ -305,7 +301,6 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories {
       it("Patient doesn't exist") {
         val session = createSession()
         val fakeRequest = createFakeRequest(updateMedicalInfoUrl(-1), session)
-        val fakeRequestWithSession = fakeRequest.withSession(session.toSeq: _*)
         val json = Json.toJson(Map("foo" -> "bar"))
         val fakeRequestWithJson = fakeRequest.withJsonBody(json)
         val Some(result) = route(fakeRequestWithJson)
@@ -322,7 +317,6 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories {
 
         val session = createSession(Some(staff))
         val fakeRequest = createFakeRequest(updateMedicalInfoUrl(patient.getId()), session)
-        val fakeRequestWithSession = fakeRequest.withSession(session.toSeq: _*)
         val json = Json.toJson(Map("foo" -> "bar"))
         val fakeRequestWithJson = fakeRequest.withJsonBody(json)
         val Some(result) = route(fakeRequestWithJson)
@@ -363,7 +357,6 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories {
 
           val session = createSession(Some(staff))
           val fakeRequest = createFakeRequest(updateMedicalInfoUrl(patient.getId()), session)
-          val fakeRequestWithSession = fakeRequest.withSession(session.toSeq: _*)
           val json = medicalInfoJson(patient, correct = false)
           val fakeRequestWithJson = fakeRequest.withJsonBody(json)
           val Some(result) = route(fakeRequestWithJson)
@@ -384,7 +377,6 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories {
 
           val session = createSession(Some(staff))
           val fakeRequest = createFakeRequest(updateMedicalInfoUrl(patient.getId()), session)
-          val fakeRequestWithSession = fakeRequest.withSession(session.toSeq: _*)
 
           val json = medicalInfoJson(patient)
           val fakeRequestWithJson = fakeRequest.withJsonBody(json)
@@ -414,7 +406,6 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories {
 
           val session = createSession(Some(borrower))
           val fakeRequest = createFakeRequest(updateMedicalInfoUrl(sharedPatientInstance.getId()), session)
-          val fakeRequestWithSession = fakeRequest.withSession(session.toSeq: _*)
 
           val json = Json.toJson(Map.empty[String, String])
           val fakeRequestWithJson = fakeRequest.withJsonBody(json)
@@ -443,7 +434,6 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories {
 
             val session = createSession(Some(borrower))
             val fakeRequest = createFakeRequest(updateMedicalInfoUrl(sharedPatientInstance.getId()), session)
-            val fakeRequestWithSession = fakeRequest.withSession(session.toSeq: _*)
             val json = medicalInfoJson(sharedPatientInstance, correct = false)
             val fakeRequestWithJson = fakeRequest.withJsonBody(json)
             val Some(result) = route(fakeRequestWithJson)
@@ -483,6 +473,12 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories {
 //          }
 
         }
+
+      }
+    }
+
+    describe("Updating patient studies") {
+      it("NotFound if patient does not exist") {
 
       }
     }
