@@ -3,15 +3,17 @@
 @views.html.layouts.main("Contacto") {
     <!-- Render top navbar -->
     @navbar(userName)
-
+    
+    	<form role="form">
+  
     <div class="container">
 
-<h1>Contacto</h1>
-<p> Deja cualquier duda y/o comentario </p>
-
-
         <div class="row col-md-9 col-md-offset-3">
-
+        
+        <h1>Contacto</h1>
+		<p> Deja cualquier duda y/o comentario </p>
+		<br>
+				
         <div class="form-group">
             <div class="col-md-3">
               <label for="name" class="control-label">Nombre:</label>
@@ -39,8 +41,15 @@
                 <textarea class="form-control" rows="6" id="message"></textarea>
               </div>
         </div>	
-
+ <br>
+               
     </div>
   </div><!-- /.container -->
+  
+  <div class="text-center"><br>
+  <button type="submit" class="btn btn-primary">Enviar</button>
+  </div>
+  
+  </form>
 }
 
