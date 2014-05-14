@@ -2,12 +2,63 @@ package factories
 
 import java.text.SimpleDateFormat
 import models._
+import scala.collection.JavaConverters._
 
 trait Factories {
 
   def sampleService = {
     val s = new ServiceAuth("email@example.com")
+    s.save
     s
+  }
+
+  def sampleStudy = {
+    val study = new Study
+
+    val patient = samplePatient
+    patient.save
+
+    study.setOwner(patient)
+    study.save
+
+    val staff = sampleStaff
+    staff.save
+
+    val comments = List(sampleComment(study,staff))
+    study.setComments(comments.asJava)
+
+    val mammograms = List(sampleMammogram(study,staff))
+    study.setMammograms(mammograms.asJava)
+
+    study.update
+    study
+  }
+
+  def sampleMammogram(s:Study,staffForAnn:Staff):Mammogram = {
+    val mam = new Mammogram
+    mam.setStudy(s)
+    mam.save
+    mam.setAnnotations(List(sampleAnnotations(mam,staffForAnn)).asJava)
+    mam.update
+    mam
+  }
+
+  def sampleAnnotations(m:Mammogram,annotator:Staff):Annotation = {
+    val ann1 = new Annotation
+    ann1.setAnnotated(m)
+    ann1.setContent("A not so random String")
+    ann1.setAnnotator(annotator)
+    ann1.save
+    ann1
+  }
+
+  def sampleComment(s: Study, commenter: Staff): Comment = {
+    val comment1 = new Comment
+    comment1.setContent("Another not so random String")
+    comment1.setCommented(s)
+    comment1.setCommenter(commenter)
+    comment1.save
+    comment1
   }
 
   def sampleStaff = {

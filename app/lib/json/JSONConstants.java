@@ -22,6 +22,10 @@ public class JSONConstants {
     public final static String MAMMOGRAMS = "mammograms";
     public final static String MAMMOGRAM = "mammogram";
     public final static String COMMENTS = "comments";
+    public final static String COMMENTER = "commenter";
+    public final static String COMMENTED = "commented";
+    public final static String ANNOTATED = "annotatedMammogram";
+    public final static String ANNOTATOR = "annotatorStaff";
 
 
 }

@@ -32,11 +32,11 @@ public class JSONErrors {
         return Json.newObject().put("UNDEFINED","Undefined parameter.");
     }
 
-    public static ObjectNode notFound() {
-        return Json.newObject().put("NOT_FOUND", "Patient id not found");
+    public static ObjectNode notFound(String msg) {
+        return Json.newObject().put("NOT_FOUND", msg);
     }
 
-    public static ObjectNode ok() {
-        return Json.newObject().put("STATUS", "OK");
+    public static ObjectNode ok(String msg) {
+        return Json.newObject().put("STATUS", msg);
     }
 }
