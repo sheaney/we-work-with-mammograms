@@ -35,8 +35,13 @@ public class Annotation extends Model {
 	
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name="staff_id", nullable=false)
+	@JoinColumn(name="staff_id")
 	Staff annotator;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name="service_auth_id")
+    ServiceAuth serviceAnnotator;
 
     public static Finder<String,Annotation> find = new Finder<String,Annotation>(Play.application().configuration().getString("datasource"), String.class, Annotation.class);
 
@@ -82,5 +87,13 @@ public class Annotation extends Model {
 
     public static Annotation findById(Long aid) {
         return find.byId(String.valueOf(aid));
+    }
+
+    public ServiceAuth getServiceAnnotator() {
+        return serviceAnnotator;
+    }
+
+    public void setServiceAnnotator(ServiceAuth serviceAnnotator) {
+        this.serviceAnnotator = serviceAnnotator;
     }
 }

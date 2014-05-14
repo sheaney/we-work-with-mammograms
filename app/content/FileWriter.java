@@ -37,7 +37,7 @@ public class FileWriter implements Uploader {
                 outputFile.setLastModified(System.currentTimeMillis());
             }
 
-            ImageIO.write(bi, getFileExtension(file), outputFile);
+            ImageIO.write(bi, "png",outputFile);//getFileExtension(file), outputFile);
 
         } catch (Exception e) {
             throw new FileWriterException(e.getMessage(), e);

@@ -31,8 +31,13 @@ public class Comment extends Model {
 	
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name="staff_id", nullable=false)
+	@JoinColumn(name="staff_id")
 	Staff commenter;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name="service_auth_id")
+    Staff serviceCommenter;
 	
 	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -84,5 +89,12 @@ public class Comment extends Model {
 	public void setCommented(Study commented) {
 		this.commented = commented;
 	}
-	
+
+    public Staff getServiceCommenter() {
+        return serviceCommenter;
+    }
+
+    public void setServiceCommenter(Staff serviceCommenter) {
+        this.serviceCommenter = serviceCommenter;
+    }
 }

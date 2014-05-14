@@ -5,8 +5,12 @@ import play.Play;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by fernando on 5/9/14.
@@ -23,6 +27,12 @@ public class ServiceAuth extends Model {
     @Required
     private String authToken;
 
+    @OneToMany(mappedBy = "commenter", cascade = CascadeType.ALL)
+    List<Comment> comments = new ArrayList<Comment>();
+
+    @OneToMany(mappedBy = "annotator", cascade = CascadeType.ALL)
+    List<Annotation> annotations = new ArrayList<Annotation>();
+
     public static Finder<String,ServiceAuth> find = new Finder<String,ServiceAuth>(Play.application().configuration().getString("datasource"), String.class, ServiceAuth.class);
 
     public ServiceAuth(String email){
@@ -30,11 +40,6 @@ public class ServiceAuth extends Model {
         this.email = email;
         this.authToken = generator.next();
     }
-
-    /*public ServiceAuth(String email, String authToken){
-        this.email = email;
-        this.authToken = authToken;
-    }*/
 
     public String getAuthToken() {
         return authToken;
@@ -62,5 +67,21 @@ public class ServiceAuth extends Model {
 
     public static boolean verifyService(String token){
         return find.where().eq("authToken",token).findUnique() != null;
+    }
+
+    public List<Annotation> getAnnotations() {
+        return annotations;
+    }
+
+    public void setAnnotations(List<Annotation> annotations) {
+        this.annotations = annotations;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }
