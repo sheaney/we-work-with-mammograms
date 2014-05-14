@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import content.FileWriter;
@@ -67,8 +68,15 @@ public class Staffs extends Controller {
                     Study study = filledForm.get();
 
                     // Set commenter for comments added to study
-                    for (Comment comment : study.getComments()) {
-                        comment.setCommenter(staff);
+                    Iterator<Comment> comments = study.getComments().iterator();
+
+                    while (comments.hasNext()) {
+                        Comment comment = comments.next();
+                        if (comment.getContent().isEmpty()) {
+                            comments.remove();
+                        } else {
+                            comment.setCommenter(staff);
+                        }
                     }
 
 					MultipartFormData body = request().body()

@@ -1,10 +1,7 @@
 package controllers;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
@@ -53,7 +50,6 @@ public class API extends Controller {
 	}
 
 	public static Result getPatientInfo(Long id) {
-		// TODO staff human or external service?
 		Staff staff = obtainStaff();
 		Patient patient = Patient.findById(id);
 		PatientContainer patientContainer = APIValidations.getPatientAccess(staff, patient);
@@ -149,9 +145,13 @@ public class API extends Controller {
                     Study study = binding.get();
 
                     // Set commenter for comments added to study
-                    for (Comment comment : study.getComments()) {
-                        if (!comment.getContent().isEmpty()) {
-                            studyToUpdate.getComments().add(comment);
+                    Iterator<Comment> comments = study.getComments().iterator();
+
+                    while (comments.hasNext()) {
+                        Comment comment = comments.next();
+                        if (comment.getContent().isEmpty()) {
+                            comments.remove();
+                        } else {
                             comment.setCommenter(staff);
                         }
                     }

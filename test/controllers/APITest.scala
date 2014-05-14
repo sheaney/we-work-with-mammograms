@@ -12,6 +12,8 @@ import play.api.libs.json.Json
 import play.api.http.Status
 import lib.permissions._
 import org.scalatest.BeforeAndAfter
+import play.api.mvc.MultipartFormData.FilePart
+import play.api.libs.Files.TemporaryFile
 
 /**
  * Created by fernando on 5/8/14.
@@ -476,46 +478,48 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
         controllers.routes.API.updateStudy(pid, sid)
       }
 
-      it("returns NotFound if patient does not exist") {
-        val session = createSession()
-        val fakeRequest = createFakeRequest(updateStudiesUrl(-1, 1), session)
-        val Some(result) = route(fakeRequest)
-        status(result) shouldBe (Status.NOT_FOUND)
-      }
+      describe("sad paths") {
+        it("returns NotFound if patient does not exist") {
+          val session = createSession()
+          val fakeRequest = createFakeRequest(updateStudiesUrl(-1, 1), session)
+          val Some(result) = route(fakeRequest)
+          status(result) shouldBe (Status.NOT_FOUND)
+        }
 
-      it("returns NotFound if study does not exist") {
-        val staff = new staffFactory { val id = 1L }.value
-        staff.save()
+        it("returns NotFound if study does not exist") {
+          val staff = new staffFactory { val id = 1L }.value
+          staff.save()
 
-        val patient = new patientFactory { val id = 1L }.value
-        patient.save()
-        val session = createSession(Some(staff))
+          val patient = new patientFactory { val id = 1L }.value
+          patient.save()
+          val session = createSession(Some(staff))
 
-        val fakeRequest = createFakeRequest(updateStudiesUrl(patient.getId, -1), session)
-        val Some(result) = route(fakeRequest)
-        status(result) shouldBe (Status.NOT_FOUND)
+          val fakeRequest = createFakeRequest(updateStudiesUrl(patient.getId, -1), session)
+          val Some(result) = route(fakeRequest)
+          status(result) shouldBe (Status.NOT_FOUND)
 
-        staff.delete()
-      }
+          staff.delete()
+        }
 
-      it("returns Unauthorized if staff does not have access privileges for updating") {
-        val sharer = sampleStaff
-        val borrower = sampleStaff
-        val sharedPatientInstance = samplePatient
-        val study = sampleStudy
+        it("returns Unauthorized if staff does not have access privileges for updating") {
+          val sharer = sampleStaff
+          val borrower = sampleStaff
+          val sharedPatientInstance = samplePatient
+          val study = sampleStudy
 
-        sharedPatientInstance.getStudies.add(study)
-        sharer.save(); borrower.save(); sharedPatientInstance.save()
+          sharedPatientInstance.getStudies.add(study)
+          sharer.save(); borrower.save(); sharedPatientInstance.save()
 
-        val updateStudiesPermission = false
-        val updatePermission = new PatientUpdateInfoPermission(false, false, updateStudiesPermission)
-        val sharedPatient = new SharedPatient(sharer, borrower, sharedPatientInstance, updatePermission.getAccessPrivileges())
-        sharedPatient.save()
+          val updateStudiesPermission = false
+          val updatePermission = new PatientUpdateInfoPermission(false, false, updateStudiesPermission)
+          val sharedPatient = new SharedPatient(sharer, borrower, sharedPatientInstance, updatePermission.getAccessPrivileges())
+          sharedPatient.save()
 
-        val session = createSession(Some(borrower))
-        val fakeRequest = createFakeRequest(updateStudiesUrl(sharedPatientInstance.getId, study.getId), session)
-        val Some(result) = route(fakeRequest)
-        status(result) shouldBe (Status.UNAUTHORIZED)
+          val session = createSession(Some(borrower))
+          val fakeRequest = createFakeRequest(updateStudiesUrl(sharedPatientInstance.getId, study.getId), session)
+          val Some(result) = route(fakeRequest)
+          status(result) shouldBe (Status.UNAUTHORIZED)
+        }
 
       }
 
