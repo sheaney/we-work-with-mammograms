@@ -1,6 +1,9 @@
 $(function(e) {
 
-  $('#studyUploadForm').on('submit',(function(e) {
+  $('#studyUploadForm').on('submit', function(e) { handleStudyFormSubmission.call(this, e) });
+  $('#studyUpdateForm').on('submit', function(e) { handleStudyFormSubmission.call(this, e) });
+
+  var handleStudyFormSubmission = function(e) {
     e.preventDefault();
     var $this = $(this);
     var formData = new FormData(this);
@@ -8,7 +11,7 @@ $(function(e) {
     // ...
 
     $.ajax({
-      type:'POST',
+      type:$(this).attr('method'),
       url: $(this).attr('action'),
       data:formData,
       cache:false,
@@ -27,17 +30,13 @@ $(function(e) {
       // ...
     });
 
-  }));
+  };
 
   // Error messages are a JS array
   var getErrorMessages = function(errorObject) {
     var defaultMsgNode = "msg";
     var errorNode = errorObject[defaultMsgNode] ? defaultMsgNode : "comments[0].content";
     return errorObject[errorNode];
-  }
-
-  var setSpinner = function() {
-
-  }
+  };
 
 });

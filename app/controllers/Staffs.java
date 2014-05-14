@@ -9,6 +9,7 @@ import java.util.List;
 
 import content.FileWriter;
 import content.S3Uploader;
+import helpers.UploaderHelper;
 import lib.PasswordGenerator;
 import lib.PatientContainer;
 import lib.json.errors.JSONErrors;
@@ -18,7 +19,6 @@ import lib.permissions.PatientViewInfoPermission;
 import lib.permissions.Permission;
 import models.*;
 import play.Play;
-import play.mvc.BodyParser;
 import views.html.*;
 import play.data.Form;
 import play.libs.F.Function0;
@@ -64,7 +64,6 @@ public class Staffs extends Controller {
 			@Override
 			public Result apply() throws Throwable {
 				Form<Study> filledForm = newStudyForm.bindFromRequest();
-				//TODO check for errors and form validation
 				if (filledForm.hasErrors()) {
 					return badRequest(filledForm.errorsAsJson());
 				} else {
@@ -86,7 +85,7 @@ public class Staffs extends Controller {
                     }
 
                     // Obtain uploader
-                    Tuple<Uploader, String> uploaderAndLog = obtainUploaderAndLogMsg(true);
+                    Tuple<Uploader, String> uploaderAndLog = UploaderHelper.obtainUploaderAndLogMsg(true);
                     Uploader uploader = uploaderAndLog._1;
                     String logMsg = uploaderAndLog._2;
 
@@ -218,7 +217,7 @@ public class Staffs extends Controller {
         // TODO Extract mammogram key into a utility helper method
         String key = String.format("images/study/%d/mammogram/%d", sid, mid);
         // Obtain reader
-        Tuple<Uploader, String> readerAndLogMsg = obtainUploaderAndLogMsg(false);
+        Tuple<Uploader, String> readerAndLogMsg = UploaderHelper.obtainUploaderAndLogMsg(false);
         Uploader reader = readerAndLogMsg._1;
         System.out.println(readerAndLogMsg._2);
         BufferedImage image = reader.read(key);
@@ -227,24 +226,6 @@ public class Staffs extends Controller {
         ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
 
         return ok(bais).as("image/png");
-    }
-
-    private static Tuple<Uploader, String> obtainUploaderAndLogMsg(boolean upload) {
-        String logMsg = "";
-
-        // Obtain uploader
-        Boolean uploadConfig = Play.application().configuration().getBoolean("s3Upload");
-        boolean s3Upload = uploadConfig != null && uploadConfig;
-        Uploader uploader = s3Upload ? new S3Uploader() : new FileWriter();
-        if (upload) {
-            logMsg = s3Upload ? "Uploading mammogram image to s3" : "Writing mammogram image to disk";
-        } else {
-            logMsg = s3Upload ? "Reading mammogram image from s3" : "Reading mammogram image from disk";
-        }
-
-        Tuple<Uploader, String> uploaderAndLog = new Tuple(uploader, logMsg);
-
-        return uploaderAndLog;
     }
 	
 }

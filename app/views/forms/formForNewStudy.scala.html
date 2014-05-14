@@ -4,7 +4,11 @@
 @import views.html.bootstrap._
 @import play.api.i18n._
 
-@form(action = routes.Staffs.createNewStudy(owner.getId), Symbol("data-callback-url") -> routes.Staffs.showPatient(owner.getId).url, 'id -> "studyUploadForm",'role -> "form", 'enctype -> "multipart/form-data") {
+@form(action = studyOpt.map(study => routes.API.updateStudy(owner.getId, study.getId)).getOrElse(routes.Staffs.createNewStudy(owner.getId)),
+      Symbol("data-callback-url") -> routes.Staffs.showPatient(owner.getId).url,
+      'id -> studyOpt.map(_ => "studyUpdateForm").getOrElse("studyUploadForm"),
+      'role -> "form",
+      'enctype -> "multipart/form-data") {
         <fieldset>
           <legend>Tomas</legend>
           @for(study <- studyOpt) {
@@ -25,17 +29,15 @@
         <fieldset>
           <legend>Comentarios</legend>
           @for(study <- studyOpt) {
-            @for(comment <- study.getComments) {
+            @for(comment <- study.getComments.sortWith(_.getCreatedAt.getTime > _.getCreatedAt.getTime)) {
               <div class"col-md-8">
                 <pre>@comment.getContent - <b>@comment.getCommenter.getRole.capitalize @comment.getCommenter (@helpers.DateHelper.getDateFormat(comment.getCreatedAt))</b></pre>
-              </div>
-              <div class="col-md-4">
-                <a href="#" class="btn btn-default btn-sm">Remover</a>
               </div>
             }
           }
           @textarea(
-          	field = studyForm("comments[0].content"), 
+            //field = studyForm(s"comments[${studyOpt.map(_.getComments.size).getOrElse(0)}].content"), 
+            field = studyForm("comments[0].content"), 
           	args = 'placeholder -> "Comentarios sobre el estudio...", 'rows -> "5", '_label -> "", 'class -> "form-control")
         </fieldset>
 

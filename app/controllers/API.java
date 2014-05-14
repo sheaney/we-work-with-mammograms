@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -7,7 +8,9 @@ import java.util.Map;
 
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
+import content.Uploader;
 import controllers.validations.APIValidations;
+import helpers.UploaderHelper;
 import lib.PatientContainer;
 import lib.json.errors.JSONErrors;
 import lib.json.models.JSONPatient;
@@ -21,15 +24,17 @@ import play.libs.F;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import security.ServiceDeadboltHandler;
+import views.html.showPatient;
 
 public class API extends Controller {
 	final static Form<PersonalInfo> personalInfoBinding = Form.form(PersonalInfo.class);
 	final static Form<MedicalInfo> medicalInfoBinding = Form.form(MedicalInfo.class);
-    final static Form<Study> newStudyForm = Form.form(Study.class);
+    final static Form<Study> studyForm = Form.form(Study.class);
 
 	public static Result getPatient(Long id) {
 		Patient patient = Patient.findById(id);
@@ -118,10 +123,8 @@ public class API extends Controller {
 		
 	}
 
-
-    @BodyParser.Of(BodyParser.Json.class)
     public static F.Promise<Result> updateStudy(final Long pid, final Long sid) {
-        F.Promise.promise(new F.Function0<Result>() {
+        return F.Promise.promise(new F.Function0<Result>() {
             // Check that this patient actually exists
             final Patient patient = Patient.findById(pid);
             final Staff staff = obtainStaff();
@@ -133,12 +136,62 @@ public class API extends Controller {
                 if (patientContainer == null)
                     return notFound("Patient doesn't exist.");
 
-                return null;
+                Form<Study> binding = studyForm.bindFromRequest();
+                if (binding.hasErrors()) {
+                    return badRequest(binding.errorsAsJson());
+                } else {
+                    Study studyToUpdate = Study.findById(sid);
+                    Study study = binding.get();
+
+                    // Set commenter for comments added to study
+                    for (Comment comment : study.getComments()) {
+                        if (!comment.getContent().isEmpty()) {
+                            studyToUpdate.getComments().add(comment);
+                            comment.setCommenter(staff);
+                        }
+                    }
+
+                    Http.MultipartFormData body = request().body()
+                            .asMultipartFormData();
+                    List<Http.MultipartFormData.FilePart> parts = body.getFiles();
+                    // Need to verify that all parts are image files first
+                    for (Http.MultipartFormData.FilePart part : parts) {
+                        if (!part.getContentType().matches("image/.*")) {
+                            return badRequest(JSONErrors.studyCreationErrors("Solo se pueden subir imágenes"));
+                        }
+                    }
+
+                    // Obtain uploader
+                    F.Tuple<Uploader, String> uploaderAndLog = UploaderHelper.obtainUploaderAndLogMsg(true);
+                    Uploader uploader = uploaderAndLog._1;
+                    String logMsg = uploaderAndLog._2;
+
+                    // Create mammograms and persist images
+                    for (Http.MultipartFormData.FilePart part : parts) {
+                        // Associate mammogram with study
+                        Mammogram mammogram = new Mammogram();
+                        mammogram.setStudy(studyToUpdate);
+                        mammogram.save();
+
+                        // Calculate mammogram key and update with value
+                        String mammogramId = String.valueOf(mammogram.getId());
+                        String key = String.format("images/study/%s/mammogram/%s", sid, mammogramId);
+
+                        // Upload to AWS s3 or write to disk
+                        File imageFile = part.getFile();
+                        System.out.println(logMsg);
+                        uploader.write(key, imageFile);
+                    }
+
+                    studyToUpdate.save();
+                }
+
+                flash("success", "Se ha actualizado el estudio del paciente el paciente");
+                boolean updatedABorrowedPatient = staff.findBorrowedPatient(patient) != null;
+                return ok(showPatient.render(patient.getId(), session().get("user"), updatedABorrowedPatient));
             }
 
         });
-
-        return null;
     }
 
     public static Staff obtainStaff() {

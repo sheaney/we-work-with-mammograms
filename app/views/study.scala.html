@@ -2,14 +2,20 @@
 
 @import views.html.forms._
 
-@views.html.layouts.main("Estudio") {
+@moreScripts = {
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/uploadStudy.js")"></script>
+}
+
+@views.html.layouts.main("Estudio", moreScripts = moreScripts) {
   <!-- Render top navbar -->
   @navbar(userName)
 
   <div class="container">
-    <div class="col-md-8 col-md-offset-2">
-      <h2>@helpers.DateHelper.getDateFormat(study.getCreatedAt)</h2>
-      @formForNewStudy(studyForm, study.getOwner, Some(study))
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h2>@helpers.DateHelper.getDateFormat(study.getCreatedAt)</h2>
+        @formForNewStudy(studyForm, study.getOwner, Some(study))
+      </div>
     </div>
   </div>
 
