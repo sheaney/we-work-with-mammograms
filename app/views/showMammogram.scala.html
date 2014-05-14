@@ -1,17 +1,26 @@
 @(study: Study, mammogram: Mammogram, userName: String)
 
-@moreScripts = {
-  <script type="text/javascript" src="@routes.Assets.at("javascripts/displayMammogram.js")"></script>
- }
-
-@views.html.layouts.main("Mamografía", moreScripts = moreScripts) {
+@views.html.layouts.angular("Mamografía")(angularApp = "showMammogramApp", angularCtrl = "showMammogramCtrl") {
+	
     <!-- Render top navbar -->
     @navbar(userName)
-<ul class="center-block">
-<li><a href="#" class="annotation btn btn-info" data-container="body" data-html="true" data-toggle="popover" data-placement="bottom" data-content="1. Mamografía muestra ligero cambio.<br />2. Erupciones en el lado derecho.">
-  Anotaciones
-</a></li>
-</ul>
-<img class="img-responsive center-block" id="mammogram" src="@routes.Staffs.renderMammogram(study.getId(), mammogram.getId())"/>
+    
+    <div class="text-center">
+	<form class="form-inline" role="form">
+		<a href="#" class="annotation btn btn-info" data-container="body" data-html="true" data-toggle="popover" data-placement="bottom" data-content='{{showAnnotations}}'>
+  		Anotaciones
+		</a>
+		<div class="form-group">
+	  		<div class="row">
+	  			<div class="col-lg-4">
+    			<label class="sr-only" for="new-annotation">Anotaciones</label>
+    			<div  class="text-center" ></div><input type="text" style="width:500px" class="form-control" id="new-annotation" placeholder="Agregar anotaciones">
+    			</div>
+    		</div>
+  	  </div>
+  	 <button type="submit" class="btn btn-default">✓</button>
+	</form>	
+	<br>
+	<img class="img-responsive center-block" id="mammogram" src="@routes.Staffs.renderMammogram(study.getId(), mammogram.getId())"/>
 
 }
