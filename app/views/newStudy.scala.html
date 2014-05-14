@@ -4,6 +4,7 @@
 
 @moreScripts = {
   <script type="text/javascript" src="@routes.Assets.at("javascripts/uploadStudy.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/spin.js")"></script> 
 }
 
 @views.html.layouts.main("Crear Estudio", moreScripts = moreScripts) {
@@ -13,6 +14,8 @@
   <div class="container">
     <div class="col-md-8 col-md-offset-2">
       <h2>Crear nuevo estudio</h2>
+      <br>
+	 <div id="spinner"></div>
       <br>
       <p><b>Paciente: </b>@patient.getPersonalInfo.getFullName<p>
       @formForNewStudy(studyForm, patient)
