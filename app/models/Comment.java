@@ -37,7 +37,7 @@ public class Comment extends Model {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name="service_auth_id")
-    Staff serviceCommenter;
+    ServiceAuth serviceCommenter;
 	
 	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -90,11 +90,11 @@ public class Comment extends Model {
 		this.commented = commented;
 	}
 
-    public Staff getServiceCommenter() {
+    public ServiceAuth getServiceCommenter() {
         return serviceCommenter;
     }
 
-    public void setServiceCommenter(Staff serviceCommenter) {
+    public void setServiceCommenter(ServiceAuth serviceCommenter) {
         this.serviceCommenter = serviceCommenter;
     }
 }
