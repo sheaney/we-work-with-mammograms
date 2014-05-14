@@ -2,16 +2,16 @@
 
 @moreScripts = {
   <script type="text/javascript" src="@routes.Assets.at("javascripts/displayMammogram.js")"></script>
-}
+ }
 
-@views.html.layouts.main("Mamografía") {
+@views.html.layouts.main("Mamografía", moreScripts = moreScripts) {
     <!-- Render top navbar -->
     @navbar(userName)
-
-<a href="#" id="annotations" class="btn btn-info" rel="popover"
-   data-content="1. La mamografía muestra que la paciente genera pequeñas erupciones.\n2.Errores pruebas."
-   data-original-title="Anotaciones"> Anotaciones
-</a>
+<ul class="center-block">
+<li><a href="#" class="annotation btn btn-info" data-container="body" data-html="true" data-toggle="popover" data-placement="bottom" data-content="1. Mamografía muestra ligero cambio.<br />2. Erupciones en el lado derecho.">
+  Anotaciones
+</a></li>
+</ul>
 <img class="img-responsive center-block" id="mammogram" src="@routes.Staffs.renderMammogram(study.getId(), mammogram.getId())"/>
 
 }
