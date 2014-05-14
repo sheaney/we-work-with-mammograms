@@ -51,11 +51,25 @@ trait Factories {
     }
   }
 
+  trait studyFactory {
+    val id: Long
+    def value: Study = {
+      val s = new Study
+      s.setId(id)
+      s
+    }
+  }
+
   def sampleAdmin = {
     val a = new Admin
     a.setEmail("xyz@xyz.com")
     a.setPassword("3847aslkfjx45")
     a
+  }
+
+  def sampleStudy: Study = {
+    val s = new Study
+    s
   }
 
   def samplePatient: Patient = {

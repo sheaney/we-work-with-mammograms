@@ -5,23 +5,18 @@ import play.api.test._
 import play.api.test.Helpers._
 import play.api.mvc._
 import models.Staff
-import scala.concurrent.Await
-import scala.concurrent.duration._
-import controllers._
-import org.openqa.selenium.WebDriver
 import models.Patient
 import factories.Factories
-import helpers.TestSetup.samplePatient
-import helpers.TestSetup.sampleStaff
 import models.SharedPatient
 import play.api.libs.json.Json
 import play.api.http.Status
 import lib.permissions._
+import org.scalatest.BeforeAndAfter
 
 /**
  * Created by fernando on 5/8/14.
  */
-class APITest extends PlayBrowserSpec with UserLogin with Factories {
+class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeAndAfter {
 
   def createFakeRequest(call: Call, session: Map[String, String]) = {
     FakeRequest(call.method, call.url).withSession(session.toSeq: _*)
@@ -192,7 +187,6 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories {
 
           val session = createSession(Some(staff))
           val fakeRequest = createFakeRequest(updatePersonalInfoUrl(patient.getId()), session)
-          val fakeRequestWithSession = fakeRequest.withSession(session.toSeq: _*)
 
           val json = personalInfoJson(patient, correct = true)
           val fakeRequestWithJson = fakeRequest.withJsonBody(json)
@@ -478,9 +472,53 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories {
     }
 
     describe("Updating patient studies") {
-      it("NotFound if patient does not exist") {
+      def updateStudiesUrl(pid: Long, sid: Long): Call = {
+        controllers.routes.API.updateStudy(pid, sid)
+      }
+
+      it("returns NotFound if patient does not exist") {
+        val session = createSession()
+        val fakeRequest = createFakeRequest(updateStudiesUrl(-1, 1), session)
+        val Some(result) = route(fakeRequest)
+        status(result) shouldBe (Status.NOT_FOUND)
+      }
+
+      it("returns NotFound if study does not exist") {
+        val staff = new staffFactory { val id = 1L }.value
+        staff.save()
+
+        val patient = new patientFactory { val id = 1L }.value
+        patient.save()
+        val session = createSession(Some(staff))
+
+        val fakeRequest = createFakeRequest(updateStudiesUrl(patient.getId, -1), session)
+        val Some(result) = route(fakeRequest)
+        status(result) shouldBe (Status.NOT_FOUND)
+
+        staff.delete()
+      }
+
+      it("returns Unauthorized if staff does not have access privileges for updating") {
+        val sharer = sampleStaff
+        val borrower = sampleStaff
+        val sharedPatientInstance = samplePatient
+        val study = sampleStudy
+
+        sharedPatientInstance.getStudies.add(study)
+        sharer.save(); borrower.save(); sharedPatientInstance.save()
+
+        val updateStudiesPermission = false
+        val updatePermission = new PatientUpdateInfoPermission(false, false, updateStudiesPermission)
+        val sharedPatient = new SharedPatient(sharer, borrower, sharedPatientInstance, updatePermission.getAccessPrivileges())
+        sharedPatient.save()
+
+        val session = createSession(Some(borrower))
+        val fakeRequest = createFakeRequest(updateStudiesUrl(sharedPatientInstance.getId, study.getId), session)
+        val Some(result) = route(fakeRequest)
+        status(result) shouldBe (Status.UNAUTHORIZED)
 
       }
+
     }
   }
 

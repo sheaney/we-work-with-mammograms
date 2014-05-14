@@ -126,6 +126,7 @@ public class API extends Controller {
         return F.Promise.promise(new F.Function0<Result>() {
             // Check that this patient actually exists
             final Patient patient = Patient.findById(pid);
+            final Study studyToUpdate = Study.findById(sid);
             final Staff staff = obtainStaff();
 
             @Override
@@ -135,14 +136,16 @@ public class API extends Controller {
                 if (patientContainer == null)
                     return notFound("Patient doesn't exist.");
 
-                if (new PatientUpdateInfoPermission(patientContainer.getAccessPrivileges()).canUpdateStudies())
+                if (studyToUpdate == null)
+                    return notFound("Study doesn't exist.");
+
+                if (!new PatientUpdateInfoPermission(patientContainer.getAccessPrivileges()).canUpdateStudies())
                     return unauthorized("Can't update info");
 
                 Form<Study> binding = studyForm.bindFromRequest();
                 if (binding.hasErrors()) {
                     return badRequest(binding.errorsAsJson());
                 } else {
-                    Study studyToUpdate = Study.findById(sid);
                     Study study = binding.get();
 
                     // Set commenter for comments added to study
