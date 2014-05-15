@@ -48,7 +48,23 @@ public class Staffs extends Controller {
 	}
 
 	public static Result newStudy(Long patientId) {
-		Patient patient = Patient.findById(patientId);
+        // Check that this patient actually exists
+        Patient patient = Patient.findById(patientId);
+        Staff staff = API.obtainStaff();
+
+        PatientContainer patientContainer = APIValidations.getPatientAccess(staff, patient);
+
+        if (patientContainer == null)
+            return notFound("El paciente no existe");
+
+        PatientViewInfoPermission viewPermission = new PatientViewInfoPermission(patientContainer.getAccessPrivileges());
+        if (!viewPermission.canViewStudies())
+            return unauthorized("No tiene permiso para ver información del paciente");
+
+        PatientUpdateInfoPermission updatePermission = new PatientUpdateInfoPermission(patientContainer.getAccessPrivileges());
+        if (!updatePermission.canUpdateStudies())
+            return unauthorized("No tiene permisio para crear nuevos estudios");
+
 		return ok(newStudy.render(patient, session().get("user"), newStudyForm));
 	}
 
@@ -132,7 +148,7 @@ public class Staffs extends Controller {
 			}
 
 		});
-		
+
 		return promise;
 	}
 
@@ -154,22 +170,23 @@ public class Staffs extends Controller {
         if (!viewPermission.canViewStudies())
             return unauthorized("No tiene permiso para ver información del paciente");
 
-        return ok(study.render(id, session().get("user"), s, newStudyForm));
+        PatientUpdateInfoPermission updatePermission = new PatientUpdateInfoPermission(patientContainer.getAccessPrivileges());
+        return ok(study.render(id, session().get("user"), s, newStudyForm, updatePermission));
 	}
 
 	public static Result showPatient(Long id) {
-		
+
 		boolean borrowed;
-		
+
 		Patient patient = Patient.findById(id);
 		Staff staff = API.obtainStaff();
-		
+
 		if(staff.findBorrowedPatient(patient) != null) {
 			borrowed = true;
         } else {
 			borrowed = false;
 	    }
-				
+
 		return ok(showPatient.render(id, session().get("user"), borrowed));
 	}
 
@@ -180,14 +197,14 @@ public class Staffs extends Controller {
 	public static Result sharePatient(Long id) {
 		return ok(sharePatient.render(id, session().get("user")));
 	}
-	
+
 	public static Result createSharedPatient(Long id, Long borrowerId) {
 		Patient patient = Patient.findById(id);
 		Staff sharer = API.obtainStaff(); // get staff from session
 		if (!sharer.canSharePatient(patient)) {
 			return badRequest("Este paciente no te pertenece y no se puede compartir");
 		}
-		
+
 		JsonNode jsonNode = request().body().asJson();
 		// Create shared patient
 		Staff borrower = Staff.findById(borrowerId);
@@ -195,7 +212,7 @@ public class Staffs extends Controller {
 		PatientUpdateInfoPermission patientUpdateInfo = JSONPermissions.unbindUpdateInfoPermissions(jsonNode);
 		int accessPrivileges = Permission.concatAccessPrivileges(patientViewInfo, patientUpdateInfo);
 		SharedPatient sharedPatient = new SharedPatient(sharer, borrower, patient, accessPrivileges);
-		
+
 		Logger.info("sharer = " + sharedPatient.getSharer().getName());
 		Logger.info("borrower = " + sharedPatient.getBorrower().getName());
 		Logger.info("shared patient = " + sharedPatient.getSharedInstance().getPersonalInfo().getName());
@@ -257,9 +274,11 @@ public class Staffs extends Controller {
             return ok(bais).as("image/png");
         } catch (IOException ioe) {
             Logger.error(ioe.getMessage());
+        } catch (Exception e) {
+            Logger.error(e.getMessage());
         }
 
-        return internalServerError("Error al renderear mamografía");
+        return notFound("Error al renderear mamografía");
     }
-	
+
 }

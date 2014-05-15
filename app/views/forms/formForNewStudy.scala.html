@@ -1,10 +1,11 @@
-@(studyForm: play.data.Form[Study], owner: Patient, studyOpt: Option[Study] = None)
+@(studyForm: play.data.Form[Study], owner: Patient, studyOpt: Option[Study] = None, permission: Option[lib.permissions.PatientUpdateInfoPermission] = None)
 
 @import helper._
 @import views.html.bootstrap._
 @import play.api.i18n._
 
-@form(action = studyOpt.map(study => routes.API.updateStudy(owner.getId, study.getId)).getOrElse(routes.Staffs.createNewStudy(owner.getId)),
+@defining(permission.map(_.canUpdateStudies).getOrElse(true)) { canUpdate =>
+  @form(action = studyOpt.map(study => routes.API.updateStudy(owner.getId, study.getId)).getOrElse(routes.Staffs.createNewStudy(owner.getId)),
       Symbol("data-callback-url") -> routes.Staffs.showPatient(owner.getId).url,
       'id -> studyOpt.map(_ => "studyUpdateForm").getOrElse("studyUploadForm"),
       'role -> "form",
@@ -20,11 +21,13 @@
               </p>
             }
           }
-          <div class="form-group">
-            <label for="filesToUpload">@studyOpt.map(_ => "Agregar tomas").getOrElse("Seleccione las tomas")</label>
-            <input type="file" name ="filesToUpload" id="filesToUpload" multiple="" enctype="multipart/form-data">
-            <p class="help-block">Imágenes deben pesar menos de 80 MB</p>
-          </div>
+          @if(canUpdate) {
+            <div class="form-group">
+              <label for="filesToUpload">@studyOpt.map(_ => "Agregar tomas").getOrElse("Seleccione las tomas")</label>
+              <input type="file" name ="filesToUpload" id="filesToUpload" multiple="" enctype="multipart/form-data">
+              <p class="help-block">Imágenes deben pesar menos de 80 MB</p>
+            </div>
+          }
         </fieldset>
         <fieldset>
           <legend>Comentarios</legend>
@@ -37,12 +40,17 @@
               }
             }
           }
-          @textarea(
-            field = studyForm("comments[0].content"), 
-          	args = 'placeholder -> "Comentarios sobre el estudio...", 'rows -> "5", '_label -> "", 'class -> "form-control")
+          @if(canUpdate) {
+            @textarea(
+              field = studyForm("comments[0].content"), 
+              args = 'placeholder -> "Comentarios sobre el estudio...", 'rows -> "5", '_label -> "", 'class -> "form-control")
+          }
         </fieldset>
 
-        <button type="submit" class="btn btn-primary" data-loading-text="Cargando...">Guardar estudio</button>
+        @if(canUpdate) {
+          <button type="submit" class="btn btn-primary" data-loading-text="Cargando...">Guardar estudio</button>
+        }
         <a class="btn btn-default" href="@routes.Staffs.showPatient(owner.getId)">Regresar</a>
 
+  }
 }

@@ -1,4 +1,4 @@
-@(id: Long, userName: String, study: Study, studyForm: Form[Study])
+@(id: Long, userName: String, study: Study, studyForm: Form[Study], permission: lib.permissions.PatientUpdateInfoPermission)
 
 @import views.html.forms._
 
@@ -14,7 +14,7 @@
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
         <h2>@helpers.DateHelper.getDateFormat(study.getCreatedAt)</h2>
-        @formForNewStudy(studyForm, study.getOwner, Some(study))
+        @formForNewStudy(studyForm, study.getOwner, Some(study), Some(permission))
       </div>
     </div>
   </div>

@@ -4,6 +4,8 @@ insert into staff(id, email, password, role, name, first_last_name, second_last_
   values (1,'jestefano@wwwm.com','wwwm','doctor','Juan Estefano','Rodríguez','González','Paseo de los Leones 445, Col. Cumbres, Mty. N.L.', '811653735', '1985-07-29','AQWERTYGSDGN','83473847asfdjklj');
 insert into staff(id, email, password, role, name, first_last_name, second_last_name, address, telephone, birthdate, cedula, RFC)
   values (2,'cquintero@wwwm.com','wwwm','doctor','Carlos','Garza','Quintero','Jupiter 9383, Col. Mitras, Mty. N.L.', '811684723', '1981-01-22','ASIELKXJKLL','asdlfkj837kjl');
+insert into staff(id, email, password, role, name, first_last_name, second_last_name, address, telephone, birthdate, cedula, RFC)
+  values (3,'ijimenez@wwwm.com','wwwm','doctor','Ignacio', 'Jímenez','Gonzalo','Jupiter 9383, Col. Valle, Mty. N.L.', '811684723', '1975-06-09','LJSALJSDFL','9lxisjdhuasgx');
 
 insert into personal_info(id, name, first_last_name, second_last_name, address, email, telephone, password, birthdate)
   values(1,'María','Dávalos','González','Bosque Mágico 123, Col. Robledo, Mty, N.L.','mdavalos@xyz.com', '85234725', 'wwwm','1978-02-21');
