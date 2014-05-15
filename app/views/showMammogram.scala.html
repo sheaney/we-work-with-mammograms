@@ -5,9 +5,9 @@
     <!-- Render top navbar -->
     @navbar(userName)
     
-    <div class="text-center">
+    <div class="text-center form-inline">
 	<form class="form-inline" role="form">
-		<a href="#" class="annotation btn btn-info" data-container="body" data-html="true" data-toggle="popover" data-placement="bottom" data-content='{{showAnnotations}}'>
+		<a href="#" ng-init="init(@mammogram.getId())" class="annotation btn btn-info" data-container="body" data-html="true" data-toggle="popover" data-placement="bottom" data-content='{{showAnnotations()}}'>
   		Anotaciones
 		</a>
 		<div class="form-group">
