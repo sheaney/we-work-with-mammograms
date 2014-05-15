@@ -146,6 +146,9 @@ public class ServiceAPI extends Controller {
                     return badRequest(JSONErrors.undefined("Bad format request"));
                 }
 
+                if (content.matches("\\s*"))
+                    return badRequest(JSONErrors.undefined("Update comment content is empty!"));
+
                 com.setContent(content);
                 com.update();
                 //return as proof of updating
@@ -177,6 +180,9 @@ public class ServiceAPI extends Controller {
                 } catch (Exception e) {
                     return badRequest(JSONErrors.undefined("Bad format request"));
                 }
+
+                if (content.matches("\\s*"))
+                    return badRequest(JSONErrors.undefined("Update annotation content is empty!"));
 
                 ann.setContent(content);
                 ann.update();
@@ -210,6 +216,9 @@ public class ServiceAPI extends Controller {
         } catch (Exception e) {
             return badRequest(JSONErrors.undefined("Bad format request"));
         }
+
+        if (content.matches("\\s*"))
+            return badRequest(JSONErrors.undefined("New comment content is empty!"));
 
         Study commented = Study.findById(commentedId);
         if(commented == null)
@@ -249,6 +258,8 @@ public class ServiceAPI extends Controller {
         } catch (Exception e) {
             return badRequest(JSONErrors.undefined("Bad format request"));
         }
+        if (content.matches("\\s*"))
+            return badRequest(JSONErrors.undefined("New annotation content is empty!"));
 
         Mammogram annotated = Mammogram.findById(mammogramId);
         if(annotated == null)

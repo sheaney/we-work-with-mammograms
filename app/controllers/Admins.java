@@ -1,5 +1,6 @@
 package controllers;
 
+import lib.Email.Postman;
 import lib.PasswordGenerator;
 import models.Admin;
 import models.Staff;
@@ -34,6 +35,7 @@ public class Admins extends Controller {
 			Staff staff = filledForm.get();
 			staff.setPassword(pg.next());
 			Staff.create(staff);
+            Postman.welcomeEmail(staff.getFullName(),staff.getEmail(),staff.getPassword());
 			flash("success", "Un nuevo personal se ha creado");
 			return redirect(routes.Admins.admin());
 		}

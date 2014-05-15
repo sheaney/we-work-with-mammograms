@@ -38,6 +38,9 @@ insert into study(id,created_at, patient_id)
   values(1,'now',1);
 insert into study(id,created_at, patient_id)
   values(2,'now',2);
+
+insert into comment(id,content,created_at,staff_id,service_auth_id,study_id)
+  values(2,'Comment contents','now', 2, null, 2);
  
 insert into mammogram(id,created_at,study_id) 
   values(1,'now',1);

@@ -12,9 +12,6 @@ import static lib.json.JSONConstants.*;
  */
 public class JSONAnnotation {
 
-    private static final String ANNOTATED = "annotatedMammogram";
-    private static final String ANNOTATOR = "annotatorStaff";
-
     public static ObjectNode serviceAnnotation(Annotation ann) {
         ObjectNode jsonServiceAnnotation = Json.newObject();
         jsonServiceAnnotation.put(ID,ann.getId());
@@ -23,7 +20,7 @@ public class JSONAnnotation {
         jsonServiceAnnotation.put(ANNOTATED_MAMMOGRAM,ann.getAnnotated().getId());
         Staff annotator = ann.getAnnotator();
         if(annotator != null)
-            jsonServiceAnnotation.put(ANNOTATOR, annotator.getId());
+            jsonServiceAnnotation.put(STAFF_ANNOTATOR, annotator.getId());
         else
             jsonServiceAnnotation.put(SERVICE_ANNOTATOR,ann.getServiceAnnotator().getId());
         return jsonServiceAnnotation;
