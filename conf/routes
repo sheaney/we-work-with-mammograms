@@ -97,6 +97,8 @@ GET		/api/patient/:id					controllers.API.getPatient(id: Long)
 
 GET 	/api/patient/:id/info				controllers.API.getPatientInfo(id: Long)
 
+GET     /api/mammogram/:mid                 controllers.API.getMammogram(mid: Long)
+
 #External Services calls
 GET     /api/service/test                   controllers.TestServiceController.test
 

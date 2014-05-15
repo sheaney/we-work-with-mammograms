@@ -37,5 +37,17 @@ public class JSONErrors {
 
         return errors;
     }
+
+    public static ObjectNode undefinedPatient() {
+        ObjectNode json = Json.newObject();
+        json.put(MSG, "El paciente no existe");
+        return json;
+    }
+
+    public static ObjectNode forbiddenAccess() {
+        ObjectNode json = Json.newObject();
+        json.put(MSG, "No tiene permiso para acceder a este paciente");
+        return json;
+    }
 	
 }

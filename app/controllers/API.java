@@ -28,6 +28,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import security.ServiceDeadboltHandler;
 import views.html.showPatient;
 
+import static play.mvc.BodyParser.*;
+
 public class API extends Controller {
 	final static Form<PersonalInfo> personalInfoBinding = Form.form(PersonalInfo.class);
 	final static Form<MedicalInfo> medicalInfoBinding = Form.form(MedicalInfo.class);
@@ -35,6 +37,15 @@ public class API extends Controller {
 
 	public static Result getPatient(Long id) {
 		Patient patient = Patient.findById(id);
+        Staff staff = obtainStaff();
+
+        PatientContainer patientContainer = APIValidations.getPatientAccess(staff, patient);
+
+        if (patientContainer == null)
+            return notFound(JSONErrors.undefinedPatient());
+        else if (patientContainer.isEmpty())
+            return forbidden(JSONErrors.forbiddenAccess()); // return json with error msg
+
 		return ok(Json.toJson(patient));
 	}
 
@@ -63,7 +74,17 @@ public class API extends Controller {
 		return ok(JSONStaff.staffPatient(staff, patientContainer));
 	}
 
-	@BodyParser.Of(BodyParser.Json.class)
+    public static Result getMammogram(Long mid) {
+        Staff staff = obtainStaff();
+        Mammogram mammogram = Mammogram.findById(mid);
+        if (mammogram == null)
+            return notFound(Json.newObject().put("NOT_FOUND", "")); // return json with error msg
+
+        return ok(Json.toJson(mammogram));
+
+    }
+
+	@Of(BodyParser.Json.class)
 	public static Result updatePersonalInfo(Long id) {
 		// Check that this patient actually exists
 		Patient patient = Patient.findById(id);
@@ -90,7 +111,7 @@ public class API extends Controller {
 			return unauthorized("Can't update info.");
 	}
 
-	@BodyParser.Of(BodyParser.Json.class)
+	@Of(BodyParser.Json.class)
 	public static Result updateMedicalInfo(Long id) {
 		// Check that this patient actually exists
 		Patient patient = Patient.findById(id);

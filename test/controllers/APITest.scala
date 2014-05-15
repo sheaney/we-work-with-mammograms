@@ -38,36 +38,35 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
         "user" -> "Juanito")
     }
 
-    describe("Get JSON node with patient information") {
+    def notFoundAndForbidden(notFoundCall: => Call, forbiddenCall: Patient => Call) {
+      describe("Not found or forbidden") {
+        it("should return notFound error if the patient doesn't exist") {
+          val session = createSession()
+          val fakeRequest = createFakeRequest(notFoundCall, session)
+          val Some(result) = route(fakeRequest.withSession(session.toSeq: _*))
+          status(result) shouldBe (Status.NOT_FOUND)
+        }
 
-      def getPatientUrl(id: Long): Call = {
-        controllers.routes.API.getPatientInfo(id)
+        it("should return forbidden if the patient is neither owned or borrowed by the staff member") {
+          val staff = sampleStaff
+          val patient = samplePatient
+
+          patient.save()
+          staff.save()
+
+          val session = createSession(Some(staff))
+          val fakeRequest = createFakeRequest(forbiddenCall(patient), session)
+          val Some(result) = route(fakeRequest.withSession(session.toSeq: _*))
+          status(result) shouldBe (Status.FORBIDDEN)
+
+          patient.delete()
+          staff.delete()
+
+        }
       }
+    }
 
-      it("should return notFound error if the patient doesn't exist") {
-        val session = createSession()
-        val fakeRequest = createFakeRequest(getPatientUrl(-1), session)
-        val Some(result) = route(fakeRequest.withSession(session.toSeq: _*))
-        status(result) shouldBe (Status.NOT_FOUND)
-      }
-
-      it("should return forbidden if the patient is neither owned or borrowed by the staff member") {
-        val staff = sampleStaff
-        val patient = samplePatient
-
-        patient.save()
-        staff.save()
-
-        val session = createSession(Some(staff))
-        val fakeRequest = createFakeRequest(getPatientUrl(patient.getId()), session)
-        val Some(result) = route(fakeRequest.withSession(session.toSeq: _*))
-        status(result) shouldBe (Status.FORBIDDEN)
-
-        patient.delete()
-        staff.delete()
-
-      }
-
+    def patientOwnedOrBorrowed(ownedCall: Patient => Call, borrowedCall: Patient => Call) {
       describe("When patient is own or borrowed") {
         it("should return a json node with the patient's information if it's owned by the staff") {
           val staff = sampleStaff
@@ -79,12 +78,11 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
           patient.save()
 
           val session = createSession(Some(staff))
-          val fakeRequest = createFakeRequest(getPatientUrl(patient.getId()), session)
+          val fakeRequest = createFakeRequest(ownedCall(patient), session)
           val Some(result) = route(fakeRequest.withSession(session.toSeq: _*))
           status(result) shouldBe (Status.OK)
 
           staff.delete()
-
         }
 
         it("should return a json node with the patient's information depending on the privileges if it's borrowed by the staff") {
@@ -98,13 +96,28 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
           borrower.getBorrowedPatients().add(sharedPatient)
 
           val session = createSession(Some(borrower))
-          val fakeRequest = createFakeRequest(getPatientUrl(sharedPatientInstance.getId()), session)
+          val fakeRequest = createFakeRequest(borrowedCall(sharedPatientInstance), session)
           val Some(result) = route(fakeRequest.withSession(session.toSeq: _*))
           status(result) shouldBe (Status.OK)
 
           sharer.delete()
         }
       }
+    }
+
+    describe("#getPatient") {
+      def getPatientUrl(id: Long): Call = controllers.routes.API.getPatient(id)
+
+      notFoundAndForbidden(getPatientUrl(-1), p => getPatientUrl(p.getId))
+      patientOwnedOrBorrowed(p => getPatientUrl(p.getId), p => getPatientUrl(p.getId))
+    }
+
+    describe("#getPatientInfo") {
+
+      def getPatientUrl(id: Long): Call = controllers.routes.API.getPatientInfo(id)
+
+      notFoundAndForbidden(getPatientUrl(-1), p => getPatientUrl(p.getId))
+      patientOwnedOrBorrowed(p => getPatientUrl(p.getId), p => getPatientUrl(p.getId))
     }
 
     describe("Updates Personal Info of a patient") {
