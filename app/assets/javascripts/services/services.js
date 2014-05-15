@@ -30,6 +30,14 @@ patientInfoServices.factory('PatientInfo', function($resource){
   });
 });
 
+var mammogramServices = angular.module('mammogramServices', ['ngResource']);
+
+mammogramServices.factory('Mammogram', function($resource){
+  return $resource('/api/mammogram/:id', {}, {
+    query: {method: 'GET', params: {id: 'id'}, isArray: false}
+  });
+});
+
 var CookieCtrl = angular.module('CookieCtrl', ['ngCookies']);
 
 //Cookie Session
