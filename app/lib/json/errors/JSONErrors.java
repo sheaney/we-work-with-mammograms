@@ -44,10 +44,22 @@ public class JSONErrors {
         return json;
     }
 
+    public static ObjectNode undefinedStaff() {
+        ObjectNode json = Json.newObject();
+        json.put(MSG, "El personal no existe");
+        return json;
+    }
+
+    public static ObjectNode undefinedMammogram() {
+        ObjectNode json = Json.newObject();
+        json.put(MSG, "La mamografía no existe");
+        return json;
+    }
+
     public static ObjectNode forbiddenAccess() {
         ObjectNode json = Json.newObject();
         json.put(MSG, "No tiene permiso para acceder a este paciente");
         return json;
     }
-	
+
 }

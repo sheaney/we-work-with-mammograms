@@ -4,16 +4,12 @@ import integration.{ UserLogin, PlayBrowserSpec }
 import play.api.test._
 import play.api.test.Helpers._
 import play.api.mvc._
-import models.Staff
-import models.Patient
+import models.{Mammogram, Staff, Patient, SharedPatient, Annotation}
 import factories.Factories
-import models.SharedPatient
 import play.api.libs.json.Json
 import play.api.http.Status
 import lib.permissions._
 import org.scalatest.BeforeAndAfter
-import play.api.mvc.MultipartFormData.FilePart
-import play.api.libs.Files.TemporaryFile
 
 /**
  * Created by fernando on 5/8/14.
@@ -113,12 +109,95 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
     }
 
     describe("#getPatientInfo") {
-
       def getPatientUrl(id: Long): Call = controllers.routes.API.getPatientInfo(id)
 
       notFoundAndForbidden(getPatientUrl(-1), p => getPatientUrl(p.getId))
       patientOwnedOrBorrowed(p => getPatientUrl(p.getId), p => getPatientUrl(p.getId))
     }
+
+    describe("#staff") {
+      def staffUrl: Call = controllers.routes.API.staff()
+
+      it ("obtains OK response for all staff") {
+        val staffList = for (i <- 0 to 10) yield (sampleStaff)
+        staffList.foreach(_.save)
+        val firstStaff = staffList.head
+        val session = createSession(Some(firstStaff))
+        val fakeRequest = createFakeRequest(staffUrl, session)
+        val Some(result) = route(fakeRequest.withSession(session.toSeq: _*))
+        status(result) shouldBe (Status.OK)
+      }
+    }
+
+    describe("#getStaff") {
+      def getStaffUrl(id: Long): Call = controllers.routes.API.getStaff(id)
+
+      it("obtains a not found if staff does not exist") {
+        val fakeRequest = FakeRequest(getStaffUrl(-1))
+        val Some(result) = route(fakeRequest)
+        status(result) shouldBe (Status.NOT_FOUND)
+      }
+
+      it("obtains OK if staff exists") {
+        val staff = sampleStaff
+        staff.save()
+        val fakeRequest = FakeRequest(getStaffUrl(staff.getId))
+        val session = createSession(Some(staff))
+        val Some(result) = route(fakeRequest.withSession(session.toSeq: _*))
+        status(result) shouldBe (Status.OK)
+      }
+    }
+
+    describe("#getMammogram") {
+      def getMammogramUrl(id: Long): Call = controllers.routes.API.getMammogram(id)
+
+      it("obtains a not found if staff does not exist") {
+        val fakeRequest = FakeRequest(getMammogramUrl(-1))
+        val Some(result) = route(fakeRequest)
+        status(result) shouldBe (Status.NOT_FOUND)
+      }
+
+      it("obtains OK if staff exists") {
+        val (staff, mammogram) = (new Staff, new Mammogram)
+        staff.save
+        mammogram.save
+        val fakeRequest = FakeRequest(getMammogramUrl(mammogram.getId))
+        val session = createSession(Some(staff))
+        val Some(result) = route(fakeRequest.withSession(session.toSeq: _*))
+        status(result) shouldBe (Status.OK)
+      }
+    }
+
+    describe("#createAnnotation") {
+      def createAnnotationUrl(mid: Long): Call =
+        controllers.routes.API.createAnnotation(mid)
+
+      it("obtains not found if mammogram does not exist") {
+        val staff = sampleStaff
+        staff.save
+        val fakeRequest = FakeRequest(createAnnotationUrl(-1))
+        val session = createSession(Some(staff))
+        val Some(result) = route(fakeRequest.withSession(session.toSeq: _*))
+        status(result) shouldBe (Status.NOT_FOUND)
+      }
+
+      it("successfully creates a new annotation") {
+        val (mammogram, annotation) = (new Mammogram, new Annotation)
+        val staff = sampleStaff
+        staff.save()
+        mammogram.save()
+        val content = "A new annotation!"
+        annotation.setContent(content)
+        val json = Json.toJson(Map("content" -> content))
+        val session = createSession(Some(staff))
+        val fakeRequest = FakeRequest(createAnnotationUrl(mammogram.getId)).withSession(session.toSeq: _*)
+        val fakeRequestWithJson = fakeRequest.withJsonBody(json)
+        val Some(result) = route(fakeRequestWithJson)
+        status(result) shouldBe (Status.OK)
+      }
+
+    }
+
 
     describe("Updates Personal Info of a patient") {
 
@@ -129,7 +208,6 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
       it("Patient doesn't exist") {
         val session = createSession()
         val fakeRequest = createFakeRequest(updatePersonalInfoUrl(-1), session)
-        val fakeRequestWithSession = fakeRequest.withSession(session.toSeq: _*)
         val json = Json.toJson(Map("foo" -> "bar"))
         val fakeRequestWithJson = fakeRequest.withJsonBody(json)
         val Some(result) = route(fakeRequestWithJson)

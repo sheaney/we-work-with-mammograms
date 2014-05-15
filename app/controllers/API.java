@@ -33,6 +33,7 @@ import static play.mvc.BodyParser.*;
 public class API extends Controller {
 	final static Form<PersonalInfo> personalInfoBinding = Form.form(PersonalInfo.class);
 	final static Form<MedicalInfo> medicalInfoBinding = Form.form(MedicalInfo.class);
+    final static Form<Annotation> annotationBinding = Form.form(Annotation.class);
     final static Form<Study> studyForm = Form.form(Study.class);
 
 	public static Result getPatient(Long id) {
@@ -57,6 +58,8 @@ public class API extends Controller {
 
 	public static Result getStaff(Long id) {
 		Staff staff = Staff.findById(id);
+        if (staff == null)
+            return notFound(JSONErrors.undefinedStaff());
 		return ok(JSONStaff.staffWithPatients(staff));
 	}
 
@@ -66,21 +69,41 @@ public class API extends Controller {
 		PatientContainer patientContainer = APIValidations.getPatientAccess(staff, patient);
 
 		if (patientContainer == null)
-			return notFound(Json.newObject().put("NOT_FOUND", "")); // return json with error msg
+			return notFound(JSONErrors.undefinedPatient());
 		else if (patientContainer.isEmpty())
-			return forbidden(Json.newObject().put("FORBIDDEN", "")); // return json with error msg
+			return forbidden(JSONErrors.forbiddenAccess());
 
 		// success
 		return ok(JSONStaff.staffPatient(staff, patientContainer));
 	}
 
     public static Result getMammogram(Long mid) {
-        Staff staff = obtainStaff();
         Mammogram mammogram = Mammogram.findById(mid);
         if (mammogram == null)
-            return notFound(Json.newObject().put("NOT_FOUND", "")); // return json with error msg
+            return notFound(JSONErrors.undefinedMammogram()); // return json with error msg
 
         return ok(Json.toJson(mammogram));
+
+    }
+
+    @Of(BodyParser.Json.class)
+    public static Result createAnnotation(Long mid) {
+        Mammogram mammogram = Mammogram.findById(mid);
+        if (mammogram == null)
+            return notFound(JSONErrors.undefinedMammogram());
+
+        JsonNode jsonNode = request().body().asJson();
+        Form<Annotation> binding = annotationBinding.bind(jsonNode);
+        if (binding.hasErrors())
+            return badRequest(Json.toJson(JSONErrors.patientInfoErrors(getErrors(annotationBinding))));
+        else {
+            Annotation annotation = annotationBinding.get();
+            mammogram.getAnnotations().add(annotation);
+            mammogram.save();
+            return ok("Success");
+        }
+
+
 
     }
 
