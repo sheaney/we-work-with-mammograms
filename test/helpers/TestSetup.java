@@ -54,6 +54,7 @@ public class TestSetup {
 
 	public static Map<String, Object> testDbSettings() {
 		Map<String, Object> dbSettings = new HashMap<String, Object>();
+		dbSettings.put("smtp.host", "xyz@xyz.com");
 		dbSettings.put("db.default.driver", "org.h2.Driver");
 		dbSettings.put("db.default.user", "sh");
 		dbSettings.put("db.default.url", "jdbc:h2:mem:wwwmtest;MODE=PostgreSQL");
