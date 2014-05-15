@@ -13,6 +13,7 @@ import lib.json.errors.JSONErrors;
 import lib.json.models.JSONStaff;
 import lib.permissions.PatientUpdateInfoPermission;
 import models.*;
+import play.Logger;
 import play.data.Form;
 import play.data.validation.ValidationError;
 import play.i18n.Messages;
@@ -148,8 +149,7 @@ public class API extends Controller {
 			JsonNode jsonNode = request().body().asJson();
 			Form<MedicalInfo> binding = medicalInfoBinding.bind(jsonNode);
 			if (binding.hasErrors()) {
-				System.out.println("Errors");
-				return badRequest(Json.toJson(JSONErrors.patientInfoErrors(getErrors(binding))));
+                return badRequest(Json.toJson(JSONErrors.patientInfoErrors(getErrors(binding))));
 			} else {
 				MedicalInfo info = binding.get();
 				patient.setMedicalInfo(info);
@@ -163,7 +163,6 @@ public class API extends Controller {
 
     public static F.Promise<Result> updateStudy(final Long pid, final Long sid) {
         return F.Promise.promise(new F.Function0<Result>() {
-            // Check that this patient actually exists
             final Patient patient = Patient.findById(pid);
             final Study studyToUpdate = Study.findById(sid);
             final Staff staff = obtainStaff();
@@ -189,13 +188,15 @@ public class API extends Controller {
 
                     // Set commenter for comments added to study
                     Iterator<Comment> comments = study.getComments().iterator();
-
                     while (comments.hasNext()) {
                         Comment comment = comments.next();
                         if (comment.getContent().isEmpty()) {
                             comments.remove();
                         } else {
+                            Logger.info(String.format("Adding comment by %s", staff.getFullName()));
                             comment.setCommenter(staff);
+                            comment.setCommented(studyToUpdate);
+                            comment.save();
                         }
                     }
 
@@ -222,13 +223,22 @@ public class API extends Controller {
                         mammogram.save();
 
                         // Calculate mammogram key and update with value
-                        String mammogramId = String.valueOf(mammogram.getId());
-                        String key = String.format("images/study/%s/mammogram/%s", sid, mammogramId);
+                        Long studyId = studyToUpdate.getId();
+                        Long mammogramId = mammogram.getId();
+                        String key = UploaderHelper.getMammogramImageKey(studyId, mammogramId);
 
                         // Upload to AWS s3 or write to disk
                         File imageFile = part.getFile();
-                        System.out.println(logMsg);
-                        uploader.write(key, imageFile);
+                        Logger.info(logMsg);
+                        try {
+                            uploader.write(key, imageFile);
+                        } catch (Uploader.FileWriterException fwe) {
+                            Logger.error(fwe.getMessage());
+                            return badRequest(JSONErrors.studyCreationErrors("No se puede guardar la toma en este momento"));
+                        } catch (Uploader.AWSException awse) {
+                            Logger.error(awse.getMessage());
+                            return badRequest(JSONErrors.studyCreationErrors("No se puede subir la toma en este momento"));
+                        }
                     }
 
                     studyToUpdate.save();

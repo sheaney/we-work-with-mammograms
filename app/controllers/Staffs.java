@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import content.FileWriter;
-import content.S3Uploader;
 import helpers.UploaderHelper;
 import lib.PasswordGenerator;
 import lib.PatientContainer;
@@ -19,7 +17,7 @@ import lib.permissions.PatientUpdateInfoPermission;
 import lib.permissions.PatientViewInfoPermission;
 import lib.permissions.Permission;
 import models.*;
-import play.Play;
+import play.Logger;
 import views.html.*;
 import play.data.Form;
 import play.libs.F.Function0;
@@ -75,6 +73,7 @@ public class Staffs extends Controller {
                         if (comment.getContent().isEmpty()) {
                             comments.remove();
                         } else {
+                            Logger.info(String.format("Adding comment by %s", staff.getFullName()));
                             comment.setCommenter(staff);
                         }
                     }
@@ -98,7 +97,7 @@ public class Staffs extends Controller {
                     study.setOwner(patient);
                     study.save();
 
-                    String studyId = String.valueOf(study.getId());
+                    Long studyId = study.getId();
 
 					// Create mammograms and persist images
 					for (MultipartFormData.FilePart part : parts) {
@@ -108,13 +107,21 @@ public class Staffs extends Controller {
                         mammogram.save();
 
                         // Calculate mammogram key and update with value
-                        String mammogramId = String.valueOf(mammogram.getId());
-                        String key = String.format("images/study/%s/mammogram/%s", studyId, mammogramId);
+                        Long mammogramId = mammogram.getId();
+                        String key = UploaderHelper.getMammogramImageKey(studyId, mammogramId);
 
                         // Upload to AWS s3 or write to disk
 						File imageFile = part.getFile();
-						System.out.println(logMsg);
-						uploader.write(key, imageFile);
+						Logger.info(logMsg);
+                        try {
+                            uploader.write(key, imageFile);
+                        } catch (Uploader.FileWriterException fwe) {
+                            Logger.error(fwe.getMessage());
+                            return badRequest(JSONErrors.studyCreationErrors("No se puede guardar la toma en este momento"));
+                        } catch (Uploader.AWSException awse) {
+                            Logger.error(awse.getMessage());
+                            return badRequest(JSONErrors.studyCreationErrors("No se puede subir la toma en este momento"));
+                        }
 					}
 				}
 
@@ -172,10 +179,10 @@ public class Staffs extends Controller {
 		int accessPrivileges = Permission.concatAccessPrivileges(patientViewInfo, patientUpdateInfo);
 		SharedPatient sharedPatient = new SharedPatient(sharer, borrower, patient, accessPrivileges);
 		
-		System.out.println("sharer = " + sharedPatient.getSharer().getName());
-		System.out.println("borrower = " + sharedPatient.getBorrower().getName());
-		System.out.println("shared patient = " + sharedPatient.getSharedInstance().getPersonalInfo().getName());
-		System.out.println(sharedPatient.getAccessPrivileges());
+		Logger.info("sharer = " + sharedPatient.getSharer().getName());
+		Logger.info("borrower = " + sharedPatient.getBorrower().getName());
+		Logger.info("shared patient = " + sharedPatient.getSharedInstance().getPersonalInfo().getName());
+		Logger.info(String.valueOf(sharedPatient.getAccessPrivileges()));
 		SharedPatient alreadySharedPatient = PatientContainer.getAlreadySharedPatient(sharedPatient, sharer, borrower);
 		if (alreadySharedPatient != null) {
 			alreadySharedPatient.setAccessPrivileges(sharedPatient.getAccessPrivileges());
@@ -220,18 +227,22 @@ public class Staffs extends Controller {
     }
 
     public static Result renderMammogram(Long sid, Long mid) throws IOException {
-        // TODO Extract mammogram key into a utility helper method
-        String key = String.format("images/study/%d/mammogram/%d", sid, mid);
+        String key = UploaderHelper.getMammogramImageKey(sid, mid);
         // Obtain reader
         Tuple<Uploader, String> readerAndLogMsg = UploaderHelper.obtainUploaderAndLogMsg(false);
         Uploader reader = readerAndLogMsg._1;
-        System.out.println(readerAndLogMsg._2);
-        BufferedImage image = reader.read(key);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(image, "png", baos);
-        ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+        Logger.info(readerAndLogMsg._2);
+        try {
+            BufferedImage image = reader.read(key);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(image, "png", baos);
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            return ok(bais).as("image/png");
+        } catch (IOException ioe) {
+            Logger.error(ioe.getMessage());
+        }
 
-        return ok(bais).as("image/png");
+        return internalServerError("Error al renderear mamografía");
     }
 	
 }

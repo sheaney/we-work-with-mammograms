@@ -10,6 +10,10 @@ import play.libs.F;
  * Created by sheaney on 5/13/14.
  */
 public class UploaderHelper {
+    public static String getMammogramImageKey(Long studyId, Long mammogramId) {
+        return String.format("images/study/%d/mammogram/%d", studyId, mammogramId);
+    }
+
     public static F.Tuple<Uploader, String> obtainUploaderAndLogMsg(boolean upload) {
         String logMsg = "";
 
