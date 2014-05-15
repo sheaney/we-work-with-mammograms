@@ -8,9 +8,12 @@ import lib.json.models.*;
 import models.*;
 import play.data.Form;
 import play.mvc.BodyParser;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.libs.Json;
 import play.mvc.Controller;
+import security.AuthorizableService;
+import security.AuthorizableUser;
 import security.ServiceDeadboltHandler;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -28,6 +31,14 @@ public class ServiceAPI extends Controller {
 
     final static Form<Comment> commentBinding = Form.form(Comment.class);
     final static Form<Annotation> annotationBinding = Form.form(Annotation.class);
+
+    private static Long getAuthorizableServiceId(){
+        //this is only to get the id of the commenting service,
+        //deadbolt does this to allow us into this method, but we do it again for the id
+        ServiceDeadboltHandler sdbh = new ServiceDeadboltHandler();
+        AuthorizableService as = (AuthorizableService)sdbh.getSubject(ctx());
+        return Long.parseLong(as.getIdentifier());
+    }
 
     public static Result test(){
         return ok(JSONErrors.ok("Service API is working!"));
@@ -119,72 +130,145 @@ public class ServiceAPI extends Controller {
     @BodyParser.Of(BodyParser.Json.class)
     public static Result putServiceComment(Long cid) {
         /*
-            {content: "A string"
-            commenter: StaffId
-            commented: StudyId}
+            {content: "A string"}
         */
+
         Comment com = Comment.findById(cid);
-        JsonNode jsonRequest = request().body().asJson();
-//        System.out.println(jsonRequest);
-        String content = jsonRequest.get(CONTENT).asText();
-        if(com != null) {
-            com.setContent(content);
-            com.update();
-            return ok(JSONErrors.ok("Comment updated successfully"));
+        if(com != null) {//comment to update exists
+            Long serviceId = getAuthorizableServiceId();
+            if(com.getServiceCommenter().getId() == serviceId) { //service is allowed to update
+                //get data content from json request
+                String content = null;
+                try {
+                    JsonNode jsonRequest = request().body().asJson();
+                    content = jsonRequest.get(CONTENT).asText();
+                } catch (Exception e) {
+                    return badRequest(JSONErrors.undefined("Bad format request"));
+                }
+
+                com.setContent(content);
+                com.update();
+                //return as proof of updating
+                ObjectNode result = JSONErrors.ok("Comment updated successfully");
+                result.put("body",JSONComment.serviceComment(com));
+                return ok(result);
+            }else{
+                return badRequest(JSONErrors.notAllowed("Service update not allowed in this comment"));
+            }
         }else{
             return notFound(JSONErrors.notFound("Comment not found"));
         }
     }
-
-    public static Result postServiceComment(){
-        Comment com = new Comment();
-        JsonNode jsonRequest = request().body().asJson();
-        String content = jsonRequest.get(CONTENT).asText();
-        Study commented = Study.findById(jsonRequest.get(COMMENTED).asLong());
-        Staff commenter = Staff.findById(jsonRequest.get(COMMENTER).asLong());
-        if(commented == null)
-            return notFound(JSONErrors.notFound("Study not found."));
-        if(commenter == null)
-            return notFound(JSONErrors.notFound("Commenting staff not found"));
-        com.setCommented(commented);
-        com.setCommenter(commenter);
-        com.setContent(content);
-        com.save();
-        ObjectNode json = Json.newObject();
-        json.put("id", com.getId());
-        json.put("content", com.getContent());
-        json.put("commenter", com.getCommenter().getId());
-        json.put("commented", com.getCommented().getId());
-
-        return ok(json);
-    }
-
+    @BodyParser.Of(BodyParser.Json.class)
     public static Result putServiceAnnotation(Long aid){
         /*
+            {content: "A string"}
+        */
+
+        Annotation ann = Annotation.findById(aid);
+        if(ann != null) {//comment to update exists
+            Long serviceId = getAuthorizableServiceId();
+            if(ann.getServiceAnnotator().getId() == serviceId) { //service is allowed to update
+                //get data content from json request
+                String content = null;
+                try {
+                    JsonNode jsonRequest = request().body().asJson();
+                    content = jsonRequest.get(CONTENT).asText();
+                } catch (Exception e) {
+                    return badRequest(JSONErrors.undefined("Bad format request"));
+                }
+
+                ann.setContent(content);
+                ann.update();
+                //return as proof of updating
+                ObjectNode result = JSONErrors.ok("Annotation updated successfully");
+                result.put("body",JSONAnnotation.serviceAnnotation(ann));
+                return ok(result);
+            }else{
+                return badRequest(JSONErrors.notAllowed("Service update not allowed in this annotation"));
+            }
+        }else{
+            return notFound(JSONErrors.notFound("Annotation not found"));
+        }
+    }
+
+    public static Result postServiceComment(){
+        /*
             {content: "A string"
-            annotatorStaff: StaffId
+            commentedStudy: StudyId}
+        */
+
+        Long serviceId = getAuthorizableServiceId();
+
+        //we pull everything we need from the json request/db
+        String content = null;
+        Long commentedId = null;
+        try {
+            JsonNode jsonRequest = request().body().asJson();
+            content = jsonRequest.get(CONTENT).asText();
+            commentedId = jsonRequest.get(COMMENTED_STUDY).asLong();
+        } catch (Exception e) {
+            return badRequest(JSONErrors.undefined("Bad format request"));
+        }
+
+        Study commented = Study.findById(commentedId);
+        if(commented == null)
+            return notFound(JSONErrors.notFound("Study not found."));
+
+        //we don't need to check for this to be null because if it was, we wouldn't be here because of deadbolt2
+        ServiceAuth commenter = ServiceAuth.findById(serviceId);
+
+        //create and set attributes to the new comment
+        Comment com = new Comment();
+        com.setCommented(commented);
+        com.setServiceCommenter(commenter);
+        com.setContent(content);
+        com.save();
+
+        //return the saved object for the service to confirm
+        ObjectNode result = JSONErrors.ok("Comment saved!");
+        result.put("body",JSONComment.serviceComment(com));
+
+        return ok(result);
+    }
+
+    public static Result postServiceAnnotation(){
+        /*
+            {content: "A string"
             annotatedMammogram: MammogramId}
         */
-        Annotation ann = Annotation.findById(aid);
-        JsonNode jsonRequest = request().body().asJson();
-        String content = jsonRequest.get(CONTENT).asText();
-        if(ann != null) {
-            ann.setContent(content);
-            ann.update();
-            return ok(JSONErrors.ok("Annotation updated successfully"));
-        }else{
-            Mammogram annotated = Mammogram.findById(jsonRequest.get(ANNOTATED).asLong());
-            Staff annotator = Staff.findById(jsonRequest.get(ANNOTATOR).asLong());
-            if(annotated == null)
-                return notFound(JSONErrors.notFound("Mammogram not found."));
-            if(annotator == null)
-                return notFound(JSONErrors.notFound("Commenting staff not found"));
-            ann = new Annotation();
-            ann.setAnnotated(annotated);
-            ann.setAnnotator(annotator);
-            ann.setContent(content);
-            ann.update();
-            return ok(JSONErrors.ok("Annotation updated successfully"));
+
+        Long serviceId = getAuthorizableServiceId();
+        //we pull everything we need from the json request/db
+        String content = null;
+        Long mammogramId = null;
+        try {
+            JsonNode jsonRequest = request().body().asJson();
+            content = jsonRequest.get(CONTENT).asText();
+            mammogramId = jsonRequest.get(ANNOTATED_MAMMOGRAM).asLong();
+        } catch (Exception e) {
+            return badRequest(JSONErrors.undefined("Bad format request"));
         }
+
+        Mammogram annotated = Mammogram.findById(mammogramId);
+        if(annotated == null)
+            return notFound(JSONErrors.notFound("Mammogram not found."));
+
+        //we don't need to check for this to be null because if it was, we wouldn't be here because of deadbolt2
+        ServiceAuth annotator = ServiceAuth.findById(serviceId);
+
+        //the comment to create in the database
+        Annotation ann = new Annotation();
+
+        ann.setAnnotated(annotated);
+        ann.setServiceAnnotator(annotator);
+        ann.setContent(content);
+        ann.save();
+
+        //return the saved object for the service to confirm
+        ObjectNode result = JSONErrors.ok("Annotation saved!");
+        result.put("body",JSONAnnotation.serviceAnnotation(ann));
+
+        return ok(result);
     }
 }
