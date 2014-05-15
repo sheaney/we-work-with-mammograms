@@ -93,7 +93,7 @@ class APIServiceTest extends PlayBrowserSpec with WsTestClient with Factories {
       patient.save
       And("the requester has a valid service token")
       val service = sampleService
-      Then("The external service makes a request to the uri -> api/service/patient/:id?info=\"not defined\"")
+      Then("""The external service makes a request to the uri -> api/service/patient/:id?info="not defined"""")
       val request = wsCall(controllers.routes.ServiceAPI.getServicePatient(patient.getId,"not defined"))(Helpers.testServerPort).withHeaders(("Authorization",service.getAuthToken))
       val response = Await.result(request.get(),Duration.Inf)
 

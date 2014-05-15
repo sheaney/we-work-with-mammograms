@@ -105,7 +105,7 @@ GET     /api/service/patients               controllers.ServiceAPI.getPatients()
 
 GET     /api/service/schema/:pid            controllers.ServiceAPI.getSchema(pid: Long)
 
-GET     /api/service/patient/:id            controllers.ServiceAPI.getServicePatient(id: Long, info ?= null)
+GET     /api/service/patient/:pid           controllers.ServiceAPI.getServicePatient(pid: Long, info ?= null)
 
 GET     /api/service/study/:sid             controllers.ServiceAPI.getServiceStudy(sid: Long)
 
