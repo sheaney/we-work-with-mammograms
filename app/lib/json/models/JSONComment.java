@@ -20,7 +20,7 @@ public class JSONComment {
         jsonServiceComment.put(CREATED_AT,c.getCreatedAt().getTime());
         Staff commenter = c.getCommenter();
         if (commenter != null)
-            jsonServiceComment.put(COMMENTER,commenter.getId());
+            jsonServiceComment.put(STAFF_COMMENTER,commenter.getId());
         else
             jsonServiceComment.put(SERVICE_COMMENTER,c.getServiceCommenter().getId());
         jsonServiceComment.put(COMMENTED_STUDY,c.getCommented().getId());
