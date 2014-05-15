@@ -39,7 +39,7 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
         it("should return notFound error if the patient doesn't exist") {
           val session = createSession()
           val fakeRequest = createFakeRequest(notFoundCall, session)
-          val Some(result) = route(fakeRequest.withSession(session.toSeq: _*))
+          val Some(result) = route(fakeRequest)
           status(result) shouldBe (Status.NOT_FOUND)
         }
 
@@ -52,12 +52,11 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
 
           val session = createSession(Some(staff))
           val fakeRequest = createFakeRequest(forbiddenCall(patient), session)
-          val Some(result) = route(fakeRequest.withSession(session.toSeq: _*))
+          val Some(result) = route(fakeRequest)
           status(result) shouldBe (Status.FORBIDDEN)
 
           patient.delete()
           staff.delete()
-
         }
       }
     }
@@ -75,7 +74,7 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
 
           val session = createSession(Some(staff))
           val fakeRequest = createFakeRequest(ownedCall(patient), session)
-          val Some(result) = route(fakeRequest.withSession(session.toSeq: _*))
+          val Some(result) = route(fakeRequest)
           status(result) shouldBe (Status.OK)
 
           staff.delete()
@@ -93,7 +92,7 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
 
           val session = createSession(Some(borrower))
           val fakeRequest = createFakeRequest(borrowedCall(sharedPatientInstance), session)
-          val Some(result) = route(fakeRequest.withSession(session.toSeq: _*))
+          val Some(result) = route(fakeRequest)
           status(result) shouldBe (Status.OK)
 
           sharer.delete()
@@ -124,7 +123,7 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
         val firstStaff = staffList.head
         val session = createSession(Some(firstStaff))
         val fakeRequest = createFakeRequest(staffUrl, session)
-        val Some(result) = route(fakeRequest.withSession(session.toSeq: _*))
+        val Some(result) = route(fakeRequest)
         status(result) shouldBe (Status.OK)
       }
     }
@@ -133,7 +132,10 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
       def getStaffUrl(id: Long): Call = controllers.routes.API.getStaff(id)
 
       it("obtains a not found if staff does not exist") {
-        val fakeRequest = FakeRequest(getStaffUrl(-1))
+        val staff = sampleStaff
+        staff.save
+        val session = createSession(Some(staff))
+        val fakeRequest = createFakeRequest(getStaffUrl(-1), session)
         val Some(result) = route(fakeRequest)
         status(result) shouldBe (Status.NOT_FOUND)
       }
@@ -141,9 +143,9 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
       it("obtains OK if staff exists") {
         val staff = sampleStaff
         staff.save()
-        val fakeRequest = FakeRequest(getStaffUrl(staff.getId))
         val session = createSession(Some(staff))
-        val Some(result) = route(fakeRequest.withSession(session.toSeq: _*))
+        val fakeRequest = createFakeRequest(getStaffUrl(staff.getId), session)
+        val Some(result) = route(fakeRequest)
         status(result) shouldBe (Status.OK)
       }
     }
@@ -152,7 +154,10 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
       def getMammogramUrl(id: Long): Call = controllers.routes.API.getMammogram(id)
 
       it("obtains a not found if staff does not exist") {
-        val fakeRequest = FakeRequest(getMammogramUrl(-1))
+        val staff = sampleStaff
+        staff.save
+        val session = createSession(Some(staff))
+        val fakeRequest = createFakeRequest(getMammogramUrl(-1), session)
         val Some(result) = route(fakeRequest)
         status(result) shouldBe (Status.NOT_FOUND)
       }
@@ -161,9 +166,9 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
         val (staff, mammogram) = (new Staff, new Mammogram)
         staff.save
         mammogram.save
-        val fakeRequest = FakeRequest(getMammogramUrl(mammogram.getId))
         val session = createSession(Some(staff))
-        val Some(result) = route(fakeRequest.withSession(session.toSeq: _*))
+        val fakeRequest = createFakeRequest(getMammogramUrl(mammogram.getId), session)
+        val Some(result) = route(fakeRequest)
         status(result) shouldBe (Status.OK)
       }
     }
@@ -175,9 +180,9 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
       it("obtains not found if mammogram does not exist") {
         val staff = sampleStaff
         staff.save
-        val fakeRequest = FakeRequest(createAnnotationUrl(-1))
         val session = createSession(Some(staff))
-        val Some(result) = route(fakeRequest.withSession(session.toSeq: _*))
+        val fakeRequest = createFakeRequest(createAnnotationUrl(-1), session)
+        val Some(result) = route(fakeRequest)
         status(result) shouldBe (Status.NOT_FOUND)
       }
 
@@ -190,7 +195,7 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
         annotation.setContent(content)
         val json = Json.toJson(Map("content" -> content))
         val session = createSession(Some(staff))
-        val fakeRequest = FakeRequest(createAnnotationUrl(mammogram.getId)).withSession(session.toSeq: _*)
+        val fakeRequest = createFakeRequest(createAnnotationUrl(mammogram.getId), session)
         val fakeRequestWithJson = fakeRequest.withJsonBody(json)
         val Some(result) = route(fakeRequestWithJson)
         status(result) shouldBe (Status.OK)
@@ -207,14 +212,13 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
           annotation.setContent(content)
           val json = Json.toJson(Map("content" -> content))
           val session = createSession(Some(staff))
-          val fakeRequest = FakeRequest(createAnnotationUrl(mammogram.getId)).withSession(session.toSeq: _*)
+          val fakeRequest = createFakeRequest(createAnnotationUrl(mammogram.getId), session)
           val fakeRequestWithJson = fakeRequest.withJsonBody(json)
           val Some(result) = route(fakeRequestWithJson)
           status(result) shouldBe (Status.BAD_REQUEST)
         }
 
       }
-
 
     }
 

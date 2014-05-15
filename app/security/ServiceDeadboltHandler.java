@@ -5,10 +5,10 @@ import static play.mvc.Results.unauthorized;
 import be.objectify.deadbolt.core.models.Subject;
 import be.objectify.deadbolt.java.DeadboltHandler;
 import be.objectify.deadbolt.java.DynamicResourceHandler;
+import lib.json.errors.JSONErrors;
 import models.ServiceAuth;
 import play.libs.F;
 import play.libs.F.Promise;
-import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.SimpleResult;
 
@@ -21,8 +21,10 @@ public class ServiceDeadboltHandler implements DeadboltHandler {
     @Override
     public Subject getSubject(Http.Context context) {
         String authToken = context.request().getHeader("Authorization");
-        if(ServiceAuth.verifyService(authToken))
-            return new AuthorizableService();
+        ServiceAuth potentialService = ServiceAuth.verifyService(authToken);
+        if (potentialService != null){
+            return new AuthorizableService(potentialService.getId());
+        }
         return null;
     }
 
@@ -31,7 +33,7 @@ public class ServiceDeadboltHandler implements DeadboltHandler {
         return (Promise.promise(new F.Function0<SimpleResult>() {
             @Override
             public SimpleResult apply() throws Throwable {
-                return unauthorized(Json.newObject().put("STATUS", "Not Authorized"));
+                return unauthorized(JSONErrors.notAllowed("Not Authorized"));
             }
         }));
     }

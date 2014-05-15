@@ -102,10 +102,30 @@ GET     /api/mammogram/:mid                 controllers.API.getMammogram(mid: Lo
 POST     /api/mammogram/:mid/annotation     controllers.API.createAnnotation(mid: Long)
 
 #External Services calls
-GET     /api/service/test                   controllers.TestServiceController.test
+GET     /api/service/test                   controllers.ServiceAPI.test
 
 #returns all patients id's so the services is able to iterate calls to further routes
-GET     /api/service/patients               controllers.API.getPatients()
+GET     /api/service/patients               controllers.ServiceAPI.getPatients()
+
+GET     /api/service/schema/:pid            controllers.ServiceAPI.getSchema(pid: Long)
+
+GET     /api/service/patient/:pid           controllers.ServiceAPI.getServicePatient(pid: Long, info ?= null)
+
+GET     /api/service/study/:sid             controllers.ServiceAPI.getServiceStudy(sid: Long)
+
+POST    /api/service/comment                controllers.ServiceAPI.postServiceComment()
+
+GET     /api/service/comment/:cid           controllers.ServiceAPI.getServiceComment(cid: Long)
+
+PUT     /api/service/comment/:cid           controllers.ServiceAPI.putServiceComment(cid: Long)
+
+GET     /api/service/mammogram/:mid         controllers.ServiceAPI.getServiceMammogram(mid: Long)
+
+POST    /api/service/annotation             controllers.ServiceAPI.postServiceAnnotation()
+
+GET     /api/service/annotation/:aid        controllers.ServiceAPI.getServiceAnnotation(aid: Long)
+
+PUT     /api/service/annotation/:aid        controllers.ServiceAPI.putServiceAnnotation(aid: Long)
 
 ## Assets
 

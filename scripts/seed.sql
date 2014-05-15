@@ -32,8 +32,21 @@ insert into patient(id, personal_info_id, medical_info_id, staff_id, view_commen
 insert into shared_patient(id, created_at, sharer_id, borrower_id, patient_id, access_privileges)
   values (1, '2014-04-21', 2, 1, 3, 15);
 
--- insert into annotation(id, content, created_at, mammogram_id, staff_id)
-  -- values(1, 'Coordenadas (234, 82) se observa algo extraño', '2014-04-25', 1, 1);
+insert into study(id,created_at, patient_id)
+  values(1,'now',1);
+insert into study(id,created_at, patient_id)
+  values(2,'now',2);
+ 
+insert into mammogram(id,created_at,study_id) 
+  values(1,'now',1);
+insert into mammogram(id,created_at,study_id)
+  values(2,'now',2);
+
+insert into annotation(id, content, created_at, mammogram_id, staff_id, service_auth_id)
+  values(1, 'Coordenadas (234, 82) se observa algo extraño', '2014-04-25', 1, 1, null);
 
 insert into service_auth(id, email, auth_token)
-  values(1, 'someemail@somedomain.com', 'lne8nkvvr1nnmde3hgudgjo7av')
+  values(1, 'someemail@somedomain.com', 'lne8nkvvr1nnmde3hgudgjo7av');
+
+insert into annotation(id,content,created_at, mammogram_id, staff_id,service_auth_id)
+  values(2, 'This mammogram was analyzed by service: 1', 'now', 2, null, 1);

@@ -62,4 +62,20 @@ public class JSONErrors {
         return json;
     }
 
+    public static ObjectNode undefined(String msg) {
+        return Json.newObject().put("UNDEFINED",msg);
+    }
+
+    public static ObjectNode notFound(String msg) {
+        return Json.newObject().put("NOT_FOUND", msg);
+    }
+
+    public static ObjectNode ok(String msg) {
+        return Json.newObject().put("STATUS", msg);
+    }
+
+    public static ObjectNode notAllowed(String msg){
+        return Json.newObject().put("NOT ALLOWED",msg);
+    }
+
 }

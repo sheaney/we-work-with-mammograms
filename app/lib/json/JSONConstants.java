@@ -14,5 +14,19 @@ public class JSONConstants {
 	public final static String ADDRESS = "address";
 	public final static String TELEPHONE = "telephone";
 	public final static String BIRTHDATE = "birthdate";
+    public final static String CREATED_AT = "createdAt";
+    public final static String CONTENT = "content";
+    public final static String ANNOTATIONS = "annotations";
+    public static final String STUDY = "study";
+    public static final String STUDIES = "studies";
+    public final static String MAMMOGRAMS = "mammograms";
+    public final static String COMMENTS = "comments";
+    public final static String COMMENTER = "commenter";
+    public final static String COMMENTED_STUDY = "commentedStudy";
+    public final static String ANNOTATED_MAMMOGRAM = "annotatedMammogram";
+    public final static String SERVICE_COMMENTER = "serviceCommenter";
+    public final static String SERVICE_ANNOTATOR = "serviceAnnotator";
+
+
 
 }

@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import play.Play;
 import play.data.validation.Constraints.MaxLength;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -30,13 +31,24 @@ public class Comment extends Model {
 	
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name="staff_id", nullable=false)
+	@JoinColumn(name="staff_id")
 	Staff commenter;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name="service_auth_id")
+    ServiceAuth serviceCommenter;
 	
 	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="study_id", nullable=false)
 	Study commented;
+
+    public static Finder<String,Comment> find = new Finder<String,Comment>(Play.application().configuration().getString("datasource"), String.class, Comment.class);
+
+    public static Comment findById(Long id) {
+        return find.byId(String.valueOf(id));
+    }
 
 	public Long getId() {
 		return id;
@@ -77,5 +89,12 @@ public class Comment extends Model {
 	public void setCommented(Study commented) {
 		this.commented = commented;
 	}
-	
+
+    public ServiceAuth getServiceCommenter() {
+        return serviceCommenter;
+    }
+
+    public void setServiceCommenter(ServiceAuth serviceCommenter) {
+        this.serviceCommenter = serviceCommenter;
+    }
 }

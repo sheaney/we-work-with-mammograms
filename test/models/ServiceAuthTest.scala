@@ -18,19 +18,19 @@ class ServiceAuthTest extends ModelsHelper{
   }
 
   describe("Method verify() of the ServiceAuthTest"){
-    it("should return true if the authToken is in the database") {
+    it("should return the serviceAuth model if the authToken is in the database") {
       running(app) {
         val service = new ServiceAuth("something@somethingelse.com")
         service.save()
         val verified = ServiceAuth.verifyService(service.getAuthToken)
-        verified should be(true)
+        verified should not be(null)
       }
     }
 
-    it("should return false if the token is nowhere to be found"){
+    it("should return null if the token is nowhere to be found"){
       running(app) {
         val notVerified = ServiceAuth.verifyService("not a real token")
-        notVerified should be(false)
+        notVerified should be(null)
       }
     }
   }
