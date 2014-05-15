@@ -12,8 +12,13 @@ import java.util.List;
  */
 public class AuthorizableService implements Subject {
 
+    //id of this class' db counterpart ServiceAuth
+    Long id;
 
-    public AuthorizableService(){}
+    public AuthorizableService(Long id){
+        this.id = id;
+    }
+
 
     @Override
     public List<? extends Role> getRoles() {
@@ -31,6 +36,6 @@ public class AuthorizableService implements Subject {
 
     @Override
     public String getIdentifier() {
-        return null;
+        return this.id.toString();
     }
 }

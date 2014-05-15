@@ -65,8 +65,8 @@ public class ServiceAuth extends Model {
         this.id = id;
     }
 
-    public static boolean verifyService(String token){
-        return find.where().eq("authToken",token).findUnique() != null;
+    public static ServiceAuth verifyService(String token){
+        return find.where().eq("authToken",token).findUnique();
     }
 
     public List<Annotation> getAnnotations() {
@@ -83,5 +83,9 @@ public class ServiceAuth extends Model {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public static ServiceAuth findById(Long serviceId) {
+        return find.byId(String.valueOf(serviceId));
     }
 }
