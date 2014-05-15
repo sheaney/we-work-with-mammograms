@@ -30,13 +30,14 @@
           <legend>Comentarios</legend>
           @for(study <- studyOpt) {
             @for(comment <- study.getComments.sortWith(_.getCreatedAt.getTime > _.getCreatedAt.getTime)) {
-              <div class"col-md-8">
-                <pre>@comment.getContent - <b>@comment.getCommenter.getRole.capitalize @comment.getCommenter (@helpers.DateHelper.getDateFormat(comment.getCreatedAt))</b></pre>
-              </div>
+              @defining(Option(comment.getCommenter)) { commenterOpt =>
+                <div class"col-md-8">
+                  <pre>@comment.getContent - <b>@commenterOpt.map(_.getRole.capitalize).getOrElse("") @commenterOpt.map(_.getFullName).getOrElse("Servicio Externo") (@helpers.DateHelper.getDateFormat(comment.getCreatedAt))</b></pre>
+                </div>
+              }
             }
           }
           @textarea(
-            //field = studyForm(s"comments[${studyOpt.map(_.getComments.size).getOrElse(0)}].content"), 
             field = studyForm("comments[0].content"), 
           	args = 'placeholder -> "Comentarios sobre el estudio...", 'rows -> "5", '_label -> "", 'class -> "form-control")
         </fieldset>

@@ -190,7 +190,7 @@ public class API extends Controller {
                     Iterator<Comment> comments = study.getComments().iterator();
                     while (comments.hasNext()) {
                         Comment comment = comments.next();
-                        if (comment.getContent().isEmpty()) {
+                        if (comment.getContent().matches("\\s*")) {
                             comments.remove();
                         } else {
                             Logger.info(String.format("Adding comment by %s", staff.getFullName()));

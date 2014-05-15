@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
+import controllers.validations.APIValidations;
 import helpers.UploaderHelper;
 import lib.PasswordGenerator;
 import lib.PatientContainer;
@@ -70,7 +71,7 @@ public class Staffs extends Controller {
 
                     while (comments.hasNext()) {
                         Comment comment = comments.next();
-                        if (comment.getContent().isEmpty()) {
+                        if (comment.getContent().matches("\\s*")) {
                             comments.remove();
                         } else {
                             Logger.info(String.format("Adding comment by %s", staff.getFullName()));
@@ -136,7 +137,23 @@ public class Staffs extends Controller {
 	}
 
 	public static Result study(Long patientId, Long id) {
+        // Check that this patient actually exists
+        Patient patient = Patient.findById(patientId);
+        Staff staff = API.obtainStaff();
+
+        PatientContainer patientContainer = APIValidations.getPatientAccess(staff, patient);
+
+        if (patientContainer == null)
+            return notFound("Patient doesn't exist.");
+
         Study s = Study.findById(id);
+        if (s == null)
+            return badRequest("El estudio no existe");
+
+        PatientViewInfoPermission viewPermission = new PatientViewInfoPermission(patientContainer.getAccessPrivileges());
+        if (!viewPermission.canViewStudies())
+            return unauthorized("No tiene permiso para ver información del paciente");
+
         return ok(study.render(id, session().get("user"), s, newStudyForm));
 	}
 

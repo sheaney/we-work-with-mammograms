@@ -4,12 +4,14 @@ import integration.{ UserLogin, PlayBrowserSpec }
 import play.api.test._
 import play.api.test.Helpers._
 import play.api.mvc._
-import models.{Mammogram, Staff, Patient, SharedPatient, Annotation}
+import models._
 import factories.Factories
 import play.api.libs.json.Json
 import play.api.http.Status
 import lib.permissions._
 import org.scalatest.BeforeAndAfter
+import scala.Some
+import play.api.mvc.Call
 
 /**
  * Created by fernando on 5/8/14.
@@ -187,12 +189,11 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
       }
 
       it("successfully creates a new annotation") {
-        val (mammogram, annotation) = (new Mammogram, new Annotation)
+        val mammogram = new Mammogram
         val staff = sampleStaff
         staff.save()
         mammogram.save()
         val content = "A new annotation!"
-        annotation.setContent(content)
         val json = Json.toJson(Map("content" -> content))
         val session = createSession(Some(staff))
         val fakeRequest = createFakeRequest(createAnnotationUrl(mammogram.getId), session)
@@ -204,12 +205,11 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
       describe("Failing constraints") {
 
         it("fails to create a new annotation (content length exceeds 200 chars)") {
-          val (mammogram, annotation) = (new Mammogram, new Annotation)
+          val mammogram = new Mammogram
           val staff = sampleStaff
           staff.save()
           mammogram.save()
           val content = "*" * 201
-          annotation.setContent(content)
           val json = Json.toJson(Map("content" -> content))
           val session = createSession(Some(staff))
           val fakeRequest = createFakeRequest(createAnnotationUrl(mammogram.getId), session)
