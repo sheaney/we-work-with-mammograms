@@ -1,160 +1,159 @@
 @(userName: String)
 
 @views.html.layouts.angular("Bienvenido")(angularApp = "patientApp", angularCtrl = "PatientController") {
-    <!-- Render top navbar -->
-    @navbar(userName)
+<!-- Render top navbar -->
+@navbar(userName)
 
-    <div class="container">
+<div class="container">
 
-        <div class="starter-template">
+    <div class="row">
         <h1 style="padding-bottom:20px">{{ fullName }}</h1>
 
         <ul class="nav nav-tabs">
-          <li class="active"><a data-toggle="tab" href="#resultados">Resultados</a></li>
-          <li><a data-toggle="tab" href="#infoPersonal">Información Personal</a></li>
+            <li class="active"><a data-toggle="tab" href="#resultados">Resultados</a></li>
+            <li><a data-toggle="tab" href="#infoPersonal">Información Personal</a></li>
         </ul>
 
-<div class="tab-content">
-         <div id="resultados" class="tab-pane fade in active">
-              <div class="col-md-8" ng-repeat="study in patient.studies">
-      <h2>{{studyDate(study)}}</h2>
-      <br>
-      <p ng-repeat="mammogram in study.mammograms">
-        Mamografía {{mammogramId(mammogram)}} |
-        <a href="#">Abrir</a> | 
-        <a href="#">Descargar</a>
-      </p>
+        <div class="tab-content">
+            <div id="resultados" class="tab-pane fade in active">
+                <div class="col-md-8" ng-repeat="study in patient.studies | orderBy:mostRecent">
+                    <h2>{{ formatDate(study.createdAt) }}</h2>
+                    <br>
+                    <p ng-repeat="mammogram in study.mammograms">
+                        Mamografía |
+                        <a href="#" ng-click="showMammogram(study, mammogram)">Abrir</a> |
+                        <a ng-href="/images/patient/study/{{study.id}}/mammogram/{{mammogram.id}}" download="{{study.createdAt}}_{{study.id}}_{{mammogram.id}}">Descargar</a>
+                    </p>
 
-      <h2>Comentarios</h2>
+                    <h3>Comentarios</h3>
 
-      <pre ng-repeat= "comment in study.comments">{{comments(comment)}}</pre>
-        </div>
-        </div>
+                    <pre ng-repeat= "comment in study.comments">{{comments(comment)}}</pre>
+                </div>
+            </div>
 
-<div id="infoPersonal" class="tab-pane fade">
+            <div id="infoPersonal" class="tab-pane fade">
 
-<div class="col-md-6 col-xs-12"> 
-     <h3>Información Personal</h3><br>
+                <div class="col-md-6 col-xs-12">
+                    <h3>Información Personal</h3><br>
 
-        <div class="col-md-12 col-xs-12">
-        <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Nombre del paciente:</label>
-        </div>
-        <div class="col-md-6 col-sm-10">
-            {{fullName}}
-        </div>
-        </div>
+                    <div class="col-md-12 col-xs-12">
+                        <div class="col-md-6 col-xs-6">
+                            <label for="patientName" class="col-md-12 control-label">Nombre del paciente:</label>
+                        </div>
+                        <div class="col-md-6 col-sm-10">
+                            {{fullName}}
+                        </div>
+                    </div>
 
-       <div class="col-md-12 col-xs-12">
-        <div class="col-md-6 col-xs-6">
-        <label for="patientAddress" class="col-md-12 control-label">Dirección:</label>
-        </div>
-         <div class="col-md-6 col-sm-10">
-        {{patient.personalInfo.address}}
-         </div>
-         </div>
+                    <div class="col-md-12 col-xs-12">
+                        <div class="col-md-6 col-xs-6">
+                            <label for="patientAddress" class="col-md-12 control-label">Dirección:</label>
+                        </div>
+                        <div class="col-md-6 col-sm-10">
+                            {{patient.personalInfo.address}}
+                        </div>
+                    </div>
         
-        <div class="col-md-12 col-xs-12">
-        <div class="col-md-6 col-xs-6">
-        <label for="patientEmail" class="col-md-12 control-label">Correo Electrónico:</label>
-        </div>
-         <div class="col-md-6 col-sm-10">
-            {{patient.personalInfo.email}}
-         </div>
-         </div>
+                    <div class="col-md-12 col-xs-12">
+                        <div class="col-md-6 col-xs-6">
+                            <label for="patientEmail" class="col-md-12 control-label">Correo Electrónico:</label>
+                        </div>
+                        <div class="col-md-6 col-sm-10">
+                            {{patient.personalInfo.email}}
+                        </div>
+                    </div>
          
-        <div class="col-md-12 col-xs-12">
-        <div class="col-md-6 col-xs-6">
-        <label for="patientPhone" class="col-md-12 control-label">Teléfono:</label>
-        </div>
-         <div class="col-md-6 col-sm-10">
-            {{patient.personalInfo.telephone}}
-         </div>
-         </div>
+                    <div class="col-md-12 col-xs-12">
+                        <div class="col-md-6 col-xs-6">
+                            <label for="patientPhone" class="col-md-12 control-label">Teléfono:</label>
+                        </div>
+                        <div class="col-md-6 col-sm-10">
+                            {{patient.personalInfo.telephone}}
+                        </div>
+                    </div>
 
-       <div class="col-md-12 col-xs-12">
-        <div class="col-md-6 col-xs-6">
-        <label for="patientBirhdate" class="col-md-12 control-label">Fecha de Nacimiento:</label>
-        </div>
-         <div class="col-md-6 col-sm-10">
-            {{patient.personalInfo.birthdate}}
-         </div>
-         </div>
-</div>
+                    <div class="col-md-12 col-xs-12">
+                        <div class="col-md-6 col-xs-6">
+                            <label for="patientBirhdate" class="col-md-12 control-label">Fecha de Nacimiento:</label>
+                        </div>
+                        <div class="col-md-6 col-sm-10">
+                            {{patient.personalInfo.birthdate}}
+                        </div>
+                    </div>
+                </div>
 
-<div class="col-md-6 col-xs-12"> 
-<h3>Información médica</h3><br>
+                <div class="col-md-6 col-xs-12">
+                    <h3>Información médica</h3><br>
 
-      <div class="col-md-12 col-xs-12">
-        <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Edad de inicio de actividad sexual:</label>
-        </div>
-         <div class="col-md-6 col-sm-10">
-            {{patient.medicalInfo.sexualActivityStartAge}}
-         </div>
-         </div>
+                    <div class="col-md-12 col-xs-12">
+                        <div class="col-md-6 col-xs-6">
+                            <label for="patientName" class="col-md-12 control-label">Edad de inicio de actividad sexual:</label>
+                        </div>
+                        <div class="col-md-6 col-sm-10">
+                            {{patient.medicalInfo.sexualActivityStartAge}}
+                        </div>
+                    </div>
 
-     <div class="col-md-12 col-xs-12">
-        <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Número de embarazos:</label>
-        </div>
-         <div class="col-md-6 col-sm-10">
-            {{patient.medicalInfo.pregnancies}}
-         </div>
-         </div>
+                    <div class="col-md-12 col-xs-12">
+                        <div class="col-md-6 col-xs-6">
+                            <label for="patientName" class="col-md-12 control-label">Número de embarazos:</label>
+                        </div>
+                        <div class="col-md-6 col-sm-10">
+                            {{patient.medicalInfo.pregnancies}}
+                        </div>
+                    </div>
 
-   <div class="col-md-12 col-xs-12">
-        <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Número de césareas:</label>
-        </div>
-         <div class="col-md-6 col-sm-10">
-            {{patient.medicalInfo.cSections}}
-         </div>
-         </div>
+                    <div class="col-md-12 col-xs-12">
+                        <div class="col-md-6 col-xs-6">
+                            <label for="patientName" class="col-md-12 control-label">Número de césareas:</label>
+                        </div>
+                        <div class="col-md-6 col-sm-10">
+                            {{patient.medicalInfo.cSections}}
+                        </div>
+                    </div>
 
-    <div class="col-md-12 col-xs-12">
-        <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Número de partos naturales:</label>
-        </div>
-         <div class="col-md-6 col-sm-10">
-            {{patient.medicalInfo.naturalDeliveries}}
-         </div>
-         </div>
+                    <div class="col-md-12 col-xs-12">
+                        <div class="col-md-6 col-xs-6">
+                            <label for="patientName" class="col-md-12 control-label">Número de partos naturales:</label>
+                        </div>
+                        <div class="col-md-6 col-sm-10">
+                            {{patient.medicalInfo.naturalDeliveries}}
+                        </div>
+                    </div>
 
-   <div class="col-md-12 col-xs-12">
-        <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Número de abortos:</label>
-        </div>
-         <div class="col-md-6 col-sm-10">
-            {{patient.medicalInfo.abortions}}
-         </div>
-         </div>
+                    <div class="col-md-12 col-xs-12">
+                        <div class="col-md-6 col-xs-6">
+                            <label for="patientName" class="col-md-12 control-label">Número de abortos:</label>
+                        </div>
+                        <div class="col-md-6 col-sm-10">
+                            {{patient.medicalInfo.abortions}}
+                        </div>
+                    </div>
 
-    <div class="col-md-12 col-xs-12">
-        <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Edad de inicio de menopausia:</label>
-        </div>
-         <div class="col-md-6 col-sm-10">
-            {{patient.medicalInfo.menopauseStartAge}}
-         </div>
-         </div>
+                    <div class="col-md-12 col-xs-12">
+                        <div class="col-md-6 col-xs-6">
+                            <label for="patientName" class="col-md-12 control-label">Edad de inicio de menopausia:</label>
+                        </div>
+                        <div class="col-md-6 col-sm-10">
+                            {{patient.medicalInfo.menopauseStartAge}}
+                        </div>
+                    </div>
 
-   <div class="col-md-12 col-xs-12">
-        <div class="col-md-6 col-xs-6">
-        <label for="patientName" class="col-md-12 control-label">Edad de inicio de periodo menstrual</label>
-        </div>
-         <div class="col-md-6 col-sm-10">
-            {{patient.medicalInfo.menstrualPeriodStartAge}}
-         </div>
-         </div>
+                    <div class="col-md-12 col-xs-12">
+                        <div class="col-md-6 col-xs-6">
+                            <label for="patientName" class="col-md-12 control-label">Edad de inicio de periodo menstrual</label>
+                        </div>
+                        <div class="col-md-6 col-sm-10">
+                            {{patient.medicalInfo.menstrualPeriodStartAge}}
+                        </div>
+                    </div>
 
 
-</div>
+                </div>
 
-</div>
+            </div>
+        </div><!-- /.tab-content -->
+    </div><!-- /.row -->
 
-    </div>
-
-  </div><!-- /.container -->
+</div><!-- /.container -->
 }
-

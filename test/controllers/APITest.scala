@@ -102,13 +102,6 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
       }
     }
 
-    describe("#getPatient") {
-      def getPatientUrl(id: Long): Call = controllers.routes.API.getPatient(id)
-
-      notFoundAndForbidden(getPatientUrl(-1), p => getPatientUrl(p.getId))
-      patientOwnedOrBorrowed(p => getPatientUrl(p.getId), p => getPatientUrl(p.getId))
-    }
-
     describe("#getPatientInfo") {
       def getPatientUrl(id: Long): Call = controllers.routes.API.getPatientInfo(id)
 

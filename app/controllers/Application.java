@@ -88,6 +88,7 @@ public class Application extends Controller {
             
             // Patient actions
             controllers.routes.javascript.Patients.patient(),
+            controllers.routes.javascript.Patients.showMammogram(),
 
             // API actions
             controllers.routes.javascript.API.staff(),

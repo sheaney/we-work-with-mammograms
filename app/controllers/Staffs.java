@@ -19,6 +19,7 @@ import lib.permissions.PatientViewInfoPermission;
 import lib.permissions.Permission;
 import models.*;
 import play.Logger;
+import play.api.mvc.Call;
 import views.html.*;
 import play.data.Form;
 import play.libs.F.Function0;
@@ -257,7 +258,8 @@ public class Staffs extends Controller {
     public static Result showMammogram(Long sid, Long mid) {
         Study study = Study.findById(sid);
         Mammogram mammogram = Mammogram.findById(mid);
-        return ok(showMammogram.render(study, mammogram, session().get("user")));
+        Call renderAction = routes.Staffs.renderMammogram(sid, mid);
+        return ok(showMammogram.render(study, mammogram, session().get("user"), renderAction));
     }
 
     public static Result renderMammogram(Long sid, Long mid) throws IOException {

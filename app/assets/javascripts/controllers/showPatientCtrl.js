@@ -19,4 +19,17 @@ patientApp.controller('PatientController', function($scope, Patient, id) {
     return comment.content;
   };
 
+  $scope.formatDate = function(epoch) {
+    var date = new Date(epoch);
+    return moment(date).format('LLLL');
+  };
+
+  $scope.showMammogram = function(study, mammogram) {
+    var mammogramUrl = jsRoutes.controllers.Patients.showMammogram(study.id, mammogram.id).url;
+    window.location.href = mammogramUrl;
+  };
+
+  // ng orderBy property
+  $scope.mostRecent = '-createdAt';
+
 });

@@ -121,7 +121,7 @@ patientInfoApp.controller('PatientInfoCtrl', function($scope, $http, $filter, Pa
   };
 
   // ng orderBy property
-  $scope.mostRecent = 'createdAt';
+  $scope.mostRecent = '-createdAt';
 
 });
 

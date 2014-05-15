@@ -64,6 +64,13 @@ GET     /images/study/:sid/mammogram/:mid   controllers.Staffs.renderMammogram(s
 # Patient home
 GET     /patient                          	controllers.Patients.patient()
 
+GET		/api/patient/:id					controllers.Patients.getPatient(id: Long)
+
+# Show mammogram
+GET     /patient/study/:sid/mammogram/:mid  controllers.Patients.showMammogram(sid: Long, mid: Long)
+
+# Render mammogram image
+GET     /images/patient/study/:sid/mammogram/:mid   controllers.Patients.renderMammogram(sid: Long, mid: Long)
 
 ## Admins Controller
 
@@ -92,8 +99,6 @@ PUT     /api/patient/:id/personal-info		controllers.API.updatePersonalInfo(id: L
 PUT		/api/patient/:id/medical-info		controllers.API.updateMedicalInfo(id: Long)
 
 PUT     /api/patient/:pid/study/:sid        controllers.API.updateStudy(pid: Long, sid: Long)
-
-GET		/api/patient/:id					controllers.API.getPatient(id: Long)
 
 GET 	/api/patient/:id/info				controllers.API.getPatientInfo(id: Long)
 

@@ -37,20 +37,6 @@ public class API extends Controller {
     final static Form<Annotation> annotationBinding = Form.form(Annotation.class);
     final static Form<Study> studyForm = Form.form(Study.class);
 
-	public static Result getPatient(Long id) {
-		Patient patient = Patient.findById(id);
-        Staff staff = obtainStaff();
-
-        PatientContainer patientContainer = APIValidations.getPatientAccess(staff, patient);
-
-        if (patientContainer == null)
-            return notFound(JSONErrors.undefinedPatient());
-        else if (patientContainer.isEmpty())
-            return forbidden(JSONErrors.forbiddenAccess()); // return json with error msg
-
-		return ok(Json.toJson(patient));
-	}
-
 	public static Result staff() {
 		List<Staff> staff = Staff.all();
 		List<Staff> staffWithoutCurrent = APIHelpers.filterMatchingStaffFromList(staff, obtainStaff());
