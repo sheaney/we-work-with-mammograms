@@ -196,6 +196,26 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
         status(result) shouldBe (Status.OK)
       }
 
+      describe("Failing constraints") {
+
+        it("fails to create a new annotation (content length exceeds 200 chars)") {
+          val (mammogram, annotation) = (new Mammogram, new Annotation)
+          val staff = sampleStaff
+          staff.save()
+          mammogram.save()
+          val content = "*" * 201
+          annotation.setContent(content)
+          val json = Json.toJson(Map("content" -> content))
+          val session = createSession(Some(staff))
+          val fakeRequest = FakeRequest(createAnnotationUrl(mammogram.getId)).withSession(session.toSeq: _*)
+          val fakeRequestWithJson = fakeRequest.withJsonBody(json)
+          val Some(result) = route(fakeRequestWithJson)
+          status(result) shouldBe (Status.BAD_REQUEST)
+        }
+
+      }
+
+
     }
 
 

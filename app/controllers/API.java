@@ -89,15 +89,17 @@ public class API extends Controller {
     @Of(BodyParser.Json.class)
     public static Result createAnnotation(Long mid) {
         Mammogram mammogram = Mammogram.findById(mid);
+        Staff annotator = obtainStaff();
         if (mammogram == null)
             return notFound(JSONErrors.undefinedMammogram());
 
         JsonNode jsonNode = request().body().asJson();
         Form<Annotation> binding = annotationBinding.bind(jsonNode);
-        if (binding.hasErrors())
-            return badRequest(Json.toJson(JSONErrors.patientInfoErrors(getErrors(annotationBinding))));
-        else {
-            Annotation annotation = annotationBinding.get();
+        if (binding.hasErrors()) {
+            return badRequest(binding.errorsAsJson());
+        } else {
+            Annotation annotation = binding.get();
+            annotation.setAnnotator(annotator);
             mammogram.getAnnotations().add(annotation);
             mammogram.save();
             return ok("Success");
