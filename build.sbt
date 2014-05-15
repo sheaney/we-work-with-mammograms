@@ -23,7 +23,8 @@ libraryDependencies ++= Seq(
   "org.webjars" %% "webjars-play" % "2.2.0",
   "org.webjars" % "bootstrap" % "2.3.1",
   "be.objectify" %% "deadbolt-java" % "2.2-RC4",
-  "com.amazonaws" % "aws-java-sdk" % "1.7.7"
+  "com.amazonaws" % "aws-java-sdk" % "1.7.7",
+  "com.typesafe" %% "play-plugins-mailer" % "2.1-RC2"
 )
 
 playJavaSettings ++ SassPlugin.sassSettings
