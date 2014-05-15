@@ -1,14 +1,11 @@
 package lib.json.models;
 
-import static lib.json.JSONConstants.CREATED_AT;
-import static lib.json.JSONConstants.ID;
-import static lib.json.JSONConstants.COMMENTED;
-import static lib.json.JSONConstants.COMMENTER;
-import static lib.json.JSONConstants.CONTENT;
-
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Comment;
+import models.Staff;
 import play.libs.Json;
+
+import static lib.json.JSONConstants.*;
 
 /**
  * Created by fernando on 5/11/14.
@@ -21,8 +18,12 @@ public class JSONComment {
         jsonServiceComment.put(ID,c.getId());
         jsonServiceComment.put(CONTENT,c.getContent());
         jsonServiceComment.put(CREATED_AT,c.getCreatedAt().getTime());
-        jsonServiceComment.put(COMMENTER,c.getCommenter().getId());
-        jsonServiceComment.put(COMMENTED,c.getCommented().getId());
+        Staff commenter = c.getCommenter();
+        if (commenter != null)
+            jsonServiceComment.put(COMMENTER,commenter.getId());
+        else
+            jsonServiceComment.put(SERVICE_COMMENTER,c.getServiceCommenter().getId());
+        jsonServiceComment.put(COMMENTED_STUDY,c.getCommented().getId());
         return jsonServiceComment;
     }
 

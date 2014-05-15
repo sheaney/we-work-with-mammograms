@@ -95,6 +95,6 @@ public class JSONPatient {
             jsonPatient.put(MEDICAL_INFO, Json.toJson(patient.getMedicalInfo()));
             return jsonPatient;
         }
-        return JSONErrors.undefined();
+        return JSONErrors.undefined("Undefined parameter.");
     }
 }

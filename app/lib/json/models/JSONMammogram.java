@@ -25,6 +25,7 @@ public class JSONMammogram {
         jsonServiceMammogram.put(CREATED_AT,mam.getCreatedAt().getTime());
         jsonServiceMammogram.put(STUDY,mam.getStudy().getId());
         jsonServiceMammogram.put(ANNOTATIONS,mam.getAnnotations().size());
+        //TODO Image link?
         return jsonServiceMammogram;
     }
 

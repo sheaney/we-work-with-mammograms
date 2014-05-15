@@ -38,8 +38,8 @@ public class JSONErrors {
         return errors;
     }
 
-    public static ObjectNode undefined() {
-        return Json.newObject().put("UNDEFINED","Undefined parameter.");
+    public static ObjectNode undefined(String msg) {
+        return Json.newObject().put("UNDEFINED",msg);
     }
 
     public static ObjectNode notFound(String msg) {
@@ -49,4 +49,9 @@ public class JSONErrors {
     public static ObjectNode ok(String msg) {
         return Json.newObject().put("STATUS", msg);
     }
+
+    public static ObjectNode notAllowed(String msg){
+        return Json.newObject().put("NOT ALLOWED",msg);
+    }
+
 }
