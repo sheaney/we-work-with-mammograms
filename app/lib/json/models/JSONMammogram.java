@@ -12,6 +12,7 @@ import models.Mammogram;
 import play.libs.Json;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -27,6 +28,21 @@ public class JSONMammogram {
         jsonServiceMammogram.put(ANNOTATIONS,mam.getAnnotations().size());
         //TODO Image link?
         return jsonServiceMammogram;
+    }
+
+    public static ObjectNode mammogramWithAnnotations(Mammogram mammogram) {
+        ObjectNode json = Json.newObject();
+        json.put(ID,mammogram.getId());
+        json.put(CREATED_AT, mammogram.getCreatedAt().getTime());
+        json.put(STUDY,mammogram.getStudy().getId());
+        List<ObjectNode> annsJson = new LinkedList<ObjectNode>();
+        for (Annotation ann : mammogram.getAnnotations()) {
+            ObjectNode annJson = JSONAnnotation.regularAnnotation(ann);
+            annsJson.add(annJson);
+        }
+        json.put(ANNOTATIONS, Json.toJson(annsJson));
+
+        return json;
     }
 
     public static JsonNode getAnnotationIds(Mammogram mam){

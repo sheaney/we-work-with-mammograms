@@ -25,4 +25,21 @@ public class JSONAnnotation {
             jsonServiceAnnotation.put(SERVICE_ANNOTATOR,ann.getServiceAnnotator().getId());
         return jsonServiceAnnotation;
     }
+
+    public static ObjectNode regularAnnotation(Annotation annotation) {
+        ObjectNode json = Json.newObject();
+        json.put(ID, annotation.getId());
+        json.put(CREATED_AT, annotation.getCreatedAt().getTime());
+        json.put(CONTENT, annotation.getContent());
+        Staff annotator = annotation.getAnnotator();
+        if(annotator != null) {
+            json.put(STAFF_ANNOTATOR, annotator.getShortName());
+        }
+        else {
+            json.put(SERVICE_ANNOTATOR, "Servicio Externo");
+        }
+
+        return json;
+
+    }
 }

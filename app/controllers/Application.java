@@ -94,7 +94,8 @@ public class Application extends Controller {
             controllers.routes.javascript.API.staff(),
             controllers.routes.javascript.API.getStaff(),
             controllers.routes.javascript.API.updatePersonalInfo(),
-            controllers.routes.javascript.API.updateMedicalInfo()
+            controllers.routes.javascript.API.updateMedicalInfo(),
+            controllers.routes.javascript.API.createAnnotation()
           )
       );
     }

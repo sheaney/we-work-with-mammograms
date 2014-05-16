@@ -22,8 +22,9 @@ public class Annotation extends Model {
 
 	@Id
 	Long id;
-	
-	@MaxLength(value = 200)
+
+    @Required
+	@MaxLength(value = 30)
 	String content;
 	
 	@Required

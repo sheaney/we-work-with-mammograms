@@ -10,6 +10,8 @@ import controllers.validations.APIValidations;
 import helpers.UploaderHelper;
 import lib.PatientContainer;
 import lib.json.errors.JSONErrors;
+import lib.json.models.JSONAnnotation;
+import lib.json.models.JSONMammogram;
 import lib.json.models.JSONStaff;
 import lib.permissions.PatientUpdateInfoPermission;
 import models.*;
@@ -69,7 +71,7 @@ public class API extends Controller {
         if (mammogram == null)
             return notFound(JSONErrors.undefinedMammogram()); // return json with error msg
 
-        return ok(Json.toJson(mammogram));
+        return ok(JSONMammogram.mammogramWithAnnotations(mammogram));
 
     }
 
@@ -77,6 +79,8 @@ public class API extends Controller {
     public static Result createAnnotation(Long mid) {
         Mammogram mammogram = Mammogram.findById(mid);
         Staff annotator = obtainStaff();
+        System.out.println("Submitting annotation");
+
         if (mammogram == null)
             return notFound(JSONErrors.undefinedMammogram());
 
@@ -87,9 +91,9 @@ public class API extends Controller {
         } else {
             Annotation annotation = binding.get();
             annotation.setAnnotator(annotator);
-            mammogram.getAnnotations().add(annotation);
-            mammogram.save();
-            return ok("Success");
+            annotation.setAnnotated(mammogram);
+            annotation.save();
+            return ok(JSONAnnotation.regularAnnotation(annotation));
         }
     }
 
@@ -144,7 +148,7 @@ public class API extends Controller {
 			}
 		} else
 			return unauthorized("Can't update info");
-		
+
 	}
 
     public static F.Promise<Result> updateStudy(final Long pid, final Long sid) {
