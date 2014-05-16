@@ -158,8 +158,10 @@ class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeA
       }
 
       it("obtains OK if staff exists") {
-        val (staff, mammogram) = (new Staff, new Mammogram)
+        val (staff, mammogram, study) = (new Staff, new Mammogram, new Study)
         staff.save
+        study.getMammograms.add(mammogram)
+        study.save()
         mammogram.save
         val session = createSession(Some(staff))
         val fakeRequest = createFakeRequest(getMammogramUrl(mammogram.getId), session)
