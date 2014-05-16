@@ -1,0 +1,18 @@
+@(userName: String, serviceForm: play.data.Form[ServiceAuth])
+
+@import views.html.forms._
+
+@views.html.layouts.main("Nuevo Token de Servicio") {
+<!-- Render top navbar -->
+@navbar(userName)
+
+<div class="container">
+    <div class="col-md-10 col-md-offset-2">
+
+        <h1 style="padding-bottom:20px">Crear Token de Servicio</h1>
+
+        @formForServiceAuth(serviceForm)
+    </div>
+
+</div><!-- /.container -->
+}

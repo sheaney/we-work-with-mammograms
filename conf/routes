@@ -74,6 +74,10 @@ GET     /images/patient/study/:sid/mammogram/:mid   controllers.Patients.renderM
 
 ## Admins Controller
 
+GET     /admin/service/new                  controllers.Admins.newService()
+
+POST    /admin/service/create               controllers.Admins.createServiceAuth()
+
 # Admin home
 GET 	/admin								controllers.Admins.admin()
 
@@ -131,6 +135,8 @@ POST    /api/service/annotation             controllers.ServiceAPI.postServiceAn
 GET     /api/service/annotation/:aid        controllers.ServiceAPI.getServiceAnnotation(aid: Long)
 
 PUT     /api/service/annotation/:aid        controllers.ServiceAPI.putServiceAnnotation(aid: Long)
+
+GET     /api/service/images/study/:sid/mammogram/:mid     controllers.ServiceAPI.renderMammogram(sid: Long, mid: Long)
 
 ## Assets
 

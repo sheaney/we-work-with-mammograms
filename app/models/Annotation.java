@@ -23,7 +23,7 @@ public class Annotation extends Model {
 	@Id
 	Long id;
 
-    @Required
+  @Required
 	@MaxLength(value = 30)
 	String content;
 	
