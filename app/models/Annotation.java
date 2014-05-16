@@ -21,7 +21,7 @@ public class Annotation extends Model {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	Long id;
+	protected Long id;
 	
 	@MaxLength(value = 200)
 	String content;

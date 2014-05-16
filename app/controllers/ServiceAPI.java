@@ -3,10 +3,13 @@ package controllers;
 import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.Group;
 import com.fasterxml.jackson.databind.JsonNode;
+import content.Uploader;
+import helpers.UploaderHelper;
 import lib.json.errors.JSONErrors;
 import lib.json.models.*;
 import models.*;
 import play.data.Form;
+import play.libs.F;
 import play.mvc.BodyParser;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -17,6 +20,11 @@ import security.AuthorizableUser;
 import security.ServiceDeadboltHandler;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -281,5 +289,27 @@ public class ServiceAPI extends Controller {
         result.put("body",JSONAnnotation.serviceAnnotation(ann));
 
         return ok(result);
+    }
+
+    public static Result renderMammogram(Long sid, Long mid){
+        ByteArrayInputStream bais = null;
+        try {
+            // TODO Extract mammogram key into a utility helper method
+            String key = String.format("images/study/%d/mammogram/%d", sid, mid);
+            // Obtain reader
+            F.Tuple<Uploader, String> readerAndLogMsg = UploaderHelper.obtainUploaderAndLogMsg(false);
+            Uploader reader = readerAndLogMsg._1;
+            System.out.println(readerAndLogMsg._2);
+            BufferedImage image = reader.read(key);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(image, "png", baos);
+            bais = new ByteArrayInputStream(baos.toByteArray());
+        } catch (Uploader.UploaderException e) {
+            return  notFound(Json.newObject().put("NOT_FOUND","Image not found"));
+        } catch (IOException e) {
+            return badRequest(Json.newObject().put("ERROR","Error writing/getting the image from memory"));
+        }
+
+        return ok(bais).as("image/png");
     }
 }

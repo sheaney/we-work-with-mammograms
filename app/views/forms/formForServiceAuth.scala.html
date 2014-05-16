@@ -1,0 +1,29 @@
+@(serviceAuthForm: play.data.Form[ServiceAuth])
+
+@import helper._
+@import views.html.bootstrap._
+@import play.api.i18n._
+@import scala.collection.JavaConverters._
+
+@if(serviceAuthForm.hasGlobalErrors) {
+    <p class="error">
+        @Messages(serviceAuthForm.globalError.message)
+    </p>
+}
+@form(action = routes.Admins.createServiceAuth(), 'role -> "form", 'class -> "form-horizontal") {
+    @inputText.render(
+        field = serviceAuthForm("email"),
+        args = Array('class -> "form-control", '_label -> Messages("email"), 'type -> "email"),
+        handler = FieldConstructor(inputB.f),
+        lang = Lang.defaultLang)
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Crear token the autorización</button>
+                <a href="@routes.Admins.admin()
+                    " class="btn btn-default">Regresar</a>
+            </div>
+        </div>
+    </div>
+}

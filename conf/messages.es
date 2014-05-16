@@ -17,6 +17,7 @@ error.required = Este campo es requerido
 error.email = Ingrese un correo válido			
 error.invalid.java.util.Date = Fecha es inválida
 error.invalid.login = El usuario y/o contraseña que ingresó es incorrecto(a).
+error.invalid.serviceAuth = El correo ya tiene un token de autorización.
 
 # Standard fields
 name = Nombre

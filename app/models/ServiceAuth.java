@@ -24,7 +24,7 @@ public class ServiceAuth extends Model {
     @Required
     private String email;
 
-    @Required
+    //@Required
     private String authToken;
 
     @OneToMany(mappedBy = "commenter", cascade = CascadeType.ALL)
@@ -87,5 +87,12 @@ public class ServiceAuth extends Model {
 
     public static ServiceAuth findById(Long serviceId) {
         return find.byId(String.valueOf(serviceId));
+    }
+
+    public String validate(){
+        if(find.where().eq("email",getEmail()).findUnique() != null){
+            return "error.invalid.serviceAuth";
+        }
+        return null;
     }
 }
