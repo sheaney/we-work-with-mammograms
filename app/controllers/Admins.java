@@ -35,7 +35,7 @@ public class Admins extends Controller {
 			Staff staff = filledForm.get();
 			staff.setPassword(pg.next());
 			Staff.create(staff);
-            Postman.welcomeEmail(staff.getFullName(),staff.getEmail(),staff.getPassword());
+//            Postman.welcomeEmail(staff.getFullName(),staff.getEmail(),staff.getPassword());
 			flash("success", "Un nuevo personal se ha creado");
 			return redirect(routes.Admins.admin());
 		}

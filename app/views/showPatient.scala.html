@@ -267,7 +267,7 @@
               <a ng-if="updateableStudies" href="@routes.Staffs.newStudy(id)" class="btn btn-primary">Nuevo Estudio</a>
             </p>
 
-            <div class="study" ng-repeat="study in patient.studies">
+            <div class="study" ng-repeat="study in patient.studies | orderBy:mostRecent">
               <h2>{{ formatDate(study.createdAt) }}</h2>
 
               <a href="#" ng-click="showStudy(study)">Ver detalle de estudio</a>

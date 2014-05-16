@@ -19,7 +19,7 @@
                 <div class="col-md-8" ng-repeat="study in patient.studies | orderBy:mostRecent">
                     <h2>{{ formatDate(study.createdAt) }}</h2>
                     <br>
-                    <p ng-repeat="mammogram in study.mammograms">
+                    <p ng-repeat="mammogram in study.mammograms | orderBy:mostRecent">
                         Mamografía |
                         <a href="#" ng-click="showMammogram(study, mammogram)">Abrir</a> |
                         <a ng-href="/images/patient/study/{{study.id}}/mammogram/{{mammogram.id}}" download="{{study.createdAt}}_{{study.id}}_{{mammogram.id}}">Descargar</a>
