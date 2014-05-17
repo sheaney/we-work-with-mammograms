@@ -87,15 +87,15 @@ public class Annotation extends Model {
 		this.annotator = annotator;
 	}
 
-  public static Annotation findById(Long aid) {
+    public static Annotation findById(Long aid) {
       return find.byId(String.valueOf(aid));
   }
 
-  public ServiceAuth getServiceAnnotator() {
+    public ServiceAuth getServiceAnnotator() {
       return serviceAnnotator;
   }
 
-  public void setServiceAnnotator(ServiceAuth serviceAnnotator) {
+    public void setServiceAnnotator(ServiceAuth serviceAnnotator) {
       this.serviceAnnotator = serviceAnnotator;
-  }
+    }
 }

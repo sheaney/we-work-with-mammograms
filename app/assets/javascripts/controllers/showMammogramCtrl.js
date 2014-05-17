@@ -8,7 +8,6 @@ showMammogramApp.controller('showMammogramCtrl',
 
 			$scope.init = function(mammogramId) {
 				$scope.mammogramId = mammogramId;
-				console.log(mammogramId);
 
 				Mammogram.query({id : mammogramId}, function(data) {
 					$scope.mammogram = data;
@@ -19,14 +18,12 @@ showMammogramApp.controller('showMammogramCtrl',
 
       var getHtmlAnnotations = function(annotations) {
         var arr = annotations;
-        //var htmlAnnotations = "<font size='3'>";
         var htmlAnnotations = "";
 
         for (var d = 0, len = arr.length; d < len; d += 1) {
           htmlAnnotations += htmlizeAnnotation(arr[d]);
         }
 
-        //htmlAnnotations += "</font>";
         return htmlAnnotations;
       };
 
@@ -50,11 +47,9 @@ showMammogramApp.controller('showMammogramCtrl',
         return $http[method](url, annotationObj).
           success(function(data, status, headers, config) {
             $scope.prettyAnnotations += htmlizeAnnotation(data);
-            console.log('All good captain!');
             console.log(data); // success
           }).
           error(function(errors, status, headers, config) {
-            console.log('An error occured mate!');
             console.log(errors); // error
           });
       };

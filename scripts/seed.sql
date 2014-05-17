@@ -34,12 +34,12 @@ insert into medical_info(id, sexual_activity_start_age, pregnancies, c_sections,
   menopause_start_age, family_predisposition, hormonal_replacement_therapy, previous_mammary_diseases, menstrual_period_start_age, breastfed_children)
   values (NEXTVAL('medical_info_seq'),19,2,0,2,0,50,false,false,false,14,true);
 
-insert into patient(id, personal_info_id, medical_info_id, staff_id, view_comments, view_annotations)
-  values (NEXTVAL('patient_seq'),1,1,1,true,true);
-insert into patient(id, personal_info_id, medical_info_id, staff_id, view_comments, view_annotations)
-  values (NEXTVAL('patient_seq'),2,2,1,true,true);
-insert into patient(id, personal_info_id, medical_info_id, staff_id, view_comments, view_annotations)
-  values (NEXTVAL('patient_seq'),3,3,2,true,true);
+insert into patient(id, personal_info_id, medical_info_id, staff_id)
+  values (NEXTVAL('patient_seq'),1,1,1);
+insert into patient(id, personal_info_id, medical_info_id, staff_id)
+  values (NEXTVAL('patient_seq'),2,2,1);
+insert into patient(id, personal_info_id, medical_info_id, staff_id)
+  values (NEXTVAL('patient_seq'),3,3,2);
 
 insert into shared_patient(id, created_at, sharer_id, borrower_id, patient_id, access_privileges)
   values (NEXTVAL('shared_patient_seq'), '2014-04-21', 2, 1, 3, 15);

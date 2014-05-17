@@ -259,7 +259,8 @@ public class Staffs extends Controller {
         Study study = Study.findById(sid);
         Mammogram mammogram = Mammogram.findById(mid);
         Call renderAction = routes.Staffs.renderMammogram(sid, mid);
-        return ok(showMammogram.render(study, mammogram, session().get("user"), renderAction));
+        boolean isPatient = false;
+        return ok(showMammogram.render(study, mammogram, session().get("user"), isPatient, renderAction));
     }
 
     public static Result renderMammogram(Long sid, Long mid) throws IOException {

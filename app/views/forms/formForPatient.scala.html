@@ -49,7 +49,7 @@
 	      	handler = FieldConstructor(inputB.f),
 	      	lang = Lang.defaultLang)
 	      	
-	    <legend class="text-left" style:"padding-top:40px">@Messages("medical-info")</legend>
+	    <legend class="text-left" style="padding-top:40px">@Messages("medical-info")</legend>
 	    
 		@inputText.render(
 	      	field = patientForm("medicalInfo.sexualActivityStartAge"),
@@ -124,31 +124,6 @@
 	    	args = Array('class -> "form-control", '_label -> Messages("breastfed-children"), '_inputDivClass -> "col-md-3"),
 	    	handler = FieldConstructor(radioB.f),
 	      	lang = Lang.defaultLang)
-	      	
-	   @inputRadio.render(
-	    	field = patientForm("viewComments"),
-	    	options = Seq("Yes" -> "Sí", "No" -> "No"),
-	    	args = Array('class -> "form-control", '_label -> Messages("can-view-comments"), '_inputDivClass -> "col-md-3"),
-	    	handler = FieldConstructor(radioB.f),
-	      	lang = Lang.defaultLang)
-	      	
-	   @inputRadio.render(
-	    	field = patientForm("viewAnnotations"),
-	    	options = Seq("Yes" -> "Sí", "No" -> "No"),
-	    	args = Array('class -> "form-control", '_label -> Messages("can-view-annotations"), '_inputDivClass -> "col-md-3"),
-	    	handler = FieldConstructor(radioB.f),
-	      	lang = Lang.defaultLang)
-	      	
-		<!-- <div class="form-group">
-	    <label for="inputText" class="col-md-2 control-label">¿Tiene predisposición familiar?:</label>
-	    <div class="col-md-2 text-left">
-	      <label class="radio-inline">
-	        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>Sí</label>
-	      <label class="radio-inline">
-	        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" >No</label>
-	    </div>
-	  </div>-->
-	    	
 	      	
 	    <div class="form-group">
 	      <div class="col-md-10">
