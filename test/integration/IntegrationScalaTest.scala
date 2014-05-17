@@ -209,8 +209,6 @@ class IntegrationScalaTest extends PlayBrowserSpec with UserLogin {
       radioButtonGroup("medicalInfo.previousMammaryDiseases").value = if (patient.getMedicalInfo.isPreviousMammaryDiseases) "Yes" else "No"
       textField("medicalInfo.menstrualPeriodStartAge").value = patient.getMedicalInfo.getMenstrualPeriodStartAge.toString
       radioButtonGroup("medicalInfo.breastfedChildren").value = if (patient.getMedicalInfo.isBreastfedChildren) "Yes" else "No"
-      radioButtonGroup("viewComments").value = if (patient.canViewComments) "Yes" else "No"
-      radioButtonGroup("viewAnnotations").value = if (patient.canViewAnnotations) "Yes" else "No"
 
       And("submits form")
       submit()

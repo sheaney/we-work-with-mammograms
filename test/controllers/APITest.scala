@@ -13,9 +13,6 @@ import org.scalatest.BeforeAndAfter
 import scala.Some
 import play.api.mvc.Call
 
-/**
- * Created by fernando on 5/8/14.
- */
 class APITest extends PlayBrowserSpec with UserLogin with Factories with BeforeAndAfter {
 
   def createFakeRequest(call: Call, session: Map[String, String]) = {

@@ -127,8 +127,6 @@ trait Factories {
     val p = new Patient
     p.setPersonalInfo(samplePersonalInfo)
     p.setMedicalInfo(sampleMedicalInfo)
-    p.setViewComments(true)
-    p.setViewAnnotations(true)
     p
   }
 
