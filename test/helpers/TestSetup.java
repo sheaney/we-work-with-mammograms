@@ -62,29 +62,5 @@ public class TestSetup {
 		dbSettings.put("datasource", "default");
 		return dbSettings;
 	}
-	
-	public static Staff sampleStaff(){
-		Staff s =  new Staff();
-		s.setName("Juan Estefano");
-		s.setFirstLastName("Rodríguez");
-		s.setSecondLastName("Heaney");
-		s.setEmail("j.e.r.h@gmail.com");
-		s.setBirthdate(new Date(System.currentTimeMillis()));
-		s.setCedula("AQWERTYGSDGN");
-		s.setPassword("secret");
-		return s;
-	}
-	
-	public static Patient samplePatient(){
-		Patient p = new Patient();
-		p.setPersonalInfo(samplePersonalInfo());
-		return p;
-	}
-	
-	private static PersonalInfo samplePersonalInfo(){
-		PersonalInfo inf = new PersonalInfo();
-		inf.setName("Claudia");
-		inf.setFirstLastName("Hernández");
-		return inf;
-	}
+
 }
