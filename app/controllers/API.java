@@ -79,7 +79,7 @@ public class API extends Controller {
     public static Result createAnnotation(Long mid) {
         Mammogram mammogram = Mammogram.findById(mid);
         Staff annotator = obtainStaff();
-        System.out.println("Submitting annotation");
+        Logger.info("Submitting annotation");
 
         if (mammogram == null)
             return notFound(JSONErrors.undefinedMammogram());

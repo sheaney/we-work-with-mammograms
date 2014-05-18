@@ -5,7 +5,6 @@ import scala.reflect.ClassTag
 import factories.Factories
 import models.Admin
 import models.Patient
-import models.PersonalInfo
 import models.Staff
 import play.db.ebean.Model
 
