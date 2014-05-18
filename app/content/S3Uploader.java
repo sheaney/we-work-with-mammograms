@@ -14,7 +14,6 @@ import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.InputStream;
 
 /**
  * Created by sheaney on 5/8/14.
@@ -28,8 +27,6 @@ public class S3Uploader implements Uploader {
         AmazonS3 s3 = new AmazonS3Client(credentials);
 
         s3.setRegion(Region.getRegion(Regions.US_EAST_1));
-
-        System.out.println("Uploading a new object to S3 from a file\n");
 
         try {
             s3.putObject(new PutObjectRequest(BUCKET_NAME, key, file));
@@ -45,7 +42,6 @@ public class S3Uploader implements Uploader {
 
         s3.setRegion(Region.getRegion(Regions.US_EAST_1));
 
-        System.out.println("Reading an object from S3\n");
         try {
             S3Object s3Object = s3.getObject(new GetObjectRequest(BUCKET_NAME, key));
 
