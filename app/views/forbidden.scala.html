@@ -1,4 +1,4 @@
-@()
+@(errorMsg: String)
 
 @views.html.layouts.main("Forbidden") {
   <!-- Render top navbar -->
@@ -18,7 +18,7 @@
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
 		<h2>403 - ¡Prohibido!</h2>
-        <h3>Lo sentimos, no tiene los permisos suficientes para acceder a esta sección de la aplicación.</h3>
+        <h3>@errorMsg</h3>
 		<a href="@routes.Application.index"class="btn btn-primary" role="button">Regresar</a>
       </div><!-- end of /.col-md-8 .col-md-offset-2 -->
     </div><!-- end of /.row -->

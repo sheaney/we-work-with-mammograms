@@ -143,28 +143,6 @@ class StaffTest extends ModelsHelper with Factories {
       }
     }
 
-    describe("Staff#canSharePatient") {
-      it("returns true if patient is among staff's own patients") {
-        running(app) {
-          val staff = new Staff
-          val patient = new patientFactory { val id = 1L }.value
-          val patientToShare = new patientFactory { val id = 1L }.value
-          staff.getOwnPatients().add(patient)
-          staff.canSharePatient(patientToShare) shouldBe true
-        }
-      }
-
-      it("returns false if patient is not among staff's own patients") {
-        running(app) {
-          val staff = new Staff
-          val patient = new patientFactory { val id = 1L }.value
-          val patientToShare = new patientFactory { val id = 2L }.value
-          staff.getOwnPatients().add(patient)
-          staff.canSharePatient(patientToShare) shouldBe false
-        }
-      }
-    }
-
     describe("Saves staff with own patient") {
       it("successfully saves a staffs patient") {
         running(app) {

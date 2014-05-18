@@ -12,7 +12,7 @@ public class APIValidations {
     /**
      *
      * @param staff the staff that could own, borrow the patient, or neither
-     * @param patientId such patient
+     * @param patient such patient
      * @return null if the Patient is non existing or a PatientContainer from the method PatientContainer.getPatientContainer()
      */
     public static PatientContainer getPatientAccess(Staff staff, Patient patient){

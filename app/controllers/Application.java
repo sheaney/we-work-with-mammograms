@@ -73,6 +73,7 @@ public class Application extends Controller {
             controllers.routes.javascript.Admins.admin(),
             controllers.routes.javascript.Admins.newStaff(),
             controllers.routes.javascript.Admins.createStaff(),
+            controllers.routes.javascript.Admins.showStaff(),
 
             // Staff actions
             controllers.routes.javascript.Staffs.staff(),
@@ -80,7 +81,6 @@ public class Application extends Controller {
             controllers.routes.javascript.Staffs.createPatient(),
             controllers.routes.javascript.Staffs.showPatient(),
             controllers.routes.javascript.Staffs.sharePatient(),
-            controllers.routes.javascript.Staffs.showStaff(),
             controllers.routes.javascript.Staffs.newStudy(),
             controllers.routes.javascript.Staffs.study(),
             controllers.routes.javascript.Staffs.createSharedPatient(),

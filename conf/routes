@@ -37,9 +37,6 @@ GET     /staff/patient/:id/share          	controllers.Staffs.sharePatient(id: L
 #Create shared patient
 POST    /staff/patient/:id/:borrowerId/share controllers.Staffs.createSharedPatient(id: Long, borrowerId: Long)
 
-# Edit patient
-GET     /staff/patient/:id/edit           	controllers.Staffs.editPatient(id: Long)
-
 # Show patient
 GET     /staff/patient/:id                	controllers.Staffs.showPatient(id: Long)
 
@@ -88,7 +85,7 @@ GET     /admin/staff/new                  	controllers.Admins.newStaff()
 POST 	/admin/staff/create				  	controllers.Admins.createStaff()
 
 # Show staff
-GET     /admin/staff/:id                	controllers.Staffs.showStaff(id: Long)
+GET     /admin/staff/:id                	controllers.Admins.showStaff(id: Long)
 
 
 ## JSON API Controller
@@ -108,7 +105,7 @@ GET 	/api/patient/:id/info				controllers.API.getPatientInfo(id: Long)
 
 GET     /api/mammogram/:mid                 controllers.API.getMammogram(mid: Long)
 
-POST     /api/mammogram/:mid/annotation     controllers.API.createAnnotation(mid: Long)
+POST    /api/mammogram/:mid/annotation      controllers.API.createAnnotation(mid: Long)
 
 #External Services calls
 GET     /api/service/test                   controllers.ServiceAPI.test

@@ -13,6 +13,7 @@ import views.html.newService;
 import views.html.newStaff;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
+import views.html.showStaff;
 
 import java.util.List;
 
@@ -32,6 +33,10 @@ public class Admins extends Controller {
 	public static Result newStaff() {
 		return ok(newStaff.render(session().get("user"), staffForm));
 	}
+
+    public static Result showStaff(Long id) {
+        return ok(showStaff.render(id, session().get("user")));
+    }
 
 	public static Result createStaff() {
 		Form<Staff> filledForm = staffForm.bindFromRequest();

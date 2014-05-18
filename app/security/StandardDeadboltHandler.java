@@ -2,6 +2,8 @@ package security;
 
 import static play.mvc.Results.forbidden;
 import static play.mvc.Results.redirect;
+
+import play.i18n.Messages;
 import play.libs.F;
 import play.libs.F.Function0;
 import play.libs.F.Promise;
@@ -43,7 +45,7 @@ public class StandardDeadboltHandler implements DeadboltHandler {
 			return (Promise.promise(new Function0<SimpleResult>() {
 				@Override
 				public SimpleResult apply() throws Throwable {
-					return forbidden(forbidden.render());
+					return forbidden(forbidden.render(Messages.get("error.invalid.permissions")));
 				}
 			}));
 		}

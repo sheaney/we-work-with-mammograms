@@ -18,6 +18,8 @@ error.email = Ingrese un correo válido
 error.invalid.java.util.Date = Fecha es inválida
 error.invalid.login = El usuario y/o contraseña que ingresó es incorrecto(a).
 error.invalid.serviceAuth = El correo ya tiene un token de autorización.
+error.invalid.permissions = Lo sentimos, no tiene los permisos suficientes para acceder a esta sección de la aplicación.
+error.invalid.notFound = El {0} no existe
 
 # Standard fields
 name = Nombre

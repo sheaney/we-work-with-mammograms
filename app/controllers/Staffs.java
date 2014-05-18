@@ -20,6 +20,7 @@ import lib.permissions.Permission;
 import models.*;
 import play.Logger;
 import play.api.mvc.Call;
+import play.i18n.Messages;
 import views.html.*;
 import play.data.Form;
 import play.libs.F.Function0;
@@ -49,34 +50,47 @@ public class Staffs extends Controller {
 	}
 
 	public static Result newStudy(Long patientId) {
-        // Check that this patient actually exists
         Patient patient = Patient.findById(patientId);
         Staff staff = API.obtainStaff();
 
         PatientContainer patientContainer = APIValidations.getPatientAccess(staff, patient);
 
         if (patientContainer == null)
-            return notFound("El paciente no existe");
+            return notFound(forbidden.render(Messages.get("error.invalid.notFound", "paciente")));
+
+        if (patientContainer.isEmpty())
+            return unauthorized(forbidden.render(Messages.get("error.invalid.permissions")));
 
         PatientViewInfoPermission viewPermission = new PatientViewInfoPermission(patientContainer.getAccessPrivileges());
         if (!viewPermission.canViewStudies())
-            return unauthorized("No tiene permiso para ver información del paciente");
+            return unauthorized(forbidden.render(Messages.get("error.invalid.permissions")));
 
         PatientUpdateInfoPermission updatePermission = new PatientUpdateInfoPermission(patientContainer.getAccessPrivileges());
         if (!updatePermission.canUpdateStudies())
-            return unauthorized("No tiene permisio para crear nuevos estudios");
+            return unauthorized(forbidden.render(Messages.get("error.invalid.permissions")));
 
 		return ok(newStudy.render(patient, session().get("user"), newStudyForm));
 	}
 
 	public static Promise<Result> createNewStudy(final Long patientId) {
-		Promise<Result> promise = Promise.promise(new Function0<Result>() {
-			public final Patient patient = Patient.findById(patientId);
-            public final Staff staff = Staff.findById(Long.parseLong(session().get("id")));
 
-            // What to return in case of failure???
+		Promise<Result> promise = Promise.promise(new Function0<Result>() {
+            final Patient patient = Patient.findById(patientId);
+            final Staff staff = API.obtainStaff();
+            final PatientContainer patientContainer = APIValidations.getPatientAccess(staff, patient);
+
 			@Override
 			public Result apply() throws Throwable {
+                if (patientContainer == null)
+                    return notFound(forbidden.render(Messages.get("error.invalid.notFound", "paciente")));
+
+                if (patientContainer.isEmpty())
+                    return unauthorized(forbidden.render(Messages.get("error.invalid.permissions")));
+
+                PatientUpdateInfoPermission updatePermission = new PatientUpdateInfoPermission(patientContainer.getAccessPrivileges());
+                if (!updatePermission.canUpdateStudies())
+                    return unauthorized(forbidden.render(Messages.get("error.invalid.permissions")));
+
 				Form<Study> filledForm = newStudyForm.bindFromRequest();
 				if (filledForm.hasErrors()) {
 					return badRequest(filledForm.errorsAsJson());
@@ -154,63 +168,83 @@ public class Staffs extends Controller {
 	}
 
 	public static Result study(Long patientId, Long id) {
-        // Check that this patient actually exists
         Patient patient = Patient.findById(patientId);
         Staff staff = API.obtainStaff();
 
         PatientContainer patientContainer = APIValidations.getPatientAccess(staff, patient);
 
         if (patientContainer == null)
-            return notFound("Patient doesn't exist.");
+            return notFound(forbidden.render(Messages.get("error.invalid.notFound", "paciente")));
 
         Study s = Study.findById(id);
         if (s == null)
-            return badRequest("El estudio no existe");
+            return notFound(forbidden.render(Messages.get("error.invalid.notFound", "estudio")));
+
+        if (patientContainer.isEmpty())
+            return unauthorized(forbidden.render(Messages.get("error.invalid.permissions")));
 
         PatientViewInfoPermission viewPermission = new PatientViewInfoPermission(patientContainer.getAccessPrivileges());
         if (!viewPermission.canViewStudies())
-            return unauthorized("No tiene permiso para ver información del paciente");
+            return unauthorized(forbidden.render(Messages.get("error.invalid.permissions")));
 
         PatientUpdateInfoPermission updatePermission = new PatientUpdateInfoPermission(patientContainer.getAccessPrivileges());
         return ok(study.render(id, session().get("user"), s, newStudyForm, updatePermission));
 	}
 
 	public static Result showPatient(Long id) {
+        Patient patient = Patient.findById(id);
+        Staff staff = API.obtainStaff();
 
-		boolean borrowed;
+        PatientContainer patientContainer = APIValidations.getPatientAccess(staff, patient);
 
-		Patient patient = Patient.findById(id);
-		Staff staff = API.obtainStaff();
+        if (patientContainer == null)
+            return notFound(forbidden.render(Messages.get("error.invalid.notFound", "paciente")));
 
-		if(staff.findBorrowedPatient(patient) != null) {
-			borrowed = true;
-        } else {
-			borrowed = false;
-	    }
+        if (patientContainer.isEmpty())
+            return unauthorized(forbidden.render(Messages.get("error.invalid.permissions")));
+
+		boolean borrowed = staff.findBorrowedPatient(patient) != null;
 
 		return ok(showPatient.render(id, session().get("user"), borrowed));
 	}
 
-	public static Result editPatient(Long id) {
-		return ok(editPatient.render(id, session().get("user")));
-	}
-
 	public static Result sharePatient(Long id) {
+        Patient patient = Patient.findById(id);
+        Staff staff = API.obtainStaff();
+
+        PatientContainer patientContainer = APIValidations.getPatientAccess(staff, patient);
+
+        if (patientContainer == null)
+            return notFound(forbidden.render(Messages.get("error.invalid.notFound", "paciente")));
+
+        if (patientContainer.isEmpty())
+            return unauthorized(forbidden.render(Messages.get("error.invalid.permissions")));
+
 		return ok(sharePatient.render(id, session().get("user")));
 	}
 
 	public static Result createSharedPatient(Long id, Long borrowerId) {
 		Patient patient = Patient.findById(id);
-		Staff sharer = API.obtainStaff(); // get staff from session
-		if (!sharer.canSharePatient(patient)) {
-			return badRequest("Este paciente no te pertenece y no se puede compartir");
-		}
+		Staff sharer = API.obtainStaff();
+
+        PatientContainer patientContainer = APIValidations.getPatientAccess(sharer, patient);
+
+        if (patientContainer == null)
+            return notFound(forbidden.render(Messages.get("error.invalid.notFound", "paciente")));
+
+        if (patientContainer.isEmpty())
+            return unauthorized(forbidden.render(Messages.get("error.invalid.permissions")));
+
+        if (sharer.findBorrowedPatient(patient) != null)
+            return unauthorized(forbidden.render(Messages.get("error.invalid.permissions")));
 
 		JsonNode jsonNode = request().body().asJson();
 		// Create shared patient
 		Staff borrower = Staff.findById(borrowerId);
 		PatientViewInfoPermission patientViewInfo = JSONPermissions.unbindViewInfoPermissions(jsonNode);
 		PatientUpdateInfoPermission patientUpdateInfo = JSONPermissions.unbindUpdateInfoPermissions(jsonNode);
+        if (patientViewInfo == null || patientUpdateInfo == null)
+            return badRequest("Badly formatted request");
 		int accessPrivileges = Permission.concatAccessPrivileges(patientViewInfo, patientUpdateInfo);
 		SharedPatient sharedPatient = new SharedPatient(sharer, borrower, patient, accessPrivileges);
 
@@ -251,13 +285,10 @@ public class Staffs extends Controller {
 		}
   }
 
-    public static Result showStaff(Long id) {
-          return ok(showStaff.render(id, session().get("user")));
-      }
-
     public static Result showMammogram(Long sid, Long mid) {
         Study study = Study.findById(sid);
         Mammogram mammogram = Mammogram.findById(mid);
+
         Call renderAction = routes.Staffs.renderMammogram(sid, mid);
         boolean isPatient = false;
         return ok(showMammogram.render(study, mammogram, session().get("user"), isPatient, renderAction));

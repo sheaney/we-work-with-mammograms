@@ -283,22 +283,6 @@ public class Staff extends Model {
 				.findUnique();
 	}
 
-	/**
-	 * Verifies if this staff can share the patient
-	 * 
-	 * @param patient
-	 *            Patient to be shared
-	 * @return true if patient is among staff's own patients and false otherwise
-	 */
-	public boolean canSharePatient(Patient patient) {
-		for (Patient ownPatient : this.ownPatients) {
-			if (ownPatient.getId() == patient.getId()) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	@Override
 	public String toString() {
 		return this.getFullName();

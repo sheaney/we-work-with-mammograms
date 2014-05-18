@@ -14,23 +14,30 @@ public class JSONPermissions {
 	public final static String UPDATE_STUDIES = "updateStudies";
 
 	public static PatientViewInfoPermission unbindViewInfoPermissions(JsonNode json) {
-		boolean viewPatientInfo = json.get(VIEW_PERSONAL_INFO).asBoolean();
-		boolean viewMedicalInfo = json.get(VIEW_MEDICAL_INFO).asBoolean();
-		boolean viewStudies = json.get(VIEW_STUDIES).asBoolean();
-		PatientViewInfoPermission viewInfoPermissions = new PatientViewInfoPermission(
-				viewPatientInfo, viewMedicalInfo, viewStudies);
-		
-		return viewInfoPermissions;
+        try {
+            boolean viewPatientInfo = json.get(VIEW_PERSONAL_INFO).asBoolean();
+            boolean viewMedicalInfo = json.get(VIEW_MEDICAL_INFO).asBoolean();
+            boolean viewStudies = json.get(VIEW_STUDIES).asBoolean();
+            PatientViewInfoPermission viewInfoPermissions = new PatientViewInfoPermission(
+                    viewPatientInfo, viewMedicalInfo, viewStudies);
+            return viewInfoPermissions;
+        } catch (NullPointerException npe) {
+            return null;
+        }
 	}
 	
 	public static PatientUpdateInfoPermission unbindUpdateInfoPermissions(JsonNode json) {
-		boolean updatePersonalInfo = json.get(UPDATE_PERSONAL_INFO).asBoolean();
-		boolean updateMedicalInfo = json.get(UPDATE_MEDICAL_INFO).asBoolean();
-		boolean updateStudies = json.get(UPDATE_STUDIES).asBoolean();
-		PatientUpdateInfoPermission updateInfoPermissions = new PatientUpdateInfoPermission(
-				updatePersonalInfo, updateMedicalInfo, updateStudies);
-		
-		return updateInfoPermissions;
+        try {
+            boolean updatePersonalInfo = json.get(UPDATE_PERSONAL_INFO).asBoolean();
+            boolean updateMedicalInfo = json.get(UPDATE_MEDICAL_INFO).asBoolean();
+            boolean updateStudies = json.get(UPDATE_STUDIES).asBoolean();
+            PatientUpdateInfoPermission updateInfoPermissions = new PatientUpdateInfoPermission(
+                    updatePersonalInfo, updateMedicalInfo, updateStudies);
+
+            return updateInfoPermissions;
+        } catch (NullPointerException npe) {
+            return null;
+        }
 	}
 
 }
