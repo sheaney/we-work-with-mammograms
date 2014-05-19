@@ -10,6 +10,8 @@ You will need to set up the following environment variables for establishing a d
 ``WWWM_PGSQL_USER``,
 ``WWWM_PGSQL_PASSWORD``
 
+Please refer [here](https://github.com/feeeermendoza/we-work-with-mammograms/wiki/Initializing-DB) for more information on setting up the database with seed data.
+
 And the following environment variables for sending emails through the application:
 
 ``ADMIN_EMAIL``,
