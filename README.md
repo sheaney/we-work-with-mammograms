@@ -45,3 +45,7 @@ To build a binary version of your application and deploy it to the server withou
 `$ play dist`
 
 Please see [here](http://www.playframework.com/documentation/2.2.x/Production) for more details on running the application.
+
+## Uploading images to AWS S3
+
+The application supports uploading and reading mammogram images from an existing Amazon S3 bucket. Please see [here](https://github.com/feeeermendoza/we-work-with-mammograms/wiki/Amazon-S3) for instructions on configuring the application to read/write images from S3
