@@ -17,6 +17,8 @@ And the following environment variables for sending emails through the applicati
 ``ADMIN_EMAIL``,
 ``ADMIN_EMAIL_PASS``
 
+**These credentials are by default a gmail email account's credentials. However the application can be configured to use a different email server, see [here](https://github.com/feeeermendoza/we-work-with-mammograms/wiki/Emails)**
+
 ## Quick Setup
 
 **Run tests**
@@ -25,11 +27,11 @@ And the following environment variables for sending emails through the applicati
 
 Please see here for more documention on [tests](https://github.com/feeeermendoza/we-work-with-mammograms/wiki/Testing#testing)
 
-**Start the application in development mode:**
+**Run application in development mode:**
 
 `$ play run`
 
-**Run the application in production mode:**
+**Run application in production mode:**
 
 `$ play start`
 
