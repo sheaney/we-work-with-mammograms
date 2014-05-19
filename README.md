@@ -35,6 +35,8 @@ Please see here for more documention on [tests](https://github.com/feeeermendoza
 
 `$ play start`
 
+Then visit http://127.0.0.1:9000 in your browser.
+
 ## Deploying
 
 You can use the stage task to prepare your application to be run in place.
