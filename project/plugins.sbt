@@ -9,7 +9,4 @@ addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.2.2")
 
 resolvers += "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
 
-// Deadbolt
-resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns)
-
 addSbtPlugin("net.litola" % "play-sass" % "0.3.0")

@@ -10,6 +10,10 @@ compile in Test <<= PostCompile(Test)
 
 version := "1.0-SNAPSHOT"
 
+resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns)
+
+resolvers += Resolver.url("Objectify Play Snapshot Repository", url("http://schaloner.github.com/snapshots/"))(Resolver.ivyStylePatterns)
+
 libraryDependencies ++= Seq(
   javaJdbc,
   javaEbean,
